@@ -1,0 +1,3 @@
+# Research Log
+
+## Log Entries
