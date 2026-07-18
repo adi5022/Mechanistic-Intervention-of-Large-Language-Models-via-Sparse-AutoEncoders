@@ -1,1 +1,7 @@
 # Project requirements
+torch==2.13.0
+torchvision==0.28.0
+streamlit==1.59.1
+pandas==3.0.3
+transformer-lens==3.5.1
+sae-lens==6.45.3
