@@ -1,0 +1,265 @@
+prompt,target,strength,requested_batch_size,actual_batch_size_used,features_used,resulting_top1_token,resulting_top1_prob,target_prob,target_rank,success
+Eavan Boland was born in, Dublin,0.3,1,1,[8782], the,0.03928752988576889,0.018876880407333374,3,False
+Eavan Boland was born in, Dublin,0.3,3,3,"[8782, 2337, 5858]", the,0.037907104939222336,0.018842309713363647,3,False
+Eavan Boland was born in, Dublin,0.3,5,5,"[8782, 2337, 5858, 19288, 24181]", the,0.03670099377632141,0.01804245449602604,3,False
+Eavan Boland was born in, Dublin,0.3,10,10,"[8782, 2337, 5858, 19288, 24181, 6863, 6, 6840, 3468, 17016]", the,0.035183366388082504,0.017790231853723526,3,False
+Eavan Boland was born in, Dublin,0.5,1,1,[8782], the,0.036855295300483704,0.019129576161503792,3,False
+Eavan Boland was born in, Dublin,0.5,3,3,"[8782, 2337, 5858]", the,0.0345720499753952,0.018938591703772545,2,False
+Eavan Boland was born in, Dublin,0.5,5,5,"[8782, 2337, 5858, 19288, 24181]", the,0.032099802047014236,0.017096545547246933,2,False
+Eavan Boland was born in, Dublin,0.5,10,10,"[8782, 2337, 5858, 19288, 24181, 6863, 6, 6840, 3468, 17016]", the,0.02963380329310894,0.016563700512051582,2,False
+Eavan Boland was born in, Dublin,0.7,1,1,[8782], the,0.03472593054175377,0.01936045102775097,3,False
+Eavan Boland was born in, Dublin,0.7,3,3,"[8782, 2337, 5858]", the,0.03156128525733948,0.018849285319447517,2,False
+Eavan Boland was born in, Dublin,0.7,5,5,"[8782, 2337, 5858, 19288, 24181]", the,0.027266962453722954,0.015369631350040436,2,False
+Eavan Boland was born in, Dublin,0.7,10,10,"[8782, 2337, 5858, 19288, 24181, 6863, 6, 6840, 3468, 17016]", the,0.023914756253361702,0.014426728710532188,3,False
+"Knud, Hereditary Prince of Denmark passed away in", Copenhagen,0.3,1,1,[6435], the,0.04308503121137619,0.0049367863684892654,46,False
+"Knud, Hereditary Prince of Denmark passed away in", Copenhagen,0.3,3,3,"[6435, 11034, 2337]", the,0.04001733660697937,0.004023091401904821,49,False
+"Knud, Hereditary Prince of Denmark passed away in", Copenhagen,0.3,5,5,"[6435, 11034, 2337, 77, 16399]", the,0.038486648350954056,0.004506400786340237,47,False
+"Knud, Hereditary Prince of Denmark passed away in", Copenhagen,0.3,10,10,"[6435, 11034, 2337, 77, 16399, 23633, 6461, 7646, 13798, 13784]", the,0.03786378726363182,0.004388283938169479,48,False
+"Knud, Hereditary Prince of Denmark passed away in", Copenhagen,0.5,1,1,[6435], the,0.04185928404331207,0.004893395584076643,46,False
+"Knud, Hereditary Prince of Denmark passed away in", Copenhagen,0.5,3,3,"[6435, 11034, 2337]", the,0.03688204288482666,0.003442477434873581,52,False
+"Knud, Hereditary Prince of Denmark passed away in", Copenhagen,0.5,5,5,"[6435, 11034, 2337, 77, 16399]", the,0.03440534323453903,0.004031134303659201,49,False
+"Knud, Hereditary Prince of Denmark passed away in", Copenhagen,0.5,10,10,"[6435, 11034, 2337, 77, 16399, 23633, 6461, 7646, 13798, 13784]", the,0.0332527719438076,0.003812625305727124,49,False
+"Knud, Hereditary Prince of Denmark passed away in", Copenhagen,0.7,1,1,[6435], the,0.040703900158405304,0.004851897247135639,46,False
+"Knud, Hereditary Prince of Denmark passed away in", Copenhagen,0.7,3,3,"[6435, 11034, 2337]", the,0.03393625095486641,0.002920588245615363,60,False
+"Knud, Hereditary Prince of Denmark passed away in", Copenhagen,0.7,5,5,"[6435, 11034, 2337, 77, 16399]", May,0.033260148018598557,0.003429505042731762,53,False
+"Knud, Hereditary Prince of Denmark passed away in", Copenhagen,0.7,10,10,"[6435, 11034, 2337, 77, 16399, 23633, 6461, 7646, 13798, 13784]", May,0.03384222462773323,0.003103782655671239,58,False
+The location of Massachusetts Institute of Technology is in, Cambridge,0.3,1,1,[313], the,0.15554431080818176,0.011436695232987404,8,False
+The location of Massachusetts Institute of Technology is in, Cambridge,0.3,3,3,"[313, 8459, 21169]", the,0.14629621803760529,0.01566183567047119,6,False
+The location of Massachusetts Institute of Technology is in, Cambridge,0.3,5,5,"[313, 8459, 21169, 14430, 3076]", the,0.1388847976922989,0.01257955189794302,8,False
+The location of Massachusetts Institute of Technology is in, Cambridge,0.3,10,10,"[313, 8459, 21169, 14430, 3076, 4445, 3924, 19288, 6863, 8449]", the,0.12738193571567535,0.01100696437060833,9,False
+The location of Massachusetts Institute of Technology is in, Cambridge,0.5,1,1,[313], the,0.1414739191532135,0.011230826377868652,8,False
+The location of Massachusetts Institute of Technology is in, Cambridge,0.5,3,3,"[313, 8459, 21169]", the,0.12766386568546295,0.018512863665819168,5,False
+The location of Massachusetts Institute of Technology is in, Cambridge,0.5,5,5,"[313, 8459, 21169, 14430, 3076]", a,0.12521347403526306,0.012460315600037575,8,False
+The location of Massachusetts Institute of Technology is in, Cambridge,0.5,10,10,"[313, 8459, 21169, 14430, 3076, 4445, 3924, 19288, 6863, 8449]", a,0.14299899339675903,0.009158487431704998,10,False
+The location of Massachusetts Institute of Technology is in, Cambridge,0.7,1,1,[313], the,0.12892146408557892,0.010938547551631927,9,False
+The location of Massachusetts Institute of Technology is in, Cambridge,0.7,3,3,"[313, 8459, 21169]", a,0.1287006437778473,0.021148229017853737,5,False
+The location of Massachusetts Institute of Technology is in, Cambridge,0.7,5,5,"[313, 8459, 21169, 14430, 3076]", a,0.13913750648498535,0.011721867136657238,9,False
+The location of Massachusetts Institute of Technology is in, Cambridge,0.7,10,10,"[313, 8459, 21169, 14430, 3076, 4445, 3924, 19288, 6863, 8449]", a,0.17755922675132751,0.006509231869131327,14,False
+The location of Galatasaray University is in the heart of, Istanbul,0.3,1,1,[313], the,0.3431521952152252,0.1547122597694397,2,False
+The location of Galatasaray University is in the heart of, Istanbul,0.3,3,3,"[313, 11122, 10579]", the,0.32857298851013184,0.15862740576267242,2,False
+The location of Galatasaray University is in the heart of, Istanbul,0.3,5,5,"[313, 11122, 10579, 8449, 14430]", the,0.3183245360851288,0.16523249447345734,2,False
+The location of Galatasaray University is in the heart of, Istanbul,0.3,10,10,"[313, 11122, 10579, 8449, 14430, 19442, 4637, 8459, 2436, 10347]", the,0.29809632897377014,0.16105878353118896,2,False
+The location of Galatasaray University is in the heart of, Istanbul,0.5,1,1,[313], the,0.33544597029685974,0.1629035770893097,2,False
+The location of Galatasaray University is in the heart of, Istanbul,0.5,3,3,"[313, 11122, 10579]", the,0.31004974246025085,0.16778218746185303,2,False
+The location of Galatasaray University is in the heart of, Istanbul,0.5,5,5,"[313, 11122, 10579, 8449, 14430]", the,0.293555349111557,0.1770199090242386,2,False
+The location of Galatasaray University is in the heart of, Istanbul,0.5,10,10,"[313, 11122, 10579, 8449, 14430, 19442, 4637, 8459, 2436, 10347]", the,0.2550448477268219,0.1630852222442627,2,False
+The location of Galatasaray University is in the heart of, Istanbul,0.7,1,1,[313], the,0.3290809988975525,0.16977514326572418,2,False
+The location of Galatasaray University is in the heart of, Istanbul,0.7,3,3,"[313, 11122, 10579]", the,0.2925025224685669,0.17315234243869781,2,False
+The location of Galatasaray University is in the heart of, Istanbul,0.7,5,5,"[313, 11122, 10579, 8449, 14430]", the,0.2714940309524536,0.18122348189353943,2,False
+The location of Galatasaray University is in the heart of, Istanbul,0.7,10,10,"[313, 11122, 10579, 8449, 14430, 19442, 4637, 8459, 2436, 10347]", the,0.212466299533844,0.1473744809627533,2,False
+John Pym died in the city of, London,0.3,1,1,[11149], New,0.017868200317025185,0.007371329236775637,11,False
+John Pym died in the city of, London,0.3,3,3,"[11149, 2194, 16649]", New,0.016402214765548706,0.006919952109456062,10,False
+John Pym died in the city of, London,0.3,5,5,"[11149, 2194, 16649, 1288, 22852]", New,0.015941977500915527,0.0067912801168859005,11,False
+John Pym died in the city of, London,0.3,10,10,"[11149, 2194, 16649, 1288, 22852, 2619, 1068, 2170, 23704, 8239]", New,0.01532008871436119,0.006504812277853489,12,False
+John Pym died in the city of, London,0.5,1,1,[11149], New,0.01616918481886387,0.006525742821395397,10,False
+John Pym died in the city of, London,0.5,3,3,"[11149, 2194, 16649]", St,0.014475611038506031,0.005838493816554546,12,False
+John Pym died in the city of, London,0.5,5,5,"[11149, 2194, 16649, 1288, 22852]", St,0.014556286856532097,0.005604573059827089,12,False
+John Pym died in the city of, London,0.5,10,10,"[11149, 2194, 16649, 1288, 22852, 2619, 1068, 2170, 23704, 8239]", St,0.014810683205723763,0.0051786708645522594,13,False
+John Pym died in the city of, London,0.7,1,1,[11149], New,0.014716222882270813,0.0057167066261172295,12,False
+John Pym died in the city of, London,0.7,3,3,"[11149, 2194, 16649]", St,0.014283783733844757,0.004841775633394718,13,False
+John Pym died in the city of, London,0.7,5,5,"[11149, 2194, 16649, 1288, 22852]", St,0.014356720261275768,0.004501286428421736,14,False
+John Pym died in the city of, London,0.7,10,10,"[11149, 2194, 16649, 1288, 22852, 2619, 1068, 2170, 23704, 8239]", St,0.014640610665082932,0.003998956643044949,18,False
+Emilia Rydberg was born in, Stockholm,0.3,1,1,[8782], the,0.04000863805413246,0.007311214227229357,14,False
+Emilia Rydberg was born in, Stockholm,0.3,3,3,"[8782, 6840, 6]", the,0.03916991502046585,0.007245000917464495,14,False
+Emilia Rydberg was born in, Stockholm,0.3,5,5,"[8782, 6840, 6, 5858, 17016]", the,0.03844088688492775,0.007121972274035215,15,False
+Emilia Rydberg was born in, Stockholm,0.3,10,10,"[8782, 6840, 6, 5858, 17016, 2337, 3468, 14909, 15418, 8605]", the,0.03731612488627434,0.007179764099419117,14,False
+Emilia Rydberg was born in, Stockholm,0.5,1,1,[8782], the,0.03705282509326935,0.00753417331725359,14,False
+Emilia Rydberg was born in, Stockholm,0.5,3,3,"[8782, 6840, 6]", the,0.03573932871222496,0.007416700944304466,14,False
+Emilia Rydberg was born in, Stockholm,0.5,5,5,"[8782, 6840, 6, 5858, 17016]", the,0.03461787849664688,0.007197745610028505,14,False
+Emilia Rydberg was born in, Stockholm,0.5,10,10,"[8782, 6840, 6, 5858, 17016, 2337, 3468, 14909, 15418, 8605]", the,0.032730162143707275,0.007273664232343435,14,False
+Emilia Rydberg was born in, Stockholm,0.7,1,1,[8782], the,0.03442244604229927,0.007758804596960545,13,False
+Emilia Rydberg was born in, Stockholm,0.7,3,3,"[8782, 6840, 6]", the,0.032692935317754745,0.0075862896628677845,13,False
+Emilia Rydberg was born in, Stockholm,0.7,5,5,"[8782, 6840, 6, 5858, 17016]", the,0.03124675527215004,0.0072637889534235,13,False
+Emilia Rydberg was born in, Stockholm,0.7,10,10,"[8782, 6840, 6, 5858, 17016, 2337, 3468, 14909, 15418, 8605]", Berlin,0.028703583404421806,0.007347041741013527,13,False
+Joseph Goebbels worked in the city of, Berlin,0.3,1,1,[11149], Cologne,0.07043559849262238,0.043203506618738174,4,False
+Joseph Goebbels worked in the city of, Berlin,0.3,3,3,"[11149, 5856, 21062]", Cologne,0.08021844923496246,0.0549285002052784,2,False
+Joseph Goebbels worked in the city of, Berlin,0.3,5,5,"[11149, 5856, 21062, 23035, 15688]", Cologne,0.07774832844734192,0.0555320642888546,2,False
+Joseph Goebbels worked in the city of, Berlin,0.3,10,10,"[11149, 5856, 21062, 23035, 15688, 1173, 22852, 8545, 16649, 4572]", Cologne,0.07493284344673157,0.05461638420820236,2,False
+Joseph Goebbels worked in the city of, Berlin,0.5,1,1,[11149], Cologne,0.06271658837795258,0.0390964113175869,4,False
+Joseph Goebbels worked in the city of, Berlin,0.5,3,3,"[11149, 5856, 21062]", Cologne,0.0662575289607048,0.05896158516407013,2,False
+Joseph Goebbels worked in the city of, Berlin,0.5,5,5,"[11149, 5856, 21062, 23035, 15688]", Cologne,0.0623747892677784,0.06079208850860596,2,False
+Joseph Goebbels worked in the city of, Berlin,0.5,10,10,"[11149, 5856, 21062, 23035, 15688, 1173, 22852, 8545, 16649, 4572]", Berlin,0.06011911854147911,0.06011911854147911,1,True
+Joseph Goebbels worked in the city of, Berlin,0.7,1,1,[11149], Cologne,0.05256672948598862,0.03462371975183487,5,False
+Joseph Goebbels worked in the city of, Berlin,0.7,3,3,"[11149, 5856, 21062]", Berlin,0.05237577483057976,0.05237577483057976,1,True
+Joseph Goebbels worked in the city of, Berlin,0.7,5,5,"[11149, 5856, 21062, 23035, 15688]", Berlin,0.056690752506256104,0.056690752506256104,1,True
+Joseph Goebbels worked in the city of, Berlin,0.7,10,10,"[11149, 5856, 21062, 23035, 15688, 1173, 22852, 8545, 16649, 4572]", Berlin,0.05857588350772858,0.05857588350772858,1,True
+Francesco Castellacci was born in, Rome,0.3,1,1,[16240], Rome,0.053074005991220474,0.053074005991220474,1,True
+Francesco Castellacci was born in, Rome,0.3,3,3,"[16240, 8782, 19288]", Rome,0.05548931285738945,0.05548931285738945,1,True
+Francesco Castellacci was born in, Rome,0.3,5,5,"[16240, 8782, 19288, 24181, 2337]", Rome,0.05341989919543266,0.05341989919543266,1,True
+Francesco Castellacci was born in, Rome,0.3,10,10,"[16240, 8782, 19288, 24181, 2337, 20694, 5858, 20157, 6, 6863]", Rome,0.05506233125925064,0.05506233125925064,1,True
+Francesco Castellacci was born in, Rome,0.5,1,1,[16240], Rome,0.05232001468539238,0.05232001468539238,1,True
+Francesco Castellacci was born in, Rome,0.5,3,3,"[16240, 8782, 19288]", Rome,0.05574708431959152,0.05574708431959152,1,True
+Francesco Castellacci was born in, Rome,0.5,5,5,"[16240, 8782, 19288, 24181, 2337]", Milan,0.05086647719144821,0.04948221892118454,2,False
+Francesco Castellacci was born in, Rome,0.5,10,10,"[16240, 8782, 19288, 24181, 2337, 20694, 5858, 20157, 6, 6863]", Milan,0.051002275198698044,0.04953351989388466,2,False
+Francesco Castellacci was born in, Rome,0.7,1,1,[16240], Rome,0.05151931568980217,0.05151931568980217,1,True
+Francesco Castellacci was born in, Rome,0.7,3,3,"[16240, 8782, 19288]", Rome,0.054871298372745514,0.054871298372745514,1,True
+Francesco Castellacci was born in, Rome,0.7,5,5,"[16240, 8782, 19288, 24181, 2337]", Milan,0.04724729433655739,0.0402909554541111,2,False
+Francesco Castellacci was born in, Rome,0.7,10,10,"[16240, 8782, 19288, 24181, 2337, 20694, 5858, 20157, 6, 6863]", Milan,0.0426858514547348,0.03403767570853233,3,False
+2005 Australian Open is located in, Melbourne,0.3,1,1,[19288], Sydney,0.11778614670038223,0.10127292573451996,2,False
+2005 Australian Open is located in, Melbourne,0.3,3,3,"[19288, 10450, 8239]", Sydney,0.11301503330469131,0.09759104251861572,3,False
+2005 Australian Open is located in, Melbourne,0.3,5,5,"[19288, 10450, 8239, 10111, 19087]", Sydney,0.10993171483278275,0.09560501575469971,3,False
+2005 Australian Open is located in, Melbourne,0.3,10,10,"[19288, 10450, 8239, 10111, 19087, 8459, 10197, 5858, 2436, 20124]", Sydney,0.10489276051521301,0.09230325371026993,3,False
+2005 Australian Open is located in, Melbourne,0.5,1,1,[19288], Sydney,0.11557033658027649,0.10065373033285141,2,False
+2005 Australian Open is located in, Melbourne,0.5,3,3,"[19288, 10450, 8239]", the,0.10847882181406021,0.0945129245519638,3,False
+2005 Australian Open is located in, Melbourne,0.5,5,5,"[19288, 10450, 8239, 10111, 19087]", the,0.11223587393760681,0.0913519486784935,3,False
+2005 Australian Open is located in, Melbourne,0.5,10,10,"[19288, 10450, 8239, 10111, 19087, 8459, 10197, 5858, 2436, 20124]", the,0.11170193552970886,0.0857107862830162,3,False
+2005 Australian Open is located in, Melbourne,0.7,1,1,[19288], Sydney,0.11343974620103836,0.10035139322280884,2,False
+2005 Australian Open is located in, Melbourne,0.7,3,3,"[19288, 10450, 8239]", the,0.11959211528301239,0.09164086729288101,3,False
+2005 Australian Open is located in, Melbourne,0.7,5,5,"[19288, 10450, 8239, 10111, 19087]", the,0.12651821970939636,0.08739140629768372,3,False
+2005 Australian Open is located in, Melbourne,0.7,10,10,"[19288, 10450, 8239, 10111, 19087, 8459, 10197, 5858, 2436, 20124]", the,0.12675611674785614,0.07910506427288055,3,False
+Giulio Romano originates from the city of, Rome,0.3,1,1,[5856], Rome,0.029312731698155403,0.029312731698155403,1,True
+Giulio Romano originates from the city of, Rome,0.3,3,3,"[5856, 11149, 23341]", P,0.026931986212730408,0.02196936309337616,3,False
+Giulio Romano originates from the city of, Rome,0.3,5,5,"[5856, 11149, 23341, 7070, 12720]", P,0.026495525613427162,0.02191045507788658,3,False
+Giulio Romano originates from the city of, Rome,0.3,10,10,"[5856, 11149, 23341, 7070, 12720, 21062, 9420, 4312, 11224, 1173]", P,0.026016518473625183,0.022009020671248436,3,False
+Giulio Romano originates from the city of, Rome,0.5,1,1,[5856], Rome,0.03357803076505661,0.03357803076505661,1,True
+Giulio Romano originates from the city of, Rome,0.5,3,3,"[5856, 11149, 23341]", P,0.025061072781682014,0.02105521224439144,3,False
+Giulio Romano originates from the city of, Rome,0.5,5,5,"[5856, 11149, 23341, 7070, 12720]", P,0.024356473237276077,0.020887386053800583,3,False
+Giulio Romano originates from the city of, Rome,0.5,10,10,"[5856, 11149, 23341, 7070, 12720, 21062, 9420, 4312, 11224, 1173]", P,0.023435158655047417,0.021143430843949318,3,False
+Giulio Romano originates from the city of, Rome,0.7,1,1,[5856], Rome,0.03970654308795929,0.03970654308795929,1,True
+Giulio Romano originates from the city of, Rome,0.7,3,3,"[5856, 11149, 23341]", the,0.0295771062374115,0.021503545343875885,3,False
+Giulio Romano originates from the city of, Rome,0.7,5,5,"[5856, 11149, 23341, 7070, 12720]", the,0.029710011556744576,0.021031439304351807,3,False
+Giulio Romano originates from the city of, Rome,0.7,10,10,"[5856, 11149, 23341, 7070, 12720, 21062, 9420, 4312, 11224, 1173]", the,0.03426966816186905,0.02160402573645115,2,False
+Euromoney Institutional Investor's headquarters are in, London,0.3,1,1,[313], the,0.13419602811336517,0.01152044627815485,6,False
+Euromoney Institutional Investor's headquarters are in, London,0.3,3,3,"[313, 4445, 21169]", the,0.1226048469543457,0.01173392590135336,6,False
+Euromoney Institutional Investor's headquarters are in, London,0.3,5,5,"[313, 4445, 21169, 5096, 19935]", the,0.11545015126466751,0.012825127691030502,6,False
+Euromoney Institutional Investor's headquarters are in, London,0.3,10,10,"[313, 4445, 21169, 5096, 19935, 7645, 24462, 5858, 12644, 6014]", the,0.10641408711671829,0.013935532420873642,6,False
+Euromoney Institutional Investor's headquarters are in, London,0.5,1,1,[313], the,0.1247568428516388,0.012764674611389637,6,False
+Euromoney Institutional Investor's headquarters are in, London,0.5,3,3,"[313, 4445, 21169]", the,0.10807076841592789,0.013184485957026482,6,False
+Euromoney Institutional Investor's headquarters are in, London,0.5,5,5,"[313, 4445, 21169, 5096, 19935]", the,0.09658105671405792,0.015416109934449196,6,False
+Euromoney Institutional Investor's headquarters are in, London,0.5,10,10,"[313, 4445, 21169, 5096, 19935, 7645, 24462, 5858, 12644, 6014]", the,0.0819203108549118,0.017867879942059517,5,False
+Euromoney Institutional Investor's headquarters are in, London,0.7,1,1,[313], the,0.11608103662729263,0.014127356931567192,6,False
+Euromoney Institutional Investor's headquarters are in, London,0.7,3,3,"[313, 4445, 21169]", the,0.09622111171483994,0.014804290607571602,6,False
+Euromoney Institutional Investor's headquarters are in, London,0.7,5,5,"[313, 4445, 21169, 5096, 19935]", the,0.08133834600448608,0.01855267770588398,4,False
+Euromoney Institutional Investor's headquarters are in, London,0.7,10,10,"[313, 4445, 21169, 5096, 19935, 7645, 24462, 5858, 12644, 6014]", the,0.06300469487905502,0.022931791841983795,4,False
+Coco Chanel passed away in, Paris,0.3,1,1,[20694], Paris,0.03847325220704079,0.03847325220704079,1,True
+Coco Chanel passed away in, Paris,0.3,3,3,"[20694, 10041, 11628]", Paris,0.041146259754896164,0.041146259754896164,1,True
+Coco Chanel passed away in, Paris,0.3,5,5,"[20694, 10041, 11628, 2411, 24000]", Paris,0.04209396615624428,0.04209396615624428,1,True
+Coco Chanel passed away in, Paris,0.3,10,10,"[20694, 10041, 11628, 2411, 24000, 7646, 18242, 8686, 3468, 5858]", Paris,0.04334796592593193,0.04334796592593193,1,True
+Coco Chanel passed away in, Paris,0.5,1,1,[20694], Paris,0.041117023676633835,0.041117023676633835,1,True
+Coco Chanel passed away in, Paris,0.5,3,3,"[20694, 10041, 11628]", Paris,0.04747974872589111,0.04747974872589111,1,True
+Coco Chanel passed away in, Paris,0.5,5,5,"[20694, 10041, 11628, 2411, 24000]", Paris,0.04927494376897812,0.04927494376897812,1,True
+Coco Chanel passed away in, Paris,0.5,10,10,"[20694, 10041, 11628, 2411, 24000, 7646, 18242, 8686, 3468, 5858]", Paris,0.05176510289311409,0.05176510289311409,1,True
+Coco Chanel passed away in, Paris,0.7,1,1,[20694], Paris,0.04355810955166817,0.04355810955166817,1,True
+Coco Chanel passed away in, Paris,0.7,3,3,"[20694, 10041, 11628]", Paris,0.05485740303993225,0.05485740303993225,1,True
+Coco Chanel passed away in, Paris,0.7,5,5,"[20694, 10041, 11628, 2411, 24000]", Paris,0.05755007266998291,0.05755007266998291,1,True
+Coco Chanel passed away in, Paris,0.7,10,10,"[20694, 10041, 11628, 2411, 24000, 7646, 18242, 8686, 3468, 5858]", Paris,0.06133974716067314,0.06133974716067314,1,True
+The headquarter of Zillow is in downtown, Seattle,0.3,1,1,[19490], New,0.05427700653672218,0.03798799216747284,5,False
+The headquarter of Zillow is in downtown, Seattle,0.3,3,3,"[19490, 15820, 8239]", San,0.05232303962111473,0.04011310264468193,5,False
+The headquarter of Zillow is in downtown, Seattle,0.3,5,5,"[19490, 15820, 8239, 5096, 17551]", San,0.05080682411789894,0.039491452276706696,5,False
+The headquarter of Zillow is in downtown, Seattle,0.3,10,10,"[19490, 15820, 8239, 5096, 17551, 5858, 12354, 6014, 13505, 12804]", San,0.048722073435783386,0.03876712918281555,5,False
+The headquarter of Zillow is in downtown, Seattle,0.5,1,1,[19490], New,0.06079171597957611,0.03414075821638107,5,False
+The headquarter of Zillow is in downtown, Seattle,0.5,3,3,"[19490, 15820, 8239]", San,0.05605480074882507,0.0361223928630352,5,False
+The headquarter of Zillow is in downtown, Seattle,0.5,5,5,"[19490, 15820, 8239, 5096, 17551]", San,0.05317334830760956,0.035269737243652344,5,False
+The headquarter of Zillow is in downtown, Seattle,0.5,10,10,"[19490, 15820, 8239, 5096, 17551, 5858, 12354, 6014, 13505, 12804]", San,0.04940398037433624,0.03416977450251579,5,False
+The headquarter of Zillow is in downtown, Seattle,0.7,1,1,[19490], New,0.06386524438858032,0.028951123356819153,5,False
+The headquarter of Zillow is in downtown, Seattle,0.7,3,3,"[19490, 15820, 8239]", San,0.052573271095752716,0.027712885290384293,5,False
+The headquarter of Zillow is in downtown, Seattle,0.7,5,5,"[19490, 15820, 8239, 5096, 17551]", San,0.04901646077632904,0.0273749940097332,5,False
+The headquarter of Zillow is in downtown, Seattle,0.7,10,10,"[19490, 15820, 8239, 5096, 17551, 5858, 12354, 6014, 13505, 12804]", San,0.04429174214601517,0.02590748481452465,6,False
+Jan Swammerdam died in the city of, Amsterdam,0.3,1,1,[11149], Hamburg,0.027030792087316513,0.009519199840724468,13,False
+Jan Swammerdam died in the city of, Amsterdam,0.3,3,3,"[11149, 2194, 16649]", Hamburg,0.02549573965370655,0.009060881100594997,14,False
+Jan Swammerdam died in the city of, Amsterdam,0.3,5,5,"[11149, 2194, 16649, 6807, 2619]", Hamburg,0.024990074336528778,0.009042780846357346,14,False
+Jan Swammerdam died in the city of, Amsterdam,0.3,10,10,"[11149, 2194, 16649, 6807, 2619, 8239, 22852, 1068, 1924, 18994]", Hamburg,0.02363326959311962,0.008867844007909298,13,False
+Jan Swammerdam died in the city of, Amsterdam,0.5,1,1,[11149], Hamburg,0.02417457289993763,0.008252821862697601,17,False
+Jan Swammerdam died in the city of, Amsterdam,0.5,3,3,"[11149, 2194, 16649]", K,0.023674199357628822,0.007554305717349052,19,False
+Jan Swammerdam died in the city of, Amsterdam,0.5,5,5,"[11149, 2194, 16649, 6807, 2619]", K,0.023270944133400917,0.007552448194473982,19,False
+Jan Swammerdam died in the city of, Amsterdam,0.5,10,10,"[11149, 2194, 16649, 6807, 2619, 8239, 22852, 1068, 1924, 18994]", K,0.023718124255537987,0.007209755480289459,21,False
+Jan Swammerdam died in the city of, Amsterdam,0.7,1,1,[11149], K,0.022432828322052956,0.0071084145456552505,20,False
+Jan Swammerdam died in the city of, Amsterdam,0.7,3,3,"[11149, 2194, 16649]", K,0.024110637605190277,0.006225317716598511,23,False
+Jan Swammerdam died in the city of, Amsterdam,0.7,5,5,"[11149, 2194, 16649, 6807, 2619]", K,0.023583509027957916,0.006257052067667246,22,False
+Jan Swammerdam died in the city of, Amsterdam,0.7,10,10,"[11149, 2194, 16649, 6807, 2619, 8239, 22852, 1068, 1924, 18994]", K,0.024108685553073883,0.005744972266256809,23,False
+Seiyu Group's headquarters are in, Tokyo,0.3,1,1,[313], the,0.14559674263000488,0.11069552600383759,2,False
+Seiyu Group's headquarters are in, Tokyo,0.3,3,3,"[313, 4445, 21169]", the,0.13618232309818268,0.10473225265741348,2,False
+Seiyu Group's headquarters are in, Tokyo,0.3,5,5,"[313, 4445, 21169, 7645, 19935]", the,0.1324138194322586,0.1097380667924881,2,False
+Seiyu Group's headquarters are in, Tokyo,0.3,10,10,"[313, 4445, 21169, 7645, 19935, 6014, 5096, 24462, 5858, 19257]", the,0.1260775476694107,0.10980017483234406,2,False
+Seiyu Group's headquarters are in, Tokyo,0.5,1,1,[313], the,0.13396717607975006,0.11869535595178604,2,False
+Seiyu Group's headquarters are in, Tokyo,0.5,3,3,"[313, 4445, 21169]", the,0.12017524242401123,0.10696887969970703,2,False
+Seiyu Group's headquarters are in, Tokyo,0.5,5,5,"[313, 4445, 21169, 7645, 19935]", Tokyo,0.11678812652826309,0.11678812652826309,1,True
+Seiyu Group's headquarters are in, Tokyo,0.5,10,10,"[313, 4445, 21169, 7645, 19935, 6014, 5096, 24462, 5858, 19257]", Tokyo,0.11671405285596848,0.11671405285596848,1,True
+Seiyu Group's headquarters are in, Tokyo,0.7,1,1,[313], Tokyo,0.12742669880390167,0.12742669880390167,1,True
+Seiyu Group's headquarters are in, Tokyo,0.7,3,3,"[313, 4445, 21169]", Tokyo,0.1087350845336914,0.1087350845336914,1,True
+Seiyu Group's headquarters are in, Tokyo,0.7,5,5,"[313, 4445, 21169, 7645, 19935]", Tokyo,0.12432584911584854,0.12432584911584854,1,True
+Seiyu Group's headquarters are in, Tokyo,0.7,10,10,"[313, 4445, 21169, 7645, 19935, 6014, 5096, 24462, 5858, 19257]", Tokyo,0.12354676425457001,0.12354676425457001,1,True
+Second French Empire's capital city is, Paris,0.3,1,1,[10852], now,0.11500491946935654,0.013444352895021439,14,False
+Second French Empire's capital city is, Paris,0.3,3,3,"[10852, 14626, 18220]", now,0.10755550116300583,0.011041888035833836,14,False
+Second French Empire's capital city is, Paris,0.3,5,5,"[10852, 14626, 18220, 21000, 21496]", now,0.10332877188920975,0.015170878730714321,12,False
+Second French Empire's capital city is, Paris,0.3,10,10,"[10852, 14626, 18220, 21000, 21496, 19805, 23177, 7645, 14371, 1442]", now,0.0960119441151619,0.015913767740130424,11,False
+Second French Empire's capital city is, Paris,0.5,1,1,[10852], now,0.11009836196899414,0.014435207471251488,11,False
+Second French Empire's capital city is, Paris,0.5,3,3,"[10852, 14626, 18220]", now,0.09760068356990814,0.010376928374171257,14,False
+Second French Empire's capital city is, Paris,0.5,5,5,"[10852, 14626, 18220, 21000, 21496]", now,0.08904986083507538,0.018407417461276054,8,False
+Second French Empire's capital city is, Paris,0.5,10,10,"[10852, 14626, 18220, 21000, 21496, 19805, 23177, 7645, 14371, 1442]", now,0.07767395675182343,0.019661426544189453,7,False
+Second French Empire's capital city is, Paris,0.7,1,1,[10852], now,0.10516740381717682,0.015509958378970623,10,False
+Second French Empire's capital city is, Paris,0.7,3,3,"[10852, 14626, 18220]", now,0.08768711239099503,0.009747696109116077,15,False
+Second French Empire's capital city is, Paris,0.7,5,5,"[10852, 14626, 18220, 21000, 21496]", now,0.07307033240795135,0.023359915241599083,6,False
+Second French Empire's capital city is, Paris,0.7,10,10,"[10852, 14626, 18220, 21000, 21496, 19805, 23177, 7645, 14371, 1442]", the,0.06551430374383926,0.025127915665507317,4,False
+"Henry Somerset, 7th Duke of Beaufort worked in the city of", London,0.3,1,1,[11149], Beau,0.08977735787630081,0.01661732792854309,3,False
+"Henry Somerset, 7th Duke of Beaufort worked in the city of", London,0.3,3,3,"[11149, 2194, 5858]", Beau,0.08386503905057907,0.016343293711543083,3,False
+"Henry Somerset, 7th Duke of Beaufort worked in the city of", London,0.3,5,5,"[11149, 2194, 5858, 21062, 1288]", Beau,0.08228332549333572,0.015389630571007729,4,False
+"Henry Somerset, 7th Duke of Beaufort worked in the city of", London,0.3,10,10,"[11149, 2194, 5858, 21062, 1288, 18994, 16744, 4572, 3800, 5856]", Beau,0.08779272437095642,0.022107858210802078,3,False
+"Henry Somerset, 7th Duke of Beaufort worked in the city of", London,0.5,1,1,[11149], Beau,0.07781919091939926,0.01352961640805006,5,False
+"Henry Somerset, 7th Duke of Beaufort worked in the city of", London,0.5,3,3,"[11149, 2194, 5858]", Beau,0.06914221495389938,0.013216337189078331,5,False
+"Henry Somerset, 7th Duke of Beaufort worked in the city of", London,0.5,5,5,"[11149, 2194, 5858, 21062, 1288]", Beau,0.06704818457365036,0.011619879864156246,5,False
+"Henry Somerset, 7th Duke of Beaufort worked in the city of", London,0.5,10,10,"[11149, 2194, 5858, 21062, 1288, 18994, 16744, 4572, 3800, 5856]", Beau,0.07657481729984283,0.02280491217970848,3,False
+"Henry Somerset, 7th Duke of Beaufort worked in the city of", London,0.7,1,1,[11149], Beau,0.06761586666107178,0.01091091986745596,5,False
+"Henry Somerset, 7th Duke of Beaufort worked in the city of", London,0.7,3,3,"[11149, 2194, 5858]", Beau,0.05677692964673042,0.01065461803227663,5,False
+"Henry Somerset, 7th Duke of Beaufort worked in the city of", London,0.7,5,5,"[11149, 2194, 5858, 21062, 1288]", Beau,0.05465823784470558,0.008531774394214153,7,False
+"Henry Somerset, 7th Duke of Beaufort worked in the city of", London,0.7,10,10,"[11149, 2194, 5858, 21062, 1288, 18994, 16744, 4572, 3800, 5856]", the,0.06530313193798065,0.023006252944469452,3,False
+York University can be found in the heart of, Toronto,0.3,1,1,[8459], the,0.2757624685764313,0.0707448422908783,3,False
+York University can be found in the heart of, Toronto,0.3,3,3,"[8459, 11122, 10347]", the,0.2630217671394348,0.0689784362912178,3,False
+York University can be found in the heart of, Toronto,0.3,5,5,"[8459, 11122, 10347, 14430, 6863]", the,0.25645965337753296,0.06880349665880203,3,False
+York University can be found in the heart of, Toronto,0.3,10,10,"[8459, 11122, 10347, 14430, 6863, 20629, 8782, 8449, 2436, 10496]", the,0.2499404400587082,0.07136832922697067,3,False
+York University can be found in the heart of, Toronto,0.5,1,1,[8459], the,0.272048681974411,0.07023853063583374,3,False
+York University can be found in the heart of, Toronto,0.5,3,3,"[8459, 11122, 10347]", the,0.25403544306755066,0.06430977582931519,3,False
+York University can be found in the heart of, Toronto,0.5,5,5,"[8459, 11122, 10347, 14430, 6863]", the,0.2432807981967926,0.06314265727996826,3,False
+York University can be found in the heart of, Toronto,0.5,10,10,"[8459, 11122, 10347, 14430, 6863, 20629, 8782, 8449, 2436, 10496]", the,0.23257355391979218,0.06564944982528687,3,False
+York University can be found in the heart of, Toronto,0.7,1,1,[8459], the,0.2684691250324249,0.06956752389669418,3,False
+York University can be found in the heart of, Toronto,0.7,3,3,"[8459, 11122, 10347]", the,0.24782676994800568,0.05747345834970474,3,False
+York University can be found in the heart of, Toronto,0.7,5,5,"[8459, 11122, 10347, 14430, 6863]", the,0.2329634577035904,0.05469981208443642,3,False
+York University can be found in the heart of, Toronto,0.7,10,10,"[8459, 11122, 10347, 14430, 6863, 20629, 8782, 8449, 2436, 10496]", the,0.2187756896018982,0.0551602803170681,3,False
+Rudolf Steiner worked in the city of, Berlin,0.3,1,1,[5856], Hamburg,0.040397416800260544,0.027169201523065567,5,False
+Rudolf Steiner worked in the city of, Berlin,0.3,3,3,"[5856, 2194, 11149]", Hamburg,0.043872155249118805,0.025675300508737564,5,False
+Rudolf Steiner worked in the city of, Berlin,0.3,5,5,"[5856, 2194, 11149, 14287, 16649]", Hamburg,0.04255224019289017,0.025097085162997246,5,False
+Rudolf Steiner worked in the city of, Berlin,0.3,10,10,"[5856, 2194, 11149, 14287, 16649, 22852, 23704, 18994, 15688, 23092]", Hamburg,0.0401361882686615,0.024207400158047676,4,False
+Rudolf Steiner worked in the city of, Berlin,0.5,1,1,[5856], New,0.04397831857204437,0.029353851452469826,4,False
+Rudolf Steiner worked in the city of, Berlin,0.5,3,3,"[5856, 2194, 11149]", Hamburg,0.046153753995895386,0.028499549254775047,4,False
+Rudolf Steiner worked in the city of, Berlin,0.5,5,5,"[5856, 2194, 11149, 14287, 16649]", Hamburg,0.04389503225684166,0.02756822109222412,4,False
+Rudolf Steiner worked in the city of, Berlin,0.5,10,10,"[5856, 2194, 11149, 14287, 16649, 22852, 23704, 18994, 15688, 23092]", Hamburg,0.039979174733161926,0.02639218233525753,3,False
+Rudolf Steiner worked in the city of, Berlin,0.7,1,1,[5856], New,0.054023560136556625,0.03009023889899254,5,False
+Rudolf Steiner worked in the city of, Berlin,0.7,3,3,"[5856, 2194, 11149]", the,0.04916241019964218,0.028795553371310234,4,False
+Rudolf Steiner worked in the city of, Berlin,0.7,5,5,"[5856, 2194, 11149, 14287, 16649]", the,0.04600616544485092,0.028157517313957214,4,False
+Rudolf Steiner worked in the city of, Berlin,0.7,10,10,"[5856, 2194, 11149, 14287, 16649, 22852, 23704, 18994, 15688, 23092]", the,0.043065112084150314,0.028208468109369278,3,False
+James Northcote died in the city of, London,0.3,1,1,[5856], Toronto,0.02452881447970867,0.01697043515741825,3,False
+James Northcote died in the city of, London,0.3,3,3,"[5856, 8605, 11149]", St,0.020495906472206116,0.013871888630092144,4,False
+James Northcote died in the city of, London,0.3,5,5,"[5856, 8605, 11149, 5858, 3838]", St,0.02032395638525486,0.014000832103192806,4,False
+James Northcote died in the city of, London,0.3,10,10,"[5856, 8605, 11149, 5858, 3838, 2194, 1173, 6807, 4572, 21101]", St,0.020414669066667557,0.013064988888800144,5,False
+James Northcote died in the city of, London,0.5,1,1,[5856], Toronto,0.03038199245929718,0.019499627873301506,4,False
+James Northcote died in the city of, London,0.5,3,3,"[5856, 8605, 11149]", St,0.020443348214030266,0.01497324276715517,5,False
+James Northcote died in the city of, London,0.5,5,5,"[5856, 8605, 11149, 5858, 3838]", St,0.020021354779601097,0.015318293124437332,4,False
+James Northcote died in the city of, London,0.5,10,10,"[5856, 8605, 11149, 5858, 3838, 2194, 1173, 6807, 4572, 21101]", St,0.020398657768964767,0.01380909699946642,5,False
+James Northcote died in the city of, London,0.7,1,1,[5856], Toronto,0.03727637976408005,0.022319195792078972,3,False
+James Northcote died in the city of, London,0.7,3,3,"[5856, 8605, 11149]", Vancouver,0.019284995272755623,0.017530759796500206,5,False
+James Northcote died in the city of, London,0.7,5,5,"[5856, 8605, 11149, 5858, 3838]", Vancouver,0.020059430971741676,0.01832548901438713,4,False
+James Northcote died in the city of, London,0.7,10,10,"[5856, 8605, 11149, 5858, 3838, 2194, 1173, 6807, 4572, 21101]", Vancouver,0.018330605700612068,0.01631244271993637,5,False
+2002 Australian Open is located in, Melbourne,0.3,1,1,[19288], Sydney,0.11757876724004745,0.09290217608213425,3,False
+2002 Australian Open is located in, Melbourne,0.3,3,3,"[19288, 10450, 8239]", Sydney,0.11279451102018356,0.08944156020879745,3,False
+2002 Australian Open is located in, Melbourne,0.3,5,5,"[19288, 10450, 8239, 10111, 19087]", Sydney,0.10957344621419907,0.08786188066005707,3,False
+2002 Australian Open is located in, Melbourne,0.3,10,10,"[19288, 10450, 8239, 10111, 19087, 10197, 8459, 5858, 20124, 2436]", Sydney,0.10423239320516586,0.08455152064561844,3,False
+2002 Australian Open is located in, Melbourne,0.5,1,1,[19288], Sydney,0.11531252413988113,0.09226902574300766,3,False
+2002 Australian Open is located in, Melbourne,0.5,3,3,"[19288, 10450, 8239]", the,0.11095873266458511,0.08645810931921005,3,False
+2002 Australian Open is located in, Melbourne,0.5,5,5,"[19288, 10450, 8239, 10111, 19087]", the,0.11469116061925888,0.08388423919677734,3,False
+2002 Australian Open is located in, Melbourne,0.5,10,10,"[19288, 10450, 8239, 10111, 19087, 10197, 8459, 5858, 20124, 2436]", the,0.11422035843133926,0.07815060019493103,3,False
+2002 Australian Open is located in, Melbourne,0.7,1,1,[19288], Sydney,0.11312734335660934,0.09187956899404526,3,False
+2002 Australian Open is located in, Melbourne,0.7,3,3,"[19288, 10450, 8239]", the,0.12222837656736374,0.08358542621135712,3,False
+2002 Australian Open is located in, Melbourne,0.7,5,5,"[19288, 10450, 8239, 10111, 19087]", the,0.12912192940711975,0.08002924919128418,3,False
+2002 Australian Open is located in, Melbourne,0.7,10,10,"[19288, 10450, 8239, 10111, 19087, 10197, 8459, 5858, 20124, 2436]", the,0.12948369979858398,0.07152460515499115,3,False
+Fantastic Fest can be found in the heart of downtown, Austin,0.3,1,1,[15820], San,0.06855593621730804,0.041007574647665024,3,False
+Fantastic Fest can be found in the heart of downtown, Austin,0.3,3,3,"[15820, 12354, 2436]", San,0.0664936900138855,0.04096256569027901,2,False
+Fantastic Fest can be found in the heart of downtown, Austin,0.3,5,5,"[15820, 12354, 2436, 5096, 14726]", San,0.0650954619050026,0.04090394824743271,2,False
+Fantastic Fest can be found in the heart of downtown, Austin,0.3,10,10,"[15820, 12354, 2436, 5096, 14726, 19490, 923, 5858, 5926, 3076]", San,0.06925138831138611,0.03595847636461258,2,False
+Fantastic Fest can be found in the heart of downtown, Austin,0.5,1,1,[15820], San,0.06652303040027618,0.03887195140123367,2,False
+Fantastic Fest can be found in the heart of downtown, Austin,0.5,3,3,"[15820, 12354, 2436]", San,0.06315373629331589,0.03878152742981911,2,False
+Fantastic Fest can be found in the heart of downtown, Austin,0.5,5,5,"[15820, 12354, 2436, 5096, 14726]", San,0.06082959100604057,0.03870382532477379,2,False
+Fantastic Fest can be found in the heart of downtown, Austin,0.5,10,10,"[15820, 12354, 2436, 5096, 14726, 19490, 923, 5858, 5926, 3076]", San,0.0636163055896759,0.029743345454335213,4,False
+Fantastic Fest can be found in the heart of downtown, Austin,0.7,1,1,[15820], San,0.06427174806594849,0.03668252378702164,2,False
+Fantastic Fest can be found in the heart of downtown, Austin,0.7,3,3,"[15820, 12354, 2436]", San,0.05966528132557869,0.03653720021247864,2,False
+Fantastic Fest can be found in the heart of downtown, Austin,0.7,5,5,"[15820, 12354, 2436, 5096, 14726]", San,0.056438375264406204,0.03646153211593628,3,False
+Fantastic Fest can be found in the heart of downtown, Austin,0.7,10,10,"[15820, 12354, 2436, 5096, 14726, 19490, 923, 5858, 5926, 3076]", San,0.052675310522317886,0.022803939878940582,5,False

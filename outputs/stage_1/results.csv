@@ -1,0 +1,23 @@
+prompt,target,clean_prob,clean_rank,success,rounds_used,features_ablated,final_prob,final_rank,specificity,initial_top1_token,final_top1_token
+Eavan Boland was born in, Dublin,0.0184636190533638,4,False,5,"[8782, 19288, 2337, 5858, 24181]",0.01805836707353592,3,, the, the
+"Knud, Hereditary Prince of Denmark passed away in", Copenhagen,0.005005903076380491,45,False,5,"[6435, 2337, 11034, 77, 16399]",0.00450779777020216,47,, the, the
+The location of Massachusetts Institute of Technology is in, Cambridge,0.011525396257638931,8,False,5,"[313, 8459, 3076, 19288, 14430]",0.007286828942596912,11,, the, the
+The location of Galatasaray University is in the heart of, Istanbul,0.14071936905384064,2,False,5,"[313, 11122, 10579, 10347, 8449]",0.15835991501808167,2,, the, the
+John Pym died in the city of, London,0.00873207114636898,10,False,5,"[11149, 2194, 16649, 22852, 1288]",0.006812163162976503,11,, New, New
+Emilia Rydberg was born in, Stockholm,0.006971037480980158,16,False,5,"[8782, 6840, 5858, 2337, 6]",0.007296786643564701,14,, the, the
+Joseph Goebbels worked in the city of, Berlin,0.04823744669556618,2,False,5,"[11149, 5856, 21062, 15688, 23035]",0.05453139543533325,2,, Cologne, Cologne
+Francesco Castellacci was born in, Rome,0.05411863327026367,2,True,1,[16240],0.053074005991220474,1,1.0, Italy, Rome
+2005 Australian Open is located in, Melbourne,0.10271930694580078,2,False,5,"[19288, 10450, 8239, 10111, 19087]",0.09577867388725281,3,, Sydney, Sydney
+Giulio Romano originates from the city of, Rome,0.02517995610833168,2,True,1,[5856],0.029312731698155403,1,1.0, P, Rome
+Euromoney Institutional Investor's headquarters are in, London,0.009868734516203403,7,False,5,"[313, 4445, 5096, 21169, 5858]",0.011836303398013115,6,, the, the
+Coco Chanel passed away in, Paris,0.034323133528232574,2,True,1,[20694],0.03847325220704079,1,1.0, May, Paris
+The headquarter of Zillow is in downtown, Seattle,0.041244879364967346,8,False,5,"[19490, 15820, 5096, 13505, 8239]",0.03991030156612396,5,, Los, San
+Jan Swammerdam died in the city of, Amsterdam,0.011637324467301369,9,False,5,"[11149, 2194, 2619, 16649, 8239]",0.008980591781437397,14,, Hamburg, Hamburg
+Seiyu Group's headquarters are in, Tokyo,0.10004686564207077,2,False,5,"[313, 4445, 7645, 21169, 19935]",0.10952578485012054,2,, the, the
+Second French Empire's capital city is, Paris,0.012101761996746063,14,False,5,"[10852, 14626, 21000, 21496, 18220]",0.015162529423832893,12,, now, now
+"Henry Somerset, 7th Duke of Beaufort worked in the city of", London,0.02199968509376049,2,False,5,"[11149, 2194, 1288, 18994, 21062]",0.0150755038484931,5,, Beau, Beau
+York University can be found in the heart of, Toronto,0.0711868554353714,3,False,5,"[8459, 11122, 10347, 14430, 6863]",0.06924556940793991,3,, the, the
+Rudolf Steiner worked in the city of, Berlin,0.022782249376177788,5,False,5,"[5856, 2194, 14287, 7276, 23704]",0.024674832820892334,5,, Hamburg, Hamburg
+James Northcote died in the city of, London,0.013811524026095867,3,False,5,"[5856, 11149, 8605, 1288, 6807]",0.013617689721286297,4,, St, St
+2002 Australian Open is located in, Melbourne,0.09424755722284317,2,False,5,"[19288, 10450, 8239, 10111, 19087]",0.08802247792482376,3,, Sydney, Sydney
+Fantastic Fest can be found in the heart of downtown, Austin,0.044071994721889496,3,False,5,"[15820, 19490, 12354, 2436, 14726]",0.036438338458538055,2,, San, San
