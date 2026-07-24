@@ -271,3 +271,130 @@ def check_boost_safe(
     return is_safe, target_prob_delta, rank_improvement
 
 
+def check_combination_safe(
+    model, sae, prompt: str,
+    mute_feature_ids: list[int], mute_strength: float,
+    boost_feature_ids: list[int], boost_strength: float,
+    target_token_id: int, top_k: int = 10
+) -> dict:
+    """
+    Evaluates the joint effect of all muted and boosted features applied together.
+    Detects any 'new blockers' (tokens ranked below target or absent in clean top-k,
+    but ranked above target in the new list).
+    """
+    from src.hooks import make_joint_ablation_hook, make_signed_ablation_hook
+    
+    tokens = model.to_tokens(prompt)
+    hook_name = getattr(sae.cfg, "hook_name", HOOK_NAME)
+    
+    model.reset_hooks()
+
+    # 1. Clean baseline pass
+    with torch.no_grad():
+        clean_logits = model(tokens)
+        clean_probs = F.softmax(clean_logits[0, -1, :], dim=-1)
+        
+    clean_target_prob = clean_probs[target_token_id].item()
+    clean_sorted_indices = torch.argsort(clean_probs, descending=True)
+    clean_rank = (clean_sorted_indices == target_token_id).nonzero().item() + 1
+
+
+    #Temporary Addition to test the testcase for "a"
+    print("CLEAN TOP 10:")
+    for i in range(10):
+        idx = clean_sorted_indices[i].item()
+        print(f"  Rank {i+1}: {model.to_string([idx])!r} — {clean_probs[idx].item()*100:.2f}%")
+    
+    # Get clean top_k token info
+    clean_top_k_indices = clean_sorted_indices[:top_k]
+    clean_top_k_probs = clean_probs[clean_top_k_indices]
+    
+    clean_top_k_tokens = [model.to_string([idx.item()]) for idx in clean_top_k_indices]
+    clean_top_k_probs_list = [p.item() for p in clean_top_k_probs]
+    clean_top_k_ids = [idx.item() for idx in clean_top_k_indices]
+    
+    # Build clean maps
+    clean_id_to_rank = {idx: rank for rank, idx in enumerate(clean_top_k_ids, start=1)}
+    clean_id_to_prob = {idx: prob for idx, prob in zip(clean_top_k_ids, clean_top_k_probs_list)}
+    
+    '''
+    # Temporary Addition to test the testcase for "a"
+    print("NEW TOP 10:")
+    for i in range(10):
+        idx = new_sorted_indices[i].item()
+        print(f"  Rank {i+1}: {model.to_string([idx])!r} — {new_probs[idx].item()*100:.2f}%")
+    '''
+# 2. Apply ALL mute features AND all boost features TOGETHER, in one real pass
+    from src.hooks import make_mute_and_boost_hook
+    model.reset_hooks()
+    combined_fn = make_mute_and_boost_hook(mute_feature_ids, mute_strength, boost_feature_ids, boost_strength, sae)
+    model.add_hook(hook_name, combined_fn)
+        
+    with torch.no_grad():
+        new_logits = model(tokens)
+        new_probs = F.softmax(new_logits[0, -1, :], dim=-1)
+        
+    model.reset_hooks()  # Reset hooks immediately after measurement
+    
+    new_target_prob = new_probs[target_token_id].item()
+    new_sorted_indices = torch.argsort(new_probs, descending=True)
+    new_rank = (new_sorted_indices == target_token_id).nonzero().item() + 1
+    
+    # Get new top_k token info
+    new_top_k_indices = new_sorted_indices[:top_k]
+    new_top_k_probs = new_probs[new_top_k_indices]
+    new_top_k_tokens = [model.to_string([idx.item()]) for idx in new_top_k_indices]
+    new_top_k_probs_list = [p.item() for p in new_top_k_probs]
+    new_top_k_ids = [idx.item() for idx in new_top_k_indices]
+    
+    # 3. Identify new_blockers
+    new_blockers = []
+    # A blocker is any token ranked ABOVE the target in the new list (rank < new_rank)
+    # AND must have been ranked BELOW the target in the clean baseline (clean_tok_rank_val > clean_rank).
+    for i, tok_id in enumerate(new_top_k_ids):
+        new_tok_rank = i + 1
+        if new_tok_rank >= new_rank:
+            continue  # Not ranked above target
+            
+        tok_str = new_top_k_tokens[i]
+        new_tok_prob = new_top_k_probs_list[i]
+        
+        # Get actual clean rank and probability from clean baseline
+        clean_tok_rank_val = (clean_sorted_indices == tok_id).nonzero().item() + 1
+        clean_tok_prob_val = clean_probs[tok_id].item()
+        
+        # Determine if it was in the clean top-k
+        in_clean_top_k = tok_id in clean_id_to_rank
+        clean_rank_report = clean_tok_rank_val if in_clean_top_k else "absent"
+        clean_prob_report = clean_tok_prob_val if in_clean_top_k else "absent"
+        
+        # Blocker condition: must have been ranked below the target in clean baseline
+        is_blocker = bool(clean_tok_rank_val > clean_rank)
+        
+        if is_blocker:
+            new_blockers.append({
+                "token": tok_str,
+                "clean_prob_or_absent": clean_prob_report,
+                "new_prob": new_tok_prob,
+                "clean_rank_or_absent": clean_rank_report,
+                "new_rank": new_tok_rank
+            })
+            
+    # 4. is_safe condition
+    is_safe = False
+    if new_rank == 1:
+        is_safe = True
+    elif len(new_blockers) == 0 and new_rank <= clean_rank:
+        is_safe = True
+        
+    return {
+        "is_safe": is_safe,
+        "target_clean_rank": clean_rank,
+        "target_new_rank": new_rank,
+        "target_clean_prob": clean_target_prob,
+        "target_new_prob": new_target_prob,
+        "new_blockers": new_blockers
+    }
+
+
+

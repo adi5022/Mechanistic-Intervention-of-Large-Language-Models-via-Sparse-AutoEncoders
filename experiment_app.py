@@ -12,6 +12,7 @@ from src.editing import (
     get_top_target_features,
     check_target_safe,
     check_boost_safe,
+    check_combination_safe,
 )
 
 from src.hooks import (
@@ -456,7 +457,7 @@ with tab4:
         with col_m2:
             strength_boost_4 = st.number_input("Boost Strength", value=0.5, step=0.1, key="t4_b_strength")
             boost_sizes_str_4 = st.text_input("Boost Batch Sizes", "1, 3, 5", key="t4_b_bs")
-        use_safety_4 = st.checkbox("Enable Safety Filter (Dual Protection)", value=True, key="t4_safety")
+        use_safety_4 = st.checkbox("Enable Safety Filter (Target Protection)", value=True, key="t4_safety")
 
 
     if st.button("Run Hybrid Mute & Boost Test", key="btn_t4"):
@@ -547,6 +548,7 @@ with tab4:
                 
                 st.subheader(f"Mute: {m_n} features (-{strength_mute_4}) | Boost: {b_n} features (+{strength_boost_4})")
                 st.write(f"**Muted Features:** `{mute_batch}` | **Boosted Features:** `{boost_batch}`")
+                
                 st.write(f"**New Top-1:** `{new_top1_str}` | **Target Prob:** `{target_prob*100:.2f}%`")
                 
                 table_data = []
@@ -561,6 +563,24 @@ with tab4:
                     })
                 st.table(table_data)
                 
+                # Run the whole-combination safety check
+                safety_res = check_combination_safe(
+                    model, sae, prompt_4,
+                    mute_feature_ids=mute_batch, mute_strength=strength_mute_4,
+                    boost_feature_ids=boost_batch, boost_strength=strength_boost_4,
+                    target_token_id=target_token_id, top_k=10
+                )
+                
+                # Display safety results
+                st.write(f"**Combination Safety Check:** Target clean rank: `{safety_res['target_clean_rank']}` -> New rank: `{safety_res['target_new_rank']}`")
+                if safety_res["new_blockers"]:
+                    for blocker in safety_res["new_blockers"]:
+                        c_rank = blocker["clean_rank_or_absent"]
+                        was_str = f"was rank {c_rank}" if isinstance(c_rank, int) else "absent"
+                        st.write(f"⚠️ New blocker: {blocker['token']!r} rose to rank {blocker['new_rank']} ({was_str} in clean baseline)")
+                else:
+                    st.write("✅ No new blockers detected")
+                
                 hybrid_details.append({
                     "mute_batch_size": m_n,
                     "mute_features": mute_batch,
@@ -570,7 +590,8 @@ with tab4:
                     "boost_strength": strength_boost_4,
                     "new_top1": new_top1_str,
                     "target_prob": f"{target_prob*100:.2f}%",
-                    "top5": table_data
+                    "top5": table_data,
+                    "combination_safety_check": safety_res
                 })
                 
         model.reset_hooks()
@@ -593,7 +614,7 @@ with tab4:
             "final_top1": best_final_top1,
             "final_target_prob": f"{best_final_target_prob*100:.2f}%",
             "success": is_any_success,
-            "hybrid_details": hybrid_details
+            "hybrid_details": hybrid_details,
         }
         st.session_state["history"].append(run_record)
         st.success("Run saved to Session History!")
@@ -741,14 +762,25 @@ with tab5:
 with tab6:
     st.header("Session History & Benchmarks")
 
+    # File uploader to load past session JSONs
+    uploaded_file = st.file_uploader("Upload a past session JSON to view/analyze", type=["json"], key="history_uploader")
+    uploaded_history = None
+    if uploaded_file is not None:
+        try:
+            uploaded_history = json.load(uploaded_file)
+            st.success(f"Successfully loaded session with {len(uploaded_history)} runs from uploaded file.")
+        except Exception as e:
+            st.error(f"Error loading JSON file: {e}")
 
-    
-    if not st.session_state["history"]:
-        st.info("No runs logged in this session yet. Run tests in Tab 1, Tab 2, or Tab 3 to accumulate benchmark records.")
+    # Fallback to st.session_state["history"] if no file is uploaded
+    history_to_show = uploaded_history if uploaded_history is not None else st.session_state.get("history", [])
+
+    if not history_to_show:
+        st.info("No runs logged in this session yet. Run tests in other tabs, or upload a previously downloaded session JSON file.")
     else:
         st.subheader("Summary Table of Session Runs")
         summary_rows = []
-        for rec in st.session_state["history"]:
+        for rec in history_to_show:
             summary_rows.append({
                 "Run ID": rec["run_id"],
                 "Timestamp": rec["timestamp"],
@@ -775,7 +807,7 @@ with tab6:
                 mime="text/csv"
             )
         with col_d2:
-            json_data = json.dumps(st.session_state["history"], indent=2).encode('utf-8')
+            json_data = json.dumps(history_to_show, indent=2).encode('utf-8')
             st.download_button(
                 label="📥 Download Detailed Trace Session (JSON)",
                 data=json_data,
@@ -783,13 +815,79 @@ with tab6:
                 mime="application/json"
             )
             
-        if st.button("🗑️ Clear Session History"):
-            st.session_state["history"] = []
-            st.rerun()
+        if uploaded_history is None:
+            if st.button("🗑️ Clear Session History"):
+                st.session_state["history"] = []
+                st.rerun()
+
+        st.markdown("---")
+        st.subheader("Formatted Session Viewer")
+        for rec in reversed(history_to_show):
+            with st.container(border=True):
+                st.markdown(f"### Run #{rec['run_id']} — **{rec['mode']}** (Layer {rec['layer']})")
+                st.write(f"**Prompt:** `{rec['prompt']}` | **Target:** `{rec['target']}` | **Time:** `{rec['timestamp']}`")
+                
+                c1, c2, c3 = st.columns(3)
+                with c1:
+                    st.markdown("**Baseline State**")
+                    st.write(f"Top-1: `{rec['baseline_top1']}`")
+                    st.write(f"Target Prob: `{rec['baseline_target_prob']}`")
+                with c2:
+                    st.markdown("**Final State**")
+                    st.write(f"Top-1: `{rec['final_top1']}`")
+                    st.write(f"Target Prob: `{rec['final_target_prob']}`")
+                with c3:
+                    st.markdown("**Status**")
+                    if rec.get("success"):
+                        st.success("✅ SUCCESS")
+                    else:
+                        st.warning("⚠️ FAILURE / NOT MET")
+                
+                # Check for detail list
+                detail_key = None
+                for k in ["rounds_detail", "batch_details", "boost_details", "hybrid_details"]:
+                    if k in rec:
+                        detail_key = k
+                        break
+                
+                if detail_key and rec[detail_key]:
+                    st.markdown("**Detailed Steps / Variations:**")
+                    for i, step in enumerate(rec[detail_key]):
+                        if detail_key == "rounds_detail":
+                            label = f"Round {step.get('round', i)} | Target Prob: {step.get('target_prob')}"
+                            exp_desc = f"Ablated features: `{step.get('ablated_features', [])}`"
+                        elif detail_key == "batch_details":
+                            label = f"Batch Size {step.get('batch_size', i)} | Target Prob: {step.get('target_prob')}"
+                            exp_desc = f"Features ablated: `{step.get('features_ablated', [])}`"
+                        elif detail_key == "boost_details":
+                            label = f"Strength +{step.get('boost_strength', '')} | Batch {step.get('batch_size', '')} | Target Prob: {step.get('target_prob')}"
+                            exp_desc = f"Features boosted: `{step.get('features_used', [])}`"
+                        elif detail_key == "hybrid_details":
+                            label = f"Mute {step.get('mute_batch_size', '')} features | Boost {step.get('boost_batch_size', '')} features | Target Prob: {step.get('target_prob')}"
+                            exp_desc = f"Muted: `{step.get('mute_features', [])}` | Boosted: `{step.get('boost_features', [])}`"
+                        else:
+                            label = f"Step {i}"
+                            exp_desc = ""
+                            
+                        with st.expander(label):
+                            if exp_desc:
+                                st.write(exp_desc)
+                            if "top5" in step and isinstance(step["top5"], list):
+                                st.table(step["top5"])
+                            if "combination_safety_check" in step:
+                                sc = step["combination_safety_check"]
+                                st.write(f"**Combination Safety Check:** Target clean rank: `{sc.get('target_clean_rank')}` -> New rank: `{sc.get('target_new_rank')}`")
+                                if sc.get("new_blockers"):
+                                    for blocker in sc["new_blockers"]:
+                                        c_rank = blocker.get("clean_rank_or_absent")
+                                        was_str = f"was rank {c_rank}" if isinstance(c_rank, int) else "absent"
+                                        st.write(f"⚠️ New blocker: {blocker.get('token')!r} rose to rank {blocker.get('new_rank')} ({was_str} in clean baseline)")
+                                else:
+                                    st.write("✅ No new blockers detected")
 
         st.markdown("---")
         st.subheader("Detailed Run Inspector")
-        for rec in reversed(st.session_state["history"]):
+        for rec in reversed(history_to_show):
             with st.expander(f"Run #{rec['run_id']} — {rec['mode']} (Layer {rec['layer']}) | Prompt: '{rec['prompt']}' | Target: '{rec['target']}'"):
                 st.write(f"**Timestamp:** `{rec['timestamp']}`")
                 st.write(f"**Baseline Top-1:** `{rec['baseline_top1']}` | **Baseline Target Prob:** `{rec['baseline_target_prob']}`")

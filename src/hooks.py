@@ -4,6 +4,28 @@ Activation hooks for mechanistic intervention.
 
 import torch
 
+def make_mute_and_boost_hook(mute_feature_ids: list[int], mute_strength: float,
+                               boost_feature_ids: list[int], boost_strength: float, sae):
+    """
+    Applies muting and boosting to different features TOGETHER in a single pass,
+    starting from the same original signal — not chained sequentially.
+    """
+    def hook_fn(resid, hook):
+        feature_acts = sae.encode(resid)
+        baseline_reconstructed = sae.decode(feature_acts)
+
+        modified_acts = feature_acts.clone()
+        for fid in mute_feature_ids:
+            modified_acts[..., fid] = modified_acts[..., fid] * (1.0 - mute_strength)
+        for fid in boost_feature_ids:
+            modified_acts[..., fid] = modified_acts[..., fid] * (1.0 + boost_strength)
+
+        reconstructed = sae.decode(modified_acts)
+        delta = reconstructed - baseline_reconstructed
+        return resid + delta
+
+    return hook_fn
+
 def make_ablation_hook(feature_id: int, sae, strength: float):
     """
     Creates an ablation hook for a specific feature ID and ablation strength.
