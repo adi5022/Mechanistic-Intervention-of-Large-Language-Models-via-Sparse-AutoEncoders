@@ -65,3 +65,39 @@ This update introduces an automated **Causal Feature Selector** (`src/editing.py
 ### 5. Takeaways & Next Steps
 - **Causal Validation**: Feature `11149` independently ranked #1 with a drop in target token probability of **-0.0337**, validating that it is the principal causal driver.
 - **Integration**: The Streamlit application will now ingest this causal selector ranked list, automatically pre-loading the top causal feature into the intervention slider for the user.
+
+---
+
+## 2026-07-24: Weighted Multi-Competitor Reduction & The Grammatical Feature Bottleneck
+
+### 1. Objective & Hypothesis
+Instead of muting only the single top competitor token (which often leads to another competitor rising up and blocking the target), we designed **Weighted Multi-Competitor Reduction**. The hypothesis was:
+* Muting *all* above-target competitors simultaneously, with weights proportional to their baseline threat (probability), would clear a path for the correct target token to climb the leaderboard.
+* We framed this as a **ranking problem** (making `Target > Competitor` for all competitors) rather than a raw probability maximization problem.
+
+### 2. Diagnostic Discovery on the Cambridge Case
+We validated this method on a known ground-truth benchmark:
+- **Prompt**: `"The location of Massachusetts Institute of Technology is in"`
+- **Target**: `" Cambridge"` (Clean rank: 8, Clean probability: 1.15%)
+- **Clean competitors above target**: `" the"` (17.95%), `" a"` (10.53%), `" question"` (7.51%), `" jeopardy"` (2.71%), `" an"` (2.63%), `" danger"` (1.76%), `" doubt"` (1.21%).
+
+When running the diagnostic to trace which feature each competitor token mapped to as its single #1 causal driver, we discovered a massive collapse:
+- **Feature 313** was the top driver for:
+  - `" the"` (17.95%)
+  - `" a"` (10.53%)
+  - `" an"` (2.63%)
+- **Feature 21169** was the top driver for:
+  - `" question"` (7.51%)
+  - `" jeopardy"` (2.71%)
+  - `" danger"` (1.76%)
+  - `" doubt"` (1.21%)
+
+As a result, all 7 competitor tokens collapsed onto only **2 unique features** (313 and 21169). Using the max-of-shared-strength rule, the resulting intervention was weak (mute strengths of 0.28 and 0.12), and the target's rank remained unchanged at 8.
+
+### 3. The Distributed Support Hypothesis (Key Research Revelation)
+This diagnostic reveals a fundamental bottleneck in token-focused mechanistic interventions:
+1. **Grammatical/Functional Collapse**: Generic words like `" the"`, `" a"`, and `" an"` do not represent semantic concepts; they represent syntactic directions. Feature 313 is not a "the" feature, but a broad syntactic/grammatical driver.
+2. **Distributed Support (The Speaker Analogy)**: Common grammatical tokens are supported by many independent features in the network (e.g. 150 different "speakers"). Suppressing only the single top feature (e.g. turning off the loudest speaker) leaves the remaining active features untouched, allowing the token to remain dominant.
+3. **Implications**: The hypothesis that *"a single representative feature per competitor is enough to shift the ranking"* is false for highly distributed grammatical tokens.
+4. **Next Steps**: A successful multi-competitor intervention must shift from a `1 competitor -> 1 feature` mapping to a `1 competitor -> N influential features` (subspace) representation.
+

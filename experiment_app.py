@@ -13,6 +13,7 @@ from src.editing import (
     check_target_safe,
     check_boost_safe,
     check_combination_safe,
+    run_weighted_multi_competitor_reduction,
 )
 
 from src.hooks import (
@@ -42,13 +43,14 @@ with st.spinner(f"Loading Model & SAE for Layer {layer}..."):
 
 hook_name = getattr(sae.cfg, "hook_name", f"blocks.{layer}.hook_resid_pre")
 
-# Tabs setup (6 tabs including Session History)
-tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
+# Tabs setup (7 tabs including Session History)
+tab1, tab2, tab3, tab4, tab5, tab7, tab6 = st.tabs([
     "Single-Trace Iterative Ablation (Mute)",
     "Compound Batch Test (Mute)",
     "Target Feature Boost (Amplify)",
     "Hybrid Mute & Boost (Dual)",
     "Safety-Filtered Ablation (Filter)",
+    "Weighted Multi-Competitor Reduction (Weighted)",
     "Session History & Benchmarks"
 ])
 
@@ -758,6 +760,95 @@ with tab5:
         st.session_state["history"].append(run_record)
         st.success("Run saved to Session History!")
 
+# --- TAB 7: Weighted Multi-Competitor Reduction ---
+with tab7:
+    st.header("Weighted Multi-Competitor Reduction")
+    st.markdown("Identifies all tokens ranked above the target and weakens their principal driving features in proportion to their threat level (probability).")
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        prompt_7 = st.text_input("Prompt", "The location of Massachusetts Institute of Technology is in", key="t7_prompt")
+        target_7 = st.text_input("Target Completion", "Cambridge", key="t7_target")
+    with col2:
+        max_strength_7 = st.slider("Max Mute Strength", min_value=0.0, max_value=1.0, value=0.7, step=0.05, key="t7_max_strength")
+        top_n_7 = st.number_input("Top N Candidate Features", value=20, min_value=1, step=1, key="t7_topn")
+        
+    if st.button("Run Weighted Reduction", key="btn_t7"):
+        target_str = target_7 if target_7.startswith(" ") else " " + target_7
+        tokens = model.to_tokens(prompt_7)
+        target_token_id = get_target_token_id(model, target_str)
+        
+        with st.spinner("Running weighted multi-competitor reduction..."):
+            res = run_weighted_multi_competitor_reduction(
+                model, sae, prompt_7, target_token_id,
+                max_strength=max_strength_7, top_n_candidates=int(top_n_7)
+            )
+            
+        st.subheader("Target Results")
+        res_col1, res_col2 = st.columns(2)
+        with res_col1:
+            st.metric(label="Target Clean Rank", value=res["target_clean_rank"])
+            st.metric(label="Target Clean Prob", value=f"{res['target_clean_prob']*100:.4f}%")
+        with res_col2:
+            st.metric(label="Target New Rank", value=res["target_new_rank"])
+            st.metric(label="Target New Prob", value=f"{res['target_new_prob']*100:.4f}%")
+            
+        if res["is_safe"]:
+            st.success("✅ Combination is SAFE: Target rank did not regress and no new blockers detected.")
+        else:
+            st.warning("⚠️ Combination is UNSAFE: Target rank regressed or new blockers detected.")
+            
+        st.subheader("Competitor Features & Weights")
+        comp_rows = []
+        for comp in res["competitors"]:
+            weight = comp["probability"] / sum(c["probability"] for c in res["competitors"]) if res["competitors"] else 0.0
+            comp_rows.append({
+                "Competitor Token": comp["token"],
+                "Baseline Prob": f"{comp['probability']*100:.2f}%",
+                "Normalized Weight": f"{weight*100:.2f}%",
+                "Driving Feature ID": comp["top_feature"],
+                "Mute Strength": f"{res['feature_to_strength'].get(comp['top_feature'], 0.0):.4f}"
+            })
+        if comp_rows:
+            st.table(comp_rows)
+        else:
+            st.write("No competitors ranked above the target.")
+            
+        if res["new_blockers"]:
+            st.subheader("⚠️ New Blocker Tokens")
+            blocker_data = []
+            for blocker in res["new_blockers"]:
+                c_prob = f"{blocker['clean_prob_or_absent']*100:.2f}%" if isinstance(blocker['clean_prob_or_absent'], float) else blocker['clean_prob_or_absent']
+                blocker_data.append({
+                    "Token": blocker["token"],
+                    "Baseline Prob": c_prob,
+                    "Baseline Rank": blocker["clean_rank_or_absent"],
+                    "New Prob": f"{blocker['new_prob']*100:.2f}%",
+                    "New Rank": blocker["new_rank"]
+                })
+            st.table(blocker_data)
+        else:
+            st.write("✅ No new blocker tokens detected.")
+            
+        run_record = {
+            "run_id": len(st.session_state["history"]) + 1,
+            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "mode": "Weighted Multi-Competitor Reduction",
+            "layer": layer,
+            "prompt": prompt_7,
+            "target": target_7,
+            "max_strength": max_strength_7,
+            "top_n": top_n_7,
+            "baseline_top1": res["competitors"][0]["token"] if res["competitors"] else target_str,
+            "baseline_target_prob": f"{res['target_clean_prob']*100:.2f}%",
+            "final_top1": res["competitors"][0]["token"] if res["competitors"] else target_str,
+            "final_target_prob": f"{res['target_new_prob']*100:.2f}%",
+            "success": res["is_safe"],
+            "weighted_reduction_details": res
+        }
+        st.session_state["history"].append(run_record)
+        st.success("Run saved to Session History!")
+
 # --- TAB 6: Session History & Benchmarks ---
 with tab6:
     st.header("Session History & Benchmarks")
@@ -845,14 +936,15 @@ with tab6:
                 
                 # Check for detail list
                 detail_key = None
-                for k in ["rounds_detail", "batch_details", "boost_details", "hybrid_details"]:
+                for k in ["rounds_detail", "batch_details", "boost_details", "hybrid_details", "weighted_reduction_details"]:
                     if k in rec:
                         detail_key = k
                         break
                 
                 if detail_key and rec[detail_key]:
                     st.markdown("**Detailed Steps / Variations:**")
-                    for i, step in enumerate(rec[detail_key]):
+                    steps_list = rec[detail_key] if isinstance(rec[detail_key], list) else [rec[detail_key]]
+                    for i, step in enumerate(steps_list):
                         if detail_key == "rounds_detail":
                             label = f"Round {step.get('round', i)} | Target Prob: {step.get('target_prob')}"
                             exp_desc = f"Ablated features: `{step.get('ablated_features', [])}`"
@@ -865,6 +957,9 @@ with tab6:
                         elif detail_key == "hybrid_details":
                             label = f"Mute {step.get('mute_batch_size', '')} features | Boost {step.get('boost_batch_size', '')} features | Target Prob: {step.get('target_prob')}"
                             exp_desc = f"Muted: `{step.get('mute_features', [])}` | Boosted: `{step.get('boost_features', [])}`"
+                        elif detail_key == "weighted_reduction_details":
+                            label = f"Weighted Reduction | Clean Rank: {step.get('target_clean_rank')} -> New Rank: {step.get('target_new_rank')}"
+                            exp_desc = f"Max Strength: {rec.get('max_strength')} | Muted features: `{step.get('feature_to_strength', {})}`"
                         else:
                             label = f"Step {i}"
                             exp_desc = ""

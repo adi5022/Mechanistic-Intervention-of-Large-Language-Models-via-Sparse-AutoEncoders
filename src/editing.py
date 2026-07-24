@@ -397,4 +397,154 @@ def check_combination_safe(
     }
 
 
+def make_weighted_ablation_hook(feature_to_strength: dict[int, float], sae):
+    """
+    Creates a joint ablation hook where each feature can have a different ablation strength.
+    """
+    def hook_fn(resid, hook):
+        if not feature_to_strength:
+            return resid
+            
+        feature_acts = sae.encode(resid)
+        baseline_reconstructed = sae.decode(feature_acts)
+        
+        modified_acts = feature_acts.clone()
+        for fid, strength in feature_to_strength.items():
+            modified_acts[..., fid] = modified_acts[..., fid] * (1.0 - strength)
+            
+        reconstructed = sae.decode(modified_acts)
+        delta = reconstructed - baseline_reconstructed
+        return resid + delta
+        
+    return hook_fn
+
+
+def run_weighted_multi_competitor_reduction(
+    model, sae, prompt: str, target_token_id: int, max_strength: float = 0.7, top_n_candidates: int = 20
+) -> dict:
+    """
+    Identifies all tokens currently ranked above the target.
+    Finds each competitor's best driving feature and mutes it in proportion to its threat.
+    """
+    tokens = model.to_tokens(prompt)
+    hook_name = getattr(sae.cfg, "hook_name", HOOK_NAME)
+    
+    # 1. Clean baseline pass
+    model.reset_hooks()
+    with torch.no_grad():
+        clean_logits = model(tokens)
+        clean_probs = F.softmax(clean_logits[0, -1, :], dim=-1)
+        
+    clean_target_prob = clean_probs[target_token_id].item()
+    clean_sorted_indices = torch.argsort(clean_probs, descending=True)
+    clean_rank = (clean_sorted_indices == target_token_id).nonzero().item() + 1
+    
+    # 2. Identify all competitor tokens currently ranked above the target
+    competitor_token_ids = clean_sorted_indices[:clean_rank - 1].tolist()
+    
+    competitors_data = []
+    total_competitor_prob = 0.0
+    
+    for tok_id in competitor_token_ids:
+        tok_str = model.to_string([tok_id])
+        tok_prob = clean_probs[tok_id].item()
+        total_competitor_prob += tok_prob
+        
+        # Get the top driver feature
+        top_features = get_top_competitor_features(model, sae, prompt, tok_id, top_n=top_n_candidates)
+        if top_features:
+            best_fid, best_delta = top_features[0]
+        else:
+            best_fid, best_delta = None, 0.0
+            
+        competitors_data.append({
+            "token": tok_str,
+            "token_id": tok_id,
+            "probability": tok_prob,
+            "top_feature": best_fid,
+            "feature_delta": best_delta
+        })
+        
+    # 3. Calculate weights and strengths (using maximum of computed strengths if a feature is shared)
+    feature_to_strength = {}
+    for comp in competitors_data:
+        fid = comp["top_feature"]
+        if fid is None:
+            continue
+        weight = comp["probability"] / total_competitor_prob if total_competitor_prob > 0 else 0.0
+        mute_strength = weight * max_strength
+        feature_to_strength[fid] = max(feature_to_strength.get(fid, 0.0), mute_strength)
+        
+    # 4. Apply all selected features simultaneously
+    model.reset_hooks()
+    weighted_hook = make_weighted_ablation_hook(feature_to_strength, sae)
+    model.add_hook(hook_name, weighted_hook)
+    
+    with torch.no_grad():
+        new_logits = model(tokens)
+        new_probs = F.softmax(new_logits[0, -1, :], dim=-1)
+        
+    model.reset_hooks()
+    
+    new_target_prob = new_probs[target_token_id].item()
+    new_sorted_indices = torch.argsort(new_probs, descending=True)
+    new_rank = (new_sorted_indices == target_token_id).nonzero().item() + 1
+    
+    # 5. Safety checks (Blocker detection)
+    top_k = 10
+    clean_top_k_indices = clean_sorted_indices[:top_k]
+    clean_top_k_ids = [idx.item() for idx in clean_top_k_indices]
+    clean_id_to_rank = {idx: r for r, idx in enumerate(clean_top_k_ids, start=1)}
+    clean_id_to_prob = {idx: clean_probs[idx].item() for idx in clean_top_k_ids}
+    
+    new_top_k_indices = new_sorted_indices[:top_k]
+    new_top_k_probs_list = [new_probs[idx].item() for idx in new_top_k_indices]
+    new_top_k_tokens = [model.to_string([idx.item()]) for idx in new_top_k_indices]
+    new_top_k_ids = [idx.item() for idx in new_top_k_indices]
+    
+    new_blockers = []
+    for i, tok_id in enumerate(new_top_k_ids):
+        new_tok_rank = i + 1
+        if new_tok_rank >= new_rank:
+            continue
+            
+        tok_str = new_top_k_tokens[i]
+        new_tok_prob = new_top_k_probs_list[i]
+        
+        clean_tok_rank_val = (clean_sorted_indices == tok_id).nonzero().item() + 1
+        clean_tok_prob_val = clean_probs[tok_id].item()
+        
+        in_clean_top_k = tok_id in clean_id_to_rank
+        clean_rank_report = clean_tok_rank_val if in_clean_top_k else "absent"
+        clean_prob_report = clean_tok_prob_val if in_clean_top_k else "absent"
+        
+        # Blocker condition: must have been ranked below the target in clean baseline
+        if clean_tok_rank_val > clean_rank:
+            new_blockers.append({
+                "token": tok_str,
+                "clean_prob_or_absent": clean_prob_report,
+                "new_prob": new_tok_prob,
+                "clean_rank_or_absent": clean_rank_report,
+                "new_rank": new_tok_rank
+            })
+            
+    is_safe = False
+    if new_rank == 1:
+        is_safe = True
+    elif len(new_blockers) == 0 and new_rank <= clean_rank:
+        is_safe = True
+        
+    return {
+        "is_safe": is_safe,
+        "target_clean_rank": clean_rank,
+        "target_new_rank": new_rank,
+        "target_clean_prob": clean_target_prob,
+        "target_new_prob": new_target_prob,
+        "new_blockers": new_blockers,
+        "competitors": competitors_data,
+        "feature_to_strength": feature_to_strength
+    }
+
+
+
 
