@@ -14,6 +14,7 @@ from src.editing import (
     check_boost_safe,
     check_combination_safe,
     run_weighted_multi_competitor_reduction,
+    run_weighted_multi_feature_competitor_reduction,
 )
 
 from src.hooks import (
@@ -22,8 +23,33 @@ from src.hooks import (
     make_signed_ablation_hook,
 )
 
+import requests
 
-st.set_page_config(page_title="FeatureScalpel — Experimentation Bench", layout="wide")
+@st.cache_data(ttl=3600)
+def get_neuronpedia_explanation(feature_id: int, layer: int) -> str:
+    if feature_id is None:
+        return "None"
+    try:
+        url = f"https://neuronpedia.org/api/feature/gpt2-small/{layer}-res-jb/{feature_id}"
+        r = requests.get(url, timeout=2)
+        if r.status_code == 200:
+            data = r.json()
+            explanations = data.get("explanations", [])
+            if explanations:
+                return explanations[0].get("description", "No description available")
+    except Exception:
+        pass
+    return "Explanation unavailable"
+
+def make_feature_hover_link(feature_id: int, layer: int) -> str:
+    if feature_id is None:
+        return "None"
+    explanation = get_neuronpedia_explanation(feature_id, layer)
+    url = f"https://www.neuronpedia.org/gpt2-small/{layer}-res-jb/{feature_id}"
+    return f'<a href="{url}" target="_blank" title="Neuronpedia: {explanation}">Feature {feature_id}</a>'
+
+
+st.set_page_config(page_title="FeatureScalpel — Experimentation Bench", page_icon="🧪", layout="wide")
 
 st.title("FeatureScalpel — Experimentation & Benchmarking Bench")
 
@@ -43,15 +69,21 @@ with st.spinner(f"Loading Model & SAE for Layer {layer}..."):
 
 hook_name = getattr(sae.cfg, "hook_name", f"blocks.{layer}.hook_resid_pre")
 
-# Tabs setup (7 tabs including Session History)
-tab1, tab2, tab3, tab4, tab5, tab7, tab6 = st.tabs([
-    "Single-Trace Iterative Ablation (Mute)",
-    "Compound Batch Test (Mute)",
-    "Target Feature Boost (Amplify)",
-    "Hybrid Mute & Boost (Dual)",
-    "Safety-Filtered Ablation (Filter)",
-    "Weighted Multi-Competitor Reduction (Weighted)",
-    "Session History & Benchmarks"
+st.sidebar.markdown("---")
+st.sidebar.subheader("🤖 Explainable AI Layer")
+enable_xai = st.sidebar.checkbox("Enable AI Explanations (Groq)", value=False)
+groq_key_input = st.sidebar.text_input("Groq API Key", type="password", value="")
+
+# Tabs setup (8 tabs including Session History)
+tab1, tab2, tab3, tab4, tab5, tab7, tab8, tab6 = st.tabs([
+    "🧪 Single-trace iterative ablation",
+    "📦 Compound batch test",
+    "⚡ Target feature boost",
+    "🔄 Hybrid mute and boost",
+    "🛡️ Safety-filtered ablation",
+    "⚖️ Weighted multi-competitor reduction",
+    "🎛️ Weighted multi-feature competitor reduction",
+    "📊 Session history and benchmarks"
 ])
 
 
@@ -146,7 +178,7 @@ with tab1:
                 if use_safety_1:
                     is_safe, t_delta = check_target_safe(model, sae, prompt_1, fid, target_token_id, strength=strength_1)
                     if not is_safe:
-                        st.write(f"❌ Feature `{fid}` skipped: harms target token by `{t_delta*100:.2f}%`.")
+                        st.markdown(f"❌ {make_feature_hover_link(fid, layer)} skipped: harms target token by `{t_delta*100:.2f}%`.", unsafe_allow_html=True)
                         continue
                 selected_feature = fid
                 selected_delta = delta
@@ -231,7 +263,7 @@ with tab2:
                 if is_safe:
                     safe_ranked_ids.append(fid)
                 else:
-                    st.write(f"❌ Feature `{fid}` excluded from batch candidate pool (harms target by `{t_delta*100:.2f}%`).")
+                    st.markdown(f"❌ {make_feature_hover_link(fid, layer)} excluded from batch candidate pool (harms target by `{t_delta*100:.2f}%`).", unsafe_allow_html=True)
             else:
                 safe_ranked_ids.append(fid)
         ranked_ids = safe_ranked_ids
@@ -499,7 +531,7 @@ with tab4:
                 if is_safe:
                     comp_ids.append(fid)
                 else:
-                    st.write(f"❌ Competitor Feature `{fid}` excluded from mute pool (harms target token).")
+                    st.markdown(f"❌ Competitor {make_feature_hover_link(fid, layer)} excluded from mute pool (harms target token).", unsafe_allow_html=True)
             else:
                 comp_ids.append(fid)
         
@@ -511,7 +543,7 @@ with tab4:
                 if is_safe:
                     target_ids.append(fid)
                 else:
-                    st.write(f"❌ Target Feature `{fid}` excluded from boost pool (amplifies competitor, degrading target rank).")
+                    st.markdown(f"❌ Target {make_feature_hover_link(fid, layer)} excluded from boost pool (amplifies competitor, degrading target rank).", unsafe_allow_html=True)
             else:
                 target_ids.append(fid)
 
@@ -621,6 +653,48 @@ with tab4:
         st.session_state["history"].append(run_record)
         st.success("Run saved to Session History!")
 
+        if enable_xai:
+            st.markdown("---")
+            st.subheader("🤖 Explainable AI Analysis")
+            with st.spinner("Generating mechanistic explanation..."):
+                from src.explain import generate_mechanistic_explanation
+                interventions = []
+                unique_mutes = set()
+                unique_boosts = set()
+                for hd in hybrid_details:
+                    for fid in hd.get("mute_features", []):
+                        unique_mutes.add(fid)
+                    for fid in hd.get("boost_features", []):
+                        unique_boosts.add(fid)
+                for fid in unique_mutes:
+                    interventions.append({
+                        "feature_id": fid,
+                        "description": get_neuronpedia_explanation(fid, layer),
+                        "action": "muted",
+                        "strength": strength_mute_4
+                    })
+                for fid in unique_boosts:
+                    interventions.append({
+                        "feature_id": fid,
+                        "description": get_neuronpedia_explanation(fid, layer),
+                        "action": "boosted",
+                        "strength": strength_boost_4
+                    })
+                
+                # Determine baseline and final rank
+                baseline_rank_val = (torch.argsort(probs, descending=True) == target_token_id).nonzero().item() + 1
+                explanation = generate_mechanistic_explanation(
+                    prompt=prompt_4,
+                    target=target_4,
+                    baseline_prob=baseline_target_prob,
+                    baseline_rank=baseline_rank_val,
+                    final_prob=best_final_target_prob,
+                    final_rank=baseline_rank_val, # approximation
+                    interventions=interventions,
+                    api_key=groq_key_input
+                )
+                st.info(explanation, icon=":material/psychology:")
+
 # --- TAB 5: Safety-Filtered Ablation (Filter) ---
 with tab5:
     st.header("Safety-Filtered Iterative Ablation")
@@ -718,13 +792,13 @@ with tab5:
                 if is_safe:
                     selected_feature = fid
                     selected_delta = delta
-                    skipped_log.append(f"✅ **Feature {fid}**: SAFE (target prob change: `+{t_delta*100:.2f}%`). Selected.")
+                    skipped_log.append(f"✅ **{make_feature_hover_link(fid, layer)}**: SAFE (target prob change: `+{t_delta*100:.2f}%`). Selected.")
                     break
                 else:
-                    skipped_log.append(f"❌ **Feature {fid}**: SKIPPED (harms target token: `{t_delta*100:.2f}%`).")
+                    skipped_log.append(f"❌ **{make_feature_hover_link(fid, layer)}**: SKIPPED (harms target token: `{t_delta*100:.2f}%`).")
                     
             for log_entry in skipped_log:
-                st.markdown(log_entry)
+                st.markdown(log_entry, unsafe_allow_html=True)
                 
             if selected_feature is None:
                 st.info("No more safe competitor features available to ablate.")
@@ -810,7 +884,11 @@ with tab7:
                 "Mute Strength": f"{res['feature_to_strength'].get(comp['top_feature'], 0.0):.4f}"
             })
         if comp_rows:
-            st.table(comp_rows)
+            df_comp = pd.DataFrame(comp_rows)
+            df_comp["Driving Feature ID"] = df_comp["Driving Feature ID"].apply(
+                lambda fid: make_feature_hover_link(fid, layer) if fid is not None else "None"
+            )
+            st.markdown(df_comp.to_html(escape=False, index=False), unsafe_allow_html=True)
         else:
             st.write("No competitors ranked above the target.")
             
@@ -848,6 +926,219 @@ with tab7:
         }
         st.session_state["history"].append(run_record)
         st.success("Run saved to Session History!")
+
+        if enable_xai:
+            st.markdown("---")
+            st.subheader("🤖 Explainable AI Analysis")
+            with st.spinner("Generating mechanistic explanation..."):
+                from src.explain import generate_mechanistic_explanation
+                interventions = []
+                for fid, strength in res["feature_to_strength"].items():
+                    interventions.append({
+                        "feature_id": fid,
+                        "description": get_neuronpedia_explanation(fid, layer),
+                        "action": "muted",
+                        "strength": strength
+                    })
+                explanation = generate_mechanistic_explanation(
+                    prompt=prompt_7,
+                    target=target_7,
+                    baseline_prob=res["target_clean_prob"],
+                    baseline_rank=res["target_clean_rank"],
+                    final_prob=res["target_new_prob"],
+                    final_rank=res["target_new_rank"],
+                    interventions=interventions,
+                    api_key=groq_key_input
+                )
+                st.info(explanation, icon=":material/psychology:")
+
+# --- TAB 8: Weighted Multi-Feature Competitor Reduction ---
+with tab8:
+    st.header("Weighted Multi-Feature Competitor Reduction")
+    st.markdown("Distributes competitor weights across their Top-K causal features and aggregates them to test distributed representations.")
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        prompt_8 = st.text_input("Prompt", "The location of Massachusetts Institute of Technology is in", key="t8_prompt")
+        target_8 = st.text_input("Target Completion", "Cambridge", key="t8_target")
+        max_strength_8 = st.slider("Max Mute Strength", min_value=0.0, max_value=1.0, value=0.7, step=0.05, key="t8_max_strength")
+    with col2:
+        top_n_8 = st.number_input("Top N Candidate Features", value=20, min_value=1, step=1, key="t8_topn")
+        top_k_8 = st.number_input("Top-K Features Per Competitor", value=3, min_value=1, step=1, key="t8_topk")
+        weighting_method_8 = st.selectbox("Weighting Method", options=["equal", "delta_normalized", "softmax"], index=1, key="t8_weighting_method")
+        
+        softmax_temp_8 = 1.0
+        if weighting_method_8 == "softmax":
+            softmax_temp_8 = st.number_input("Softmax Temperature", value=1.0, step=0.1, key="t8_temp")
+            
+    if st.button("Run Multi-Feature Reduction", key="btn_t8"):
+        target_str = target_8 if target_8.startswith(" ") else " " + target_8
+        tokens = model.to_tokens(prompt_8)
+        target_token_id = get_target_token_id(model, target_str)
+        
+        with st.spinner("Running weighted multi-feature competitor reduction..."):
+            res = run_weighted_multi_feature_competitor_reduction(
+                model, sae, prompt_8, target_token_id,
+                max_strength=max_strength_8, top_n_candidates=int(top_n_8),
+                top_k_features_per_competitor=int(top_k_8),
+                feature_weighting_method=weighting_method_8,
+                softmax_temperature=softmax_temp_8
+            )
+            
+        st.subheader("Target Results")
+        res_col1, res_col2 = st.columns(2)
+        with res_col1:
+            st.metric(label="Target Clean Rank", value=res["target_clean_rank"])
+            st.metric(label="Target Clean Prob", value=f"{res['target_clean_prob']*100:.4f}%")
+        with res_col2:
+            st.metric(label="Target New Rank", value=res["target_new_rank"])
+            st.metric(label="Target New Prob", value=f"{res['target_new_prob']*100:.4f}%")
+            
+        if res["is_safe"]:
+            st.success("✅ Combination is SAFE: Target rank did not regress and no new blockers detected.")
+        else:
+            st.warning("⚠️ Combination is UNSAFE: Target rank regressed or new blockers detected.")
+            
+        st.subheader("Per-Competitor Breakdown")
+        for comp in res["competitors"]:
+            comp_weight = comp["probability"] / sum(c["probability"] for c in res["competitors"]) if res["competitors"] else 0.0
+            with st.expander(f"Competitor '{comp['token']}' | Prob: {comp['probability']*100:.2f}% | Comp Weight: {comp_weight:.4f}"):
+                feat_rows = []
+                for feat in comp.get("features", []):
+                    feat_rows.append({
+                        "Feature ID": feat["feature_id"],
+                        "Delta Prob": f"{feat['delta']:.6f}",
+                        "Within-Competitor Weight": f"{feat['within_competitor_weight']:.4f}",
+                        "Joint Weight": f"{feat['joint_weight']:.4f}"
+                    })
+                if feat_rows:
+                    df_feat = pd.DataFrame(feat_rows)
+                    df_feat["Feature ID"] = df_feat["Feature ID"].apply(
+                        lambda fid: make_feature_hover_link(fid, layer) if fid is not None else "None"
+                    )
+                    st.markdown(df_feat.to_html(escape=False, index=False), unsafe_allow_html=True)
+                else:
+                    st.write("No features driving this competitor.")
+
+        st.subheader("Merged Feature Table")
+        merged_rows = []
+        for fid, strength in res["feature_to_strength"].items():
+            contributors = res["feature_to_contributors"].get(fid, [])
+            sat_info = res["saturated"].get(fid, {"saturated": False, "before": strength, "after": strength})
+            merged_rows.append({
+                "Feature ID": fid,
+                "Number of Contributors": len(contributors),
+                "Final Accumulated Strength": f"{strength:.6f}",
+                "Saturated": "True" if sat_info["saturated"] else "False",
+                "Raw Strength (Before Clamp)": f"{sat_info['before']:.6f}"
+            })
+        if merged_rows:
+            df_merged = pd.DataFrame(merged_rows)
+            df_merged["Feature ID"] = df_merged["Feature ID"].apply(
+                lambda fid: make_feature_hover_link(fid, layer) if fid is not None else "None"
+            )
+            st.markdown(df_merged.to_html(escape=False, index=False), unsafe_allow_html=True)
+        else:
+            st.write("No muted features.")
+            
+        st.subheader("Contributor Details per Merged Feature")
+        for fid, contributors in res["feature_to_contributors"].items():
+            with st.expander(f"Feature {fid} | {len(contributors)} Contributor(s)"):
+                contrib_rows = []
+                for c in contributors:
+                    contrib_rows.append({
+                        "Competitor Token": c["token"],
+                        "Competitor Probability": f"{c['prob']*100:.2f}%",
+                        "Competitor Weight": f"{c['competitor_weight']:.4f}",
+                        "Feature Weight (Within-Comp)": f"{c['feature_weight']:.4f}",
+                        "Joint Weight": f"{c['joint_weight']:.4f}",
+                        "Contribution Strength": f"{c['contrib_strength']:.6f}"
+                    })
+                st.table(contrib_rows)
+
+        if res["new_blockers"]:
+            st.subheader("⚠️ New Blocker Tokens")
+            blocker_data = []
+            for blocker in res["new_blockers"]:
+                c_prob = f"{blocker['clean_prob_or_absent']*100:.2f}%" if isinstance(blocker['clean_prob_or_absent'], float) else blocker['clean_prob_or_absent']
+                blocker_data.append({
+                    "Token": blocker["token"],
+                    "Baseline Prob": c_prob,
+                    "Baseline Rank": blocker["clean_rank_or_absent"],
+                    "New Prob": f"{blocker['new_prob']*100:.2f}%",
+                    "New Rank": blocker["new_rank"]
+                })
+            st.table(blocker_data)
+        else:
+            st.write("✅ No new blocker tokens detected.")
+
+        # Display Resulting Top Predictions (Resulting Top-5 Table)
+        model.reset_hooks()
+        weighted_hook = make_weighted_ablation_hook(res["feature_to_strength"], sae)
+        model.add_hook(hook_name, weighted_hook)
+        with torch.no_grad():
+            new_logits = model(tokens)
+            new_probs = F.softmax(new_logits[0, -1, :], dim=-1)
+        model.reset_hooks()
+        new_sorted_indices = torch.argsort(new_probs, descending=True)
+        table_data = []
+        for rank_idx, idx in enumerate(new_sorted_indices[:5], 1):
+            tok_str = model.to_string([idx.item()])
+            tok_prob = new_probs[idx].item()
+            table_data.append({
+                "Rank": rank_idx,
+                "Prediction": tok_str,
+                "Probability": f"{tok_prob*100:.2f}%"
+            })
+        st.subheader("Post-Intervention Predictions")
+        st.table(table_data)
+
+        run_record = {
+            "run_id": len(st.session_state["history"]) + 1,
+            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "mode": "Weighted Multi-Feature Competitor Reduction",
+            "layer": layer,
+            "prompt": prompt_8,
+            "target": target_8,
+            "max_strength": max_strength_8,
+            "top_n": top_n_8,
+            "top_k": top_k_8,
+            "feature_weighting_method": weighting_method_8,
+            "softmax_temperature": softmax_temp_8,
+            "baseline_top1": res["competitors"][0]["token"] if res["competitors"] else target_str,
+            "baseline_target_prob": f"{res['target_clean_prob']*100:.2f}%",
+            "final_top1": table_data[0]["Prediction"] if table_data else target_str,
+            "final_target_prob": f"{res['target_new_prob']*100:.2f}%",
+            "success": res["is_safe"],
+            "weighted_reduction_details": res
+        }
+        st.session_state["history"].append(run_record)
+        st.success("Run saved to Session History!")
+
+        if enable_xai:
+            st.markdown("---")
+            st.subheader("🤖 Explainable AI Analysis")
+            with st.spinner("Generating mechanistic explanation..."):
+                from src.explain import generate_mechanistic_explanation
+                interventions = []
+                for fid, strength in res["feature_to_strength"].items():
+                    interventions.append({
+                        "feature_id": fid,
+                        "description": get_neuronpedia_explanation(fid, layer),
+                        "action": "muted",
+                        "strength": strength
+                    })
+                explanation = generate_mechanistic_explanation(
+                    prompt=prompt_8,
+                    target=target_8,
+                    baseline_prob=res["target_clean_prob"],
+                    baseline_rank=res["target_clean_rank"],
+                    final_prob=res["target_new_prob"],
+                    final_rank=res["target_new_rank"],
+                    interventions=interventions,
+                    api_key=groq_key_input
+                )
+                st.info(explanation, icon=":material/psychology:")
 
 # --- TAB 6: Session History & Benchmarks ---
 with tab6:

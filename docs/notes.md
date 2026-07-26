@@ -20,3 +20,20 @@
 * Implemented **Weighted Multi-Competitor Reduction** to mute all above-target competitor features simultaneously, weighted by their threat level.
 * Discovered **Shared-Feature Collapsing** during the Cambridge test case: 7 grammatical competitors collapsed onto only 2 unique features (313 and 21169).
 * Formulated the **Distributed Support (Loudspeaker) Hypothesis**: grammatical/functional tokens are supported by many independent features in the network. Muting only the top representative feature is insufficient for highly distributed competitors, pointing to a subspace-based intervention requirement (see [Research Journal Entry 4](file:///d:/Work/PROJECTS/FeatureScalpel/docs/Research_Journal/4.md)).
+
+## 2026-07-25: Diagnostic Investigation of Rank Regression
+* Investigated rank regression (target rank dropping on larger combinations despite rising target probabilities) in the Hybrid Mute & Boost tab during the Cambridge MIT case sweep.
+* Rejected Option A (implementation bugs/state leaks) via independent clean baseline verification, validating hook manager integrity.
+* Confirmed Option B (mathematical consequence of softmax interaction): boosting polysemantic features (e.g. Feature 24181) amplifies competitor tokens faster than target tokens, leading to relative probability suppression. Documented findings in [Research Journal Entry 5](file:///d:/Work/PROJECTS/FeatureScalpel/docs/Research_Journal/5.md).
+
+## 2026-07-25 (Session 2): Shared Feature Aggregation Experiment
+* Conducted Experiment H10 (Shared Feature Aggregation) in Weighted Multi-Competitor Reduction.
+* Replaced max-aggregation with additive sum-accumulation followed by clamping at the `max_strength` ceiling.
+* Rejected Hypothesis H10: Changing aggregation from max() to additive accumulation did not materially improve intervention performance despite substantially increasing Feature 313 mute strength from 0.284 to 0.492 (~73% stronger intervention).
+* Concluded that the strongest identified SAE feature alone is insufficient to substantially suppress these competitors. This motivated a new hypothesis (H11) that competitor support is distributed across multiple features (see [Research Journal Entry 6](file:///d:/Work/PROJECTS/FeatureScalpel/docs/Research_Journal/6.md)).
+
+## 2026-07-25 (Session 3): Multi-Feature Representation Diagnostic
+* Conducted Experiment H11 (Multi-Feature Representation Diagnostic) to measure the concentration of competitor representation across SAE features.
+* Verified that `prob_delta` is a post-softmax probability difference and is therefore not additive for cumulative attribution analysis.
+* Measured decay profiles: Factual competitors (e.g. `" question"`, `" doubt"`) exhibit extremely flat decay profiles (Top-2 feature drops are 92.3% - 94.7% of the Top-1 drop), supporting H11. Grammatical competitors (e.g. `" the"`, `" a"`) show steep decay (~33% - 40%), indicating concentration on a single dominant shared feature (Feature 313).
+* Confirmed 100% feature overlap: within the discovered Top-10 features, every identified feature was shared by multiple competitors (see [Research Journal Entry 7](file:///d:/Work/PROJECTS/FeatureScalpel/docs/Research_Journal/7.md)).

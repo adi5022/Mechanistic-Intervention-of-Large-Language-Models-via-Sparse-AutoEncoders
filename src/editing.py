@@ -465,15 +465,41 @@ def run_weighted_multi_competitor_reduction(
             "feature_delta": best_delta
         })
         
-    # 3. Calculate weights and strengths (using maximum of computed strengths if a feature is shared)
-    feature_to_strength = {}
+    # 3. Calculate weights and strengths using additive accumulation (Experiment H10)
+    feature_to_raw_strength = {}
+    feature_to_contributors = {}
     for comp in competitors_data:
         fid = comp["top_feature"]
         if fid is None:
             continue
         weight = comp["probability"] / total_competitor_prob if total_competitor_prob > 0 else 0.0
         mute_strength = weight * max_strength
-        feature_to_strength[fid] = max(feature_to_strength.get(fid, 0.0), mute_strength)
+        if fid not in feature_to_raw_strength:
+            feature_to_raw_strength[fid] = 0.0
+            feature_to_contributors[fid] = []
+        feature_to_raw_strength[fid] += mute_strength
+        feature_to_contributors[fid].append({
+            "token": comp["token"],
+            "prob": comp["probability"],
+            "weight": weight,
+            "contrib_strength": mute_strength
+        })
+        
+    feature_to_strength = {}
+    print("\n=== EXPERIMENT H10 DIAGNOSTICS ===")
+    for fid, raw_strength in feature_to_raw_strength.items():
+        contributors = feature_to_contributors[fid]
+        final_strength = min(raw_strength, max_strength)
+        saturated = raw_strength > max_strength
+        print(f"Feature {fid}\n")
+        print("Contributors:")
+        for c in contributors:
+            print(f"    {c['token']} : {c['contrib_strength']:.6f} (Prob: {c['prob']*100:.4f}%, Weight: {c['weight']:.4f})")
+        print(f"\nBefore clamp:\n{raw_strength:.6f}")
+        print(f"\nAfter clamp:\n{final_strength:.6f}")
+        print(f"\nSaturated:\n{saturated}\n")
+        
+        feature_to_strength[fid] = final_strength
         
     # 4. Apply all selected features simultaneously
     model.reset_hooks()
@@ -544,6 +570,195 @@ def run_weighted_multi_competitor_reduction(
         "competitors": competitors_data,
         "feature_to_strength": feature_to_strength
     }
+
+
+def run_weighted_multi_feature_competitor_reduction(
+    model, sae, prompt: str, target_token_id: int,
+    max_strength: float = 0.7,
+    top_n_candidates: int = 20,
+    top_k_features_per_competitor: int = 3,
+    feature_weighting_method: str = "delta_normalized",  # "equal" | "delta_normalized" | "softmax"
+    softmax_temperature: float = 1.0,
+) -> dict:
+    """
+    For each competitor above the target, take its top-K driving features,
+    distribute that competitor's weight across those K features according to `feature_weighting_method`,
+    then aggregate (sum) across all competitors per feature.
+    """
+    tokens = model.to_tokens(prompt)
+    hook_name = getattr(sae.cfg, "hook_name", HOOK_NAME)
+
+    model.reset_hooks()
+    with torch.no_grad():
+        clean_logits = model(tokens)
+        clean_probs = F.softmax(clean_logits[0, -1, :], dim=-1)
+
+    clean_target_prob = clean_probs[target_token_id].item()
+    clean_sorted_indices = torch.argsort(clean_probs, descending=True)
+    clean_rank = (clean_sorted_indices == target_token_id).nonzero().item() + 1
+
+    competitor_token_ids = clean_sorted_indices[:clean_rank - 1].tolist()
+    total_competitor_prob = sum(clean_probs[t].item() for t in competitor_token_ids)
+
+    competitors_data = []
+    feature_to_raw_strength: dict[int, float] = {}
+    feature_to_contributors: dict[int, list] = {}
+
+    for tok_id in competitor_token_ids:
+        tok_str = model.to_string([tok_id])
+        tok_prob = clean_probs[tok_id].item()
+        competitor_weight = tok_prob / total_competitor_prob if total_competitor_prob > 0 else 0.0
+
+        # Get top-K driving features for THIS competitor
+        ranked_features = get_top_competitor_features(model, sae, prompt, tok_id, top_n=top_n_candidates)
+        top_k = ranked_features[:top_k_features_per_competitor]
+
+        if not top_k:
+            competitors_data.append({"token": tok_str, "probability": tok_prob, "features": []})
+            continue
+
+        deltas = [abs(delta) for _, delta in top_k]  # magnitude of causal effect
+        if feature_weighting_method == "equal":
+            feature_weights = [1.0 / len(top_k)] * len(top_k)
+        elif feature_weighting_method == "delta_normalized":
+            total_delta = sum(deltas) or 1e-9
+            feature_weights = [d / total_delta for d in deltas]
+        elif feature_weighting_method == "softmax":
+            import math
+            scaled = [d / softmax_temperature for d in deltas]
+            m = max(scaled)
+            exps = [math.exp(s - m) for s in scaled]  # numerically stable
+            total_exp = sum(exps)
+            feature_weights = [e / total_exp for e in exps]
+        else:
+            raise ValueError(f"Unknown weighting method: {feature_weighting_method}")
+
+        feature_entries = []
+        for (fid, delta), fw in zip(top_k, feature_weights):
+            joint_weight = competitor_weight * fw
+            mute_strength = joint_weight * max_strength
+            
+            feature_to_raw_strength[fid] = feature_to_raw_strength.get(fid, 0.0) + mute_strength
+            
+            if fid not in feature_to_contributors:
+                feature_to_contributors[fid] = []
+            
+            feature_to_contributors[fid].append({
+                "token": tok_str,
+                "prob": tok_prob,
+                "competitor_weight": competitor_weight,
+                "feature_weight": fw,
+                "joint_weight": joint_weight,
+                "contrib_strength": mute_strength
+            })
+            
+            feature_entries.append({
+                "feature_id": fid,
+                "delta": delta,
+                "within_competitor_weight": fw,
+                "joint_weight": joint_weight
+            })
+
+        competitors_data.append({
+            "token": tok_str,
+            "probability": tok_prob,
+            "features": feature_entries
+        })
+
+    # Clamp each feature's final accumulated strength to max_strength
+    feature_to_strength = {}
+    saturated = {}
+    
+    print("\n=== EXPERIMENT H11 DIAGNOSTICS ===")
+    for fid, raw_strength in feature_to_raw_strength.items():
+        contributors = feature_to_contributors[fid]
+        final_strength = min(raw_strength, max_strength)
+        saturated_flag = raw_strength > max_strength
+        
+        print(f"Feature {fid}\n")
+        print("Contributors:")
+        for c in contributors:
+            print(f"    {c['token']} : {c['contrib_strength']:.6f} (Prob: {c['prob']*100:.4f}%, CompWeight: {c['competitor_weight']:.4f}, FeatWeight: {c['feature_weight']:.4f})")
+        print(f"\nBefore clamp:\n{raw_strength:.6f}")
+        print(f"\nAfter clamp:\n{final_strength:.6f}")
+        print(f"\nSaturated:\n{saturated_flag}\n")
+        
+        feature_to_strength[fid] = final_strength
+        saturated[fid] = {
+            "saturated": saturated_flag,
+            "before": raw_strength,
+            "after": final_strength
+        }
+
+    # Apply weighted hook
+    model.reset_hooks()
+    weighted_hook = make_weighted_ablation_hook(feature_to_strength, sae)
+    model.add_hook(hook_name, weighted_hook)
+
+    with torch.no_grad():
+        new_logits = model(tokens)
+        new_probs = F.softmax(new_logits[0, -1, :], dim=-1)
+    model.reset_hooks()
+
+    new_target_prob = new_probs[target_token_id].item()
+    new_sorted_indices = torch.argsort(new_probs, descending=True)
+    new_rank = (new_sorted_indices == target_token_id).nonzero().item() + 1
+
+    # Safety checks (Blocker detection)
+    top_k_blocker = 10
+    clean_top_k_indices = clean_sorted_indices[:top_k_blocker]
+    clean_top_k_ids = [idx.item() for idx in clean_top_k_indices]
+    clean_id_to_rank = {idx: r for r, idx in enumerate(clean_top_k_ids, start=1)}
+    
+    new_top_k_indices = new_sorted_indices[:top_k_blocker]
+    new_top_k_probs_list = [new_probs[idx].item() for idx in new_top_k_indices]
+    new_top_k_tokens = [model.to_string([idx.item()]) for idx in new_top_k_indices]
+    new_top_k_ids = [idx.item() for idx in new_top_k_indices]
+    
+    new_blockers = []
+    for i, tok_id in enumerate(new_top_k_ids):
+        new_tok_rank = i + 1
+        if new_tok_rank >= new_rank:
+            continue
+            
+        tok_str = new_top_k_tokens[i]
+        new_tok_prob = new_top_k_probs_list[i]
+        
+        clean_tok_rank_val = (clean_sorted_indices == tok_id).nonzero().item() + 1
+        clean_tok_prob_val = clean_probs[tok_id].item()
+        
+        in_clean_top_k = tok_id in clean_id_to_rank
+        clean_rank_report = clean_tok_rank_val if in_clean_top_k else "absent"
+        clean_prob_report = clean_tok_prob_val if in_clean_top_k else "absent"
+        
+        if clean_tok_rank_val > clean_rank:
+            new_blockers.append({
+                "token": tok_str,
+                "clean_prob_or_absent": clean_prob_report,
+                "new_prob": new_tok_prob,
+                "clean_rank_or_absent": clean_rank_report,
+                "new_rank": new_tok_rank
+            })
+            
+    is_safe = False
+    if new_rank == 1:
+        is_safe = True
+    elif len(new_blockers) == 0 and new_rank <= clean_rank:
+        is_safe = True
+
+    return {
+        "is_safe": is_safe,
+        "new_blockers": new_blockers,
+        "target_clean_rank": clean_rank,
+        "target_clean_prob": clean_target_prob,
+        "target_new_rank": new_rank,
+        "target_new_prob": new_target_prob,
+        "competitors": competitors_data,
+        "feature_to_strength": feature_to_strength,
+        "saturated": saturated,
+        "feature_to_contributors": feature_to_contributors
+    }
+
 
 
 
