@@ -15,6 +15,7 @@ from src.editing import (
     check_combination_safe,
     run_weighted_multi_competitor_reduction,
     run_weighted_multi_feature_competitor_reduction,
+    make_weighted_ablation_hook,
 )
 
 from src.hooks import (
@@ -74,8 +75,8 @@ st.sidebar.subheader("🤖 Explainable AI Layer")
 enable_xai = st.sidebar.checkbox("Enable AI Explanations (Groq)", value=False)
 groq_key_input = st.sidebar.text_input("Groq API Key", type="password", value="")
 
-# Tabs setup (8 tabs including Session History)
-tab1, tab2, tab3, tab4, tab5, tab7, tab8, tab6 = st.tabs([
+# Tabs setup (9 tabs including Towards Monosemanticity Showroom)
+tab1, tab2, tab3, tab4, tab5, tab7, tab8, tab9, tab6 = st.tabs([
     "🧪 Single-trace iterative ablation",
     "📦 Compound batch test",
     "⚡ Target feature boost",
@@ -83,6 +84,7 @@ tab1, tab2, tab3, tab4, tab5, tab7, tab8, tab6 = st.tabs([
     "🛡️ Safety-filtered ablation",
     "⚖️ Weighted multi-competitor reduction",
     "🎛️ Weighted multi-feature competitor reduction",
+    "📚 Towards Monosemanticity",
     "📊 Session history and benchmarks"
 ])
 
@@ -1140,8 +1142,155 @@ with tab8:
                 )
                 st.info(explanation, icon=":material/psychology:")
 
+# --- TAB 9: Towards Monosemanticity Base Paper Implementation ---
+with tab9:
+    st.header("Towards Monosemanticity — Base Paper Baseline Implementation")
+    st.markdown(
+        """
+        Direct implementation of the 3 fundamental diagnostic measurements from **Anthropic (Bricken et al., 2023)**:
+        1. **Feature Activation Spectrum** ($f(x) = \\text{ReLU}(W_{dec}^T(x - b_{dec}) + b_{enc})$)
+        2. **Direct Logit Attribution** ($f_i \\cdot (W_{dec}[:, i] \\cdot W_U)$)
+        3. **SAE Feature Activation Clamping** ($f_i \\leftarrow 0$ or $f_i \\leftarrow C$)
+        """
+    )
+    
+    st.markdown("---")
+    
+    mono_prompt = st.text_input("Input Prompt", "The location of Massachusetts Institute of Technology is in", key="base_paper_prompt")
+    
+    if st.button("Run Base Paper Diagnostics", key="btn_base_paper_diag"):
+        tokens = model.to_tokens(mono_prompt)
+        
+        # 1. Clean forward pass & SAE encoding
+        model.reset_hooks()
+        with torch.no_grad():
+            clean_logits, cache = model.run_with_cache(tokens)
+            clean_probs = F.softmax(clean_logits[0, -1, :], dim=-1)
+            
+            resid_pre = cache[hook_name] # (batch, seq, d_model)
+            sae_acts = sae(resid_pre[0, -1, :]) # (d_sae,)
+            
+        active_mask = sae_acts > 0
+        l0_norm = active_mask.sum().item()
+        
+        st.subheader("1. Feature Activation Spectrum (Sparsity Measurement)")
+        st.metric(label="Active Features Count (L0 Norm)", value=l0_norm, delta=f"out of {sae.cfg.d_sae} total features")
+        
+        top_acts, top_fids = torch.topk(sae_acts, k=10)
+        
+        feat_spectrum = []
+        for fid, act in zip(top_fids.tolist(), top_acts.tolist()):
+            feat_spectrum.append({
+                "Feature ID": fid,
+                "Raw Activation f_i": f"{act:.4f}",
+                "Description": get_neuronpedia_explanation(fid, layer)
+            })
+        df_spectrum = pd.DataFrame(feat_spectrum)
+        df_spectrum["Feature ID"] = df_spectrum["Feature ID"].apply(lambda fid: make_feature_hover_link(fid, layer))
+        st.markdown(df_spectrum.to_html(escape=False, index=False), unsafe_allow_html=True)
+        
+        st.session_state["base_paper_top_fids"] = top_fids.tolist()
+        st.session_state["base_paper_top_acts"] = top_acts.tolist()
+
+    # --- Step 2 & 3: Logit Attribution & Feature Clamping ---
+    if "base_paper_top_fids" in st.session_state:
+        st.markdown("---")
+        st.subheader("2. Direct Logit Attribution (W_dec · W_U)")
+        st.markdown("Measures the exact mathematical projection of an SAE feature's decoder vector onto the model's vocabulary unembedding matrix $W_U$.")
+        
+        selected_fid = st.selectbox(
+            "Select Feature to Inspect Logit Attribution & Clamp",
+            options=st.session_state["base_paper_top_fids"],
+            key="base_selected_fid"
+        )
+        
+        # Calculate W_dec[:, fid] @ W_U
+        # sae.W_dec is (d_sae, d_model), model.W_U is (d_model, d_vocab)
+        w_dec_i = sae.W_dec[selected_fid, :] # (d_model,)
+        with torch.no_grad():
+            logit_promotions = torch.matmul(w_dec_i, model.W_U) # (d_vocab,)
+            
+        top_positive_vals, top_positive_ids = torch.topk(logit_promotions, k=5)
+        top_negative_vals, top_negative_ids = torch.topk(logit_promotions, k=5, largest=False)
+        
+        col_attr1, col_attr2 = st.columns(2)
+        with col_attr1:
+            st.markdown("##### ⬆️ Tokens Promoted by Feature (Positive Logit Weight)")
+            pos_rows = []
+            for tok_id, val in zip(top_positive_ids.tolist(), top_positive_vals.tolist()):
+                pos_rows.append({"Token": model.to_string([tok_id]), "Logit Weight Contribution": f"+{val:.4f}"})
+            st.table(pos_rows)
+            
+        with col_attr2:
+            st.markdown("##### ⬇️ Tokens Suppressed by Feature (Negative Logit Weight)")
+            neg_rows = []
+            for tok_id, val in zip(top_negative_ids.tolist(), top_negative_vals.tolist()):
+                neg_rows.append({"Token": model.to_string([tok_id]), "Logit Weight Contribution": f"{val:.4f}"})
+            st.table(neg_rows)
+
+        st.markdown("---")
+        st.subheader("3. SAE Activation Clamping (Base Paper Steering)")
+        
+        c1, c2 = st.columns(2)
+        with c1:
+            clamp_mode = st.radio("Clamp Mode", options=["Ablate (Clamp f_i = 0)", "Excitatory Pinch (Clamp f_i = C)"], key="base_clamp_mode")
+        with c2:
+            clamp_val = st.slider("Clamping Value (C)", min_value=0.0, max_value=50.0, value=10.0, step=1.0, key="base_clamp_val")
+            
+        if st.button("Run Exact Paper Clamping", key="btn_run_paper_clamp"):
+            tokens = model.to_tokens(mono_prompt)
+            target_val = 0.0 if clamp_mode == "Ablate (Clamp f_i = 0)" else clamp_val
+            
+            # SAE Space Clamping Hook
+            def sae_clamp_hook(module, input, output):
+                # input[0] or output is residual stream tensor (batch, seq, d_model)
+                # Apply SAE encoding, modify feature, decode back
+                x = output[0] if isinstance(output, tuple) else output
+                # Compute feature acts
+                acts = sae(x[0, -1, :])
+                current_act = acts[selected_fid].item()
+                # Difference between target clamped val and current act
+                diff = target_val - current_act
+                # Modify residual vector by diff * W_dec[selected_fid]
+                x[0, -1, :] = x[0, -1, :] + diff * sae.W_dec[selected_fid, :]
+                return output
+                
+            model.reset_hooks()
+            with torch.no_grad():
+                clean_logits = model(tokens)
+                clean_probs = F.softmax(clean_logits[0, -1, :], dim=-1)
+                
+            # Add hook
+            model.add_hook(hook_name, sae_clamp_hook)
+            with torch.no_grad():
+                steered_logits = model(tokens)
+                steered_probs = F.softmax(steered_logits[0, -1, :], dim=-1)
+            model.reset_hooks()
+            
+            st.markdown("#### Clamping Logit & Probability Impact")
+            
+            clean_top5_indices = torch.topk(clean_probs[0, -1, :], k=5).indices.tolist()
+            steered_top5_indices = torch.topk(steered_probs[0, -1, :], k=5).indices.tolist()
+            
+            c_res1, c_res2 = st.columns(2)
+            with c_res1:
+                st.markdown("##### Clean Top 5 Predictions")
+                clean_table = []
+                for rank, idx in enumerate(clean_top_k_indices if 'clean_top_k_indices' in locals() else clean_top5_indices, 1):
+                    clean_table.append({"Rank": rank, "Token": model.to_string([idx]), "Probability": f"{clean_probs[0, -1, idx].item()*100:.2f}%"})
+                st.table(clean_table)
+                
+            with c_res2:
+                st.markdown("##### Steered Top 5 Predictions")
+                steered_table = []
+                for rank, idx in enumerate(steered_top5_indices, 1):
+                    steered_table.append({"Rank": rank, "Token": model.to_string([idx]), "Probability": f"{steered_probs[0, -1, idx].item()*100:.2f}%"})
+                st.table(steered_table)
+
 # --- TAB 6: Session History & Benchmarks ---
 with tab6:
+    st.header("Session History & Benchmarks")
+
     st.header("Session History & Benchmarks")
 
     # File uploader to load past session JSONs
