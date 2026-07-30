@@ -2,6 +2,41 @@ import os
 import requests
 import streamlit as st
 
+
+def query_groq(prompt: str, api_key: str = None, model: str = "llama-3.1-8b-instant", temperature: float = 0.3, max_tokens: int = 150) -> str:
+    """Send a prompt to Groq using the same connection pattern already used by the app."""
+    if not api_key:
+        api_key = os.environ.get("GROQ_API_KEY")
+    if not api_key and "groq" in st.secrets:
+        api_key = st.secrets["groq"].get("api_key")
+
+    if not api_key:
+        return "Configure your GROQ_API_KEY in environment variables or the sidebar to enable AI explanations."
+
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json"
+    }
+
+    payload = {
+        "model": model,
+        "messages": [
+            {"role": "system", "content": "You are a helpful mechanistic interpretability researcher who explains complex neural activations in simple, clear layperson terms."},
+            {"role": "user", "content": prompt}
+        ],
+        "temperature": temperature,
+        "max_tokens": max_tokens
+    }
+
+    try:
+        r = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload, timeout=5)
+        if r.status_code == 200:
+            return r.json()["choices"][0]["message"]["content"].strip()
+        return f"Groq API Error: {r.status_code} - {r.text}"
+    except Exception as e:
+        return f"Failed to connect to Groq: {e}"
+
+
 def generate_mechanistic_explanation(
     prompt: str,
     target: str,
@@ -16,19 +51,6 @@ def generate_mechanistic_explanation(
     Calls the Groq API to translate complex feature activations and interventions
     into a plain-English layperson explanation.
     """
-    if not api_key:
-        api_key = os.environ.get("GROQ_API_KEY")
-    if not api_key and "groq" in st.secrets:
-        api_key = st.secrets["groq"].get("api_key")
-        
-    if not api_key:
-        return "Configure your GROQ_API_KEY in environment variables or the sidebar to enable AI explanations."
-        
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json"
-    }
-    
     intervention_desc = ""
     for inv in interventions:
         action = inv.get("action", "modified")
@@ -53,21 +75,4 @@ Task:
 Write a concise, plain-English summary (2-3 sentences max) explaining what this intervention did and why it worked or failed. Focus on translating the feature descriptions into how they influenced the model's behavior. Do not use complex neural network jargon.
 """
 
-    payload = {
-        "model": "llama-3.1-8b-instant",
-        "messages": [
-            {"role": "system", "content": "You are a helpful mechanistic interpretability researcher who explains complex neural activations in simple, clear layperson terms."},
-            {"role": "user", "content": user_prompt}
-        ],
-        "temperature": 0.3,
-        "max_tokens": 150
-    }
-    
-    try:
-        r = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload, timeout=5)
-        if r.status_code == 200:
-            return r.json()["choices"][0]["message"]["content"].strip()
-        else:
-            return f"Groq API Error: {r.status_code} - {r.text}"
-    except Exception as e:
-        return f"Failed to connect to Groq: {e}"
+    return query_groq(user_prompt, api_key=api_key, max_tokens=150)

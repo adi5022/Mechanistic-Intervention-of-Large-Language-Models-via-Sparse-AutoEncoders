@@ -23,6 +23,14 @@ from src.hooks import (
     make_joint_ablation_hook,
     make_signed_ablation_hook,
 )
+from src.monosemanticity import (
+    find_max_activating_examples,
+    score_feature_interpretability,
+    compute_sparsity_stats,
+    compute_feature_similarity,
+    find_most_similar_features,
+    get_default_corpus,
+)
 
 import requests
 
@@ -75,17 +83,18 @@ st.sidebar.subheader("🤖 Explainable AI Layer")
 enable_xai = st.sidebar.checkbox("Enable AI Explanations (Groq)", value=False)
 groq_key_input = st.sidebar.text_input("Groq API Key", type="password", value="")
 
-# Tabs setup (9 tabs including Towards Monosemanticity Showroom)
-tab1, tab2, tab3, tab4, tab5, tab7, tab8, tab9, tab6 = st.tabs([
+# Tabs setup
+tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs([
     "🧪 Single-trace iterative ablation",
     "📦 Compound batch test",
     "⚡ Target feature boost",
     "🔄 Hybrid mute and boost",
     "🛡️ Safety-filtered ablation",
+    "📚 Monosemanticity Analysis",
+    "📊 Session history and benchmarks",
     "⚖️ Weighted multi-competitor reduction",
     "🎛️ Weighted multi-feature competitor reduction",
-    "📚 Towards Monosemanticity",
-    "📊 Session history and benchmarks"
+    "🧠 Towards Monosemanticity"
 ])
 
 
@@ -836,8 +845,8 @@ with tab5:
         st.session_state["history"].append(run_record)
         st.success("Run saved to Session History!")
 
-# --- TAB 7: Weighted Multi-Competitor Reduction ---
-with tab7:
+# --- TAB 8: Weighted Multi-Competitor Reduction ---
+with tab8:
     st.header("Weighted Multi-Competitor Reduction")
     st.markdown("Identifies all tokens ranked above the target and weakens their principal driving features in proportion to their threat level (probability).")
     
@@ -954,8 +963,8 @@ with tab7:
                 )
                 st.info(explanation, icon=":material/psychology:")
 
-# --- TAB 8: Weighted Multi-Feature Competitor Reduction ---
-with tab8:
+# --- TAB 9: Weighted Multi-Feature Competitor Reduction ---
+with tab9:
     st.header("Weighted Multi-Feature Competitor Reduction")
     st.markdown("Distributes competitor weights across their Top-K causal features and aggregates them to test distributed representations.")
     
@@ -1142,8 +1151,8 @@ with tab8:
                 )
                 st.info(explanation, icon=":material/psychology:")
 
-# --- TAB 9: Towards Monosemanticity Base Paper Implementation ---
-with tab9:
+# --- TAB 10: Towards Monosemanticity Base Paper Implementation ---
+with tab10:
     st.header("Towards Monosemanticity — Base Paper Baseline Implementation")
     st.markdown(
         """
@@ -1287,8 +1296,89 @@ with tab9:
                     steered_table.append({"Rank": rank, "Token": model.to_string([idx]), "Probability": f"{steered_probs[0, -1, idx].item()*100:.2f}%"})
                 st.table(steered_table)
 
-# --- TAB 6: Session History & Benchmarks ---
+# --- TAB 6: Monosemanticity Analysis ---
 with tab6:
+    st.header("Monosemanticity Analysis")
+    st.markdown("Inspect whether a feature behaves like a coherent, interpretable concept using the core evaluation methodology from Anthropic’s monosemanticity work, applied to the already-loaded pretrained SAE.")
+
+    col1, col2 = st.columns([1, 1])
+    with col1:
+        feature_id = st.number_input("Feature ID", min_value=0, value=313, step=1, key="mono_feature_id")
+        corpus_source = st.radio("Corpus Source", options=["Bundled default", "Paste text"], index=0, key="mono_corpus_source")
+    with col2:
+        groq_key = st.text_input("Groq API Key (optional)", type="password", value="", key="mono_groq_key")
+        use_groq = st.checkbox("Run autointerp scoring", value=False, key="mono_use_groq")
+
+    if corpus_source == "Bundled default":
+        corpus = get_default_corpus()
+        st.caption(f"Using bundled corpus with {len(corpus)} sentences.")
+    else:
+        pasted = st.text_area("Paste a corpus, one sentence per line", height=220, key="mono_pasted_corpus")
+        corpus = [line.strip() for line in pasted.splitlines() if line.strip()]
+        if not corpus:
+            st.info("Paste one or more sentences to analyze a custom corpus.")
+
+    if st.button("Run Monosemanticity Analysis", key="btn_mono"):
+        if not corpus:
+            st.warning("No corpus supplied.")
+            st.stop()
+
+        with st.spinner("Scanning feature activation patterns..."):
+            max_examples = find_max_activating_examples(model, sae, int(feature_id), corpus, top_n=10)
+
+        st.subheader("1. Max-activating examples")
+        if max_examples:
+            rows = []
+            for item in max_examples:
+                rows.append({
+                    "Activation": f"{item['activation']:.4f}",
+                    "Token Position": item["token_position"],
+                    "Token": item["token"],
+                    "Snippet": item["text"],
+                })
+            st.dataframe(rows, use_container_width=True)
+        else:
+            st.info("No activating examples found for this corpus.")
+
+        if use_groq and groq_key:
+            st.subheader("2. Interpretability score")
+            with st.spinner("Running Groq-based autointerp scoring..."):
+                score = score_feature_interpretability(model, sae, int(feature_id), corpus, groq_key, held_out_fraction=0.2)
+            st.metric("Accuracy", f"{score['accuracy'] * 100:.1f}%")
+            st.caption(f"Reference set size: {score['n_reference']}; Held-out set size: {score['n_held_out']}")
+            if score["predictions"]:
+                preview_rows = []
+                for item in score["predictions"][:10]:
+                    preview_rows.append({
+                        "Prediction": item["predicted"],
+                        "Actual": "HIGH" if item["actual_activation"] > 0.0 else "LOW",
+                        "Actual Activation": f"{item['actual_activation']:.4f}",
+                        "Text": item["text"],
+                    })
+                st.dataframe(preview_rows, use_container_width=True)
+
+        st.subheader("3. Sparsity statistics")
+        with st.spinner("Computing sparsity stats..."):
+            sparsity = compute_sparsity_stats(model, sae, corpus, max_corpus_items=200)
+        st.metric("Mean L0", f"{sparsity['mean_l0']:.4f}")
+        st.caption(f"Corpus cap used: {sparsity['cap']} items")
+        if sparsity["l0_distribution"]:
+            st.bar_chart(pd.DataFrame({"L0": sparsity["l0_distribution"]}))
+        if sparsity.get("feature_firing_frequency"):
+            freq_rows = [{"Feature ID": fid, "Firing Frequency": f"{freq:.4f}"} for fid, freq in sparsity["feature_firing_frequency"].items()]
+            st.dataframe(freq_rows, use_container_width=True)
+
+        st.subheader("4. Most similar decoder directions")
+        with st.spinner("Comparing decoder directions..."):
+            similar = find_most_similar_features(sae, int(feature_id), top_n=10)
+        if similar:
+            sim_rows = [{"Feature ID": fid, "Cosine Similarity": f"{sim:.4f}"} for fid, sim in similar]
+            st.dataframe(sim_rows, use_container_width=True)
+        else:
+            st.info("No similar features found.")
+
+# --- TAB 7: Session History & Benchmarks ---
+with tab7:
     st.header("Session History & Benchmarks")
 
     st.header("Session History & Benchmarks")
