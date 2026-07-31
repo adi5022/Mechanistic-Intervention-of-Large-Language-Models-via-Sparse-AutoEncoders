@@ -34,6 +34,27 @@ from src.monosemanticity import (
     get_default_corpus,
 )
 
+from src.explain import (
+    get_xai_guidance_card,
+    generate_polysemanticity_comparison_xai,
+    generate_sparsity_xai,
+    generate_decoder_similarity_xai,
+    generate_mechanistic_explanation,
+)
+
+def render_xai_guidance_card(card: dict):
+    """Renders a structured 6-part Educational XAI Guidance Card in the UI."""
+    with st.expander("🎓 **XAI Guidance Card — Educational Deep Dive (6-Part Framework)**", expanded=True):
+        col_a, col_b = st.columns(2)
+        with col_a:
+            st.markdown(f"**🔍 Trigger Context (What triggered this?):**\n{card['trigger']}")
+            st.markdown(f"**❓ What is this?:**\n{card['what']}")
+            st.markdown(f"**🎯 Why does it matter at this stage?:**\n{card['why']}")
+        with col_b:
+            st.markdown(f"**⚡ What is happening internally?:**\n{card['internal']}")
+            st.markdown(f"**📊 How to interpret results?:**\n{card['interpret']}")
+            st.markdown(f"**🛠️ Contribution to Intervention Workflow:**\n{card['workflow']}")
+
 import requests
 
 @st.cache_data(ttl=3600)
@@ -1325,8 +1346,15 @@ with tab10:
 
 # --- TAB 6: Monosemanticity Analysis ---
 with tab6:
-    st.header("Monosemanticity Analysis")
-    st.markdown("Inspect whether an internal dial behaves like a coherent, interpretable concept using the core evaluation methodology from Anthropic’s monosemanticity work, comparing raw model neurons against pretrained SAE feature dials.")
+    st.header("Monosemanticity Analysis & Feature Audit")
+    
+    # Local Educational Pipeline Map
+    st.info(
+        "🗺️ **Mechanistic Interpretability Educational Pipeline Map**\n\n"
+        "`Stage 1: Baseline Model State` ➔ **`Stage 2: Polysemanticity & Monosemanticity Audit` (ACTIVE STAGE)** ➔ `Stage 3: Feature Selection` ➔ `Stage 4: Activation Intervention` ➔ `Stage 5: Evaluation & Safety` \n\n"
+        "💡 **Stage Goal:** Verify whether internal representation dials perform single, isolated jobs before attempting activation editing. "
+        "Editing polysemantic dials causes widespread collateral damage, whereas editing clean SAE dials enables precise factual steering."
+    )
 
     col1, col2 = st.columns([1, 1])
     with col1:
@@ -1335,7 +1363,7 @@ with tab6:
         corpus_source = st.radio("Corpus Source", options=["Bundled default", "Paste text"], index=0, key="mono_corpus_source")
     with col2:
         groq_key = st.text_input("Groq API Key (optional)", type="password", value=groq_key_input, key="mono_groq_key")
-        use_groq = st.checkbox("Run autointerp scoring", value=bool(groq_key_input), key="mono_use_groq")
+        use_groq = st.checkbox("Run autointerp scoring & dynamic AI explanations", value=bool(groq_key_input), key="mono_use_groq")
 
     if corpus_source == "Bundled default":
         corpus = get_default_corpus()
@@ -1346,10 +1374,12 @@ with tab6:
         if not corpus:
             st.info("Paste one or more sentences to analyze a custom corpus.")
 
-    if st.button("Run Monosemanticity Analysis", key="btn_mono"):
+    if st.button("Run Monosemanticity Analysis & Feature Audit", key="btn_mono"):
         if not corpus:
             st.warning("No corpus supplied.")
             st.stop()
+
+        effective_groq_key = groq_key or groq_key_input
 
         with st.spinner("Scanning raw neuron & SAE dial activation patterns in a single fast pass..."):
             raw_neuron_examples, max_examples = scan_dual_activations(model, sae, int(neuron_index), int(feature_id), layer, corpus, top_n=10)
@@ -1357,16 +1387,13 @@ with tab6:
         # Retrieve Neuronpedia explanation for the SAE feature dial
         sae_explanation = get_neuronpedia_explanation(int(feature_id), layer)
 
-        st.subheader("0. Before the SAE — a raw neuron's behavior")
-        st.info(
-            "📌 **What this checks:** This section shows what a single raw internal dial (raw MLP neuron) does BEFORE any SAE decomposition.\n\n"
-            "🔍 **Expected behavior:** Raw neurons are almost always **polysemantic** — they fire on a jumble of unrelated words (e.g. stop words, random nouns, punctuation). This mixed behavior is the exact reason SAEs were created.\n\n"
-            "💡 **Comparison tip:** Compare this table to Section 1 below — the SAE dial's examples should form one clean, consistent concept."
-        )
+        # === RAW NEURON ANALYSIS ===
+        st.subheader("Raw Neuron Analysis (Un-decomposed Baseline)")
+        render_xai_guidance_card(get_xai_guidance_card("raw_neuron"))
 
         if raw_neuron_examples:
             top_raw_tokens = ", ".join(f"`{item['token']}`" for item in raw_neuron_examples[:6])
-            st.markdown(f"**Top activating tokens for Raw Neuron {neuron_index}:** {top_raw_tokens}")
+            st.markdown(f"**Top triggering tokens for Raw Neuron {neuron_index}:** {top_raw_tokens}")
             raw_rows = []
             for item in raw_neuron_examples:
                 raw_rows.append({
@@ -1379,25 +1406,26 @@ with tab6:
         else:
             st.info("No activating examples found for this raw neuron dial across the corpus.")
 
+        # AI Polysemanticity Diagnosis Card
+        raw_token_list = [item["token"] for item in raw_neuron_examples]
+        sae_token_list = [item["token"] for item in max_examples]
+        poly_xai = generate_polysemanticity_comparison_xai(int(neuron_index), int(feature_id), raw_token_list, sae_token_list, api_key=effective_groq_key)
+        st.warning(f"🔬 **AI Polysemanticity Diagnosis:**\n\n{poly_xai}")
+
         st.markdown("---")
 
-        st.subheader("1. Max-activating examples (SAE Dial)")
-        
-        # Prominent Concept Box
+        # === SAE FEATURE ANALYSIS ===
+        st.subheader("SAE Feature Analysis (Decomposed Feature Dial)")
+        render_xai_guidance_card(get_xai_guidance_card("sae_feature"))
+
         st.success(
             f"🧠 **Known Feature Concept (Neuronpedia):** `{sae_explanation}`\n\n"
             f"*(SAE Feature Dial ID: `{feature_id}` on Layer `{layer}`)*"
         )
-        
-        st.info(
-            "📌 **What this checks:** This section shows the exact words and sentences where this SAE dial turns on the strongest.\n\n"
-            "🔍 **Good vs. Bad result:** A **clean (monosemantic)** dial fires consistently on words matching its concept (e.g. place names or specific topics). A **messy (polysemantic)** dial fires on unrelated topics.\n\n"
-            "📊 **Understanding the numbers:** **Activation** measures firing strength. **Trigger Word** is the specific word that activated this dial."
-        )
 
         if max_examples:
             top_sae_tokens = ", ".join(f"`{item['token']}`" for item in max_examples[:6])
-            st.markdown(f"**Top activating tokens for SAE Dial {feature_id}:** {top_sae_tokens}")
+            st.markdown(f"**Top triggering tokens for SAE Dial {feature_id}:** {top_sae_tokens}")
             rows = []
             for item in max_examples:
                 rows.append({
@@ -1410,18 +1438,17 @@ with tab6:
         else:
             st.info("No activating examples found for this corpus.")
 
-        effective_groq_key = groq_key or groq_key_input
+        st.markdown("---")
+
+        # === INTERPRETABILITY SCORE ===
+        st.subheader("Interpretability Score (Autointerp Validation)")
+        render_xai_guidance_card(get_xai_guidance_card("interpretability_score"))
+
         if use_groq and effective_groq_key:
-            st.subheader("2. Interpretability score")
-            st.info(
-                "📌 **What this checks:** Evaluates how predictable and legible this SAE dial is to an AI evaluator.\n\n"
-                "🔍 **Good vs. Bad result:** **High accuracy (80%+)** means the dial's behavior is consistent and easy to predict from reference examples. **Low accuracy** means the dial's behavior is erratic.\n\n"
-                "📊 **Understanding the numbers:** **Accuracy** measures how often the AI correctly predicted whether the dial would turn on for unseen held-out test sentences."
-            )
             with st.spinner("Running Groq-based autointerp scoring..."):
                 score = score_feature_interpretability(model, sae, int(feature_id), corpus, effective_groq_key, held_out_fraction=0.2)
-            st.metric("Accuracy", f"{score['accuracy'] * 100:.1f}%")
-            st.caption(f"Reference set size: {score['n_reference']}; Held-out set size: {score['n_held_out']}")
+            st.metric("Autointerp Prediction Accuracy", f"{score['accuracy'] * 100:.1f}%")
+            st.caption(f"Reference set size: {score['n_reference']}; Held-out validation set size: {score['n_held_out']}")
 
             st.markdown("#### (a) Reference examples shown to the AI evaluator")
             if score.get("reference_examples"):
@@ -1448,31 +1475,41 @@ with tab6:
                         "Sentence": item["text"],
                     })
                 st.dataframe(test_rows, use_container_width=True)
+        else:
+            st.info("Provide a Groq API Key and check 'Run autointerp scoring' to run automated LLM prediction validation.")
 
-        st.subheader("3. Sparsity statistics")
-        st.info(
-            "📌 **What this checks:** Evaluates how sparsely active all SAE dials are across words in the corpus.\n\n"
-            "🔍 **Good vs. Bad result:** Out of ~24,000 internal dials, only a small fraction should turn on for any given word (**low Mean L0 is good**). A dial firing on 15%+ of all words is suspiciously broad.\n\n"
-            "📊 **Understanding the numbers:** **Mean L0** is the average active dials per word. **Firing Frequency** is the fraction of words where a specific dial fired."
-        )
+        st.markdown("---")
+
+        # === SPARSITY STATISTICS ===
+        st.subheader("Sparsity Statistics (Representation Efficiency)")
+        render_xai_guidance_card(get_xai_guidance_card("sparsity_stats"))
+
         with st.spinner("Computing sparsity stats..."):
             sparsity = compute_sparsity_stats(model, sae, corpus, max_corpus_items=200)
-        st.metric("Mean L0", f"{sparsity['mean_l0']:.4f}")
+        st.metric("Mean L0 (Active Dials per Token)", f"{sparsity['mean_l0']:.4f}")
         st.caption(f"Corpus cap used: {sparsity['cap']} items")
+        
+        sparsity_xai = generate_sparsity_xai(sparsity["mean_l0"], len(corpus), api_key=effective_groq_key)
+        st.info(f"📊 **Sparsity & L0 Analysis Verdict:**\n\n{sparsity_xai}")
+
         if sparsity["l0_distribution"]:
-            st.bar_chart(pd.DataFrame({"L0": sparsity["l0_distribution"]}))
+            st.bar_chart(pd.DataFrame({"L0 (Active Dials)": sparsity["l0_distribution"]}))
         if sparsity.get("feature_firing_frequency"):
             freq_rows = [{"Feature Dial ID": fid, "Firing Frequency": f"{freq:.4f}"} for fid, freq in sparsity["feature_firing_frequency"].items()]
             st.dataframe(freq_rows, use_container_width=True)
 
-        st.subheader("4. Most similar decoder directions")
-        st.info(
-            "📌 **What this checks:** Tests whether this SAE dial's direction in geometric space is nearly identical to another dial's direction.\n\n"
-            "🔍 **Good vs. Bad result:** Cosine similarity measures geometric alignment (1.0 = identical direction, 0 = unrelated). A **low top similarity score (0.3–0.5)** means this dial is geometrically distinct. Scores near 0.8+ suggest dial redundancy.\n\n"
-            "📊 **Understanding the numbers:** **Cosine Similarity** ranges from 0.0 to 1.0, quantifying directional alignment between this dial's decoder weights ($W_{dec}$) and neighboring SAE dials."
-        )
+        st.markdown("---")
+
+        # === MOST SIMILAR DECODER DIRECTIONS ===
+        st.subheader("Most Similar Decoder Directions (Geometric Independence)")
+        render_xai_guidance_card(get_xai_guidance_card("decoder_similarity"))
+
         with st.spinner("Comparing decoder directions..."):
             similar = find_most_similar_features(sae, int(feature_id), top_n=10)
+        
+        sim_xai = generate_decoder_similarity_xai(int(feature_id), similar, api_key=effective_groq_key)
+        st.info(f"📐 **Geometric Independence & Redundancy Verdict:**\n\n{sim_xai}")
+
         if similar:
             sim_rows = [{"Feature Dial ID": fid, "Cosine Similarity": f"{sim:.4f}"} for fid, sim in similar]
             st.dataframe(sim_rows, use_container_width=True)
