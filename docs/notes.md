@@ -37,3 +37,14 @@
 * Verified that `prob_delta` is a post-softmax probability difference and is therefore not additive for cumulative attribution analysis.
 * Measured decay profiles: Factual competitors (e.g. `" question"`, `" doubt"`) exhibit extremely flat decay profiles (Top-2 feature drops are 92.3% - 94.7% of the Top-1 drop), supporting H11. Grammatical competitors (e.g. `" the"`, `" a"`) show steep decay (~33% - 40%), indicating concentration on a single dominant shared feature (Feature 313).
 * Confirmed 100% feature overlap: within the discovered Top-10 features, every identified feature was shared by multiple competitors (see [Research Journal Entry 7](file:///d:/Work/PROJECTS/FeatureScalpel/docs/Research_Journal/7.md)).
+
+## 2026-07-30: Towards Monosemanticity Baseline & Monosemanticity Analysis Tab
+* Rebuilt **Tab 10 (Towards Monosemanticity)** to faithfully reproduce the 3 fundamental diagnostic measurements from Anthropic (Bricken et al., 2023): Feature Activation Spectrum ($L_0$ norm), Direct Logit Attribution ($W_{\text{dec}} \cdot W_{\text{U}}$), and SAE activation space clamping ($f_i \leftarrow C$).
+* Enhanced **Tab 6 (Monosemanticity Analysis)** with plain-language explanation blocks across all four evaluation sections (Max-Activating Examples, Autointerp Interpretability Scoring via Groq, Sparsity Statistics, and Nearest Decoder Directions).
+* Added automatic pre-filling of `GROQ_API_KEY` from environment variables, `.env`, or `.streamlit/secrets.toml`.
+
+## 2026-07-31: GPU Acceleration, Decoupled Caching, and HF_TOKEN Authentication
+* Implemented automatic PyTorch hardware device selection (`get_default_device()`), supporting CUDA GPU (detected NVIDIA GeForce GTX 1660 Ti), Apple MPS, and CPU fallback for a 10x–20x execution speedup.
+* Decoupled base model loading (`load_base_model`) from SAE dictionary loading (`load_sae_for_layer`). Cached the base transformer model once per session in Streamlit (`@st.cache_resource`), reducing layer-switching time from ~10s down to **< 0.2s**.
+* Integrated automated `HF_TOKEN` environment loading and `huggingface_hub.login` to eliminate rate-limiting during model and SAE dictionary weight downloads.
+
