@@ -5,7 +5,7 @@ import pandas as pd
 import json
 from datetime import datetime
 
-from src.sae_utils import load_model_and_sae
+from src.sae_utils import load_base_model, load_sae_for_layer, get_default_device
 from src.editing import (
     get_target_token_id,
     get_top_competitor_features,
@@ -66,22 +66,47 @@ st.title("FeatureScalpel — Experimentation & Benchmarking Bench")
 if "history" not in st.session_state:
     st.session_state["history"] = []
 
-# Layer selection with cached model loading
+# Cached base model (loaded ONCE per app session)
 @st.cache_resource
-def get_model_and_sae(layer: int):
-    return load_model_and_sae(device="cpu", layer=layer)
+def get_cached_base_model():
+    return load_base_model()
+
+# Cached layer SAE (loaded per layer, tiny overhead)
+@st.cache_resource
+def get_cached_sae(layer: int):
+    return load_sae_for_layer(layer=layer)
+
+import os
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
+
+default_groq_key = os.environ.get("GROQ_API_KEY", "")
+if not default_groq_key and hasattr(st, "secrets") and "groq" in st.secrets:
+    try:
+        default_groq_key = st.secrets["groq"].get("api_key", "")
+    except Exception:
+        pass
+
+device = get_default_device()
+st.sidebar.markdown(f"**⚡ Compute Device:** `{device.upper()}`")
 
 layer = st.sidebar.selectbox("Select Model Layer", options=list(range(12)), index=8)
 
-with st.spinner(f"Loading Model & SAE for Layer {layer}..."):
-    model, sae = get_model_and_sae(layer)
+with st.spinner("Loading Base Model (GPT-2 Small)..."):
+    model = get_cached_base_model()
+
+with st.spinner(f"Loading SAE for Layer {layer}..."):
+    sae = get_cached_sae(layer)
 
 hook_name = getattr(sae.cfg, "hook_name", f"blocks.{layer}.hook_resid_pre")
 
 st.sidebar.markdown("---")
 st.sidebar.subheader("🤖 Explainable AI Layer")
-enable_xai = st.sidebar.checkbox("Enable AI Explanations (Groq)", value=False)
-groq_key_input = st.sidebar.text_input("Groq API Key", type="password", value="")
+enable_xai = st.sidebar.checkbox("Enable AI Explanations (Groq)", value=bool(default_groq_key))
+groq_key_input = st.sidebar.text_input("Groq API Key", type="password", value=default_groq_key)
 
 # Tabs setup
 tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs([
@@ -1306,8 +1331,8 @@ with tab6:
         feature_id = st.number_input("Feature ID", min_value=0, value=313, step=1, key="mono_feature_id")
         corpus_source = st.radio("Corpus Source", options=["Bundled default", "Paste text"], index=0, key="mono_corpus_source")
     with col2:
-        groq_key = st.text_input("Groq API Key (optional)", type="password", value="", key="mono_groq_key")
-        use_groq = st.checkbox("Run autointerp scoring", value=False, key="mono_use_groq")
+        groq_key = st.text_input("Groq API Key (optional)", type="password", value=groq_key_input, key="mono_groq_key")
+        use_groq = st.checkbox("Run autointerp scoring", value=bool(groq_key_input), key="mono_use_groq")
 
     if corpus_source == "Bundled default":
         corpus = get_default_corpus()
@@ -1327,6 +1352,11 @@ with tab6:
             max_examples = find_max_activating_examples(model, sae, int(feature_id), corpus, top_n=10)
 
         st.subheader("1. Max-activating examples")
+        st.info(
+            "📌 **What this checks:** This section shows the exact words and sentences where this feature 'lights up' the strongest.\n\n"
+            "🔍 **Good vs. Bad result:** A **monosemantic (clean)** feature fires on examples that share an obvious, consistent pattern (e.g. always firing right before a place name or on a specific concept). A **polysemantic (messy)** feature fires on completely unrelated sentences, indicating the feature is doing several unrelated jobs at once.\n\n"
+            "📊 **Understanding the numbers:** **Activation** measures the firing strength (higher is stronger). **Token Position** and **Token** mark the exact word in the **Snippet** that triggered this feature."
+        )
         if max_examples:
             rows = []
             for item in max_examples:
@@ -1340,10 +1370,16 @@ with tab6:
         else:
             st.info("No activating examples found for this corpus.")
 
-        if use_groq and groq_key:
+        effective_groq_key = groq_key or groq_key_input
+        if use_groq and effective_groq_key:
             st.subheader("2. Interpretability score")
+            st.info(
+                "📌 **What this checks:** This evaluates how predictable and legible this feature's activation behavior is to an AI evaluator.\n\n"
+                "🔍 **Good vs. Bad result:** A **high accuracy match rate (e.g. 80%+)** means the feature's behavior is consistent and predictable from just a few examples. A **low accuracy match rate** means even with examples, its behavior is erratic or hard to anticipate, suggesting it represents a messy or polysemantic concept.\n\n"
+                "📊 **Understanding the numbers:** **Accuracy** is the percentage of held-out test sentences where the AI correctly predicted whether the feature would fire based on reference examples."
+            )
             with st.spinner("Running Groq-based autointerp scoring..."):
-                score = score_feature_interpretability(model, sae, int(feature_id), corpus, groq_key, held_out_fraction=0.2)
+                score = score_feature_interpretability(model, sae, int(feature_id), corpus, effective_groq_key, held_out_fraction=0.2)
             st.metric("Accuracy", f"{score['accuracy'] * 100:.1f}%")
             st.caption(f"Reference set size: {score['n_reference']}; Held-out set size: {score['n_held_out']}")
             if score["predictions"]:
@@ -1358,6 +1394,11 @@ with tab6:
                 st.dataframe(preview_rows, use_container_width=True)
 
         st.subheader("3. Sparsity statistics")
+        st.info(
+            "📌 **What this checks:** This evaluates how sparsely active features are across tokens in the corpus.\n\n"
+            "🔍 **Good vs. Bad result:** Out of all ~24,000 internal feature dials, only a small fraction should be switched on for any given word (**low Mean L0 is expected/good**). In the firing frequency table, a feature firing on 15–20%+ of all tokens across a varied corpus is suspiciously broad or general, whereas a lower, occasional firing rate suggests a specific concept.\n\n"
+            "📊 **Understanding the numbers:** **Mean L0** is the average number of active features per token across the corpus. **Firing Frequency** is the proportion of tokens where a specific feature had a non-zero activation."
+        )
         with st.spinner("Computing sparsity stats..."):
             sparsity = compute_sparsity_stats(model, sae, corpus, max_corpus_items=200)
         st.metric("Mean L0", f"{sparsity['mean_l0']:.4f}")
@@ -1369,6 +1410,11 @@ with tab6:
             st.dataframe(freq_rows, use_container_width=True)
 
         st.subheader("4. Most similar decoder directions")
+        st.info(
+            "📌 **What this checks:** This tests whether this feature's direction in geometric space is nearly identical to another feature's direction.\n\n"
+            "🔍 **Good vs. Bad result:** Cosine similarity measures geometric alignment (1.0 = identical direction, 0 = orthogonal/unrelated). A **low top similarity score (e.g. 0.3–0.5)** means this feature is geometrically distinct and not a near-duplicate of anything nearby. Scores near 0.8+ suggest potential feature duplication or high redundancy.\n\n"
+            "📊 **Understanding the numbers:** **Cosine Similarity** ranges from 0.0 to 1.0, quantifying the directional alignment between this feature's decoder weights ($W_{dec}$) and its nearest SAE neighbors."
+        )
         with st.spinner("Comparing decoder directions..."):
             similar = find_most_similar_features(sae, int(feature_id), top_n=10)
         if similar:
