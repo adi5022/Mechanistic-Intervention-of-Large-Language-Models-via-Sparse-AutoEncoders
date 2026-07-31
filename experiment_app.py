@@ -25,6 +25,8 @@ from src.hooks import (
 )
 from src.monosemanticity import (
     find_max_activating_examples,
+    find_max_activating_neuron_examples,
+    scan_dual_activations,
     score_feature_interpretability,
     compute_sparsity_stats,
     compute_feature_similarity,
@@ -1324,11 +1326,12 @@ with tab10:
 # --- TAB 6: Monosemanticity Analysis ---
 with tab6:
     st.header("Monosemanticity Analysis")
-    st.markdown("Inspect whether a feature behaves like a coherent, interpretable concept using the core evaluation methodology from Anthropic’s monosemanticity work, applied to the already-loaded pretrained SAE.")
+    st.markdown("Inspect whether an internal dial behaves like a coherent, interpretable concept using the core evaluation methodology from Anthropic’s monosemanticity work, comparing raw model neurons against pretrained SAE feature dials.")
 
     col1, col2 = st.columns([1, 1])
     with col1:
-        feature_id = st.number_input("Feature ID", min_value=0, value=313, step=1, key="mono_feature_id")
+        feature_id = st.number_input("SAE Feature Dial ID", min_value=0, value=313, step=1, key="mono_feature_id")
+        neuron_index = st.number_input("Raw Model Neuron Dial Index", min_value=0, value=0, step=1, key="mono_neuron_index")
         corpus_source = st.radio("Corpus Source", options=["Bundled default", "Paste text"], index=0, key="mono_corpus_source")
     with col2:
         groq_key = st.text_input("Groq API Key (optional)", type="password", value=groq_key_input, key="mono_groq_key")
@@ -1336,7 +1339,7 @@ with tab6:
 
     if corpus_source == "Bundled default":
         corpus = get_default_corpus()
-        st.caption(f"Using bundled corpus with {len(corpus)} sentences.")
+        st.caption(f"Using bundled corpus with {len(corpus)} sentences across 10 categories.")
     else:
         pasted = st.text_area("Paste a corpus, one sentence per line", height=220, key="mono_pasted_corpus")
         corpus = [line.strip() for line in pasted.splitlines() if line.strip()]
@@ -1348,23 +1351,60 @@ with tab6:
             st.warning("No corpus supplied.")
             st.stop()
 
-        with st.spinner("Scanning feature activation patterns..."):
-            max_examples = find_max_activating_examples(model, sae, int(feature_id), corpus, top_n=10)
+        with st.spinner("Scanning raw neuron & SAE dial activation patterns in a single fast pass..."):
+            raw_neuron_examples, max_examples = scan_dual_activations(model, sae, int(neuron_index), int(feature_id), layer, corpus, top_n=10)
 
-        st.subheader("1. Max-activating examples")
+        # Retrieve Neuronpedia explanation for the SAE feature dial
+        sae_explanation = get_neuronpedia_explanation(int(feature_id), layer)
+
+        st.subheader("0. Before the SAE — a raw neuron's behavior")
         st.info(
-            "📌 **What this checks:** This section shows the exact words and sentences where this feature 'lights up' the strongest.\n\n"
-            "🔍 **Good vs. Bad result:** A **monosemantic (clean)** feature fires on examples that share an obvious, consistent pattern (e.g. always firing right before a place name or on a specific concept). A **polysemantic (messy)** feature fires on completely unrelated sentences, indicating the feature is doing several unrelated jobs at once.\n\n"
-            "📊 **Understanding the numbers:** **Activation** measures the firing strength (higher is stronger). **Token Position** and **Token** mark the exact word in the **Snippet** that triggered this feature."
+            "📌 **What this checks:** This section shows what a single raw internal dial (raw MLP neuron) does BEFORE any SAE decomposition.\n\n"
+            "🔍 **Expected behavior:** Raw neurons are almost always **polysemantic** — they fire on a jumble of unrelated words (e.g. stop words, random nouns, punctuation). This mixed behavior is the exact reason SAEs were created.\n\n"
+            "💡 **Comparison tip:** Compare this table to Section 1 below — the SAE dial's examples should form one clean, consistent concept."
         )
+
+        if raw_neuron_examples:
+            top_raw_tokens = ", ".join(f"`{item['token']}`" for item in raw_neuron_examples[:6])
+            st.markdown(f"**Top activating tokens for Raw Neuron {neuron_index}:** {top_raw_tokens}")
+            raw_rows = []
+            for item in raw_neuron_examples:
+                raw_rows.append({
+                    "Activation": f"{item['activation']:.4f}",
+                    "Trigger Word": item["token"],
+                    "Position": item["token_position"],
+                    "Sentence Context (Word in Bold)": item.get("highlighted_text", item["text"]),
+                })
+            st.dataframe(raw_rows, use_container_width=True)
+        else:
+            st.info("No activating examples found for this raw neuron dial across the corpus.")
+
+        st.markdown("---")
+
+        st.subheader("1. Max-activating examples (SAE Dial)")
+        
+        # Prominent Concept Box
+        st.success(
+            f"🧠 **Known Feature Concept (Neuronpedia):** `{sae_explanation}`\n\n"
+            f"*(SAE Feature Dial ID: `{feature_id}` on Layer `{layer}`)*"
+        )
+        
+        st.info(
+            "📌 **What this checks:** This section shows the exact words and sentences where this SAE dial turns on the strongest.\n\n"
+            "🔍 **Good vs. Bad result:** A **clean (monosemantic)** dial fires consistently on words matching its concept (e.g. place names or specific topics). A **messy (polysemantic)** dial fires on unrelated topics.\n\n"
+            "📊 **Understanding the numbers:** **Activation** measures firing strength. **Trigger Word** is the specific word that activated this dial."
+        )
+
         if max_examples:
+            top_sae_tokens = ", ".join(f"`{item['token']}`" for item in max_examples[:6])
+            st.markdown(f"**Top activating tokens for SAE Dial {feature_id}:** {top_sae_tokens}")
             rows = []
             for item in max_examples:
                 rows.append({
                     "Activation": f"{item['activation']:.4f}",
-                    "Token Position": item["token_position"],
-                    "Token": item["token"],
-                    "Snippet": item["text"],
+                    "Trigger Word": item["token"],
+                    "Position": item["token_position"],
+                    "Sentence Context (Word in Bold)": item.get("highlighted_text", item["text"]),
                 })
             st.dataframe(rows, use_container_width=True)
         else:
@@ -1374,30 +1414,46 @@ with tab6:
         if use_groq and effective_groq_key:
             st.subheader("2. Interpretability score")
             st.info(
-                "📌 **What this checks:** This evaluates how predictable and legible this feature's activation behavior is to an AI evaluator.\n\n"
-                "🔍 **Good vs. Bad result:** A **high accuracy match rate (e.g. 80%+)** means the feature's behavior is consistent and predictable from just a few examples. A **low accuracy match rate** means even with examples, its behavior is erratic or hard to anticipate, suggesting it represents a messy or polysemantic concept.\n\n"
-                "📊 **Understanding the numbers:** **Accuracy** is the percentage of held-out test sentences where the AI correctly predicted whether the feature would fire based on reference examples."
+                "📌 **What this checks:** Evaluates how predictable and legible this SAE dial is to an AI evaluator.\n\n"
+                "🔍 **Good vs. Bad result:** **High accuracy (80%+)** means the dial's behavior is consistent and easy to predict from reference examples. **Low accuracy** means the dial's behavior is erratic.\n\n"
+                "📊 **Understanding the numbers:** **Accuracy** measures how often the AI correctly predicted whether the dial would turn on for unseen held-out test sentences."
             )
             with st.spinner("Running Groq-based autointerp scoring..."):
                 score = score_feature_interpretability(model, sae, int(feature_id), corpus, effective_groq_key, held_out_fraction=0.2)
             st.metric("Accuracy", f"{score['accuracy'] * 100:.1f}%")
             st.caption(f"Reference set size: {score['n_reference']}; Held-out set size: {score['n_held_out']}")
-            if score["predictions"]:
-                preview_rows = []
-                for item in score["predictions"][:10]:
-                    preview_rows.append({
+
+            st.markdown("#### (a) Reference examples shown to the AI evaluator")
+            if score.get("reference_examples"):
+                ref_rows = []
+                for item in score["reference_examples"]:
+                    ref_rows.append({
+                        "Activation": f"{item['activation']:.4f}",
+                        "Trigger Word": item["token"],
+                        "Sentence": item.get("highlighted_text", item["text"]),
+                    })
+                st.dataframe(ref_rows, use_container_width=True)
+
+            st.markdown("#### (b) Held-out test cases validation")
+            if score.get("predictions"):
+                test_rows = []
+                for item in score["predictions"]:
+                    is_correct = item["correct"]
+                    status_icon = "✅ Correct" if is_correct else "❌ Wrong"
+                    test_rows.append({
+                        "Status": status_icon,
                         "Prediction": item["predicted"],
                         "Actual": "HIGH" if item["actual_activation"] > 0.0 else "LOW",
                         "Actual Activation": f"{item['actual_activation']:.4f}",
-                        "Text": item["text"],
+                        "Sentence": item["text"],
                     })
-                st.dataframe(preview_rows, use_container_width=True)
+                st.dataframe(test_rows, use_container_width=True)
 
         st.subheader("3. Sparsity statistics")
         st.info(
-            "📌 **What this checks:** This evaluates how sparsely active features are across tokens in the corpus.\n\n"
-            "🔍 **Good vs. Bad result:** Out of all ~24,000 internal feature dials, only a small fraction should be switched on for any given word (**low Mean L0 is expected/good**). In the firing frequency table, a feature firing on 15–20%+ of all tokens across a varied corpus is suspiciously broad or general, whereas a lower, occasional firing rate suggests a specific concept.\n\n"
-            "📊 **Understanding the numbers:** **Mean L0** is the average number of active features per token across the corpus. **Firing Frequency** is the proportion of tokens where a specific feature had a non-zero activation."
+            "📌 **What this checks:** Evaluates how sparsely active all SAE dials are across words in the corpus.\n\n"
+            "🔍 **Good vs. Bad result:** Out of ~24,000 internal dials, only a small fraction should turn on for any given word (**low Mean L0 is good**). A dial firing on 15%+ of all words is suspiciously broad.\n\n"
+            "📊 **Understanding the numbers:** **Mean L0** is the average active dials per word. **Firing Frequency** is the fraction of words where a specific dial fired."
         )
         with st.spinner("Computing sparsity stats..."):
             sparsity = compute_sparsity_stats(model, sae, corpus, max_corpus_items=200)
@@ -1406,19 +1462,19 @@ with tab6:
         if sparsity["l0_distribution"]:
             st.bar_chart(pd.DataFrame({"L0": sparsity["l0_distribution"]}))
         if sparsity.get("feature_firing_frequency"):
-            freq_rows = [{"Feature ID": fid, "Firing Frequency": f"{freq:.4f}"} for fid, freq in sparsity["feature_firing_frequency"].items()]
+            freq_rows = [{"Feature Dial ID": fid, "Firing Frequency": f"{freq:.4f}"} for fid, freq in sparsity["feature_firing_frequency"].items()]
             st.dataframe(freq_rows, use_container_width=True)
 
         st.subheader("4. Most similar decoder directions")
         st.info(
-            "📌 **What this checks:** This tests whether this feature's direction in geometric space is nearly identical to another feature's direction.\n\n"
-            "🔍 **Good vs. Bad result:** Cosine similarity measures geometric alignment (1.0 = identical direction, 0 = orthogonal/unrelated). A **low top similarity score (e.g. 0.3–0.5)** means this feature is geometrically distinct and not a near-duplicate of anything nearby. Scores near 0.8+ suggest potential feature duplication or high redundancy.\n\n"
-            "📊 **Understanding the numbers:** **Cosine Similarity** ranges from 0.0 to 1.0, quantifying the directional alignment between this feature's decoder weights ($W_{dec}$) and its nearest SAE neighbors."
+            "📌 **What this checks:** Tests whether this SAE dial's direction in geometric space is nearly identical to another dial's direction.\n\n"
+            "🔍 **Good vs. Bad result:** Cosine similarity measures geometric alignment (1.0 = identical direction, 0 = unrelated). A **low top similarity score (0.3–0.5)** means this dial is geometrically distinct. Scores near 0.8+ suggest dial redundancy.\n\n"
+            "📊 **Understanding the numbers:** **Cosine Similarity** ranges from 0.0 to 1.0, quantifying directional alignment between this dial's decoder weights ($W_{dec}$) and neighboring SAE dials."
         )
         with st.spinner("Comparing decoder directions..."):
             similar = find_most_similar_features(sae, int(feature_id), top_n=10)
         if similar:
-            sim_rows = [{"Feature ID": fid, "Cosine Similarity": f"{sim:.4f}"} for fid, sim in similar]
+            sim_rows = [{"Feature Dial ID": fid, "Cosine Similarity": f"{sim:.4f}"} for fid, sim in similar]
             st.dataframe(sim_rows, use_container_width=True)
         else:
             st.info("No similar features found.")

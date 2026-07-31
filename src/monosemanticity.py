@@ -67,16 +67,31 @@ def _encode_feature_activations(model, sae, text: str) -> List[Tuple[int, float]
     return [(idx.item(), act.item()) for idx, act in enumerate(stacked[0].tolist())]
 
 
+def highlight_token_in_text(text: str, token: str, token_pos: int, tokens_str_list: List[str] = None) -> str:
+    """Highlight the specific activating token inside the snippet text with markdown bold."""
+    if not token or not text:
+        return text
+    clean_token = token.strip()
+    if not clean_token:
+        return text
+    # Attempt targeted replacement around exact token match
+    pos = text.lower().find(clean_token.lower())
+    if pos != -1:
+        matched = text[pos:pos+len(clean_token)]
+        return text[:pos] + f"**{matched}**" + text[pos+len(clean_token):]
+    return text
+
+
 def find_max_activating_examples(model, sae, feature_id: int, corpus: List[str], top_n: int = 10) -> List[Dict]:
     """Return the top-N token positions across a corpus that most strongly activate a feature."""
     if not corpus:
         return []
 
     rows = []
+    hook_name = _get_hook_name(sae)
     for text in corpus:
         tokens = model.to_tokens(text)
         _, cache = model.run_with_cache(tokens)
-        hook_name = _get_hook_name(sae)
         resid = cache[hook_name]
         with torch.no_grad():
             for pos in range(resid.shape[1]):
@@ -87,6 +102,7 @@ def find_max_activating_examples(model, sae, feature_id: int, corpus: List[str],
                 token = model.to_string([token_id]).replace("Ġ", "").replace("<|endoftext|>", "")
                 rows.append({
                     "text": text.strip(),
+                    "highlighted_text": highlight_token_in_text(text.strip(), token, pos),
                     "activation": activation,
                     "token_position": pos,
                     "token": token,
@@ -96,10 +112,90 @@ def find_max_activating_examples(model, sae, feature_id: int, corpus: List[str],
     return rows[:max(1, top_n)]
 
 
+def find_max_activating_neuron_examples(model, neuron_index: int, layer: int, corpus: List[str], top_n: int = 10) -> List[Dict]:
+    """Return the top-N token positions across a corpus that most strongly activate a raw MLP neuron."""
+    if not corpus:
+        return []
+
+    hook_name = f"blocks.{layer}.mlp.hook_post"
+    rows = []
+    for text in corpus:
+        tokens = model.to_tokens(text)
+        _, cache = model.run_with_cache(tokens)
+        mlp_post = cache[hook_name]
+        with torch.no_grad():
+            for pos in range(mlp_post.shape[1]):
+                activation = float(mlp_post[0, pos, neuron_index].item())
+                token_id = int(tokens[0, pos].item())
+                token = model.to_string([token_id]).replace("Ġ", "").replace("<|endoftext|>", "")
+                rows.append({
+                    "text": text.strip(),
+                    "highlighted_text": highlight_token_in_text(text.strip(), token, pos),
+                    "activation": activation,
+                    "token_position": pos,
+                    "token": token,
+                })
+
+    rows.sort(key=lambda item: item["activation"], reverse=True)
+    return rows[:max(1, top_n)]
+
+
+def scan_dual_activations(model, sae, neuron_index: int, feature_id: int, layer: int, corpus: List[str], top_n: int = 10) -> Tuple[List[Dict], List[Dict]]:
+    """Fast single-pass scan for both raw neuron and SAE feature activations across the corpus."""
+    if not corpus:
+        return [], []
+
+    mlp_hook = f"blocks.{layer}.mlp.hook_post"
+    sae_hook = _get_hook_name(sae)
+    
+    neuron_rows = []
+    sae_rows = []
+
+    for text in corpus:
+        tokens = model.to_tokens(text)
+        _, cache = model.run_with_cache(tokens)
+        mlp_post = cache[mlp_hook]
+        resid = cache[sae_hook]
+
+        with torch.no_grad():
+            for pos in range(resid.shape[1]):
+                token_id = int(tokens[0, pos].item())
+                token = model.to_string([token_id]).replace("Ġ", "").replace("<|endoftext|>", "")
+                clean_text = text.strip()
+                highlighted = highlight_token_in_text(clean_text, token, pos)
+
+                # Raw neuron activation
+                n_act = float(mlp_post[0, pos, neuron_index].item())
+                neuron_rows.append({
+                    "text": clean_text,
+                    "highlighted_text": highlighted,
+                    "activation": n_act,
+                    "token_position": pos,
+                    "token": token,
+                })
+
+                # SAE feature activation
+                token_resid = resid[:, pos, :]
+                token_features = sae.encode(token_resid)
+                s_act = float(token_features[0, feature_id].item())
+                sae_rows.append({
+                    "text": clean_text,
+                    "highlighted_text": highlighted,
+                    "activation": s_act,
+                    "token_position": pos,
+                    "token": token,
+                })
+
+    neuron_rows.sort(key=lambda item: item["activation"], reverse=True)
+    sae_rows.sort(key=lambda item: item["activation"], reverse=True)
+
+    return neuron_rows[:max(1, top_n)], sae_rows[:max(1, top_n)]
+
+
 def score_feature_interpretability(model, sae, feature_id: int, corpus: List[str], groq_api_key: str, held_out_fraction: float = 0.2) -> Dict:
     """Use the reference set to prompt a Groq model and validate on a held-out set."""
     if not corpus:
-        return {"accuracy": 0.0, "n_reference": 0, "n_held_out": 0, "predictions": []}
+        return {"accuracy": 0.0, "n_reference": 0, "n_held_out": 0, "reference_examples": [], "predictions": []}
 
     random.seed(0)
     shuffled = list(corpus)
@@ -147,6 +243,7 @@ def score_feature_interpretability(model, sae, feature_id: int, corpus: List[str
         "accuracy": accuracy,
         "n_reference": len(reference),
         "n_held_out": len(held_out),
+        "reference_examples": reference_examples,
         "predictions": predictions,
     }
 
