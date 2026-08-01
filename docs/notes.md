@@ -48,3 +48,10 @@
 * Decoupled base model loading (`load_base_model`) from SAE dictionary loading (`load_sae_for_layer`). Cached the base transformer model once per session in Streamlit (`@st.cache_resource`), reducing layer-switching time from ~10s down to **< 0.2s**.
 * Integrated automated `HF_TOKEN` environment loading and `huggingface_hub.login` to eliminate rate-limiting during model and SAE dictionary weight downloads.
 
+## 2026-08-01: Synthetic Corpus Generator, Bundled Corpus Viewer, & Robust Autointerp Parsing
+* Added **✨ Synthetic Corpus Generator** (`generate_synthetic_corpus`) in `src/monosemanticity.py`, empowering researchers to synthesize topic-focused benchmark corpora on demand via Groq LLM agents.
+* Integrated **👁️ Bundled Corpus Inspector** in Tab 6, rendering an interactive dataframe preview of all 210 corpus sentences across 10 categories.
+* Upgraded **Autointerp Parsing Robustness** (`score_feature_interpretability`) with 800-token allocations and 3-stage normalized fuzzy string matching (`_norm(text)`) to eliminate formatting mismatch drops.
+* Enhanced **UI Credential Security** by removing on-screen password input widgets, loading secrets silently from environment variables / `.env` in backend memory.
+
+
