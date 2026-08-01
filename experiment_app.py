@@ -36,6 +36,7 @@ from src.monosemanticity import (
     validate_neuron_index,
     get_curated_feature_registry,
     get_sae_status_summary,
+    generate_synthetic_corpus,
 )
 
 from src.explain import (
@@ -1426,7 +1427,7 @@ with tab6:
     col1, col2 = st.columns([1, 1])
     with col1:
         neuron_index = st.number_input("Raw Model Neuron Dial Index", min_value=0, max_value=status_summary["d_mlp"] - 1, value=0, step=1, key="mono_neuron_index")
-        corpus_source = st.radio("Corpus Source", options=["Bundled default", "Paste text"], index=0, key="mono_corpus_source")
+        corpus_source = st.radio("Corpus Source", options=["Bundled default", "Paste text", "Generate synthetic corpus (Groq AI)"], index=0, key="mono_corpus_source")
     with col2:
         use_groq = st.checkbox("Run autointerp scoring & dynamic AI explanations", value=bool(default_groq_key), key="mono_use_groq")
         groq_key = default_groq_key
@@ -1434,11 +1435,36 @@ with tab6:
     if corpus_source == "Bundled default":
         corpus = get_default_corpus()
         st.caption(f"Using bundled corpus with {len(corpus)} sentences across 10 categories.")
-    else:
+        with st.expander(f"👁️ **View Bundled Corpus Sentences ({len(corpus)} total)**", expanded=False):
+            st.dataframe(pd.DataFrame({"Sentence #": range(1, len(corpus) + 1), "Text": corpus}), use_container_width=True)
+    elif corpus_source == "Paste text":
         pasted = st.text_area("Paste a corpus, one sentence per line", height=220, key="mono_pasted_corpus")
         corpus = [line.strip() for line in pasted.splitlines() if line.strip()]
         if not corpus:
             st.info("Paste one or more sentences to analyze a custom corpus.")
+    else:
+        st.markdown("##### ✨ Synthetic Corpus Generator (Groq Agent)")
+        synth_topic = st.text_input("Corpus Topic / Focus Domain", value="Cities, geography, science, and history", key="mono_synth_topic")
+        synth_num = st.slider("Number of Sentences to Generate", min_value=5, max_value=30, value=15, key="mono_synth_num")
+        
+        if st.button("✨ Generate Synthetic Corpus via Groq Agent", key="btn_gen_synth"):
+            if not default_groq_key:
+                st.error("Groq API Key is missing in environment. Please ensure GROQ_API_KEY is set in your .env file.")
+            else:
+                with st.spinner("Generating diverse synthetic corpus using Groq AI agent..."):
+                    try:
+                        gen_corpus = generate_synthetic_corpus(topic=synth_topic, num_sentences=int(synth_num), api_key=default_groq_key)
+                        st.session_state["mono_synthetic_corpus"] = gen_corpus
+                        st.success(f"Generated {len(gen_corpus)} synthetic sentences!")
+                    except Exception as e:
+                        st.error(f"Error generating synthetic corpus: {e}")
+                        
+        corpus = st.session_state.get("mono_synthetic_corpus", [])
+        if corpus:
+            st.markdown(f"**Generated Corpus ({len(corpus)} sentences):**")
+            st.dataframe(pd.DataFrame({"Sentence #": range(1, len(corpus) + 1), "Text": corpus}), use_container_width=True)
+        else:
+            st.info("Click 'Generate Synthetic Corpus via Groq Agent' to synthesize sentences on your chosen topic.")
 
     feature_id = int(direct_feature_id)
 

@@ -433,3 +433,25 @@ def find_most_similar_features(sae, feature_id: int, top_n: int = 10) -> List[Tu
         similarities.append((other_id, sim))
     similarities.sort(key=lambda item: item[1], reverse=True)
     return similarities[:max(1, top_n)]
+
+
+def generate_synthetic_corpus(topic: str = "general facts and concepts", num_sentences: int = 15, api_key: str = "") -> List[str]:
+    """Generates a diverse synthetic text corpus using Groq LLM agent for monosemanticity audit."""
+    system_prompt = "You are an AI research assistant generating text benchmark corpora for mechanistic interpretability audits."
+    prompt = (
+        f"Generate exactly {num_sentences} distinct, diverse, natural English sentences "
+        f"focused on or related to: '{topic}'.\n"
+        "Rules:\n"
+        "1. Each sentence must be on a new line.\n"
+        "2. Do not include numbers, bullet points, or prefixes.\n"
+        "3. Ensure high semantic diversity across sentence structures.\n"
+        "Output ONLY plain text sentences, one per line."
+    )
+    raw_response = query_groq(prompt, system_prompt=system_prompt, api_key=api_key)
+    lines = []
+    for line in raw_response.splitlines():
+        cleaned = line.strip(" -*0123456789.")
+        if cleaned and len(cleaned) > 5:
+            lines.append(cleaned)
+    return lines[:num_sentences]
+
