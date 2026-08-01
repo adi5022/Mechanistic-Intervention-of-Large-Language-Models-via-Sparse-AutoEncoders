@@ -204,3 +204,51 @@ Write 2 sentences explaining whether a cosine similarity of {top_sim:.4f} indica
         f"indicating that this feature is {status}. "
         f"{'A single feature ablation will cleanly target this concept.' if top_sim < 0.6 else 'Consider joint multi-feature ablation to address both redundant directions.'}"
     )
+
+
+def get_empty_state_guidance(state_type: str, context: dict = None) -> dict:
+    """
+    Returns structured empty state explanation metadata (why unavailable, expectedness, next steps).
+    """
+    if context is None:
+        context = {}
+
+    states = {
+        "invalid_feature_id": {
+            "title": "⚠️ Invalid Feature ID",
+            "why": f"Feature ID `{context.get('feature_id')}` is outside the valid dictionary bounds for this SAE ({context.get('bounds_str', '0 to 24575')}).",
+            "expected": "Expected whenever an out-of-bounds or non-integer ID is requested.",
+            "next_steps": "Use the Feature Explorer dropdown or recommended table to select a valid Feature ID (e.g., Feature 313)."
+        },
+        "invalid_neuron_index": {
+            "title": "⚠️ Invalid Raw Neuron Index",
+            "why": f"Neuron Index `{context.get('neuron_index')}` is outside the raw MLP layer bounds ({context.get('bounds_str', '0 to 3071')}).",
+            "expected": "Expected whenever an out-of-bounds raw neuron index is entered.",
+            "next_steps": "Select a neuron index between 0 and 3071 for GPT-2 Small."
+        },
+        "no_activations": {
+            "title": "ℹ️ No Activations Detected in Corpus",
+            "why": f"Feature Dial `{context.get('feature_id')}` did not activate (fire > 0.0) on any token positions across the selected corpus.",
+            "expected": "Normal behavior for highly specific features (or 'dead features') when tested on general sentences.",
+            "next_steps": "Try selecting a broader feature (e.g. Feature 313 or 415), or paste a custom corpus with domain-specific terms matching this feature."
+        },
+        "missing_neuronpedia": {
+            "title": "ℹ️ Neuronpedia Metadata Unavailable",
+            "why": f"No online description was found on Neuronpedia for Feature `{context.get('feature_id')}` on Layer `{context.get('layer')}`.",
+            "expected": "Expected if offline or if this specific feature lacks a community autointerp description on Neuronpedia.",
+            "next_steps": "You can inspect the max-activating snippets directly below to infer the feature's concept manually."
+        },
+        "missing_decoder_similarity": {
+            "title": "ℹ️ No Similar Decoder Directions Found",
+            "why": f"No other feature decoder vectors ($W_{{dec}}$) met the threshold for similarity comparison.",
+            "expected": "Normal for highly unique or orthogonal feature directions.",
+            "next_steps": "This confirms the feature is geometrically distinct. Single-feature ablation is recommended."
+        }
+    }
+
+    return states.get(state_type, {
+        "title": "ℹ️ Information Unavailable",
+        "why": "The requested analysis could not be computed for the current selection.",
+        "expected": "May occur if data or metadata is partially missing.",
+        "next_steps": "Select a recommended feature or check input parameters."
+    })

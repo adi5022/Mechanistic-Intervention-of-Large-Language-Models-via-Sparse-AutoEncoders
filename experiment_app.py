@@ -32,6 +32,10 @@ from src.monosemanticity import (
     compute_feature_similarity,
     find_most_similar_features,
     get_default_corpus,
+    validate_feature_id,
+    validate_neuron_index,
+    get_curated_feature_registry,
+    get_sae_status_summary,
 )
 
 from src.explain import (
@@ -40,6 +44,7 @@ from src.explain import (
     generate_sparsity_xai,
     generate_decoder_similarity_xai,
     generate_mechanistic_explanation,
+    get_empty_state_guidance,
 )
 
 def render_xai_guidance_card(card: dict):
@@ -54,6 +59,13 @@ def render_xai_guidance_card(card: dict):
             st.markdown(f"**⚡ What is happening internally?:**\n{card['internal']}")
             st.markdown(f"**📊 How to interpret results?:**\n{card['interpret']}")
             st.markdown(f"**🛠️ Contribution to Intervention Workflow:**\n{card['workflow']}")
+
+def render_empty_state_card(state_dict: dict):
+    """Renders a structured, informative empty state card when data or metadata is unavailable."""
+    with st.container(border=True):
+        st.markdown(f"### {state_dict['title']}")
+        st.warning(f"**Why is this unavailable?:** {state_dict['why']}")
+        st.info(f"**Is this expected?:** {state_dict['expected']}\n\n👉 **Recommended Next Steps:** {state_dict['next_steps']}")
 
 import requests
 
@@ -1356,10 +1368,63 @@ with tab6:
         "Editing polysemantic dials causes widespread collateral damage, whereas editing clean SAE dials enables precise factual steering."
     )
 
+    # 1. Dataset & SAE Status Panel
+    status_summary = get_sae_status_summary(model, sae, layer=layer, corpus=get_default_corpus())
+    with st.expander("📊 **Active SAE Model & Dataset Status Panel**", expanded=False):
+        c1, c2, c3, c4 = st.columns(4)
+        c1.metric("SAE Release", status_summary["release"])
+        c2.metric("Target Layer", f"Layer {status_summary['layer']}")
+        c3.metric("SAE Dictionary Size (d_sae)", f"{status_summary['d_sae']:,}")
+        c4.metric("Curated Testable Features", status_summary["curated_count"])
+        st.caption(f"Hook point: `{status_summary['hook_name']}` | Corpus sentences: {status_summary['corpus_count']} | Raw MLP dimension (d_mlp): {status_summary['d_mlp']:,}")
+
+    st.markdown("---")
+
+    # 2. Feature Explorer Component
+    st.subheader("🔍 Feature Explorer & Selection Bench")
+    st.caption("Discover, search, or select from curated testable SAE features to audit.")
+
+    curated_registry = get_curated_feature_registry(layer=layer)
+    dropdown_options = {f"Feature {f['feature_id']} — {f['concept']} ({f['category']})": f['feature_id'] for f in curated_registry}
+
+    col_exp1, col_exp2 = st.columns([1, 1])
+    with col_exp1:
+        selected_curated_label = st.selectbox(
+            "Select from Curated Monosemantic Features",
+            options=list(dropdown_options.keys()),
+            index=0,
+            key="mono_curated_dropdown"
+        )
+        curated_selected_id = dropdown_options[selected_curated_label]
+
+    with col_exp2:
+        direct_feature_id = st.number_input(
+            "Or enter Feature ID directly",
+            min_value=0,
+            max_value=status_summary["d_sae"] - 1,
+            value=curated_selected_id,
+            step=1,
+            key="mono_feature_id"
+        )
+
+    # Curated Features Metadata Table
+    with st.expander("📋 **Browse Recommended Features Registry**", expanded=False):
+        reg_df = pd.DataFrame([
+            {
+                "Feature ID": item["feature_id"],
+                "Concept / Description": item["concept"],
+                "Category": item["category"],
+                "Interpretability": item["interpretability"],
+                "Known Quality": item["known_quality"],
+                "Details": item["description"]
+            }
+            for item in curated_registry
+        ])
+        st.dataframe(reg_df, use_container_width=True)
+
     col1, col2 = st.columns([1, 1])
     with col1:
-        feature_id = st.number_input("SAE Feature Dial ID", min_value=0, value=313, step=1, key="mono_feature_id")
-        neuron_index = st.number_input("Raw Model Neuron Dial Index", min_value=0, value=0, step=1, key="mono_neuron_index")
+        neuron_index = st.number_input("Raw Model Neuron Dial Index", min_value=0, max_value=status_summary["d_mlp"] - 1, value=0, step=1, key="mono_neuron_index")
         corpus_source = st.radio("Corpus Source", options=["Bundled default", "Paste text"], index=0, key="mono_corpus_source")
     with col2:
         groq_key = st.text_input("Groq API Key (optional)", type="password", value=groq_key_input, key="mono_groq_key")
@@ -1374,7 +1439,21 @@ with tab6:
         if not corpus:
             st.info("Paste one or more sentences to analyze a custom corpus.")
 
+    feature_id = int(direct_feature_id)
+
+    # Input Validation checks
+    is_f_valid, f_val_msg = validate_feature_id(sae, feature_id)
+    is_n_valid, n_val_msg = validate_neuron_index(model, layer, int(neuron_index))
+
+    if not is_f_valid:
+        render_empty_state_card(get_empty_state_guidance("invalid_feature_id", {"feature_id": feature_id, "bounds_str": f"0 to {status_summary['d_sae'] - 1}"}))
+    if not is_n_valid:
+        render_empty_state_card(get_empty_state_guidance("invalid_neuron_index", {"neuron_index": neuron_index, "bounds_str": f"0 to {status_summary['d_mlp'] - 1}"}))
+
     if st.button("Run Monosemanticity Analysis & Feature Audit", key="btn_mono"):
+        if not is_f_valid or not is_n_valid:
+            st.error("Please provide valid Feature ID and Neuron Index bounds before running.")
+            st.stop()
         if not corpus:
             st.warning("No corpus supplied.")
             st.stop()
@@ -1382,10 +1461,14 @@ with tab6:
         effective_groq_key = groq_key or groq_key_input
 
         with st.spinner("Scanning raw neuron & SAE dial activation patterns in a single fast pass..."):
-            raw_neuron_examples, max_examples = scan_dual_activations(model, sae, int(neuron_index), int(feature_id), layer, corpus, top_n=10)
+            try:
+                raw_neuron_examples, max_examples = scan_dual_activations(model, sae, int(neuron_index), feature_id, layer, corpus, top_n=10)
+            except Exception as e:
+                st.error(f"Error scanning activations: {e}")
+                raw_neuron_examples, max_examples = [], []
 
         # Retrieve Neuronpedia explanation for the SAE feature dial
-        sae_explanation = get_neuronpedia_explanation(int(feature_id), layer)
+        sae_explanation = get_neuronpedia_explanation(feature_id, layer)
 
         # === RAW NEURON ANALYSIS ===
         st.subheader("Raw Neuron Analysis (Un-decomposed Baseline)")
@@ -1404,12 +1487,12 @@ with tab6:
                 })
             st.dataframe(raw_rows, use_container_width=True)
         else:
-            st.info("No activating examples found for this raw neuron dial across the corpus.")
+            render_empty_state_card(get_empty_state_guidance("no_activations", {"feature_id": f"Raw Neuron {neuron_index}"}))
 
         # AI Polysemanticity Diagnosis Card
         raw_token_list = [item["token"] for item in raw_neuron_examples]
         sae_token_list = [item["token"] for item in max_examples]
-        poly_xai = generate_polysemanticity_comparison_xai(int(neuron_index), int(feature_id), raw_token_list, sae_token_list, api_key=effective_groq_key)
+        poly_xai = generate_polysemanticity_comparison_xai(int(neuron_index), feature_id, raw_token_list, sae_token_list, api_key=effective_groq_key)
         st.warning(f"🔬 **AI Polysemanticity Diagnosis:**\n\n{poly_xai}")
 
         st.markdown("---")
@@ -1418,10 +1501,13 @@ with tab6:
         st.subheader("SAE Feature Analysis (Decomposed Feature Dial)")
         render_xai_guidance_card(get_xai_guidance_card("sae_feature"))
 
-        st.success(
-            f"🧠 **Known Feature Concept (Neuronpedia):** `{sae_explanation}`\n\n"
-            f"*(SAE Feature Dial ID: `{feature_id}` on Layer `{layer}`)*"
-        )
+        if sae_explanation and sae_explanation != "Explanation unavailable":
+            st.success(
+                f"🧠 **Known Feature Concept (Neuronpedia):** `{sae_explanation}`\n\n"
+                f"*(SAE Feature Dial ID: `{feature_id}` on Layer `{layer}`)*"
+            )
+        else:
+            render_empty_state_card(get_empty_state_guidance("missing_neuronpedia", {"feature_id": feature_id, "layer": layer}))
 
         if max_examples:
             top_sae_tokens = ", ".join(f"`{item['token']}`" for item in max_examples[:6])
@@ -1436,7 +1522,7 @@ with tab6:
                 })
             st.dataframe(rows, use_container_width=True)
         else:
-            st.info("No activating examples found for this corpus.")
+            render_empty_state_card(get_empty_state_guidance("no_activations", {"feature_id": feature_id}))
 
         st.markdown("---")
 
@@ -1446,23 +1532,28 @@ with tab6:
 
         if use_groq and effective_groq_key:
             with st.spinner("Running Groq-based autointerp scoring..."):
-                score = score_feature_interpretability(model, sae, int(feature_id), corpus, effective_groq_key, held_out_fraction=0.2)
-            st.metric("Autointerp Prediction Accuracy", f"{score['accuracy'] * 100:.1f}%")
-            st.caption(f"Reference set size: {score['n_reference']}; Held-out validation set size: {score['n_held_out']}")
+                try:
+                    score = score_feature_interpretability(model, sae, feature_id, corpus, effective_groq_key, held_out_fraction=0.2)
+                except Exception as e:
+                    st.warning(f"Failed to run autointerp scoring: {e}")
+                    score = None
 
-            st.markdown("#### (a) Reference examples shown to the AI evaluator")
-            if score.get("reference_examples"):
-                ref_rows = []
-                for item in score["reference_examples"]:
-                    ref_rows.append({
-                        "Activation": f"{item['activation']:.4f}",
-                        "Trigger Word": item["token"],
-                        "Sentence": item.get("highlighted_text", item["text"]),
-                    })
-                st.dataframe(ref_rows, use_container_width=True)
+            if score and score.get("predictions"):
+                st.metric("Autointerp Prediction Accuracy", f"{score['accuracy'] * 100:.1f}%")
+                st.caption(f"Reference set size: {score['n_reference']}; Held-out validation set size: {score['n_held_out']}")
 
-            st.markdown("#### (b) Held-out test cases validation")
-            if score.get("predictions"):
+                st.markdown("#### (a) Reference examples shown to the AI evaluator")
+                if score.get("reference_examples"):
+                    ref_rows = []
+                    for item in score["reference_examples"]:
+                        ref_rows.append({
+                            "Activation": f"{item['activation']:.4f}",
+                            "Trigger Word": item["token"],
+                            "Sentence": item.get("highlighted_text", item["text"]),
+                        })
+                    st.dataframe(ref_rows, use_container_width=True)
+
+                st.markdown("#### (b) Held-out test cases validation")
                 test_rows = []
                 for item in score["predictions"]:
                     is_correct = item["correct"]
@@ -1485,7 +1576,12 @@ with tab6:
         render_xai_guidance_card(get_xai_guidance_card("sparsity_stats"))
 
         with st.spinner("Computing sparsity stats..."):
-            sparsity = compute_sparsity_stats(model, sae, corpus, max_corpus_items=200)
+            try:
+                sparsity = compute_sparsity_stats(model, sae, corpus, max_corpus_items=200)
+            except Exception as e:
+                st.warning(f"Error computing sparsity stats: {e}")
+                sparsity = {"mean_l0": 0.0, "l0_distribution": [], "cap": 200, "feature_firing_frequency": {}}
+
         st.metric("Mean L0 (Active Dials per Token)", f"{sparsity['mean_l0']:.4f}")
         st.caption(f"Corpus cap used: {sparsity['cap']} items")
         
@@ -1505,16 +1601,19 @@ with tab6:
         render_xai_guidance_card(get_xai_guidance_card("decoder_similarity"))
 
         with st.spinner("Comparing decoder directions..."):
-            similar = find_most_similar_features(sae, int(feature_id), top_n=10)
-        
-        sim_xai = generate_decoder_similarity_xai(int(feature_id), similar, api_key=effective_groq_key)
-        st.info(f"📐 **Geometric Independence & Redundancy Verdict:**\n\n{sim_xai}")
+            try:
+                similar = find_most_similar_features(sae, feature_id, top_n=10)
+            except Exception as e:
+                st.warning(f"Error computing decoder similarity: {e}")
+                similar = []
 
         if similar:
+            sim_xai = generate_decoder_similarity_xai(feature_id, similar, api_key=effective_groq_key)
+            st.info(f"📐 **Geometric Independence & Redundancy Verdict:**\n\n{sim_xai}")
             sim_rows = [{"Feature Dial ID": fid, "Cosine Similarity": f"{sim:.4f}"} for fid, sim in similar]
             st.dataframe(sim_rows, use_container_width=True)
         else:
-            st.info("No similar features found.")
+            render_empty_state_card(get_empty_state_guidance("missing_decoder_similarity", {"feature_id": feature_id}))
 
 # --- TAB 7: Session History & Benchmarks ---
 with tab7:
