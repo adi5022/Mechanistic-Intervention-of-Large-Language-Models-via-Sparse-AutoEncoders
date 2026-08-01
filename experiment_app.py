@@ -142,7 +142,7 @@ hook_name = getattr(sae.cfg, "hook_name", f"blocks.{layer}.hook_resid_pre")
 st.sidebar.markdown("---")
 st.sidebar.subheader("🤖 Explainable AI Layer")
 enable_xai = st.sidebar.checkbox("Enable AI Explanations (Groq)", value=bool(default_groq_key))
-groq_key_input = st.sidebar.text_input("Groq API Key", type="password", value=default_groq_key)
+groq_key_input = default_groq_key
 
 # Tabs setup
 tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs([
@@ -1428,8 +1428,8 @@ with tab6:
         neuron_index = st.number_input("Raw Model Neuron Dial Index", min_value=0, max_value=status_summary["d_mlp"] - 1, value=0, step=1, key="mono_neuron_index")
         corpus_source = st.radio("Corpus Source", options=["Bundled default", "Paste text"], index=0, key="mono_corpus_source")
     with col2:
-        groq_key = st.text_input("Groq API Key (optional)", type="password", value=groq_key_input, key="mono_groq_key")
-        use_groq = st.checkbox("Run autointerp scoring & dynamic AI explanations", value=bool(groq_key_input), key="mono_use_groq")
+        use_groq = st.checkbox("Run autointerp scoring & dynamic AI explanations", value=bool(default_groq_key), key="mono_use_groq")
+        groq_key = default_groq_key
 
     if corpus_source == "Bundled default":
         corpus = get_default_corpus()
