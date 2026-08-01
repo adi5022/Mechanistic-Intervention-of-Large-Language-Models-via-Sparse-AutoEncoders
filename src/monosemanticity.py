@@ -317,24 +317,44 @@ def score_feature_interpretability(model, sae, feature_id: int, corpus: List[str
     held_out_examples = "\n".join(f"- {text}" for text in held_out if text.strip())
     prompt = f"""You are evaluating whether an SAE feature behaves like a single concept. Here are the most activating examples for feature {feature_id} from a reference corpus:\n{examples_str}\n\nFor each held-out example below, predict whether the feature will be HIGH or LOW activation. Respond with one line per example in the format: TEXT | HIGH or LOW\n{held_out_examples}\n"""
 
-    llm_response = query_groq(prompt, api_key=groq_api_key, max_tokens=200)
+    llm_response = query_groq(prompt, api_key=groq_api_key, max_tokens=800)
+    
+    def _norm(s: str) -> str:
+        import re
+        return re.sub(r'[^a-zA-Z0-9]', '', s).lower()
+
+    response_lines = [l.strip() for l in (llm_response or "").splitlines() if l.strip() and "|" in l]
     predictions = []
-    for text in held_out:
+
+    for i, text in enumerate(held_out):
         if not text.strip():
             continue
         actual = find_max_activating_examples(model, sae, feature_id, [text], top_n=1)
         actual_activation = actual[0]["activation"] if actual else 0.0
         actual_label = "HIGH" if actual_activation > 0.0 else "LOW"
+        
         predicted_label = None
-        if llm_response and "|" in llm_response:
-            for line in llm_response.splitlines():
-                if text in line:
-                    prediction = line.split("|")[-1].strip().upper()
-                    if prediction in {"HIGH", "LOW"}:
-                        predicted_label = prediction
-                        break
+        norm_text = _norm(text)
+
+        # Strategy 1: Match by normalized text substring
+        for line in response_lines:
+            line_parts = line.split("|")
+            line_text = line_parts[0]
+            line_pred = line_parts[-1].strip().upper()
+            if norm_text in _norm(line_text) or _norm(line_text) in norm_text:
+                if line_pred in {"HIGH", "LOW"}:
+                    predicted_label = line_pred
+                    break
+
+        # Strategy 2: Match by line index fallback if line count aligns
+        if predicted_label is None and i < len(response_lines):
+            line_pred = response_lines[i].split("|")[-1].strip().upper()
+            if line_pred in {"HIGH", "LOW"}:
+                predicted_label = line_pred
+
         if predicted_label is None:
-            predicted_label = actual_label
+            predicted_label = "LOW"
+
         predictions.append({
             "text": text,
             "predicted": predicted_label,
