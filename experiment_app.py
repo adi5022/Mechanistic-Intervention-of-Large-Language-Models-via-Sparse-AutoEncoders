@@ -119,9 +119,10 @@ except ImportError:
     pass
 
 default_groq_key = os.environ.get("GROQ_API_KEY", "")
-if not default_groq_key and hasattr(st, "secrets") and "groq" in st.secrets:
+if not default_groq_key:
     try:
-        default_groq_key = st.secrets["groq"].get("api_key", "")
+        if hasattr(st, "secrets") and "groq" in st.secrets:
+            default_groq_key = st.secrets["groq"].get("api_key", "")
     except Exception:
         pass
 
