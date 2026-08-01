@@ -439,6 +439,7 @@ def generate_synthetic_corpus(topic: str = "general facts and concepts", num_sen
     """Generates a diverse synthetic text corpus using Groq LLM agent for monosemanticity audit."""
     system_prompt = "You are an AI research assistant generating text benchmark corpora for mechanistic interpretability audits."
     prompt = (
+        f"You are an AI research assistant generating text benchmark corpora for mechanistic interpretability audits.\n"
         f"Generate exactly {num_sentences} distinct, diverse, natural English sentences "
         f"focused on or related to: '{topic}'.\n"
         "Rules:\n"
@@ -447,7 +448,9 @@ def generate_synthetic_corpus(topic: str = "general facts and concepts", num_sen
         "3. Ensure high semantic diversity across sentence structures.\n"
         "Output ONLY plain text sentences, one per line."
     )
-    raw_response = query_groq(prompt, system_prompt=system_prompt, api_key=api_key)
+    raw_response = query_groq(prompt, api_key=api_key, max_tokens=600)
+    if not raw_response:
+        return []
     lines = []
     for line in raw_response.splitlines():
         cleaned = line.strip(" -*0123456789.")
