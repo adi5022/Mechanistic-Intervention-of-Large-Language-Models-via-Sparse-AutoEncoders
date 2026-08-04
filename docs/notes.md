@@ -54,4 +54,10 @@
 * Upgraded **Autointerp Parsing Robustness** (`score_feature_interpretability`) with 800-token allocations and 3-stage normalized fuzzy string matching (`_norm(text)`) to eliminate formatting mismatch drops.
 * Enhanced **UI Credential Security** by removing on-screen password input widgets, loading secrets silently from environment variables / `.env` in backend memory.
 
+## 2026-08-04: Pretrained SAE Dictionary Audit for gpt2-small-res-jb
+* Audited available pretrained SAE dictionaries in SAELens for `gpt2-small-res-jb` using standalone verification script `investigate_gpt2_saes.py`.
+* Verified 100% complete coverage for `blocks.{layer}.hook_resid_pre` across all 12 transformer blocks (Layers 0 to 11).
+* Mapped external release structure for other hook locations (`gpt2-small-resid-post-jb`, `gpt2-small-mlp-out-jb`, `gpt2-small-attn-out-jb`, `gpt2-small-hook-z-jb`). Documented findings in [Research Journal Entry 9](file:///d:/Work/PROJECTS/FeatureScalpel/docs/Research_Journal/9.md).
+
+
 

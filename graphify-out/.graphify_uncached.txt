@@ -1,0 +1,50 @@
+D:\Work\PROJECTS\FeatureScalpel\.agents\rules\graphify.md
+D:\Work\PROJECTS\FeatureScalpel\.agents\workflows\graphify.md
+D:\Work\PROJECTS\FeatureScalpel\Agent Utilities\featurescalpel_agent_prompt.md
+D:\Work\PROJECTS\FeatureScalpel\History\GHistory.md
+D:\Work\PROJECTS\FeatureScalpel\README.md
+D:\Work\PROJECTS\FeatureScalpel\data\monosemanticity_corpus.txt
+D:\Work\PROJECTS\FeatureScalpel\docs\Research_Journal\1.md
+D:\Work\PROJECTS\FeatureScalpel\docs\Research_Journal\2.md
+D:\Work\PROJECTS\FeatureScalpel\docs\Research_Journal\3.md
+D:\Work\PROJECTS\FeatureScalpel\docs\Research_Journal\4.md
+D:\Work\PROJECTS\FeatureScalpel\docs\Research_Journal\5.md
+D:\Work\PROJECTS\FeatureScalpel\docs\Research_Journal\6.md
+D:\Work\PROJECTS\FeatureScalpel\docs\Research_Journal\7.md
+D:\Work\PROJECTS\FeatureScalpel\docs\Research_Journal\8.md
+D:\Work\PROJECTS\FeatureScalpel\docs\Stage additions\Step 1.md
+D:\Work\PROJECTS\FeatureScalpel\docs\architecture.md
+D:\Work\PROJECTS\FeatureScalpel\docs\notes.md
+D:\Work\PROJECTS\FeatureScalpel\docs\research_log.md
+D:\Work\PROJECTS\FeatureScalpel\handoff.md
+D:\Work\PROJECTS\FeatureScalpel\notes.md
+D:\Work\PROJECTS\FeatureScalpel\outputs\stage_1\baseline_target_report.md
+D:\Work\PROJECTS\FeatureScalpel\outputs\stage_1\report.md
+D:\Work\PROJECTS\FeatureScalpel\requirements.txt
+D:\Work\PROJECTS\FeatureScalpel\research\CONTRIBUTING_RESEARCH.md
+D:\Work\PROJECTS\FeatureScalpel\research\README.md
+D:\Work\PROJECTS\FeatureScalpel\research\experiment_index.md
+D:\Work\PROJECTS\FeatureScalpel\research\hypothesis_log.md
+D:\Work\PROJECTS\FeatureScalpel\research\notebook\exp_002.md
+D:\Work\PROJECTS\FeatureScalpel\research\notebook\exp_004.md
+D:\Work\PROJECTS\FeatureScalpel\research\notebook\exp_006.md
+D:\Work\PROJECTS\FeatureScalpel\research\notebook\exp_007.md
+D:\Work\PROJECTS\FeatureScalpel\research\notebook\exp_008.md
+D:\Work\PROJECTS\FeatureScalpel\research\notebook\exp_009.md
+D:\Work\PROJECTS\FeatureScalpel\research\notebook\exp_010.md
+D:\Work\PROJECTS\FeatureScalpel\research\notebook\experiment_template.md
+D:\Work\PROJECTS\FeatureScalpel\research\paper\abstract.md
+D:\Work\PROJECTS\FeatureScalpel\research\paper\conclusion.md
+D:\Work\PROJECTS\FeatureScalpel\research\paper\discussion.md
+D:\Work\PROJECTS\FeatureScalpel\research\paper\experiments.md
+D:\Work\PROJECTS\FeatureScalpel\research\paper\future_work.md
+D:\Work\PROJECTS\FeatureScalpel\research\paper\introduction.md
+D:\Work\PROJECTS\FeatureScalpel\research\paper\limitations.md
+D:\Work\PROJECTS\FeatureScalpel\research\paper\methodology.md
+D:\Work\PROJECTS\FeatureScalpel\research\paper\outline.md
+D:\Work\PROJECTS\FeatureScalpel\research\paper\related_work.md
+D:\Work\PROJECTS\FeatureScalpel\research\paper\results.md
+D:\Work\PROJECTS\FeatureScalpel\research\timeline.md
+D:\Work\PROJECTS\FeatureScalpel\src\New folder\history.md
+D:\Work\PROJECTS\FeatureScalpel\docs\1.pdf
+D:\Work\PROJECTS\FeatureScalpel\docs\Bricken - 2023 - Towards Monosemanticity Decomposing Language Mode.pdf
