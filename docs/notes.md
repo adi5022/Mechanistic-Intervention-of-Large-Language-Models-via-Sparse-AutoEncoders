@@ -59,5 +59,17 @@
 * Verified 100% complete coverage for `blocks.{layer}.hook_resid_pre` across all 12 transformer blocks (Layers 0 to 11).
 * Mapped external release structure for other hook locations (`gpt2-small-resid-post-jb`, `gpt2-small-mlp-out-jb`, `gpt2-small-attn-out-jb`, `gpt2-small-hook-z-jb`). Documented findings in [Research Journal Entry 9](file:///d:/Work/PROJECTS/FeatureScalpel/docs/Research_Journal/9.md).
 
+## 2026-08-04 (Session 2): Layer Intervention Depth Characterization Benchmark
+* Implemented dedicated **Layer Intervention Benchmark** (`layer_benchmark.py` and `src/benchmark/layer_benchmark_runner.py`).
+* Rendered high-resolution benchmark visualization plots (Probability Gain vs Layer, Rank Improvement vs Layer, Runtime vs Layer) in `docs/Research_Journal/images/`.
+* Created [Research Journal Entry 10](file:///d:/Work/PROJECTS/FeatureScalpel/docs/Research_Journal/10.md) tracking progress across transformer depth.
+
+## 2026-08-05: Multi-Prompt Dataset Benchmark & Research Logging Subsystem
+* Extended `layer_benchmark.py` with an interactive **Prompts Dataset Editor** (`➕ Add Prompt`, `➖ Remove Prompt`).
+* Added automatic timestamped JSON artifact persistence to `benchmark_results/` per prompt.
+* Added programmatic notebook `notebooks/04_layer_intervention_benchmark.ipynb` and session transcript log `History/Session_LayerBenchmark_History.md`.
+
+
+
 
 

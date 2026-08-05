@@ -1,0 +1,199 @@
+{
+    "benchmark_name": "Layer Intervention Benchmark",
+    "benchmark_version": "0.1",
+    "timestamp": "2026-08-04T16:18:21.207373Z",
+    "model": "gpt2",
+    "algorithm": "Hybrid Mute & Boost",
+    "layer_metadata": {
+        "hook": "hook_resid_pre",
+        "release": "gpt2-small-res-jb"
+    },
+    "layers": [
+        {
+            "layer": 2,
+            "hook": "blocks.2.hook_resid_pre",
+            "release": "gpt2-small-res-jb",
+            "clean_rank": 8,
+            "final_rank": 8,
+            "rank_improvement": 0,
+            "clean_probability": 0.011525427922606468,
+            "final_probability": 0.011032392270863056,
+            "probability_gain": -0.000493035651743412,
+            "runtime_ms": 114295.11289999937,
+            "success": false,
+            "top_prediction_before": " the",
+            "top_prediction_after": " the",
+            "mute_features": [
+                9938,
+                23196,
+                6001,
+                5611,
+                22132,
+                2306
+            ],
+            "boost_features": [
+                14075,
+                11741,
+                12711,
+                1890,
+                9865,
+                9736
+            ]
+        },
+        {
+            "layer": 4,
+            "hook": "blocks.4.hook_resid_pre",
+            "release": "gpt2-small-res-jb",
+            "clean_rank": 8,
+            "final_rank": 10,
+            "rank_improvement": -2,
+            "clean_probability": 0.011525427922606468,
+            "final_probability": 0.007441854104399681,
+            "probability_gain": -0.004083573818206787,
+            "runtime_ms": 80550.92479999985,
+            "success": false,
+            "top_prediction_before": " the",
+            "top_prediction_after": " the",
+            "mute_features": [
+                16205,
+                1105,
+                7681,
+                15403,
+                13355,
+                21349
+            ],
+            "boost_features": [
+                3090,
+                16084,
+                24404,
+                13767,
+                1102,
+                14680
+            ]
+        },
+        {
+            "layer": 5,
+            "hook": "blocks.5.hook_resid_pre",
+            "release": "gpt2-small-res-jb",
+            "clean_rank": 8,
+            "final_rank": 5,
+            "rank_improvement": 3,
+            "clean_probability": 0.011525427922606468,
+            "final_probability": 0.022430764511227608,
+            "probability_gain": 0.01090533658862114,
+            "runtime_ms": 90628.63199999993,
+            "success": false,
+            "top_prediction_before": " the",
+            "top_prediction_after": " the",
+            "mute_features": [
+                13596,
+                17808,
+                13865,
+                17241,
+                3453,
+                281
+            ],
+            "boost_features": [
+                22108,
+                19381,
+                6246,
+                3555,
+                16203,
+                4868
+            ]
+        },
+        {
+            "layer": 8,
+            "hook": "blocks.8.hook_resid_pre",
+            "release": "gpt2-small-res-jb",
+            "clean_rank": 8,
+            "final_rank": 3,
+            "rank_improvement": 5,
+            "clean_probability": 0.011525427922606468,
+            "final_probability": 0.05687306076288223,
+            "probability_gain": 0.045347632840275764,
+            "runtime_ms": 92907.53940000104,
+            "success": false,
+            "top_prediction_before": " the",
+            "top_prediction_after": " the",
+            "mute_features": [
+                8459,
+                21169,
+                14430,
+                4445,
+                6863,
+                7713
+            ],
+            "boost_features": [
+                3076,
+                19288,
+                8239,
+                24181,
+                13505,
+                5858
+            ]
+        },
+        {
+            "layer": 9,
+            "hook": "blocks.9.hook_resid_pre",
+            "release": "gpt2-small-res-jb",
+            "clean_rank": 8,
+            "final_rank": 3,
+            "rank_improvement": 5,
+            "clean_probability": 0.011525427922606468,
+            "final_probability": 0.030429352074861526,
+            "probability_gain": 0.01890392415225506,
+            "runtime_ms": 90126.78679999954,
+            "success": false,
+            "top_prediction_before": " the",
+            "top_prediction_after": " the",
+            "mute_features": [
+                8943,
+                2235,
+                13127,
+                7293,
+                1495,
+                20079
+            ],
+            "boost_features": [
+                19284,
+                15534,
+                2083,
+                2412,
+                19823,
+                15330
+            ]
+        },
+        {
+            "layer": 10,
+            "hook": "blocks.10.hook_resid_pre",
+            "release": "gpt2-small-res-jb",
+            "clean_rank": 8,
+            "final_rank": 5,
+            "rank_improvement": 3,
+            "clean_probability": 0.011525427922606468,
+            "final_probability": 0.02178245410323143,
+            "probability_gain": 0.010257026180624962,
+            "runtime_ms": 63933.722800000396,
+            "success": false,
+            "top_prediction_before": " the",
+            "top_prediction_after": " the",
+            "mute_features": [
+                6762,
+                10712,
+                15625,
+                21540,
+                24106,
+                700
+            ],
+            "boost_features": [
+                20330,
+                21513,
+                7589,
+                20009,
+                2502,
+                14140
+            ]
+        }
+    ]
+}

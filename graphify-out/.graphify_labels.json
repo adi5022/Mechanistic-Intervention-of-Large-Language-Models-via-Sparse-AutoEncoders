@@ -1,8 +1,8 @@
 {
-  "0": "monosemanticity.py",
+  "0": "experiment_app.py",
   "1": "editing.py",
   "2": "history.md",
-  "3": "experiment_app.py",
+  "3": "load_model_and_sae",
   "4": "4. Discussion & Next Steps",
   "5": "Experiment: Weighted Multi-Competitor Reduction & Grammatical Feature Collapse on the Cambridge Case",
   "6": "Experiment: Competitor-Focused Iterative Ablation",
@@ -49,7 +49,9 @@
   "47": "Residual Stream",
   "48": "Sparse Autoencoder (SAE)",
   "49": "fact_bank.py",
-  "50": "evaluation.py",
+  "50": "Research Journal Entry 10: Layer Intervention Depth Characterization Benchmark",
   "51": "Research Journal Entry 9: Pretrained SAE Dictionary Audit for gpt2-small-res-jb",
-  "52": "investigate_gpt2_saes.py"
+  "52": "investigate_gpt2_saes.py",
+  "53": "generate_benchmark_charts.py",
+  "54": "Session History: Layer Intervention Benchmark Subsystem"
 }

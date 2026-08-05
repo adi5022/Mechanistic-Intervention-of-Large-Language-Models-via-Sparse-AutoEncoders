@@ -360,13 +360,13 @@
     "semantic_hash": ""
   },
   "layer_benchmark.py": {
-    "mtime": 1785862046.34837,
-    "ast_hash": "796034f358aac4103849d63e0e2051e4",
+    "mtime": 1785862483.7870255,
+    "ast_hash": "1dae9f1e86fe6632f876ed9b00bc46fa",
     "semantic_hash": ""
   },
   "src/benchmark/layer_benchmark_runner.py": {
-    "mtime": 1785862037.74078,
-    "ast_hash": "04213f88ea193b4082c50a18aed37e5f",
+    "mtime": 1785862477.686162,
+    "ast_hash": "493ab98cd608dc03757dbde5c83b9d2f",
     "semantic_hash": ""
   },
   "benchmark_results/layer_benchmark_20260804_163717.json": {
@@ -402,6 +402,16 @@
   "docs/Research_Journal/images/runtime_vs_layer.png": {
     "mtime": 1785862150.801417,
     "ast_hash": "64882d61d7895513cd8122d820bb73a0",
+    "semantic_hash": ""
+  },
+  "benchmark_results/layer_benchmark_20260804_165545_220416.json": {
+    "mtime": 1785862648.4828944,
+    "ast_hash": "7f5b15bdc764a542416486e5f2d3d366",
+    "semantic_hash": ""
+  },
+  "benchmark_results/layer_benchmark_20260804_165728_537922.json": {
+    "mtime": 1785862721.7927253,
+    "ast_hash": "8104a5142b775b636aca2c3b50036866",
     "semantic_hash": ""
   }
 }

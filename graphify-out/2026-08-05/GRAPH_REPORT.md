@@ -1,11 +1,11 @@
-# Graph Report - FeatureScalpel  (2026-08-05)
+# Graph Report - FeatureScalpel  (2026-08-04)
 
 ## Corpus Check
-- 79 files · ~510,914 words
+- 76 files · ~509,706 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 415 nodes · 554 edges · 55 communities (23 shown, 32 thin omitted)
+- 402 nodes · 542 edges · 54 communities (22 shown, 32 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 2 edges (avg confidence: 0.7)
 - Token cost: 0 input · 0 output
 
@@ -18,7 +18,7 @@
 - experiment_app.py
 - editing.py
 - history.md
-- load_model_and_sae
+- evaluation.py
 - 4. Discussion & Next Steps
 - Experiment: Weighted Multi-Competitor Reduction & Grammatical Feature Collapse on the Cambridge Case
 - Experiment: Competitor-Focused Iterative Ablation
@@ -66,13 +66,12 @@
 - Research Journal Entry 10: Layer Intervention Depth Characterization Benchmark
 - Research Journal Entry 9: Pretrained SAE Dictionary Audit for gpt2-small-res-jb
 - investigate_gpt2_saes.py
-- Session History: Layer Intervention Benchmark Subsystem
 
 ## God Nodes (most connected - your core abstractions)
 1. `load_model_and_sae()` - 17 edges
 2. `get_top_competitor_features()` - 15 edges
 3. `make_ablation_hook()` - 15 edges
-4. `Research Log: Investigating SAE-Based Activation Manipulation` - 15 edges
+4. `Research Log: Investigating SAE-Based Activation Manipulation` - 14 edges
 5. `get_target_token_id()` - 13 edges
 6. `run_layer_benchmark()` - 12 edges
 7. `make_joint_ablation_hook()` - 10 edges
@@ -81,14 +80,14 @@
 10. `make_signed_ablation_hook()` - 9 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `get_predictions()` --calls--> `make_ablation_hook()`  [EXTRACTED]
-  app.py → src/hooks.py
-- `main()` --calls--> `load_model_and_sae()`  [EXTRACTED]
-  test.py → src/sae_utils.py
-- `test_monosemanticity_helpers_run_on_real_model_and_sae()` --calls--> `load_model_and_sae()`  [EXTRACTED]
-  tests/test_monosemanticity.py → src/sae_utils.py
 - `get_cached_model_and_sae()` --calls--> `load_model_and_sae()`  [EXTRACTED]
   app.py → src/sae_utils.py
+- `get_predictions()` --calls--> `make_ablation_hook()`  [EXTRACTED]
+  app.py → src/hooks.py
+- `run_trace()` --calls--> `make_ablation_hook()`  [EXTRACTED]
+  test.py → src/hooks.py
+- `test_monosemanticity_helpers_run_on_real_model_and_sae()` --calls--> `load_model_and_sae()`  [EXTRACTED]
+  tests/test_monosemanticity.py → src/sae_utils.py
 - `get_cached_base_model()` --calls--> `load_base_model()`  [EXTRACTED]
   experiment_app.py → src/sae_utils.py
 
@@ -99,7 +98,7 @@
 - **Research Evolution: From Single to Multi-Feature Intervention** — docs_research_journal_2, docs_research_journal_3, docs_research_journal_4, docs_research_journal_8 [EXTRACTED 0.90]
 - **Theoretical Framework** — residual_stream, sparse_autoencoder, distributed_support_hypothesis [INFERRED 0.85]
 
-## Communities (55 total, 32 thin omitted)
+## Communities (54 total, 32 thin omitted)
 
 ### Community 0 - "experiment_app.py"
 Cohesion: 0.06
@@ -107,15 +106,15 @@ Nodes (57): cache_data, get_neuronpedia_explanation(), make_feature_hover_link()
 
 ### Community 1 - "editing.py"
 Cohesion: 0.07
-Nodes (52): get_predictions(), DataFrame, check_combination_safe(), check_target_safe(), get_target_token_id(), get_top_active_features(), get_top_competitor_features(), get_top_target_features() (+44 more)
+Nodes (52): get_cached_base_model(), get_cached_sae(), cache_resource, get_cached_model_and_sae(), main(), cache_resource, Layer Intervention Benchmark UI Dedicated Streamlit application for…, Cached loader for HookedTransformer and Layer-specific SAE. (+44 more)
 
 ### Community 2 - "history.md"
 Cohesion: 0.06
 Nodes (33): 1. Core Algorithmic & Engine Changes, 2. Dashboard Improvements (`experiment_app.py`), 3. Research Infrastructure, Background, Cambridge Diagnostic Output, Current Working Hypothesis (Unverified), Diagnostic Experiment, `docs/Research_Journal/4.md` (+25 more)
 
-### Community 3 - "load_model_and_sae"
-Cohesion: 0.12
-Nodes (24): get_cached_model_and_sae(), cache_resource, get_cached_base_model(), get_cached_sae(), cache_resource, get_cached_model_and_sae(), main(), cache_resource (+16 more)
+### Community 3 - "evaluation.py"
+Cohesion: 0.13
+Nodes (24): get_cached_model_and_sae(), get_predictions(), cache_resource, DataFrame, get_target_token_id(), Safely resolves a target string (e.g. ' Paris') to its token ID in the model's…, Safely resolves a target string (e.g. ' Paris') to its token ID in the model's…, Ranks the top-N active features by their causal effect on the target token's… (+16 more)
 
 ### Community 4 - "4. Discussion & Next Steps"
 Cohesion: 0.11
@@ -134,8 +133,8 @@ Cohesion: 0.13
 Nodes (14): 1. Context & Objective, 2. Methodology & Verification of Delta Additivity, 3. Results & Diagnostics, 4. Discussion & Research Findings, A. Concentration Decay Profile Table, B. Shared Feature Overlap Table, Background, C. Shared-Feature Statistics (+6 more)
 
 ### Community 8 - "Research Log: Investigating SAE-Based Activation Manipulation"
-Cohesion: 0.12
-Nodes (15): 2026-07-08: Project Setup, 2026-07-10: First Automated Validation Breakthrough (Causal Feature Selector), 2026-07-19: Iterative Ablation & Specificity Verification, 2026-07-20: Competitor-Focused Iterative Ablation, 2026-07-24: Whole-Combination Safety & Weighted Multi-Competitor Reduction, 2026-07-25: Diagnostic Investigation of Rank Regression, 2026-07-25 (Session 2): Shared Feature Aggregation Experiment, 2026-07-25 (Session 3): Multi-Feature Representation Diagnostic (+7 more)
+Cohesion: 0.13
+Nodes (14): 2026-07-08: Project Setup, 2026-07-10: First Automated Validation Breakthrough (Causal Feature Selector), 2026-07-19: Iterative Ablation & Specificity Verification, 2026-07-20: Competitor-Focused Iterative Ablation, 2026-07-24: Whole-Combination Safety & Weighted Multi-Competitor Reduction, 2026-07-25: Diagnostic Investigation of Rank Regression, 2026-07-25 (Session 2): Shared Feature Aggregation Experiment, 2026-07-25 (Session 3): Multi-Feature Representation Diagnostic (+6 more)
 
 ### Community 9 - "Agent Task: Build FeatureScalpel MVP Prototype"
 Cohesion: 0.17
@@ -177,29 +176,25 @@ Nodes (7): 1. Executive Summary, 2. Experimental / Audit Methodology, 3. Results
 Cohesion: 0.50
 Nodes (4): get_release_saes_map(), main(), Standalone script to investigate available pretrained SAE dictionaries in…, Returns dictionary mapping sae_id -> location for a given release name if…
 
-### Community 54 - "Session History: Layer Intervention Benchmark Subsystem"
-Cohesion: 0.17
-Nodes (11): 1. Pretrained SAE Dictionary Audit (`gpt2-small-res-jb`), 2. Layer Intervention Benchmark Subsystem (Phase 1 Infrastructure), 3. Multi-Prompt Dataset Extension, 4. Verification & Validation, Execution & Findings, Implementation, Implementation, Session History: Layer Intervention Benchmark Subsystem (+3 more)
-
 ## Knowledge Gaps
-- **161 isolated node(s):** `MockConfig`, `graphify`, `Workflow: graphify`, `Project Context (read this fully before writing any code)`, `What has already been done and confirmed (do not re-derive from scratch —` (+156 more)
+- **153 isolated node(s):** `MockConfig`, `graphify`, `Workflow: graphify`, `Project Context (read this fully before writing any code)`, `What has already been done and confirmed (do not re-derive from scratch —` (+148 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **32 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `load_model_and_sae()` connect `load_model_and_sae` to `experiment_app.py`, `editing.py`?**
+- **Why does `load_model_and_sae()` connect `editing.py` to `experiment_app.py`, `evaluation.py`?**
+  _High betweenness centrality (0.013) - this node is a cross-community bridge._
+- **Why does `get_target_token_id()` connect `evaluation.py` to `experiment_app.py`, `editing.py`?**
   _High betweenness centrality (0.012) - this node is a cross-community bridge._
-- **Why does `get_target_token_id()` connect `editing.py` to `experiment_app.py`, `load_model_and_sae`?**
-  _High betweenness centrality (0.011) - this node is a cross-community bridge._
-- **Why does `get_top_competitor_features()` connect `editing.py` to `experiment_app.py`, `load_model_and_sae`?**
-  _High betweenness centrality (0.009) - this node is a cross-community bridge._
+- **Why does `get_top_competitor_features()` connect `editing.py` to `experiment_app.py`, `evaluation.py`?**
+  _High betweenness centrality (0.010) - this node is a cross-community bridge._
 - **What connects `MockConfig`, `graphify`, `Workflow: graphify` to the rest of the system?**
-  _161 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _153 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `experiment_app.py` be split into smaller, more focused modules?**
   _Cohesion score 0.05711849957374254 - nodes in this community are weakly interconnected._
 - **Should `editing.py` be split into smaller, more focused modules?**
-  _Cohesion score 0.0701344243132671 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06721215663354763 - nodes in this community are weakly interconnected._
 - **Should `history.md` be split into smaller, more focused modules?**
   _Cohesion score 0.058823529411764705 - nodes in this community are weakly interconnected._

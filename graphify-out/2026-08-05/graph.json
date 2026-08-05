@@ -40,8 +40,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app",
-      "community": 1,
-      "community_name": "editing.py",
+      "community": 3,
+      "community_name": "evaluation.py",
       "norm_label": "app.py"
     },
     {
@@ -52,7 +52,7 @@
       "_origin": "ast",
       "id": "app_py_cache_resource",
       "community": 3,
-      "community_name": "load_model_and_sae",
+      "community_name": "evaluation.py",
       "norm_label": "cache_resource"
     },
     {
@@ -63,7 +63,7 @@
       "_origin": "ast",
       "id": "app_get_cached_model_and_sae",
       "community": 3,
-      "community_name": "load_model_and_sae",
+      "community_name": "evaluation.py",
       "norm_label": "get_cached_model_and_sae()"
     },
     {
@@ -73,8 +73,8 @@
       "source_location": "L149",
       "_origin": "ast",
       "id": "app_get_predictions",
-      "community": 1,
-      "community_name": "editing.py",
+      "community": 3,
+      "community_name": "evaluation.py",
       "norm_label": "get_predictions()"
     },
     {
@@ -150,8 +150,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "experiment_app_py_cache_resource",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "cache_resource"
     },
     {
@@ -161,8 +161,8 @@
       "source_location": "L107",
       "_origin": "ast",
       "id": "experiment_app_get_cached_base_model",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "get_cached_base_model()"
     },
     {
@@ -172,8 +172,8 @@
       "source_location": "L112",
       "_origin": "ast",
       "id": "experiment_app_get_cached_sae",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "get_cached_sae()"
     },
     {
@@ -293,8 +293,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "layer_benchmark",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "layer_benchmark.py"
     },
     {
@@ -304,8 +304,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "layer_benchmark_py_cache_resource",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "cache_resource"
     },
     {
@@ -315,8 +315,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "layer_benchmark_get_cached_model_and_sae",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "get_cached_model_and_sae()"
     },
     {
@@ -326,8 +326,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "layer_benchmark_main",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "main()"
     },
     {
@@ -337,8 +337,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "layer_benchmark_rationale_1",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "layer intervention benchmark ui dedicated streamlit application for..."
     },
     {
@@ -348,8 +348,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "layer_benchmark_rationale_24",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "cached loader for hookedtransformer and layer-specific sae."
     },
     {
@@ -359,8 +359,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "run_stage1",
-      "community": 1,
-      "community_name": "editing.py",
+      "community": 3,
+      "community_name": "evaluation.py",
       "norm_label": "run_stage1.py"
     },
     {
@@ -381,8 +381,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_benchmark_layer_benchmark_runner",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "layer_benchmark_runner.py"
     },
     {
@@ -392,8 +392,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "src_benchmark_layer_benchmark_runner_run_layer_benchmark",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "run_layer_benchmark()"
     },
     {
@@ -403,8 +403,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_benchmark_layer_benchmark_runner_rationale_1",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "layer benchmark runner contains the algorithm-agnostic core logic for..."
     },
     {
@@ -414,8 +414,8 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "src_benchmark_layer_benchmark_runner_rationale_40",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "sweeps the hybrid mute & boost intervention across selected layers for a single..."
     },
     {
@@ -436,8 +436,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "src_editing_get_target_token_id",
-      "community": 1,
-      "community_name": "editing.py",
+      "community": 3,
+      "community_name": "evaluation.py",
       "norm_label": "get_target_token_id()"
     },
     {
@@ -458,8 +458,8 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "src_editing_run_causal_selector",
-      "community": 1,
-      "community_name": "editing.py",
+      "community": 3,
+      "community_name": "evaluation.py",
       "norm_label": "run_causal_selector()"
     },
     {
@@ -502,8 +502,8 @@
       "source_location": "L234",
       "_origin": "ast",
       "id": "src_editing_check_boost_safe",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "check_boost_safe()"
     },
     {
@@ -568,8 +568,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_editing_rationale_13",
-      "community": 1,
-      "community_name": "editing.py",
+      "community": 3,
+      "community_name": "evaluation.py",
       "norm_label": "safely resolves a target string (e.g. ' paris') to its token id in the model's..."
     },
     {
@@ -579,8 +579,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "src_editing_rationale_32",
-      "community": 1,
-      "community_name": "editing.py",
+      "community": 3,
+      "community_name": "evaluation.py",
       "norm_label": "safely resolves a target string (e.g. ' paris') to its token id in the model's..."
     },
     {
@@ -601,8 +601,8 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "src_editing_rationale_65",
-      "community": 1,
-      "community_name": "editing.py",
+      "community": 3,
+      "community_name": "evaluation.py",
       "norm_label": "ranks the top-n active features by their causal effect on the target token's..."
     },
     {
@@ -645,8 +645,8 @@
       "source_location": "L237",
       "_origin": "ast",
       "id": "src_editing_rationale_237",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "temporarily applies only this one feature's boost (using..."
     },
     {
@@ -700,8 +700,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_evaluation",
-      "community": 1,
-      "community_name": "editing.py",
+      "community": 3,
+      "community_name": "evaluation.py",
       "norm_label": "evaluation.py"
     },
     {
@@ -711,8 +711,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "src_evaluation_classify_fact",
-      "community": 1,
-      "community_name": "editing.py",
+      "community": 3,
+      "community_name": "evaluation.py",
       "norm_label": "classify_fact()"
     },
     {
@@ -722,8 +722,8 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "src_evaluation_scan_fact_batch",
-      "community": 1,
-      "community_name": "editing.py",
+      "community": 3,
+      "community_name": "evaluation.py",
       "norm_label": "scan_fact_batch()"
     },
     {
@@ -733,8 +733,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dataframe",
-      "community": 1,
-      "community_name": "editing.py",
+      "community": 3,
+      "community_name": "evaluation.py",
       "norm_label": "dataframe"
     },
     {
@@ -744,8 +744,8 @@
       "source_location": "L71",
       "_origin": "ast",
       "id": "src_evaluation_iterative_ablate",
-      "community": 1,
-      "community_name": "editing.py",
+      "community": 3,
+      "community_name": "evaluation.py",
       "norm_label": "iterative_ablate()"
     },
     {
@@ -755,8 +755,8 @@
       "source_location": "L176",
       "_origin": "ast",
       "id": "src_evaluation_check_specificity",
-      "community": 1,
-      "community_name": "editing.py",
+      "community": 3,
+      "community_name": "evaluation.py",
       "norm_label": "check_specificity()"
     },
     {
@@ -766,8 +766,8 @@
       "source_location": "L208",
       "_origin": "ast",
       "id": "src_evaluation_run_stage_1_evaluation",
-      "community": 1,
-      "community_name": "editing.py",
+      "community": 3,
+      "community_name": "evaluation.py",
       "norm_label": "run_stage_1_evaluation()"
     },
     {
@@ -777,8 +777,8 @@
       "source_location": "L262",
       "_origin": "ast",
       "id": "src_evaluation_run_grid_sweep",
-      "community": 1,
-      "community_name": "editing.py",
+      "community": 3,
+      "community_name": "evaluation.py",
       "norm_label": "run_grid_sweep()"
     },
     {
@@ -788,8 +788,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_evaluation_rationale_1",
-      "community": 1,
-      "community_name": "editing.py",
+      "community": 3,
+      "community_name": "evaluation.py",
       "norm_label": "evaluation metrics and scripts for measuring intervention success."
     },
     {
@@ -799,8 +799,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_evaluation_rationale_13",
-      "community": 1,
-      "community_name": "editing.py",
+      "community": 3,
+      "community_name": "evaluation.py",
       "norm_label": "classifies a (prompt, target_str) fact pair based on gpt-2-small's baseline..."
     },
     {
@@ -810,8 +810,8 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "src_evaluation_rationale_55",
-      "community": 1,
-      "community_name": "editing.py",
+      "community": 3,
+      "community_name": "evaluation.py",
       "norm_label": "scans a batch of fact pairs and returns a pandas dataframe."
     },
     {
@@ -821,8 +821,8 @@
       "source_location": "L74",
       "_origin": "ast",
       "id": "src_evaluation_rationale_74",
-      "community": 1,
-      "community_name": "editing.py",
+      "community": 3,
+      "community_name": "evaluation.py",
       "norm_label": "finds the ordered list of features to ablate until the target becomes top-1,..."
     },
     {
@@ -832,8 +832,8 @@
       "source_location": "L179",
       "_origin": "ast",
       "id": "src_evaluation_rationale_179",
-      "community": 1,
-      "community_name": "editing.py",
+      "community": 3,
+      "community_name": "evaluation.py",
       "norm_label": "checks if applying features_ablated breaks control_pairs. returns: fraction of..."
     },
     {
@@ -843,8 +843,8 @@
       "source_location": "L209",
       "_origin": "ast",
       "id": "src_evaluation_rationale_209",
-      "community": 1,
-      "community_name": "editing.py",
+      "community": 3,
+      "community_name": "evaluation.py",
       "norm_label": "runs the full stage 1 evaluation across all 46 facts from the fact bank...."
     },
     {
@@ -854,8 +854,8 @@
       "source_location": "L271",
       "_origin": "ast",
       "id": "src_evaluation_rationale_271",
-      "community": 1,
-      "community_name": "editing.py",
+      "community": 3,
+      "community_name": "evaluation.py",
       "norm_label": "runs a bounded grid sweep of single-shot joint (compound) ablation across a..."
     },
     {
@@ -1063,8 +1063,8 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "src_hooks_make_ablation_hook",
-      "community": 1,
-      "community_name": "editing.py",
+      "community": 3,
+      "community_name": "evaluation.py",
       "norm_label": "make_ablation_hook()"
     },
     {
@@ -1118,8 +1118,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "src_hooks_rationale_30",
-      "community": 1,
-      "community_name": "editing.py",
+      "community": 3,
+      "community_name": "evaluation.py",
       "norm_label": "creates an ablation hook for a specific feature id and ablation strength...."
     },
     {
@@ -1492,8 +1492,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_sae_utils",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "sae_utils.py"
     },
     {
@@ -1503,8 +1503,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "src_sae_utils_get_default_device",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "get_default_device()"
     },
     {
@@ -1514,8 +1514,8 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "src_sae_utils_load_base_model",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "load_base_model()"
     },
     {
@@ -1525,8 +1525,8 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "src_sae_utils_load_sae_for_layer",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "load_sae_for_layer()"
     },
     {
@@ -1536,8 +1536,8 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "src_sae_utils_load_model_and_sae",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "load_model_and_sae()"
     },
     {
@@ -1547,8 +1547,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_sae_utils_rationale_1",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "utilities for loading and interacting with sparse autoencoders (saes) and..."
     },
     {
@@ -1558,8 +1558,8 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "src_sae_utils_rationale_28",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "returns the best available device for pytorch operations (cuda gpu, apple mps,..."
     },
     {
@@ -1569,8 +1569,8 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "src_sae_utils_rationale_38",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "loads gpt-2 small base model onto the specified or auto-detected device."
     },
     {
@@ -1580,8 +1580,8 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "src_sae_utils_rationale_48",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "loads the pretrained sae for the specified layer onto the specified or auto-..."
     },
     {
@@ -1591,8 +1591,8 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "src_sae_utils_rationale_63",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "loads gpt-2 small and the pretrained sae for the specified layer (default layer..."
     },
     {
@@ -2003,138 +2003,6 @@
       "norm_label": "deliverable"
     },
     {
-      "label": "Session_LayerBenchmark_History.md",
-      "file_type": "document",
-      "source_file": "History/Session_LayerBenchmark_History.md",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "history_session_layerbenchmark_history",
-      "community": 54,
-      "community_name": "Session History: Layer Intervention Benchmark Subsystem",
-      "norm_label": "session_layerbenchmark_history.md"
-    },
-    {
-      "label": "Session History: Layer Intervention Benchmark Subsystem",
-      "file_type": "document",
-      "source_file": "History/Session_LayerBenchmark_History.md",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "history_session_layerbenchmark_history_session_history_layer_intervention_benchmark_subsystem",
-      "community": 54,
-      "community_name": "Session History: Layer Intervention Benchmark Subsystem",
-      "norm_label": "session history: layer intervention benchmark subsystem"
-    },
-    {
-      "label": "1. Pretrained SAE Dictionary Audit (`gpt2-small-res-jb`)",
-      "file_type": "document",
-      "source_file": "History/Session_LayerBenchmark_History.md",
-      "source_location": "L8",
-      "_origin": "ast",
-      "id": "history_session_layerbenchmark_history_1_pretrained_sae_dictionary_audit_gpt2_small_res_jb",
-      "community": 54,
-      "community_name": "Session History: Layer Intervention Benchmark Subsystem",
-      "norm_label": "1. pretrained sae dictionary audit (`gpt2-small-res-jb`)"
-    },
-    {
-      "label": "User Request",
-      "file_type": "document",
-      "source_file": "History/Session_LayerBenchmark_History.md",
-      "source_location": "L10",
-      "_origin": "ast",
-      "id": "history_session_layerbenchmark_history_user_request",
-      "community": 54,
-      "community_name": "Session History: Layer Intervention Benchmark Subsystem",
-      "norm_label": "user request"
-    },
-    {
-      "label": "Execution & Findings",
-      "file_type": "document",
-      "source_file": "History/Session_LayerBenchmark_History.md",
-      "source_location": "L14",
-      "_origin": "ast",
-      "id": "history_session_layerbenchmark_history_execution_findings",
-      "community": 54,
-      "community_name": "Session History: Layer Intervention Benchmark Subsystem",
-      "norm_label": "execution & findings"
-    },
-    {
-      "label": "2. Layer Intervention Benchmark Subsystem (Phase 1 Infrastructure)",
-      "file_type": "document",
-      "source_file": "History/Session_LayerBenchmark_History.md",
-      "source_location": "L22",
-      "_origin": "ast",
-      "id": "history_session_layerbenchmark_history_2_layer_intervention_benchmark_subsystem_phase_1_infrastructure",
-      "community": 54,
-      "community_name": "Session History: Layer Intervention Benchmark Subsystem",
-      "norm_label": "2. layer intervention benchmark subsystem (phase 1 infrastructure)"
-    },
-    {
-      "label": "User Request",
-      "file_type": "document",
-      "source_file": "History/Session_LayerBenchmark_History.md",
-      "source_location": "L24",
-      "_origin": "ast",
-      "id": "history_session_layerbenchmark_history_user_request_24",
-      "community": 54,
-      "community_name": "Session History: Layer Intervention Benchmark Subsystem",
-      "norm_label": "user request"
-    },
-    {
-      "label": "Implementation",
-      "file_type": "document",
-      "source_file": "History/Session_LayerBenchmark_History.md",
-      "source_location": "L27",
-      "_origin": "ast",
-      "id": "history_session_layerbenchmark_history_implementation",
-      "community": 54,
-      "community_name": "Session History: Layer Intervention Benchmark Subsystem",
-      "norm_label": "implementation"
-    },
-    {
-      "label": "3. Multi-Prompt Dataset Extension",
-      "file_type": "document",
-      "source_file": "History/Session_LayerBenchmark_History.md",
-      "source_location": "L34",
-      "_origin": "ast",
-      "id": "history_session_layerbenchmark_history_3_multi_prompt_dataset_extension",
-      "community": 54,
-      "community_name": "Session History: Layer Intervention Benchmark Subsystem",
-      "norm_label": "3. multi-prompt dataset extension"
-    },
-    {
-      "label": "User Request",
-      "file_type": "document",
-      "source_file": "History/Session_LayerBenchmark_History.md",
-      "source_location": "L36",
-      "_origin": "ast",
-      "id": "history_session_layerbenchmark_history_user_request_36",
-      "community": 54,
-      "community_name": "Session History: Layer Intervention Benchmark Subsystem",
-      "norm_label": "user request"
-    },
-    {
-      "label": "Implementation",
-      "file_type": "document",
-      "source_file": "History/Session_LayerBenchmark_History.md",
-      "source_location": "L39",
-      "_origin": "ast",
-      "id": "history_session_layerbenchmark_history_implementation_39",
-      "community": 54,
-      "community_name": "Session History: Layer Intervention Benchmark Subsystem",
-      "norm_label": "implementation"
-    },
-    {
-      "label": "4. Verification & Validation",
-      "file_type": "document",
-      "source_file": "History/Session_LayerBenchmark_History.md",
-      "source_location": "L47",
-      "_origin": "ast",
-      "id": "history_session_layerbenchmark_history_4_verification_validation",
-      "community": 54,
-      "community_name": "Session History: Layer Intervention Benchmark Subsystem",
-      "norm_label": "4. verification & validation"
-    },
-    {
       "label": "10.md",
       "file_type": "document",
       "source_file": "docs/Research_Journal/10.md",
@@ -2496,17 +2364,6 @@
       "community": 8,
       "community_name": "Research Log: Investigating SAE-Based Activation Manipulation",
       "norm_label": "2026-08-04 (session 2): layer intervention depth characterization benchmark"
-    },
-    {
-      "label": "2026-08-05: Multi-Prompt Dataset Benchmark & Research Logging Subsystem",
-      "file_type": "document",
-      "source_file": "docs/notes.md",
-      "source_location": "L67",
-      "_origin": "ast",
-      "id": "docs_notes_2026_08_05_multi_prompt_dataset_benchmark_research_logging_subsystem",
-      "community": 8,
-      "community_name": "Research Log: Investigating SAE-Based Activation Manipulation",
-      "norm_label": "2026-08-05: multi-prompt dataset benchmark & research logging subsystem"
     },
     {
       "label": "research_log.md",
@@ -8815,127 +8672,6 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "History/Session_LayerBenchmark_History.md",
-      "source_location": "L1",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "history_session_layerbenchmark_history",
-      "target": "history_session_layerbenchmark_history_session_history_layer_intervention_benchmark_subsystem",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "History/Session_LayerBenchmark_History.md",
-      "source_location": "L8",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "history_session_layerbenchmark_history_session_history_layer_intervention_benchmark_subsystem",
-      "target": "history_session_layerbenchmark_history_1_pretrained_sae_dictionary_audit_gpt2_small_res_jb",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "History/Session_LayerBenchmark_History.md",
-      "source_location": "L22",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "history_session_layerbenchmark_history_session_history_layer_intervention_benchmark_subsystem",
-      "target": "history_session_layerbenchmark_history_2_layer_intervention_benchmark_subsystem_phase_1_infrastructure",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "History/Session_LayerBenchmark_History.md",
-      "source_location": "L34",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "history_session_layerbenchmark_history_session_history_layer_intervention_benchmark_subsystem",
-      "target": "history_session_layerbenchmark_history_3_multi_prompt_dataset_extension",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "History/Session_LayerBenchmark_History.md",
-      "source_location": "L47",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "history_session_layerbenchmark_history_session_history_layer_intervention_benchmark_subsystem",
-      "target": "history_session_layerbenchmark_history_4_verification_validation",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "History/Session_LayerBenchmark_History.md",
-      "source_location": "L14",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "history_session_layerbenchmark_history_1_pretrained_sae_dictionary_audit_gpt2_small_res_jb",
-      "target": "history_session_layerbenchmark_history_execution_findings",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "History/Session_LayerBenchmark_History.md",
-      "source_location": "L10",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "history_session_layerbenchmark_history_1_pretrained_sae_dictionary_audit_gpt2_small_res_jb",
-      "target": "history_session_layerbenchmark_history_user_request",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "History/Session_LayerBenchmark_History.md",
-      "source_location": "L27",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "history_session_layerbenchmark_history_2_layer_intervention_benchmark_subsystem_phase_1_infrastructure",
-      "target": "history_session_layerbenchmark_history_implementation",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "History/Session_LayerBenchmark_History.md",
-      "source_location": "L24",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "history_session_layerbenchmark_history_2_layer_intervention_benchmark_subsystem_phase_1_infrastructure",
-      "target": "history_session_layerbenchmark_history_user_request_24",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "History/Session_LayerBenchmark_History.md",
-      "source_location": "L39",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "history_session_layerbenchmark_history_3_multi_prompt_dataset_extension",
-      "target": "history_session_layerbenchmark_history_implementation_39",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "History/Session_LayerBenchmark_History.md",
-      "source_location": "L36",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "history_session_layerbenchmark_history_3_multi_prompt_dataset_extension",
-      "target": "history_session_layerbenchmark_history_user_request_36",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
       "source_file": "docs/Research_Journal/10.md",
       "source_location": "L1",
       "weight": 1.0,
@@ -9250,17 +8986,6 @@
       "_origin": "ast",
       "source": "docs_notes_research_log_investigating_sae_based_activation_manipulation",
       "target": "docs_notes_2026_08_04_session_2_layer_intervention_depth_characterization_benchmark",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/notes.md",
-      "source_location": "L67",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_notes_research_log_investigating_sae_based_activation_manipulation",
-      "target": "docs_notes_2026_08_05_multi_prompt_dataset_benchmark_research_logging_subsystem",
       "confidence_score": 1.0
     },
     {

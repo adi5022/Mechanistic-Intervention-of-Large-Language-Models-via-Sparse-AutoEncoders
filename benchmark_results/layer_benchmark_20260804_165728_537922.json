@@ -1,0 +1,66 @@
+{
+    "benchmark_name": "Layer Intervention Benchmark",
+    "benchmark_version": "0.1",
+    "timestamp": "2026-08-04T16:57:28.537922Z",
+    "model": "gpt2",
+    "algorithm": "Hybrid Mute & Boost",
+    "use_safety": true,
+    "prompt": "The capital of France is",
+    "target": "Paris",
+    "layer_metadata": {
+        "hook": "hook_resid_pre",
+        "release": "gpt2-small-res-jb"
+    },
+    "layers": [
+        {
+            "layer": 2,
+            "hook": "blocks.2.hook_resid_pre",
+            "release": "gpt2-small-res-jb",
+            "clean_rank": 93,
+            "final_rank": 225,
+            "rank_improvement": -132,
+            "clean_probability": 0.00162902707234025,
+            "final_probability": 0.0006239869398996234,
+            "probability_gain": -0.0010050401324406266,
+            "runtime_ms": 44540.18360000009,
+            "success": false,
+            "top_prediction_before": " now",
+            "top_prediction_after": " home",
+            "mute_features": [
+                20500,
+                13558,
+                11586
+            ],
+            "boost_features": [
+                9787,
+                3351,
+                22514
+            ]
+        },
+        {
+            "layer": 8,
+            "hook": "blocks.8.hook_resid_pre",
+            "release": "gpt2-small-res-jb",
+            "clean_rank": 93,
+            "final_rank": 32,
+            "rank_improvement": 61,
+            "clean_probability": 0.00162902707234025,
+            "final_probability": 0.004275389946997166,
+            "probability_gain": 0.0026463628746569157,
+            "runtime_ms": 28711.18530000058,
+            "success": false,
+            "top_prediction_before": " now",
+            "top_prediction_after": " now",
+            "mute_features": [
+                19805,
+                10852,
+                8448
+            ],
+            "boost_features": [
+                1442,
+                18220,
+                8628
+            ]
+        }
+    ]
+}

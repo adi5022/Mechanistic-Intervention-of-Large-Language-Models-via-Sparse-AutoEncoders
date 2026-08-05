@@ -205,4 +205,19 @@ That's a complete, demoable MVP — everything past this (self-trained SAEs, ROM
 
 3. **Hugging Face Authentication**:
    - Automatically checks `HF_TOKEN` from environment variables, `.env`, or `.streamlit/secrets.toml` and authenticates via `huggingface_hub.login`.
-   - Prevents anonymous API rate limits when downloading model weights and SAE dictionaries.
+   - Prevents anonymous API rate limits when downloading model weights and SAE dictionaries.
+
+---
+
+## 15. Layer Intervention Benchmark Subsystem
+
+1. **Decoupled Benchmark Engine (`src/benchmark/layer_benchmark_runner.py`)**:
+   - Encapsulates UI-independent layer characterization sweeps (`run_layer_benchmark`).
+   - Supports arbitrary transformer block depth sweeps, safety filtering toggles (`use_safety`), clean baseline passes, candidate feature safety checks (`check_target_safe`, `check_boost_safe`), and joint intervention passes.
+   - Automatically persists research JSON artifacts into `benchmark_results/layer_benchmark_YYYYMMDD_HHMMSS_ffffff.json`.
+
+2. **Standalone Benchmark Application (`layer_benchmark.py`)**:
+   - Independent Streamlit dashboard featuring a dynamic **Prompts Dataset** editor (`➕ Add Prompt`, `➖ Remove Prompt`).
+   - Leverages `@st.cache_resource` for zero-redundancy model/SAE reuse across multi-prompt datasets.
+   - Displays real-time progress indicators, comparative performance tables, Vega-lite visualization charts, auto-saved artifact location captions, and one-click JSON download buttons per prompt.
+
