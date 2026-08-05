@@ -1,109 +1,76 @@
-# FeatureScalpel — Project Handoff Documentation
+# Project Handoff: Transient Steering & Layer Intervention Benchmark
 
-This document provides a comprehensive transfer of the **FeatureScalpel** project, detailing what has been built, the underlying architecture, how the code is structured, and how to run the interactive dashboard.
-
----
-
-## 1. Project Overview & Objective
-
-**FeatureScalpel** is an MVP prototype for investigating and performing **Mechanistic Activation Interventions** on Large Language Models via Sparse Autoencoders (SAEs) without altering the model's weights. 
-
-Unlike traditional methods (such as ROME or MEMIT) that edit model weights permanently, FeatureScalpel performs transient, single-inference interventions by:
-1. Decomposing the model's residual stream into interpretable concepts using a trained Sparse Autoencoder (SAE).
-2. Identifying the specific causal feature responsible for a given prediction or factual error.
-3. Editing the activation of that feature in the residual stream (ablation or steering) in a targeted, temporary manner.
+**Date:** August 5, 2026  
+**Git Branch:** `layer-intervention-benchmark` (Pushed & Up-to-Date with Remote)  
+**Repository:** `Mechanistic-Intervention-of-Large-Language-Models-via-Sparse-AutoEncoders`
 
 ---
 
-## 2. Core Architecture & Mathematical Mechanics
+## 1. Executive Summary & Session Context
 
-### 2.1 The Edit Site: Residual Stream
-The intervention target is the **residual stream** at Layer 8 (`blocks.8.hook_resid_pre`) of GPT-2 Small. The residual stream serves as the model's shared additive workspace. We intercept the activation vector $x \in \mathbb{R}^{d_{model}}$ during the forward pass.
-
-### 2.2 Sparse Autoencoder (SAE) Projection
-To make the dense activation vector interpretable, we project it into a sparse, high-dimensional latent space:
-
-$$f = \text{ReLU}(W_{enc} \cdot x + b_{enc})$$
-
-where $f \in \mathbb{R}^{d_{sae}}$ ($d_{sae} = 24,576$ for GPT-2 Small) is a sparse vector where only a few features are active (non-zero). Each column of the decoder weight matrix $W_{dec} \in \mathbb{R}^{d_{model} \times d_{sae}}$ represents a direction in the residual stream corresponding to a human-interpretable concept.
-
-### 2.3 Delta-Patching Ablation Hook
-To prevent injecting the SAE's reconstruction error back into the model (which degrades baseline generation quality), FeatureScalpel uses a **delta-patching** intervention hook:
-1. Encode the original activation: $f_{base} = \text{encode}(x)$
-2. Compute the baseline reconstruction: $\hat{x}_{base} = \text{decode}(f_{base})$
-3. Construct the ablated feature activations by scaling the target feature $i$ by strength $\theta \in [0, 1]$:
-   $$f_{ablated}[i] = f_{base}[i] \times (1 - \theta)$$
-4. Compute the ablated reconstruction: $\hat{x}_{ablated} = \text{decode}(f_{ablated})$
-5. Compute the delta update and apply it to the original residual stream:
-   $$\Delta x = \hat{x}_{ablated} - \hat{x}_{base}$$
-   $$x_{new} = x + \Delta x$$
-
-This delta-patching method ensures we only edit the component of interest, leaving the rest of the residual stream untouched.
+This session focused on extending the **Layer Intervention Benchmark Subsystem**, resolving SAE model/weight caching workflow questions, consolidating multi-prompt outputs into unified research artifacts, and ensuring total git synchronization across remote branches.
 
 ---
 
-## 3. Key Components & Implementation Details
+## 2. Key Architecture & File Changes
 
-The codebase is modularized as follows:
+### A. Consolidated Multi-Prompt Benchmark Engine
+* **`src/benchmark/layer_benchmark_runner.py`**
+  - Updated `run_layer_benchmark(...)` to accept either single prompt strings or dataset lists of prompt-target pairs.
+  - Generates a **single consolidated master JSON artifact** (`benchmark_results/layer_benchmark_YYYYMMDD_HHMMSS_ffffff.json`) per run rather than polluting disk with multiple fragmented files.
+  - Automatically structures output with metadata (`benchmark_name`, `benchmark_version`, `timestamp`, `parameters`, `total_prompts`, and array of `prompts`).
 
-```
-FeatureScalpel/
-│
-├── app.py                      # Interactive Streamlit Web Dashboard
-├── requirements.txt            # Project Dependency Specifications
-├── notes.md                    # Research log & Empirical verification notes
-│
-├── src/
-│   ├── __init__.py
-│   ├── sae_utils.py            # Model loading utilities (TransformerLens + SAELens)
-│   ├── hooks.py                # Activation intervention hooks (Delta-patching)
-│   └── editing.py              # Causal Feature Selector & Ranking Engine
-│
-└── docs/
-    └── architecture.md         # Design philosophy & comparison analysis
-```
+### B. Streamlit UI Updates (`layer_benchmark.py`)
+* **`layer_benchmark.py`**
+  - Updated benchmark execution button to pass full prompt dataset in a single call.
+  - Added prompt selection dropdown (`Select Benchmark Prompt to Inspect:`) to switch between result tables and performance charts per prompt without cluttering the screen.
+  - Added single **"Download Master Benchmark JSON"** button allowing full dataset export.
 
-### 3.1 Causal Feature Selector (`src/editing.py`)
-This module implements the **zero-shot causal discovery engine**. Given a prompt and target token (e.g. `"The Eiffel Tower is in the city of"` and `" Paris"`):
-1. **Activation Extraction**: Extracts residual stream activations at the final token.
-2. **Feature Encoder**: Project activations to find the top $N$ (default: 20) active SAE features.
-3. **Iterative Intervention**: Runs a forward pass for each candidate feature with its activation fully ablated ($\theta = 1.0$).
-4. **Metric Logging**: Records the target token probability drop ($\Delta P$), the new Top-1 token prediction, and the Kullback-Leibler (KL) divergence of the resulting vocabulary distribution.
-5. **Ranking**: Sorts candidates in ascending order of $\Delta P$ (highlighting features whose ablation causes the largest drop in the target token's probability).
-
-### 3.2 Interactive Web Dashboard (`app.py`)
-Built with Streamlit, the frontend provides:
-* **Interactive Selector**: Runs the causal feature selector live and displays results in a tabular and visual bar-chart format.
-* **Live Soft Ablation Control**: An interactive slider ($\theta \in [0, 1]$) with live feedback showing how the top predicted tokens shift.
-* **Specificity Check Panel**: Evaluates the intervention's side effects against a suite of target and control prompts to identify the "sweet spot" (e.g. fixing Eiffel Tower $\rightarrow$ Paris without breaking Colosseum $\rightarrow$ Rome).
+### C. Documentation & History Tracking
+* **`History/Session_LayerBenchmark_History.md`**: Summarizes the Layer Intervention Benchmark subsystem, pre-trained SAE audit findings, and layer depth performance trends.
+* **`History/chat_transcript_20260805.jsonl`**: Complete raw JSONL transcript export of this AI session for reference/debugging on another machine.
 
 ---
 
-## 4. Verification & Findings
+## 3. SAE Loading & Caching Notes
 
-During empirical verification of the target prompt `"The Eiffel Tower is in the city of"` (Target: `" Paris"`):
-* **Causal Feature 11149** was automatically discovered as the principal driver (activation: `30.13`, $\Delta P$: `-0.0337`).
-* A highly active feature (e.g. **5856**, activation `34.10`) was shown to be non-causal ($\Delta P$ of only `-0.0073`), proving the efficacy of causal validation over simple activation heuristics.
-* **Ablation Sweet Spot**: Setting the slider to $\theta = 0.3$ successfully corrected the Eiffel Tower prediction while preserving the control case ("Rome" for Colosseum). At higher strengths ($\theta \ge 0.5$), side-effects were detected on control prompts.
+* **Behavior:** `SAELens` downloads SAE weights to local HuggingFace cache (`~/.cache/huggingface/hub/`). 
+* **Streamlit Invalidation:** Streamlit uses `@st.cache_resource` to keep loaded PyTorch models/SAEs in system RAM/VRAM. Reloads only happen on server restarts or initial layer sweeps.
+* **Optimization Note for Next PC:** All 12 layers (`blocks.0` through `blocks.11`) of `gpt2-small-res-jb` are verified available. The Hugging Face local cache will automatically persist after the first run.
 
 ---
 
-## 5. Getting Started & Setup
+## 4. Current Git State & Remote Branches
 
-### 5.1 Installation
-Ensure you are using the virtual environment and install the pinned dependencies:
+* **Current Active Branch:** `layer-intervention-benchmark`
+* **Status:** Clean, committed, and pushed to `origin/layer-intervention-benchmark`.
+* **Last Commit:** `b5253af` - *"Consolidate layer benchmark results into single JSON artifact and export chat transcript history"*
 
-```bash
-# Activate your virtual environment
-.venv\Scripts\activate
+---
 
-# Install requirements
+## 5. How to Resume on Another PC
+
+### Step 1: Environment Setup
+```powershell
+# 1. Fetch latest remote branches
+git fetch --all
+
+# 2. Switch to the benchmark branch
+git checkout layer-intervention-benchmark
+
+# 3. Activate virtual environment & verify dependencies
+.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 ```
 
-### 5.2 Running the Application
-Launch the Streamlit web server:
-
-```bash
-streamlit run app.py
+### Step 2: Run the Benchmark UI
+```powershell
+streamlit run layer_benchmark.py
 ```
+
+---
+
+## 6. Immediate Next Steps / Roadmap
+
+1. **Layer 8 Deep Dive:** Layer 8 has proven to be the most responsive depth for steering target completions (+2.37% probability gain, +5 rank positions). Further test layer 8 with larger prompt datasets.
+2. **Cross-Prompt Aggregation UI:** Add an optional side-by-side summary table in `layer_benchmark.py` calculating mean rank improvement across all prompts in a benchmark run.
