@@ -113,64 +113,56 @@ def main():
         progress_bar = st.progress(0.0)
         status_box = st.empty()
 
-        results_list = []
-
-        for p_idx, p_item in enumerate(valid_pairs, start=1):
-            prompt_text = p_item["prompt"].strip()
-            target_text = p_item["target"].strip()
-
-            def layer_callback(layer_step, current_layer):
-                # Calculate progress fraction
-                frac = ((p_idx - 1) + (layer_step / total_layers)) / total_prompts
-                progress_bar.progress(min(frac, 1.0))
-                status_box.markdown(
-                    f"⏳ **Benchmarking Prompt {p_idx} / {total_prompts}** (`{prompt_text[:30]}...`) | "
-                    f"**Layer {current_layer}** ({layer_step} / {total_layers})"
-                )
-
-            res = run_layer_benchmark(
-                prompt=prompt_text,
-                target=target_text,
-                layers=sorted(selected_layers),
-                mute_strength=mute_strength,
-                boost_strength=boost_strength,
-                mute_batch_size=mute_batch_size,
-                boost_batch_size=boost_batch_size,
-                use_safety=use_safety,
-                algorithm="hybrid",
-                model_sae_loader=get_cached_model_and_sae,
-                results_dir="benchmark_results",
-                layer_callback=layer_callback
+        def layer_callback(p_idx, total_p, l_idx, total_l, current_layer, prompt_text):
+            frac = ((p_idx - 1) + (l_idx / total_l)) / total_p
+            progress_bar.progress(min(frac, 1.0))
+            status_box.markdown(
+                f"⏳ **Benchmarking Prompt {p_idx} / {total_p}** (`{prompt_text[:30]}...`) | "
+                f"**Layer {current_layer}** ({l_idx} / {total_l})"
             )
-            results_list.append(res)
+
+        benchmark_output = run_layer_benchmark(
+            prompts=valid_pairs,
+            layers=sorted(selected_layers),
+            mute_strength=mute_strength,
+            boost_strength=boost_strength,
+            mute_batch_size=mute_batch_size,
+            boost_batch_size=boost_batch_size,
+            use_safety=use_safety,
+            algorithm="hybrid",
+            model_sae_loader=get_cached_model_and_sae,
+            results_dir="benchmark_results",
+            layer_callback=layer_callback
+        )
 
         progress_bar.progress(1.0)
-        status_box.success(f"✅ Completed benchmark across {len(results_list)} prompt(s)!")
-        st.session_state["multi_benchmark_results"] = results_list
+        status_box.success(f"✅ Completed benchmark across {total_prompts} prompt(s)! Saved to single artifact.")
+        st.session_state["consolidated_benchmark_results"] = benchmark_output
 
     # 4. Display Results
-    if "multi_benchmark_results" in st.session_state and st.session_state["multi_benchmark_results"]:
-        all_results = st.session_state["multi_benchmark_results"]
+    if "consolidated_benchmark_results" in st.session_state and st.session_state["consolidated_benchmark_results"]:
+        master_results = st.session_state["consolidated_benchmark_results"]
+        prompt_runs = master_results.get("prompts", [])
         
         st.markdown("---")
         st.header("Benchmark Results & Research Artifacts")
 
+        if "saved_filepath" in master_results:
+            st.info(f"💾 Single Master Benchmark JSON saved to: `{master_results['saved_filepath']}`")
+
         prompt_options = [
             f"Prompt #{i+1}: '{r['prompt'][:35]}...' → Target: '{r['target']}'"
-            for i, r in enumerate(all_results)
+            for i, r in enumerate(prompt_runs)
         ]
 
         selected_prompt_idx = st.selectbox(
             "Select Benchmark Prompt to Inspect:",
-            options=list(range(len(all_results))),
+            options=list(range(len(prompt_runs))),
             format_func=lambda i: prompt_options[i]
         )
 
-        results = all_results[selected_prompt_idx]
-        layers_data = results.get("layers", [])
-
-        if "saved_filepath" in results:
-            st.info(f"💾 Benchmark JSON automatically saved to: `{results['saved_filepath']}`")
+        selected_run = prompt_runs[selected_prompt_idx]
+        layers_data = selected_run.get("layers", [])
 
         # Formatted results DataFrame
         table_rows = []
@@ -198,8 +190,8 @@ def main():
         df_chart = pd.DataFrame(chart_rows)
 
         st.subheader(f"Results for Prompt #{selected_prompt_idx + 1}")
-        st.caption(f"Prompt: `{results.get('prompt', '')}` | Target: `{results.get('target', '')}`")
-        st.caption(f"Safety Filter: {'Enabled (Target Protected)' if results.get('use_safety', True) else 'Disabled (Raw Feature Selection)'}")
+        st.caption(f"Prompt: `{selected_run.get('prompt', '')}` | Target: `{selected_run.get('target', '')}`")
+        st.caption(f"Safety Filter: {'Enabled (Target Protected)' if master_results.get('use_safety', True) else 'Disabled (Raw Feature Selection)'}")
         
         st.dataframe(df_table, hide_index=True)
 
@@ -220,23 +212,23 @@ def main():
             st.bar_chart(df_chart, x="Layer", y="Runtime (ms)")
 
         # Raw JSON output & Download Workflow
-        st.subheader("Research Artifact (Benchmark JSON)")
-        json_str = json.dumps(results, indent=4)
+        st.subheader("Single Consolidated Research Artifact (Master JSON)")
+        json_str = json.dumps(master_results, indent=4)
 
         col_d1, col_d2 = st.columns([3, 1])
         with col_d1:
-            if "saved_filepath" in results:
-                st.caption(f"Auto-saved artifact location: `{results['saved_filepath']}`")
+            if "saved_filepath" in master_results:
+                st.caption(f"Auto-saved artifact location: `{master_results['saved_filepath']}`")
         with col_d2:
             st.download_button(
-                label="Download Benchmark JSON",
+                label="Download Master Benchmark JSON",
                 data=json_str,
-                file_name=os.path.basename(results.get("saved_filepath", f"layer_benchmark_prompt_{selected_prompt_idx+1}.json")),
+                file_name=os.path.basename(master_results.get("saved_filepath", "master_layer_benchmark.json")),
                 mime="application/json",
                 type="primary"
             )
 
-        with st.expander("📄 View Complete Raw Benchmark JSON", expanded=True):
+        with st.expander("📄 View Complete Master Benchmark JSON (All Prompts)", expanded=True):
             st.code(json_str, language="json")
 
 if __name__ == "__main__":

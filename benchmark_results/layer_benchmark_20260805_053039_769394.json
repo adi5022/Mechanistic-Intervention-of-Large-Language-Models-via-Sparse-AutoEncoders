@@ -1,0 +1,140 @@
+{
+    "benchmark_name": "Layer Intervention Benchmark",
+    "benchmark_version": "0.1",
+    "timestamp": "2026-08-05T05:30:39.769394Z",
+    "model": "gpt2",
+    "algorithm": "Hybrid Mute & Boost",
+    "use_safety": true,
+    "prompt": "The location of Massachusetts Institute of Technology is in",
+    "target": "Cambridge",
+    "layer_metadata": {
+        "hook": "hook_resid_pre",
+        "release": "gpt2-small-res-jb"
+    },
+    "layers": [
+        {
+            "layer": 2,
+            "hook": "blocks.2.hook_resid_pre",
+            "release": "gpt2-small-res-jb",
+            "clean_rank": 8,
+            "final_rank": 8,
+            "rank_improvement": 0,
+            "clean_probability": 0.011525396257638931,
+            "final_probability": 0.010982837527990341,
+            "probability_gain": -0.0005425587296485901,
+            "runtime_ms": 203442.8082000013,
+            "success": false,
+            "top_prediction_before": " the",
+            "top_prediction_after": " the",
+            "mute_features": [
+                9938,
+                23196,
+                6001,
+                5611,
+                22132,
+                2306
+            ],
+            "boost_features": [
+                14075,
+                11741,
+                12711,
+                1890,
+                9865,
+                9736
+            ]
+        },
+        {
+            "layer": 5,
+            "hook": "blocks.5.hook_resid_pre",
+            "release": "gpt2-small-res-jb",
+            "clean_rank": 8,
+            "final_rank": 3,
+            "rank_improvement": 5,
+            "clean_probability": 0.011525396257638931,
+            "final_probability": 0.03641510009765625,
+            "probability_gain": 0.02488970384001732,
+            "runtime_ms": 143797.09040000307,
+            "success": false,
+            "top_prediction_before": " the",
+            "top_prediction_after": " the",
+            "mute_features": [
+                13596,
+                17808,
+                13865,
+                17241,
+                3453,
+                281
+            ],
+            "boost_features": [
+                22108,
+                19381,
+                6246,
+                3555,
+                16203,
+                4868
+            ]
+        },
+        {
+            "layer": 8,
+            "hook": "blocks.8.hook_resid_pre",
+            "release": "gpt2-small-res-jb",
+            "clean_rank": 8,
+            "final_rank": 2,
+            "rank_improvement": 6,
+            "clean_probability": 0.011525396257638931,
+            "final_probability": 0.08728685975074768,
+            "probability_gain": 0.07576146349310875,
+            "runtime_ms": 45701.58580000134,
+            "success": false,
+            "top_prediction_before": " the",
+            "top_prediction_after": " the",
+            "mute_features": [
+                8459,
+                21169,
+                14430,
+                4445,
+                6863,
+                7713
+            ],
+            "boost_features": [
+                3076,
+                19288,
+                8239,
+                24181,
+                13505,
+                5858
+            ]
+        },
+        {
+            "layer": 10,
+            "hook": "blocks.10.hook_resid_pre",
+            "release": "gpt2-small-res-jb",
+            "clean_rank": 8,
+            "final_rank": 3,
+            "rank_improvement": 5,
+            "clean_probability": 0.011525396257638931,
+            "final_probability": 0.0272320918738842,
+            "probability_gain": 0.01570669561624527,
+            "runtime_ms": 177231.59909999958,
+            "success": false,
+            "top_prediction_before": " the",
+            "top_prediction_after": " the",
+            "mute_features": [
+                6762,
+                10712,
+                15625,
+                21540,
+                24106,
+                700
+            ],
+            "boost_features": [
+                20330,
+                21513,
+                7589,
+                20009,
+                2502,
+                14140
+            ]
+        }
+    ]
+}

@@ -1,0 +1,140 @@
+{
+    "benchmark_name": "Layer Intervention Benchmark",
+    "benchmark_version": "0.1",
+    "timestamp": "2026-08-05T05:43:06.138643Z",
+    "model": "gpt2",
+    "algorithm": "Hybrid Mute & Boost",
+    "use_safety": true,
+    "prompt": "The Eiffel tower is in",
+    "target": "Paris",
+    "layer_metadata": {
+        "hook": "hook_resid_pre",
+        "release": "gpt2-small-res-jb"
+    },
+    "layers": [
+        {
+            "layer": 2,
+            "hook": "blocks.2.hook_resid_pre",
+            "release": "gpt2-small-res-jb",
+            "clean_rank": 8,
+            "final_rank": 11,
+            "rank_improvement": -3,
+            "clean_probability": 0.009177644737064838,
+            "final_probability": 0.008446329273283482,
+            "probability_gain": -0.0007313154637813568,
+            "runtime_ms": 53756.610999997065,
+            "success": false,
+            "top_prediction_before": " the",
+            "top_prediction_after": " the",
+            "mute_features": [
+                5057,
+                6001,
+                8750,
+                23196,
+                21507,
+                5611
+            ],
+            "boost_features": [
+                14075,
+                12711,
+                19785,
+                9736,
+                22137,
+                3310
+            ]
+        },
+        {
+            "layer": 5,
+            "hook": "blocks.5.hook_resid_pre",
+            "release": "gpt2-small-res-jb",
+            "clean_rank": 8,
+            "final_rank": 5,
+            "rank_improvement": 3,
+            "clean_probability": 0.009177644737064838,
+            "final_probability": 0.03229239583015442,
+            "probability_gain": 0.02311475109308958,
+            "runtime_ms": 50590.5894000025,
+            "success": false,
+            "top_prediction_before": " the",
+            "top_prediction_after": " the",
+            "mute_features": [
+                13596,
+                24079,
+                17808,
+                6577,
+                4596,
+                3555
+            ],
+            "boost_features": [
+                22108,
+                6246,
+                19381,
+                5797,
+                4868,
+                16390
+            ]
+        },
+        {
+            "layer": 8,
+            "hook": "blocks.8.hook_resid_pre",
+            "release": "gpt2-small-res-jb",
+            "clean_rank": 8,
+            "final_rank": 5,
+            "rank_improvement": 3,
+            "clean_probability": 0.009177644737064838,
+            "final_probability": 0.031030453741550446,
+            "probability_gain": 0.021852809004485607,
+            "runtime_ms": 49992.851700000756,
+            "success": false,
+            "top_prediction_before": " the",
+            "top_prediction_after": " the",
+            "mute_features": [
+                4445,
+                21169,
+                24394,
+                19305,
+                6840,
+                20220
+            ],
+            "boost_features": [
+                3076,
+                24181,
+                19288,
+                5858,
+                16246,
+                13505
+            ]
+        },
+        {
+            "layer": 10,
+            "hook": "blocks.10.hook_resid_pre",
+            "release": "gpt2-small-res-jb",
+            "clean_rank": 8,
+            "final_rank": 6,
+            "rank_improvement": 2,
+            "clean_probability": 0.009177644737064838,
+            "final_probability": 0.01375583466142416,
+            "probability_gain": 0.004578189924359322,
+            "runtime_ms": 33110.87839999527,
+            "success": false,
+            "top_prediction_before": " the",
+            "top_prediction_after": " the",
+            "mute_features": [
+                7589,
+                19508,
+                24404,
+                2440,
+                22927,
+                1160
+            ],
+            "boost_features": [
+                20330,
+                12116,
+                23638,
+                20010,
+                16688,
+                16206
+            ]
+        }
+    ]
+}

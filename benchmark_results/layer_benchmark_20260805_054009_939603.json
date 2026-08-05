@@ -1,0 +1,140 @@
+{
+    "benchmark_name": "Layer Intervention Benchmark",
+    "benchmark_version": "0.1",
+    "timestamp": "2026-08-05T05:40:09.939603Z",
+    "model": "gpt2",
+    "algorithm": "Hybrid Mute & Boost",
+    "use_safety": true,
+    "prompt": "I am so",
+    "target": "happy",
+    "layer_metadata": {
+        "hook": "hook_resid_pre",
+        "release": "gpt2-small-res-jb"
+    },
+    "layers": [
+        {
+            "layer": 2,
+            "hook": "blocks.2.hook_resid_pre",
+            "release": "gpt2-small-res-jb",
+            "clean_rank": 4,
+            "final_rank": 3,
+            "rank_improvement": 1,
+            "clean_probability": 0.08896735310554504,
+            "final_probability": 0.06998330354690552,
+            "probability_gain": -0.018984049558639526,
+            "runtime_ms": 45770.88089999597,
+            "success": false,
+            "top_prediction_before": " excited",
+            "top_prediction_after": " excited",
+            "mute_features": [
+                22514,
+                12639,
+                9736,
+                17559,
+                23978,
+                3310
+            ],
+            "boost_features": [
+                8750,
+                13852,
+                14916,
+                3307,
+                13497,
+                1564
+            ]
+        },
+        {
+            "layer": 5,
+            "hook": "blocks.5.hook_resid_pre",
+            "release": "gpt2-small-res-jb",
+            "clean_rank": 4,
+            "final_rank": 3,
+            "rank_improvement": 1,
+            "clean_probability": 0.08896735310554504,
+            "final_probability": 0.09208675473928452,
+            "probability_gain": 0.0031194016337394714,
+            "runtime_ms": 46356.72239999985,
+            "success": false,
+            "top_prediction_before": " excited",
+            "top_prediction_after": " excited",
+            "mute_features": [
+                4905,
+                462,
+                8034,
+                16543,
+                281,
+                15638
+            ],
+            "boost_features": [
+                20804,
+                8240,
+                21189,
+                2623,
+                12043,
+                15077
+            ]
+        },
+        {
+            "layer": 8,
+            "hook": "blocks.8.hook_resid_pre",
+            "release": "gpt2-small-res-jb",
+            "clean_rank": 4,
+            "final_rank": 3,
+            "rank_improvement": 1,
+            "clean_probability": 0.08896735310554504,
+            "final_probability": 0.11160964518785477,
+            "probability_gain": 0.022642292082309723,
+            "runtime_ms": 48586.63150000211,
+            "success": false,
+            "top_prediction_before": " excited",
+            "top_prediction_after": " sorry",
+            "mute_features": [
+                3920,
+                1300,
+                23092,
+                15905,
+                1913,
+                22852
+            ],
+            "boost_features": [
+                19425,
+                21043,
+                12474,
+                20457,
+                6863,
+                11600
+            ]
+        },
+        {
+            "layer": 10,
+            "hook": "blocks.10.hook_resid_pre",
+            "release": "gpt2-small-res-jb",
+            "clean_rank": 4,
+            "final_rank": 2,
+            "rank_improvement": 2,
+            "clean_probability": 0.08896735310554504,
+            "final_probability": 0.12300696969032288,
+            "probability_gain": 0.03403961658477783,
+            "runtime_ms": 35469.348500002525,
+            "success": false,
+            "top_prediction_before": " excited",
+            "top_prediction_after": " excited",
+            "mute_features": [
+                3681,
+                10712,
+                17993,
+                20009,
+                11011,
+                4198
+            ],
+            "boost_features": [
+                22491,
+                809,
+                12116,
+                23638,
+                22352,
+                8731
+            ]
+        }
+    ]
+}

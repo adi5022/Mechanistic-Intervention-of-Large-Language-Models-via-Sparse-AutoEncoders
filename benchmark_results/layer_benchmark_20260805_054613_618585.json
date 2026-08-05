@@ -1,0 +1,140 @@
+{
+    "benchmark_name": "Layer Intervention Benchmark",
+    "benchmark_version": "0.1",
+    "timestamp": "2026-08-05T05:46:13.618585Z",
+    "model": "gpt2",
+    "algorithm": "Hybrid Mute & Boost",
+    "use_safety": true,
+    "prompt": "The Louvre is located in the city of",
+    "target": "Paris",
+    "layer_metadata": {
+        "hook": "hook_resid_pre",
+        "release": "gpt2-small-res-jb"
+    },
+    "layers": [
+        {
+            "layer": 2,
+            "hook": "blocks.2.hook_resid_pre",
+            "release": "gpt2-small-res-jb",
+            "clean_rank": 1,
+            "final_rank": 1,
+            "rank_improvement": 0,
+            "clean_probability": 0.39810341596603394,
+            "final_probability": 0.37992891669273376,
+            "probability_gain": -0.01817449927330017,
+            "runtime_ms": 40269.636499993794,
+            "success": true,
+            "top_prediction_before": " Paris",
+            "top_prediction_after": " Paris",
+            "mute_features": [
+                24214,
+                20110,
+                13497,
+                13814,
+                3814,
+                7035
+            ],
+            "boost_features": [
+                9787,
+                12730,
+                21855,
+                21806,
+                3990,
+                23462
+            ]
+        },
+        {
+            "layer": 5,
+            "hook": "blocks.5.hook_resid_pre",
+            "release": "gpt2-small-res-jb",
+            "clean_rank": 1,
+            "final_rank": 1,
+            "rank_improvement": 0,
+            "clean_probability": 0.39810341596603394,
+            "final_probability": 0.4768490195274353,
+            "probability_gain": 0.07874560356140137,
+            "runtime_ms": 49753.499600003124,
+            "success": true,
+            "top_prediction_before": " Paris",
+            "top_prediction_after": " Paris",
+            "mute_features": [
+                281,
+                1904,
+                4687,
+                17463,
+                14966,
+                19143
+            ],
+            "boost_features": [
+                22108,
+                14236,
+                19775,
+                14309,
+                16728,
+                9967
+            ]
+        },
+        {
+            "layer": 8,
+            "hook": "blocks.8.hook_resid_pre",
+            "release": "gpt2-small-res-jb",
+            "clean_rank": 1,
+            "final_rank": 1,
+            "rank_improvement": 0,
+            "clean_probability": 0.39810341596603394,
+            "final_probability": 0.6061070561408997,
+            "probability_gain": 0.20800364017486572,
+            "runtime_ms": 52437.0590000035,
+            "success": true,
+            "top_prediction_before": " Paris",
+            "top_prediction_after": " Paris",
+            "mute_features": [
+                19794,
+                1173,
+                23035,
+                24430,
+                5926,
+                3409
+            ],
+            "boost_features": [
+                11149,
+                2194,
+                5858,
+                23092,
+                22852,
+                16649
+            ]
+        },
+        {
+            "layer": 10,
+            "hook": "blocks.10.hook_resid_pre",
+            "release": "gpt2-small-res-jb",
+            "clean_rank": 1,
+            "final_rank": 1,
+            "rank_improvement": 0,
+            "clean_probability": 0.39810341596603394,
+            "final_probability": 0.5098705291748047,
+            "probability_gain": 0.11176711320877075,
+            "runtime_ms": 40433.87300000177,
+            "success": true,
+            "top_prediction_before": " Paris",
+            "top_prediction_after": " Paris",
+            "mute_features": [
+                23374,
+                17446,
+                17068,
+                16688,
+                1495,
+                18426
+            ],
+            "boost_features": [
+                14031,
+                20009,
+                21513,
+                2502,
+                17993,
+                24512
+            ]
+        }
+    ]
+}
