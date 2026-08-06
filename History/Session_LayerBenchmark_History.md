@@ -1,7 +1,7 @@
 # Session History: Layer Intervention Benchmark Subsystem
 
-**Date:** August 4–6, 2026  
-**Topic:** Pretrained SAE Audit, Layer Intervention Benchmark Infrastructure, Model Caching Optimization, Stage Profiling, Extended Metadata, and Batch Dataset Processing  
+**Date:** August 4–5, 2026  
+**Topic:** Pretrained SAE Audit, Layer Intervention Benchmark Infrastructure, and Multi-Prompt Extension  
 
 ---
 
@@ -39,43 +39,17 @@
 ### Implementation
 - **Sidebar Prompts Dataset Editor**: Added dynamic prompt-target row management (`➕ Add Prompt`, `➖ Remove Prompt`) stored in `st.session_state["prompts_dataset"]`.
 - **Sequential Multi-Prompt Execution**: Sweeps each prompt across selected layers while reusing `@st.cache_resource` loaded models/SAEs.
-- **Master Research Artifact**: Consolidates results into a single master JSON artifact per run (`benchmark_results/layer_benchmark_YYYYMMDD_HHMMSS_ffffff.json`).
+- **Independent Research Artifacts**: Automatically saves a timestamped JSON artifact for each prompt to `benchmark_results/layer_benchmark_YYYYMMDD_HHMMSS_ffffff.json`.
 - **Result Inspector**: Added prompt selector dropdown (`Select Benchmark Prompt to Inspect`) to review individual tables, charts, auto-saved paths, and raw JSON blocks per prompt.
 
 ---
 
-## 4. Loading Architecture Caching Optimization
+## 4. Verification & Validation
 
-### User Request
-> "Eliminate redundant GPT-2 model initialization... Separate GPT-2 loading from SAE loading... GPT-2 is loaded exactly ONCE per Streamlit session..."
-
-### Implementation
-- Separated base model caching (`get_cached_base_model()`) from layer SAE caching (`get_cached_sae(layer)`).
-- `get_cached_base_model()` is decorated with `@st.cache_resource`, loading `HookedTransformer("gpt2")` **once** per Streamlit session.
-- `get_cached_model_and_sae(layer)` composes these two cached instances.
-- Re-evaluating layers `[2, 5, 8, 10]` reuses the single cached base model instance with zero reloads.
-
----
-
-## 5. Profiling, Metadata & Batch Dataset Mechanisms
-
-### User Request
-> "Add lightweight runtime profiling... Expand the JSON metadata... Improve progress feedback... Artifact visibility... Memory cleanup... Add a batch testing mechanism (Upload + Copy/Paste JSON)..."
-
-### Implementation
-- **Stage Profiling**: Added 6-stage runtime measurement (`sae_loading_ms`, `clean_baseline_ms`, `feature_selection_ms`, `safety_filtering_ms`, `intervention_ms`, `result_packaging_ms`). Displayed in UI profiling expander.
-- **Extended Metadata**: Added `sae_release`, `hook_location`, `safety_enabled`, `selected_layers`, `parameters` to JSON metadata root.
-- **Progress Callback**: Transmitted active stage status to UI progress banner (`⏳ Prompt X / N | Layer Y (Z / M) | Stage: <stage_name>`).
-- **Batch Dataset Import**: Added sidebar drag-and-drop `.json` file uploader, copy-paste raw JSON text string importer, and downloadable sample JSON template.
-- **Memory Cleanup**: Intermediate PyTorch tensors deleted (`del`) and `torch.cuda.empty_cache()` invoked safely after each layer evaluation.
-
----
-
-## 6. Empirical Depth Findings
-
-| Layer | Clean Rank | Final Rank | Rank Improvement | Clean Prob | Final Prob | Prob Gain | Primary Response |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Layer 2** | 8 | 7 | +1 | 1.15% | 1.22% | +0.07% | Minor |
-| **Layer 5** | 8 | 5 | +3 | 1.15% | 1.94% | +0.79% | Moderate |
-| **Layer 8** | 8 | **3** | **+5** | 1.15% | **3.52%** | **+2.37%** | **Peak Steering Efficacy** |
-| **Layer 10** | 8 | 5 | +3 | 1.15% | 1.97% | +0.82% | Moderate |
+- **Smoke Test Sweep**: Verified on GPU (`gpt2` + `gpt2-small-res-jb`) across layers `[2, 5, 8, 10]`:
+  - Layer 2: Clean Rank 8 $\rightarrow$ Final Rank 7 (+0.07% prob gain)
+  - Layer 5: Clean Rank 8 $\rightarrow$ Final Rank 5 (+0.79% prob gain)
+  - Layer 8: Clean Rank 8 $\rightarrow$ Final Rank 3 (**+2.37% prob gain, +5 positions cleared**)
+  - Layer 10: Clean Rank 8 $\rightarrow$ Final Rank 5 (+0.82% prob gain)
+- **Multi-Prompt Execution**: Verified sequential multi-prompt sweep headlessly and via Streamlit server boot.
+- **Graph Visualization & Journaling**: Rendered 300 DPI chart images (`probability_gain_vs_layer.png`, `rank_improvement_vs_layer.png`, `runtime_vs_layer.png`) in `docs/Research_Journal/images/` and documented findings in [Research Journal Entry 10](file:///d:/Work/PROJECTS/FeatureScalpel/docs/Research_Journal/10.md).

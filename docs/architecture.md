@@ -214,16 +214,10 @@ That's a complete, demoable MVP — everything past this (self-trained SAEs, ROM
 1. **Decoupled Benchmark Engine (`src/benchmark/layer_benchmark_runner.py`)**:
    - Encapsulates UI-independent layer characterization sweeps (`run_layer_benchmark`).
    - Supports arbitrary transformer block depth sweeps, safety filtering toggles (`use_safety`), clean baseline passes, candidate feature safety checks (`check_target_safe`, `check_boost_safe`), and joint intervention passes.
-   - Integrates 6-stage runtime profiling (`sae_loading_ms`, `clean_baseline_ms`, `feature_selection_ms`, `safety_filtering_ms`, `intervention_ms`, `result_packaging_ms`).
-   - Records extended experiment metadata (`sae_release`, `hook_location`, `safety_enabled`, `selected_layers`, `parameters`).
-   - Automatically persists single consolidated master JSON artifacts into `benchmark_results/layer_benchmark_YYYYMMDD_HHMMSS_ffffff.json`.
-   - Performs safe intermediate PyTorch tensor deletion and `torch.cuda.empty_cache()` after each layer evaluation.
+   - Automatically persists research JSON artifacts into `benchmark_results/layer_benchmark_YYYYMMDD_HHMMSS_ffffff.json`.
 
 2. **Standalone Benchmark Application (`layer_benchmark.py`)**:
-   - Independent Streamlit dashboard featuring an interactive **Prompts Dataset** editor (`➕ Add Prompt`, `➖ Remove Prompt`).
-   - **Batch Import Mechanisms**: Supports drag-and-drop `.json` file uploading, copy-paste raw JSON text string importing, and sample template downloading.
-   - **Decoupled Streamlit Caching**: Composes `get_cached_base_model()` (`HookedTransformer("gpt2")` loaded once per session) and `get_cached_sae(layer)` for zero-redundancy execution.
-   - **Real-Time Progress & Stage Tracking**: Displays live execution stage messages (`Prompt X / N | Layer Y (Z / M) | Stage: <stage_name>`).
-   - **Artifacts & Export Manager**: Provides one-click downloads for single master JSONs and prompt-level JSON artifacts alongside stage profiling breakdown tables and Vega-lite performance bar charts.
+   - Independent Streamlit dashboard featuring a dynamic **Prompts Dataset** editor (`➕ Add Prompt`, `➖ Remove Prompt`).
+   - Leverages `@st.cache_resource` for zero-redundancy model/SAE reuse across multi-prompt datasets.
+   - Displays real-time progress indicators, comparative performance tables, Vega-lite visualization charts, auto-saved artifact location captions, and one-click JSON download buttons per prompt.
 
-
