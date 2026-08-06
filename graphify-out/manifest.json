@@ -80,9 +80,9 @@
     "semantic_hash": "ad6220ff4f74287fda89335502db5809"
   },
   "src/sae_utils.py": {
-    "mtime": 1785465596.5005946,
-    "ast_hash": "031b91199dcd80fdb83662141ec99925",
-    "semantic_hash": "031b91199dcd80fdb83662141ec99925"
+    "mtime": 1785944350.9861197,
+    "ast_hash": "7bec794fb853a5f86d7c3a080b1581e7",
+    "semantic_hash": ""
   },
   "test.py": {
     "mtime": 1784841489.5170164,
@@ -175,8 +175,8 @@
     "semantic_hash": ""
   },
   "docs/architecture.md": {
-    "mtime": 1785898311.8464112,
-    "ast_hash": "05347a91cdbdc59bb36b260e4dd76608",
+    "mtime": 1785984314.670652,
+    "ast_hash": "2a850df863696a436d55667aa5418772",
     "semantic_hash": ""
   },
   "docs/notes.md": {
@@ -190,9 +190,9 @@
     "semantic_hash": ""
   },
   "handoff.md": {
-    "mtime": 1784041440.4015794,
-    "ast_hash": "52f778c8deee432c5abf53c2ad7b5cf5",
-    "semantic_hash": "52f778c8deee432c5abf53c2ad7b5cf5"
+    "mtime": 1785984296.844735,
+    "ast_hash": "0a9c0451776311ec2fef5e5b6c3884ad",
+    "semantic_hash": ""
   },
   "notes.md": {
     "mtime": 1784918232.3744135,
@@ -360,13 +360,13 @@
     "semantic_hash": ""
   },
   "layer_benchmark.py": {
-    "mtime": 1785862483.7870255,
-    "ast_hash": "1dae9f1e86fe6632f876ed9b00bc46fa",
+    "mtime": 1785947271.060512,
+    "ast_hash": "9fd6108a08b8b888e1441edf39c386d3",
     "semantic_hash": ""
   },
   "src/benchmark/layer_benchmark_runner.py": {
-    "mtime": 1785862477.686162,
-    "ast_hash": "493ab98cd608dc03757dbde5c83b9d2f",
+    "mtime": 1785946691.3071659,
+    "ast_hash": "f2a3c9d81996f72ae98c8b198faeda89",
     "semantic_hash": ""
   },
   "benchmark_results/layer_benchmark_20260804_163717.json": {
@@ -425,8 +425,53 @@
     "semantic_hash": ""
   },
   "History/Session_LayerBenchmark_History.md": {
-    "mtime": 1785898296.0951858,
-    "ast_hash": "ccaa869929290efd30c40dd4159475dc",
+    "mtime": 1785984334.3085668,
+    "ast_hash": "15445879b1a706ce06c00daf1af6fc64",
+    "semantic_hash": ""
+  },
+  "benchmark_results/layer_benchmark_20260805_053039_769394.json": {
+    "mtime": 1785942150.5308492,
+    "ast_hash": "2235721a23f1b93c8185ce2e044d2270",
+    "semantic_hash": ""
+  },
+  "benchmark_results/layer_benchmark_20260805_054009_939603.json": {
+    "mtime": 1785942150.532372,
+    "ast_hash": "78f32b7b139f861e6b7bd5d221e9bf9b",
+    "semantic_hash": ""
+  },
+  "benchmark_results/layer_benchmark_20260805_054306_138643.json": {
+    "mtime": 1785942150.534458,
+    "ast_hash": "d66a950c1b5f161f8506b429e688ca5c",
+    "semantic_hash": ""
+  },
+  "benchmark_results/layer_benchmark_20260805_054613_618585.json": {
+    "mtime": 1785942150.5364728,
+    "ast_hash": "5f1cea3845b1f148140663fdd4d7d2cc",
+    "semantic_hash": ""
+  },
+  "benchmark_results/layer_benchmark_20260805_155359_361934.json": {
+    "mtime": 1785945309.9794018,
+    "ast_hash": "d86b29f8582b1486be14d9b3e26a3415",
+    "semantic_hash": ""
+  },
+  "benchmark_results/layer_benchmark_20260805_155945_908371.json": {
+    "mtime": 1785945656.4064484,
+    "ast_hash": "058e92e9a5d73d253db3f2a7634f561a",
+    "semantic_hash": ""
+  },
+  "benchmark_results/layer_benchmark_20260805_161957_581069.json": {
+    "mtime": 1785946843.6403587,
+    "ast_hash": "53e247028fdaf65dffab7bcb7cdfbf39",
+    "semantic_hash": ""
+  },
+  "benchmark_results/layer_benchmark_20260805_162913_447016.json": {
+    "mtime": 1785948148.0776944,
+    "ast_hash": "c3ccfd679d6424c5da3ddc915e4d4eb1",
+    "semantic_hash": ""
+  },
+  "docs/Research_Journal/11.md": {
+    "mtime": 1785984304.756879,
+    "ast_hash": "6f5cffc6d3135ac8ab579643c30e2984",
     "semantic_hash": ""
   }
 }

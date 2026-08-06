@@ -309,10 +309,32 @@
       "norm_label": "cache_resource"
     },
     {
-      "label": "get_cached_model_and_sae()",
+      "label": "get_cached_base_model()",
       "file_type": "code",
       "source_file": "layer_benchmark.py",
       "source_location": "L23",
+      "_origin": "ast",
+      "id": "layer_benchmark_get_cached_base_model",
+      "community": 3,
+      "community_name": "load_model_and_sae",
+      "norm_label": "get_cached_base_model()"
+    },
+    {
+      "label": "get_cached_sae()",
+      "file_type": "code",
+      "source_file": "layer_benchmark.py",
+      "source_location": "L28",
+      "_origin": "ast",
+      "id": "layer_benchmark_get_cached_sae",
+      "community": 3,
+      "community_name": "load_model_and_sae",
+      "norm_label": "get_cached_sae()"
+    },
+    {
+      "label": "get_cached_model_and_sae()",
+      "file_type": "code",
+      "source_file": "layer_benchmark.py",
+      "source_location": "L32",
       "_origin": "ast",
       "id": "layer_benchmark_get_cached_model_and_sae",
       "community": 3,
@@ -323,7 +345,7 @@
       "label": "main()",
       "file_type": "code",
       "source_file": "layer_benchmark.py",
-      "source_location": "L27",
+      "source_location": "L39",
       "_origin": "ast",
       "id": "layer_benchmark_main",
       "community": 3,
@@ -342,7 +364,7 @@
       "norm_label": "layer intervention benchmark ui dedicated streamlit application for..."
     },
     {
-      "label": "Cached loader for HookedTransformer and Layer-specific SAE.",
+      "label": "Cached loader for GPT-2 base model (loaded ONCE per Streamlit session).",
       "file_type": "rationale",
       "source_file": "layer_benchmark.py",
       "source_location": "L24",
@@ -350,7 +372,29 @@
       "id": "layer_benchmark_rationale_24",
       "community": 3,
       "community_name": "load_model_and_sae",
-      "norm_label": "cached loader for hookedtransformer and layer-specific sae."
+      "norm_label": "cached loader for gpt-2 base model (loaded once per streamlit session)."
+    },
+    {
+      "label": "Cached loader for Layer-specific SAE (loaded ONCE per layer index).",
+      "file_type": "rationale",
+      "source_file": "layer_benchmark.py",
+      "source_location": "L29",
+      "_origin": "ast",
+      "id": "layer_benchmark_rationale_29",
+      "community": 3,
+      "community_name": "load_model_and_sae",
+      "norm_label": "cached loader for layer-specific sae (loaded once per layer index)."
+    },
+    {
+      "label": "Composes cached GPT-2 base model and cached layer SAE without re-initializing\u2026",
+      "file_type": "rationale",
+      "source_file": "layer_benchmark.py",
+      "source_location": "L33",
+      "_origin": "ast",
+      "id": "layer_benchmark_rationale_33",
+      "community": 3,
+      "community_name": "load_model_and_sae",
+      "norm_label": "composes cached gpt-2 base model and cached layer sae without re-initializing..."
     },
     {
       "label": "run_stage1.py",
@@ -370,8 +414,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "smoke_test",
-      "community": 1,
-      "community_name": "editing.py",
+      "community": 3,
+      "community_name": "load_model_and_sae",
       "norm_label": "smoke_test.py"
     },
     {
@@ -408,7 +452,7 @@
       "norm_label": "layer benchmark runner contains the algorithm-agnostic core logic for..."
     },
     {
-      "label": "Sweeps the Hybrid Mute & Boost intervention across selected layers for a single\u2026",
+      "label": "Sweeps the Hybrid Mute & Boost intervention across selected layers for one or\u2026",
       "file_type": "rationale",
       "source_file": "src/benchmark/layer_benchmark_runner.py",
       "source_location": "L40",
@@ -416,7 +460,7 @@
       "id": "src_benchmark_layer_benchmark_runner_rationale_40",
       "community": 3,
       "community_name": "load_model_and_sae",
-      "norm_label": "sweeps the hybrid mute & boost intervention across selected layers for a single..."
+      "norm_label": "sweeps the hybrid mute & boost intervention across selected layers for one or..."
     },
     {
       "label": "editing.py",
@@ -491,8 +535,8 @@
       "source_location": "L196",
       "_origin": "ast",
       "id": "src_editing_check_target_safe",
-      "community": 1,
-      "community_name": "editing.py",
+      "community": 3,
+      "community_name": "load_model_and_sae",
       "norm_label": "check_target_safe()"
     },
     {
@@ -634,8 +678,8 @@
       "source_location": "L199",
       "_origin": "ast",
       "id": "src_editing_rationale_199",
-      "community": 1,
-      "community_name": "editing.py",
+      "community": 3,
+      "community_name": "load_model_and_sae",
       "norm_label": "temporarily applies only this one feature's ablation (using..."
     },
     {
@@ -1541,6 +1585,17 @@
       "norm_label": "load_model_and_sae()"
     },
     {
+      "label": "HookedTransformer",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "hookedtransformer",
+      "community": 3,
+      "community_name": "load_model_and_sae",
+      "norm_label": "hookedtransformer"
+    },
+    {
       "label": "Utilities for loading and interacting with Sparse Autoencoders (SAEs) and\u2026",
       "file_type": "rationale",
       "source_file": "src/sae_utils.py",
@@ -2124,15 +2179,81 @@
       "norm_label": "implementation"
     },
     {
-      "label": "4. Verification & Validation",
+      "label": "4. Loading Architecture Caching Optimization",
       "file_type": "document",
       "source_file": "History/Session_LayerBenchmark_History.md",
       "source_location": "L47",
       "_origin": "ast",
-      "id": "history_session_layerbenchmark_history_4_verification_validation",
+      "id": "history_session_layerbenchmark_history_4_loading_architecture_caching_optimization",
       "community": 54,
       "community_name": "Session History: Layer Intervention Benchmark Subsystem",
-      "norm_label": "4. verification & validation"
+      "norm_label": "4. loading architecture caching optimization"
+    },
+    {
+      "label": "User Request",
+      "file_type": "document",
+      "source_file": "History/Session_LayerBenchmark_History.md",
+      "source_location": "L49",
+      "_origin": "ast",
+      "id": "history_session_layerbenchmark_history_user_request_49",
+      "community": 54,
+      "community_name": "Session History: Layer Intervention Benchmark Subsystem",
+      "norm_label": "user request"
+    },
+    {
+      "label": "Implementation",
+      "file_type": "document",
+      "source_file": "History/Session_LayerBenchmark_History.md",
+      "source_location": "L52",
+      "_origin": "ast",
+      "id": "history_session_layerbenchmark_history_implementation_52",
+      "community": 54,
+      "community_name": "Session History: Layer Intervention Benchmark Subsystem",
+      "norm_label": "implementation"
+    },
+    {
+      "label": "5. Profiling, Metadata & Batch Dataset Mechanisms",
+      "file_type": "document",
+      "source_file": "History/Session_LayerBenchmark_History.md",
+      "source_location": "L60",
+      "_origin": "ast",
+      "id": "history_session_layerbenchmark_history_5_profiling_metadata_batch_dataset_mechanisms",
+      "community": 54,
+      "community_name": "Session History: Layer Intervention Benchmark Subsystem",
+      "norm_label": "5. profiling, metadata & batch dataset mechanisms"
+    },
+    {
+      "label": "User Request",
+      "file_type": "document",
+      "source_file": "History/Session_LayerBenchmark_History.md",
+      "source_location": "L62",
+      "_origin": "ast",
+      "id": "history_session_layerbenchmark_history_user_request_62",
+      "community": 54,
+      "community_name": "Session History: Layer Intervention Benchmark Subsystem",
+      "norm_label": "user request"
+    },
+    {
+      "label": "Implementation",
+      "file_type": "document",
+      "source_file": "History/Session_LayerBenchmark_History.md",
+      "source_location": "L65",
+      "_origin": "ast",
+      "id": "history_session_layerbenchmark_history_implementation_65",
+      "community": 54,
+      "community_name": "Session History: Layer Intervention Benchmark Subsystem",
+      "norm_label": "implementation"
+    },
+    {
+      "label": "6. Empirical Depth Findings",
+      "file_type": "document",
+      "source_file": "History/Session_LayerBenchmark_History.md",
+      "source_location": "L74",
+      "_origin": "ast",
+      "id": "history_session_layerbenchmark_history_6_empirical_depth_findings",
+      "community": 54,
+      "community_name": "Session History: Layer Intervention Benchmark Subsystem",
+      "norm_label": "6. empirical depth findings"
     },
     {
       "label": "10.md",
@@ -2232,6 +2353,127 @@
       "community": 50,
       "community_name": "Research Journal Entry 10: Layer Intervention Depth Characterization Benchmark",
       "norm_label": "4. key observations & research progress"
+    },
+    {
+      "label": "11.md",
+      "file_type": "document",
+      "source_file": "docs/Research_Journal/11.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_research_journal_11",
+      "community": 55,
+      "community_name": "Research Journal Entry 11: Benchmark Infrastructure Optimization, Stage Profiling, and Batch Dataset Processing",
+      "norm_label": "11.md"
+    },
+    {
+      "label": "Research Journal Entry 11: Benchmark Infrastructure Optimization, Stage Profiling, and Batch Dataset Processing",
+      "file_type": "document",
+      "source_file": "docs/Research_Journal/11.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_research_journal_11_research_journal_entry_11_benchmark_infrastructure_optimization_stage_profiling_and_batch_dataset_processing",
+      "community": 55,
+      "community_name": "Research Journal Entry 11: Benchmark Infrastructure Optimization, Stage Profiling, and Batch Dataset Processing",
+      "norm_label": "research journal entry 11: benchmark infrastructure optimization, stage profiling, and batch dataset processing"
+    },
+    {
+      "label": "1. Objective",
+      "file_type": "document",
+      "source_file": "docs/Research_Journal/11.md",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "docs_research_journal_11_1_objective",
+      "community": 55,
+      "community_name": "Research Journal Entry 11: Benchmark Infrastructure Optimization, Stage Profiling, and Batch Dataset Processing",
+      "norm_label": "1. objective"
+    },
+    {
+      "label": "2. Architecture & Implementation Highlights",
+      "file_type": "document",
+      "source_file": "docs/Research_Journal/11.md",
+      "source_location": "L22",
+      "_origin": "ast",
+      "id": "docs_research_journal_11_2_architecture_implementation_highlights",
+      "community": 55,
+      "community_name": "Research Journal Entry 11: Benchmark Infrastructure Optimization, Stage Profiling, and Batch Dataset Processing",
+      "norm_label": "2. architecture & implementation highlights"
+    },
+    {
+      "label": "2.1 Decoupled Caching Architecture",
+      "file_type": "document",
+      "source_file": "docs/Research_Journal/11.md",
+      "source_location": "L24",
+      "_origin": "ast",
+      "id": "docs_research_journal_11_2_1_decoupled_caching_architecture",
+      "community": 55,
+      "community_name": "Research Journal Entry 11: Benchmark Infrastructure Optimization, Stage Profiling, and Batch Dataset Processing",
+      "norm_label": "2.1 decoupled caching architecture"
+    },
+    {
+      "label": "2.2 Stage Profiling & Extended Metadata",
+      "file_type": "document",
+      "source_file": "docs/Research_Journal/11.md",
+      "source_location": "L33",
+      "_origin": "ast",
+      "id": "docs_research_journal_11_2_2_stage_profiling_extended_metadata",
+      "community": 55,
+      "community_name": "Research Journal Entry 11: Benchmark Infrastructure Optimization, Stage Profiling, and Batch Dataset Processing",
+      "norm_label": "2.2 stage profiling & extended metadata"
+    },
+    {
+      "label": "2.3 Batch Dataset Processing & UI Management",
+      "file_type": "document",
+      "source_file": "docs/Research_Journal/11.md",
+      "source_location": "L46",
+      "_origin": "ast",
+      "id": "docs_research_journal_11_2_3_batch_dataset_processing_ui_management",
+      "community": 55,
+      "community_name": "Research Journal Entry 11: Benchmark Infrastructure Optimization, Stage Profiling, and Batch Dataset Processing",
+      "norm_label": "2.3 batch dataset processing & ui management"
+    },
+    {
+      "label": "3. Empirical Verification & Performance Breakdown",
+      "file_type": "document",
+      "source_file": "docs/Research_Journal/11.md",
+      "source_location": "L55",
+      "_origin": "ast",
+      "id": "docs_research_journal_11_3_empirical_verification_performance_breakdown",
+      "community": 55,
+      "community_name": "Research Journal Entry 11: Benchmark Infrastructure Optimization, Stage Profiling, and Batch Dataset Processing",
+      "norm_label": "3. empirical verification & performance breakdown"
+    },
+    {
+      "label": "3.1 Layer Depth Sensitivity Summary (Hybrid Mute & Boost)",
+      "file_type": "document",
+      "source_file": "docs/Research_Journal/11.md",
+      "source_location": "L57",
+      "_origin": "ast",
+      "id": "docs_research_journal_11_3_1_layer_depth_sensitivity_summary_hybrid_mute_boost",
+      "community": 55,
+      "community_name": "Research Journal Entry 11: Benchmark Infrastructure Optimization, Stage Profiling, and Batch Dataset Processing",
+      "norm_label": "3.1 layer depth sensitivity summary (hybrid mute & boost)"
+    },
+    {
+      "label": "3.2 Profiling Breakdown (Layer 8 Baseline)",
+      "file_type": "document",
+      "source_file": "docs/Research_Journal/11.md",
+      "source_location": "L66",
+      "_origin": "ast",
+      "id": "docs_research_journal_11_3_2_profiling_breakdown_layer_8_baseline",
+      "community": 55,
+      "community_name": "Research Journal Entry 11: Benchmark Infrastructure Optimization, Stage Profiling, and Batch Dataset Processing",
+      "norm_label": "3.2 profiling breakdown (layer 8 baseline)"
+    },
+    {
+      "label": "4. Conclusion & Status",
+      "file_type": "document",
+      "source_file": "docs/Research_Journal/11.md",
+      "source_location": "L77",
+      "_origin": "ast",
+      "id": "docs_research_journal_11_4_conclusion_status",
+      "community": 55,
+      "community_name": "Research Journal Entry 11: Benchmark Infrastructure Optimization, Stage Profiling, and Batch Dataset Processing",
+      "norm_label": "4. conclusion & status"
     },
     {
       "label": "9.md",
@@ -5464,6 +5706,17 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "layer_benchmark",
+      "target": "layer_benchmark_get_cached_base_model",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "layer_benchmark.py",
+      "source_location": "L32",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "layer_benchmark",
       "target": "layer_benchmark_get_cached_model_and_sae",
       "confidence_score": 1.0
     },
@@ -5471,7 +5724,18 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "layer_benchmark.py",
-      "source_location": "L27",
+      "source_location": "L28",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "layer_benchmark",
+      "target": "layer_benchmark_get_cached_sae",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "layer_benchmark.py",
+      "source_location": "L39",
       "weight": 1.0,
       "_origin": "ast",
       "source": "layer_benchmark",
@@ -5523,7 +5787,31 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "layer_benchmark",
+      "target": "src_sae_utils_load_base_model",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "layer_benchmark.py",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "layer_benchmark",
       "target": "src_sae_utils_load_model_and_sae",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "layer_benchmark.py",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "layer_benchmark",
+      "target": "src_sae_utils_load_sae_for_layer",
       "confidence_score": 1.0
     },
     {
@@ -5545,7 +5833,19 @@
       "weight": 1.0,
       "context": "decorator",
       "_origin": "ast",
-      "source": "layer_benchmark_get_cached_model_and_sae",
+      "source": "layer_benchmark_get_cached_base_model",
+      "target": "layer_benchmark_py_cache_resource",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "layer_benchmark.py",
+      "source_location": "L27",
+      "weight": 1.0,
+      "context": "decorator",
+      "_origin": "ast",
+      "source": "layer_benchmark_get_cached_sae",
       "target": "layer_benchmark_py_cache_resource",
       "confidence_score": 1.0
     },
@@ -5558,15 +5858,73 @@
       "source_location": "L25",
       "weight": 1.0,
       "_origin": "ast",
+      "source": "layer_benchmark_get_cached_base_model",
+      "target": "src_sae_utils_load_base_model"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "layer_benchmark.py",
+      "source_location": "L34",
+      "weight": 1.0,
+      "_origin": "ast",
       "source": "layer_benchmark_get_cached_model_and_sae",
-      "target": "src_sae_utils_load_model_and_sae"
+      "target": "layer_benchmark_get_cached_base_model",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "layer_benchmark.py",
+      "source_location": "L24",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "layer_benchmark_rationale_24",
+      "target": "layer_benchmark_get_cached_base_model",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "layer_benchmark.py",
+      "source_location": "L35",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "layer_benchmark_get_cached_model_and_sae",
+      "target": "layer_benchmark_get_cached_sae",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "layer_benchmark.py",
+      "source_location": "L30",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "layer_benchmark_get_cached_sae",
+      "target": "src_sae_utils_load_sae_for_layer"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "layer_benchmark.py",
+      "source_location": "L29",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "layer_benchmark_rationale_29",
+      "target": "layer_benchmark_get_cached_sae",
+      "confidence_score": 1.0
     },
     {
       "relation": "indirect_call",
       "context": "argument",
       "confidence": "INFERRED",
       "source_file": "layer_benchmark.py",
-      "source_location": "L141",
+      "source_location": "L226",
       "weight": 1.0,
       "_origin": "ast",
       "source": "layer_benchmark_main",
@@ -5577,10 +5935,10 @@
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "layer_benchmark.py",
-      "source_location": "L24",
+      "source_location": "L33",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "layer_benchmark_rationale_24",
+      "source": "layer_benchmark_rationale_33",
       "target": "layer_benchmark_get_cached_model_and_sae",
       "confidence_score": 1.0
     },
@@ -5589,7 +5947,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "layer_benchmark.py",
-      "source_location": "L131",
+      "source_location": "L217",
       "weight": 1.0,
       "_origin": "ast",
       "source": "layer_benchmark_main",
@@ -5874,7 +6232,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/benchmark/layer_benchmark_runner.py",
-      "source_location": "L105",
+      "source_location": "L152",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_benchmark_layer_benchmark_runner_run_layer_benchmark",
@@ -5886,7 +6244,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/benchmark/layer_benchmark_runner.py",
-      "source_location": "L95",
+      "source_location": "L141",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_benchmark_layer_benchmark_runner_run_layer_benchmark",
@@ -5898,7 +6256,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/benchmark/layer_benchmark_runner.py",
-      "source_location": "L72",
+      "source_location": "L93",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_benchmark_layer_benchmark_runner_run_layer_benchmark",
@@ -5910,7 +6268,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/benchmark/layer_benchmark_runner.py",
-      "source_location": "L91",
+      "source_location": "L126",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_benchmark_layer_benchmark_runner_run_layer_benchmark",
@@ -5922,7 +6280,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/benchmark/layer_benchmark_runner.py",
-      "source_location": "L101",
+      "source_location": "L127",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_benchmark_layer_benchmark_runner_run_layer_benchmark",
@@ -5934,7 +6292,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/benchmark/layer_benchmark_runner.py",
-      "source_location": "L117",
+      "source_location": "L170",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_benchmark_layer_benchmark_runner_run_layer_benchmark",
@@ -5946,19 +6304,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/benchmark/layer_benchmark_runner.py",
-      "source_location": "L120",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_benchmark_layer_benchmark_runner_run_layer_benchmark",
-      "target": "src_hooks_make_signed_ablation_hook",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/benchmark/layer_benchmark_runner.py",
-      "source_location": "L70",
+      "source_location": "L90",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_benchmark_layer_benchmark_runner_run_layer_benchmark",
@@ -8227,7 +8573,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/sae_utils.py",
-      "source_location": "L68",
+      "source_location": "L69",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_sae_utils_load_model_and_sae",
@@ -8262,7 +8608,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/sae_utils.py",
-      "source_location": "L69",
+      "source_location": "L71",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_sae_utils_load_model_and_sae",
@@ -8285,7 +8631,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/sae_utils.py",
-      "source_location": "L70",
+      "source_location": "L72",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_sae_utils_load_model_and_sae",
@@ -8301,6 +8647,18 @@
       "_origin": "ast",
       "source": "src_sae_utils_rationale_48",
       "target": "src_sae_utils_load_sae_for_layer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sae_utils.py",
+      "source_location": "L62",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_sae_utils_load_model_and_sae",
+      "target": "hookedtransformer",
       "confidence_score": 1.0
     },
     {
@@ -8864,7 +9222,29 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "history_session_layerbenchmark_history_session_history_layer_intervention_benchmark_subsystem",
-      "target": "history_session_layerbenchmark_history_4_verification_validation",
+      "target": "history_session_layerbenchmark_history_4_loading_architecture_caching_optimization",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "History/Session_LayerBenchmark_History.md",
+      "source_location": "L60",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "history_session_layerbenchmark_history_session_history_layer_intervention_benchmark_subsystem",
+      "target": "history_session_layerbenchmark_history_5_profiling_metadata_batch_dataset_mechanisms",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "History/Session_LayerBenchmark_History.md",
+      "source_location": "L74",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "history_session_layerbenchmark_history_session_history_layer_intervention_benchmark_subsystem",
+      "target": "history_session_layerbenchmark_history_6_empirical_depth_findings",
       "confidence_score": 1.0
     },
     {
@@ -8931,6 +9311,50 @@
       "_origin": "ast",
       "source": "history_session_layerbenchmark_history_3_multi_prompt_dataset_extension",
       "target": "history_session_layerbenchmark_history_user_request_36",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "History/Session_LayerBenchmark_History.md",
+      "source_location": "L52",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "history_session_layerbenchmark_history_4_loading_architecture_caching_optimization",
+      "target": "history_session_layerbenchmark_history_implementation_52",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "History/Session_LayerBenchmark_History.md",
+      "source_location": "L49",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "history_session_layerbenchmark_history_4_loading_architecture_caching_optimization",
+      "target": "history_session_layerbenchmark_history_user_request_49",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "History/Session_LayerBenchmark_History.md",
+      "source_location": "L65",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "history_session_layerbenchmark_history_5_profiling_metadata_batch_dataset_mechanisms",
+      "target": "history_session_layerbenchmark_history_implementation_65",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "History/Session_LayerBenchmark_History.md",
+      "source_location": "L62",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "history_session_layerbenchmark_history_5_profiling_metadata_batch_dataset_mechanisms",
+      "target": "history_session_layerbenchmark_history_user_request_62",
       "confidence_score": 1.0
     },
     {
@@ -9019,6 +9443,116 @@
       "_origin": "ast",
       "source": "docs_research_journal_10_3_visualization_graphs_tracked_progress",
       "target": "docs_research_journal_10_c_execution_runtime_s_vs_layer_depth",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/Research_Journal/11.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_research_journal_11",
+      "target": "docs_research_journal_11_research_journal_entry_11_benchmark_infrastructure_optimization_stage_profiling_and_batch_dataset_processing",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/Research_Journal/11.md",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_research_journal_11_research_journal_entry_11_benchmark_infrastructure_optimization_stage_profiling_and_batch_dataset_processing",
+      "target": "docs_research_journal_11_1_objective",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/Research_Journal/11.md",
+      "source_location": "L22",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_research_journal_11_research_journal_entry_11_benchmark_infrastructure_optimization_stage_profiling_and_batch_dataset_processing",
+      "target": "docs_research_journal_11_2_architecture_implementation_highlights",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/Research_Journal/11.md",
+      "source_location": "L55",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_research_journal_11_research_journal_entry_11_benchmark_infrastructure_optimization_stage_profiling_and_batch_dataset_processing",
+      "target": "docs_research_journal_11_3_empirical_verification_performance_breakdown",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/Research_Journal/11.md",
+      "source_location": "L77",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_research_journal_11_research_journal_entry_11_benchmark_infrastructure_optimization_stage_profiling_and_batch_dataset_processing",
+      "target": "docs_research_journal_11_4_conclusion_status",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/Research_Journal/11.md",
+      "source_location": "L24",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_research_journal_11_2_architecture_implementation_highlights",
+      "target": "docs_research_journal_11_2_1_decoupled_caching_architecture",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/Research_Journal/11.md",
+      "source_location": "L33",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_research_journal_11_2_architecture_implementation_highlights",
+      "target": "docs_research_journal_11_2_2_stage_profiling_extended_metadata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/Research_Journal/11.md",
+      "source_location": "L46",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_research_journal_11_2_architecture_implementation_highlights",
+      "target": "docs_research_journal_11_2_3_batch_dataset_processing_ui_management",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/Research_Journal/11.md",
+      "source_location": "L57",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_research_journal_11_3_empirical_verification_performance_breakdown",
+      "target": "docs_research_journal_11_3_1_layer_depth_sensitivity_summary_hybrid_mute_boost",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/Research_Journal/11.md",
+      "source_location": "L66",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_research_journal_11_3_empirical_verification_performance_breakdown",
+      "target": "docs_research_journal_11_3_2_profiling_breakdown_layer_8_baseline",
       "confidence_score": 1.0
     },
     {
@@ -10910,5 +11444,5 @@
       "source_file": "docs/architecture.md"
     }
   ],
-  "built_at_commit": "4be9f689dbae39b0a33732eebfa16b8ca4bdd7d1"
+  "built_at_commit": "a63a90dc94664cf3b3500877953b9054c49e6445"
 }

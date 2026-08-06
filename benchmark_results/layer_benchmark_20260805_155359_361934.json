@@ -1,0 +1,95 @@
+{
+    "benchmark_name": "Layer Intervention Benchmark",
+    "benchmark_version": "0.2",
+    "timestamp": "2026-08-05T15:53:59.361934Z",
+    "model": "gpt2",
+    "algorithm": "Hybrid Mute & Boost",
+    "use_safety": true,
+    "parameters": {
+        "mute_strength": 0.3,
+        "boost_strength": 0.5,
+        "mute_batch_size": 3,
+        "boost_batch_size": 3
+    },
+    "total_prompts": 1,
+    "prompts": [
+        {
+            "prompt": "The location of Massachusetts Institute of Technology is in",
+            "target": "Cambridge",
+            "layers": [
+                {
+                    "layer": 2,
+                    "hook": "blocks.2.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": -1,
+                    "final_rank": -1,
+                    "rank_improvement": 0,
+                    "clean_probability": 0.0,
+                    "final_probability": 0.0,
+                    "probability_gain": 0.0,
+                    "runtime_ms": 24896.141199998965,
+                    "success": false,
+                    "top_prediction_before": "ERROR",
+                    "top_prediction_after": "ERROR",
+                    "mute_features": [],
+                    "boost_features": [],
+                    "error": "too many values to unpack (expected 2)"
+                },
+                {
+                    "layer": 5,
+                    "hook": "blocks.5.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": -1,
+                    "final_rank": -1,
+                    "rank_improvement": 0,
+                    "clean_probability": 0.0,
+                    "final_probability": 0.0,
+                    "probability_gain": 0.0,
+                    "runtime_ms": 17034.97719999723,
+                    "success": false,
+                    "top_prediction_before": "ERROR",
+                    "top_prediction_after": "ERROR",
+                    "mute_features": [],
+                    "boost_features": [],
+                    "error": "too many values to unpack (expected 2)"
+                },
+                {
+                    "layer": 8,
+                    "hook": "blocks.8.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": -1,
+                    "final_rank": -1,
+                    "rank_improvement": 0,
+                    "clean_probability": 0.0,
+                    "final_probability": 0.0,
+                    "probability_gain": 0.0,
+                    "runtime_ms": 16562.912300003518,
+                    "success": false,
+                    "top_prediction_before": "ERROR",
+                    "top_prediction_after": "ERROR",
+                    "mute_features": [],
+                    "boost_features": [],
+                    "error": "too many values to unpack (expected 2)"
+                },
+                {
+                    "layer": 10,
+                    "hook": "blocks.10.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": -1,
+                    "final_rank": -1,
+                    "rank_improvement": 0,
+                    "clean_probability": 0.0,
+                    "final_probability": 0.0,
+                    "probability_gain": 0.0,
+                    "runtime_ms": 12120.41479999607,
+                    "success": false,
+                    "top_prediction_before": "ERROR",
+                    "top_prediction_after": "ERROR",
+                    "mute_features": [],
+                    "boost_features": [],
+                    "error": "too many values to unpack (expected 2)"
+                }
+            ]
+        }
+    ]
+}

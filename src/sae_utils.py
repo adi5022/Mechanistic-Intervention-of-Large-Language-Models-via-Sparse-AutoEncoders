@@ -59,13 +59,16 @@ def load_sae_for_layer(layer: int = 8, device: str = None):
     sae.eval()
     return sae
 
-def load_model_and_sae(device: str = None, layer: int = 8):
+def load_model_and_sae(device: str = None, layer: int = 8, model: HookedTransformer = None):
     """
     Loads GPT-2 small and the pretrained SAE for the specified layer (default Layer 8).
     Auto-detects CUDA/MPS/CPU if device is None.
+    Optionally accepts a pre-instantiated base model to prevent redundant re-initialization.
     """
     if device is None:
         device = get_default_device()
-    model = load_base_model(device=device)
+    if model is None:
+        model = load_base_model(device=device)
     sae = load_sae_for_layer(layer=layer, device=device)
     return model, sae
+
