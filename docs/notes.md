@@ -69,6 +69,14 @@
 * Added automatic timestamped JSON artifact persistence to `benchmark_results/` per prompt.
 * Added programmatic notebook `notebooks/04_layer_intervention_benchmark.ipynb` and session transcript log `History/Session_LayerBenchmark_History.md`.
 
+## 2026-08-09 / 2026-08-10: Hardware Acceleration, Safety Unpacking Fix, and ROME Dataset Integration
+* Upgraded PyTorch to CUDA 12.4 (`torch-2.6.0+cu124`) enabling GPU hardware acceleration (NVIDIA GeForce GTX 1660 Ti), achieving 3.83x–20.67x faster execution speed.
+* Resolved unpacking signature mismatch in `check_boost_safe` (`is_safe, _, _`) and updated hook call in `src/benchmark/layer_benchmark_runner.py` to `make_mute_and_boost_hook`.
+* Standardized 22 factual ROME prompts dataset ([benchmark_test_prompts.json](file:///d:/Work/PROJECTS/FeatureScalpel/benchmark_test_prompts.json)).
+* Added hardware compute device indicator (`⚡ GPU` / `💻 CPU`) to Streamlit sidebar and header metadata in `layer_benchmark.py`.
+* Created [Research Journal Entry 12](file:///d:/Work/PROJECTS/FeatureScalpel/docs/Research_Journal/12.md) documenting hardware speed analysis and delta patching formalization.
+
+
 
 
 

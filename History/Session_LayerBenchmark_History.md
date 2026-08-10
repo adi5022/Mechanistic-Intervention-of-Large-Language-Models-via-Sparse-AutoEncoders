@@ -53,3 +53,15 @@
   - Layer 10: Clean Rank 8 $\rightarrow$ Final Rank 5 (+0.82% prob gain)
 - **Multi-Prompt Execution**: Verified sequential multi-prompt sweep headlessly and via Streamlit server boot.
 - **Graph Visualization & Journaling**: Rendered 300 DPI chart images (`probability_gain_vs_layer.png`, `rank_improvement_vs_layer.png`, `runtime_vs_layer.png`) in `docs/Research_Journal/images/` and documented findings in [Research Journal Entry 10](file:///d:/Work/PROJECTS/FeatureScalpel/docs/Research_Journal/10.md).
+
+---
+
+## 6. Hardware Acceleration, Unpacking Bug Fixes & ROME Dataset Integration
+
+### Execution & Findings
+- **Hardware Acceleration**: Migrated PyTorch to CUDA 12.4 (`torch-2.6.0+cu124`), offloading model evaluation and SAE encodings to GPU (NVIDIA GeForce GTX 1660 Ti, 6GB VRAM), achieving **3.83x to 20.67x faster execution**.
+- **Safety Filtering Unpacking Fix**: Fixed unpacking bug in `check_boost_safe` (`is_safe, _, _`) and updated hook invocation in `src/benchmark/layer_benchmark_runner.py` to `make_mute_and_boost_hook`.
+- **ROME Prompts Dataset**: Standardized [benchmark_test_prompts.json](file:///d:/Work/PROJECTS/FeatureScalpel/benchmark_test_prompts.json) containing 22 suppressed factual prompt-target pairs.
+- **UI Enhancements**: Integrated compute device status indicator (`⚡ GPU` / `💻 CPU`) in Streamlit sidebar and metadata caption in `layer_benchmark.py`.
+- **Research Journal Entry 12**: Documented in [Research Journal Entry 12](file:///d:/Work/PROJECTS/FeatureScalpel/docs/Research_Journal/12.md).
+

@@ -19,9 +19,11 @@ from src.editing import (
     check_boost_safe
 )
 from src.hooks import (
+    make_mute_and_boost_hook,
     make_joint_ablation_hook,
     make_signed_ablation_hook
 )
+
 
 def run_layer_benchmark(
     prompts: list[dict] | str,
@@ -149,11 +151,12 @@ def run_layer_benchmark(
                 target_ids = []
                 for fid, _ in target_features:
                     if use_safety:
-                        is_safe, _ = check_boost_safe(model, sae, prompt_text, fid, target_token_id, strength=boost_strength)
+                        is_safe, _, _ = check_boost_safe(model, sae, prompt_text, fid, target_token_id, strength=boost_strength)
                         if is_safe:
                             target_ids.append(fid)
                     else:
                         target_ids.append(fid)
+
                 
                 boost_batch = target_ids[:boost_batch_size]
                 safety_filtering_ms = (time.perf_counter() - t_safe_start) * 1000.0
@@ -167,14 +170,15 @@ def run_layer_benchmark(
 
                 t_int_start = time.perf_counter()
                 model.reset_hooks()
-                joint_hook = make_joint_ablation_hook(
-                    sae=sae,
-                    mute_feature_indices=mute_batch,
-                    mute_coeff=mute_strength,
-                    boost_feature_indices=boost_batch,
-                    boost_coeff=boost_strength
+                joint_hook = make_mute_and_boost_hook(
+                    mute_feature_ids=mute_batch,
+                    mute_strength=mute_strength,
+                    boost_feature_ids=boost_batch,
+                    boost_strength=boost_strength,
+                    sae=sae
                 )
                 model.add_hook(hook_name, joint_hook)
+
 
                 with torch.no_grad():
                     logits_int = model(tokens)

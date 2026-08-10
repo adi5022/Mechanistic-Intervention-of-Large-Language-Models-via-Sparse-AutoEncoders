@@ -1,0 +1,146 @@
+{
+    "benchmark_name": "Layer Intervention Benchmark",
+    "benchmark_version": "0.3",
+    "timestamp": "2026-08-09T08:19:18.283301Z",
+    "model": "gpt2",
+    "algorithm": "Hybrid Mute & Boost",
+    "sae_release": "gpt2-small-res-jb",
+    "hook_location": "hook_resid_pre",
+    "safety_enabled": true,
+    "use_safety": true,
+    "selected_layers": [
+        2,
+        8
+    ],
+    "parameters": {
+        "mute_strength": 0.3,
+        "boost_strength": 0.5,
+        "mute_batch_size": 3,
+        "boost_batch_size": 3,
+        "use_safety": true,
+        "algorithm": "hybrid"
+    },
+    "total_prompts": 2,
+    "prompts": [
+        {
+            "prompt": "Eavan Boland was born in",
+            "target": "Dublin",
+            "layers": [
+                {
+                    "layer": 2,
+                    "hook": "blocks.2.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": -1,
+                    "final_rank": -1,
+                    "rank_improvement": 0,
+                    "clean_probability": 0.0,
+                    "final_probability": 0.0,
+                    "probability_gain": 0.0,
+                    "runtime_ms": 44776.28389999154,
+                    "profile": {
+                        "sae_loading_ms": 0.0,
+                        "clean_baseline_ms": 0.0,
+                        "feature_selection_ms": 0.0,
+                        "safety_filtering_ms": 0.0,
+                        "intervention_ms": 0.0,
+                        "result_packaging_ms": 0.0,
+                        "total_layer_ms": 44776.28389999154
+                    },
+                    "success": false,
+                    "top_prediction_before": "ERROR",
+                    "top_prediction_after": "ERROR",
+                    "mute_features": [],
+                    "boost_features": [],
+                    "error": "make_joint_ablation_hook() got an unexpected keyword argument 'mute_feature_indices'"
+                },
+                {
+                    "layer": 8,
+                    "hook": "blocks.8.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": -1,
+                    "final_rank": -1,
+                    "rank_improvement": 0,
+                    "clean_probability": 0.0,
+                    "final_probability": 0.0,
+                    "probability_gain": 0.0,
+                    "runtime_ms": 40141.589000006206,
+                    "profile": {
+                        "sae_loading_ms": 0.0,
+                        "clean_baseline_ms": 0.0,
+                        "feature_selection_ms": 0.0,
+                        "safety_filtering_ms": 0.0,
+                        "intervention_ms": 0.0,
+                        "result_packaging_ms": 0.0,
+                        "total_layer_ms": 40141.589000006206
+                    },
+                    "success": false,
+                    "top_prediction_before": "ERROR",
+                    "top_prediction_after": "ERROR",
+                    "mute_features": [],
+                    "boost_features": [],
+                    "error": "make_joint_ablation_hook() got an unexpected keyword argument 'mute_feature_indices'"
+                }
+            ]
+        },
+        {
+            "prompt": "The location of Massachusetts Institute of Technology is in",
+            "target": "Cambridge",
+            "layers": [
+                {
+                    "layer": 2,
+                    "hook": "blocks.2.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": -1,
+                    "final_rank": -1,
+                    "rank_improvement": 0,
+                    "clean_probability": 0.0,
+                    "final_probability": 0.0,
+                    "probability_gain": 0.0,
+                    "runtime_ms": 40985.07220001193,
+                    "profile": {
+                        "sae_loading_ms": 0.0,
+                        "clean_baseline_ms": 0.0,
+                        "feature_selection_ms": 0.0,
+                        "safety_filtering_ms": 0.0,
+                        "intervention_ms": 0.0,
+                        "result_packaging_ms": 0.0,
+                        "total_layer_ms": 40985.07220001193
+                    },
+                    "success": false,
+                    "top_prediction_before": "ERROR",
+                    "top_prediction_after": "ERROR",
+                    "mute_features": [],
+                    "boost_features": [],
+                    "error": "make_joint_ablation_hook() got an unexpected keyword argument 'mute_feature_indices'"
+                },
+                {
+                    "layer": 8,
+                    "hook": "blocks.8.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": -1,
+                    "final_rank": -1,
+                    "rank_improvement": 0,
+                    "clean_probability": 0.0,
+                    "final_probability": 0.0,
+                    "probability_gain": 0.0,
+                    "runtime_ms": 38600.46619999048,
+                    "profile": {
+                        "sae_loading_ms": 0.0,
+                        "clean_baseline_ms": 0.0,
+                        "feature_selection_ms": 0.0,
+                        "safety_filtering_ms": 0.0,
+                        "intervention_ms": 0.0,
+                        "result_packaging_ms": 0.0,
+                        "total_layer_ms": 38600.46619999048
+                    },
+                    "success": false,
+                    "top_prediction_before": "ERROR",
+                    "top_prediction_after": "ERROR",
+                    "mute_features": [],
+                    "boost_features": [],
+                    "error": "make_joint_ablation_hook() got an unexpected keyword argument 'mute_feature_indices'"
+                }
+            ]
+        }
+    ]
+}

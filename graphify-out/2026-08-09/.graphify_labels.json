@@ -2,7 +2,7 @@
   "0": "experiment_app.py",
   "1": "editing.py",
   "2": "history.md",
-  "3": "load_model_and_sae",
+  "3": "get_cached_base_model",
   "4": "4. Discussion & Next Steps",
   "5": "Experiment: Weighted Multi-Competitor Reduction & Grammatical Feature Collapse on the Cambridge Case",
   "6": "Experiment: Competitor-Focused Iterative Ablation",
@@ -54,5 +54,6 @@
   "52": "investigate_gpt2_saes.py",
   "53": "generate_benchmark_charts.py",
   "54": "Session History: Layer Intervention Benchmark Subsystem",
-  "55": "Research Journal Entry 11: Benchmark Infrastructure Optimization, Stage Profiling, and Batch Dataset Processing"
+  "55": "Research Journal Entry 11: Benchmark Infrastructure Optimization, Stage Profiling, and Batch Dataset Processing",
+  "56": "make_weighted_ablation_hook"
 }

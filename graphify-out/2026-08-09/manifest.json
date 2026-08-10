@@ -175,8 +175,8 @@
     "semantic_hash": ""
   },
   "docs/architecture.md": {
-    "mtime": 1785984314.670652,
-    "ast_hash": "2a850df863696a436d55667aa5418772",
+    "mtime": 1785984434.3356726,
+    "ast_hash": "86251e9f30420c2712e7d9955e64840c",
     "semantic_hash": ""
   },
   "docs/notes.md": {
@@ -190,8 +190,8 @@
     "semantic_hash": ""
   },
   "handoff.md": {
-    "mtime": 1785984296.844735,
-    "ast_hash": "0a9c0451776311ec2fef5e5b6c3884ad",
+    "mtime": 1785984434.016863,
+    "ast_hash": "932ad4f5f272acd425ca8e6fe2b9b3e0",
     "semantic_hash": ""
   },
   "notes.md": {
@@ -425,8 +425,8 @@
     "semantic_hash": ""
   },
   "History/Session_LayerBenchmark_History.md": {
-    "mtime": 1785984334.3085668,
-    "ast_hash": "15445879b1a706ce06c00daf1af6fc64",
+    "mtime": 1785984434.3356726,
+    "ast_hash": "ccaa869929290efd30c40dd4159475dc",
     "semantic_hash": ""
   },
   "benchmark_results/layer_benchmark_20260805_053039_769394.json": {
@@ -470,7 +470,7 @@
     "semantic_hash": ""
   },
   "docs/Research_Journal/11.md": {
-    "mtime": 1785984304.756879,
+    "mtime": 1785984441.8309126,
     "ast_hash": "6f5cffc6d3135ac8ab579643c30e2984",
     "semantic_hash": ""
   }

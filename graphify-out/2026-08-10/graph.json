@@ -150,8 +150,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "experiment_app_py_cache_resource",
-      "community": 0,
-      "community_name": "experiment_app.py",
+      "community": 3,
+      "community_name": "load_model_and_sae",
       "norm_label": "cache_resource"
     },
     {
@@ -161,8 +161,8 @@
       "source_location": "L107",
       "_origin": "ast",
       "id": "experiment_app_get_cached_base_model",
-      "community": 0,
-      "community_name": "experiment_app.py",
+      "community": 3,
+      "community_name": "load_model_and_sae",
       "norm_label": "get_cached_base_model()"
     },
     {
@@ -172,8 +172,8 @@
       "source_location": "L112",
       "_origin": "ast",
       "id": "experiment_app_get_cached_sae",
-      "community": 0,
-      "community_name": "experiment_app.py",
+      "community": 3,
+      "community_name": "load_model_and_sae",
       "norm_label": "get_cached_sae()"
     },
     {
@@ -469,8 +469,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "run_stage1",
-      "community": 1,
-      "community_name": "editing.py",
+      "community": 3,
+      "community_name": "load_model_and_sae",
       "norm_label": "run_stage1.py"
     },
     {
@@ -480,8 +480,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "smoke_test",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "smoke_test.py"
     },
     {
@@ -601,8 +601,8 @@
       "source_location": "L196",
       "_origin": "ast",
       "id": "src_editing_check_target_safe",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "check_target_safe()"
     },
     {
@@ -623,8 +623,8 @@
       "source_location": "L274",
       "_origin": "ast",
       "id": "src_editing_check_combination_safe",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "check_combination_safe()"
     },
     {
@@ -744,8 +744,8 @@
       "source_location": "L199",
       "_origin": "ast",
       "id": "src_editing_rationale_199",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "temporarily applies only this one feature's ablation (using..."
     },
     {
@@ -766,8 +766,8 @@
       "source_location": "L280",
       "_origin": "ast",
       "id": "src_editing_rationale_280",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "evaluates the joint effect of all muted and boosted features applied together...."
     },
     {
@@ -1162,8 +1162,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_hooks_make_mute_and_boost_hook",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "make_mute_and_boost_hook()"
     },
     {
@@ -1217,8 +1217,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "src_hooks_rationale_9",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "applies muting and boosting to different features together in a single pass,..."
     },
     {
@@ -1426,8 +1426,8 @@
       "source_location": "L424",
       "_origin": "ast",
       "id": "src_monosemanticity_compute_feature_similarity",
-      "community": 0,
-      "community_name": "experiment_app.py",
+      "community": 3,
+      "community_name": "load_model_and_sae",
       "norm_label": "compute_feature_similarity()"
     },
     {
@@ -1437,8 +1437,8 @@
       "source_location": "L437",
       "_origin": "ast",
       "id": "src_monosemanticity_find_most_similar_features",
-      "community": 0,
-      "community_name": "experiment_app.py",
+      "community": 3,
+      "community_name": "load_model_and_sae",
       "norm_label": "find_most_similar_features()"
     },
     {
@@ -1569,8 +1569,8 @@
       "source_location": "L425",
       "_origin": "ast",
       "id": "src_monosemanticity_rationale_425",
-      "community": 0,
-      "community_name": "experiment_app.py",
+      "community": 3,
+      "community_name": "load_model_and_sae",
       "norm_label": "cosine similarity between two sae decoder directions."
     },
     {
@@ -1580,8 +1580,8 @@
       "source_location": "L438",
       "_origin": "ast",
       "id": "src_monosemanticity_rationale_438",
-      "community": 0,
-      "community_name": "experiment_app.py",
+      "community": 3,
+      "community_name": "load_model_and_sae",
       "norm_label": "find the top-n other features with the highest decoder cosine similarity."
     },
     {
@@ -1833,8 +1833,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_monosemanticity",
-      "community": 0,
-      "community_name": "experiment_app.py",
+      "community": 3,
+      "community_name": "load_model_and_sae",
       "norm_label": "test_monosemanticity.py"
     },
     {
@@ -1844,8 +1844,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "slow",
-      "community": 0,
-      "community_name": "experiment_app.py",
+      "community": 3,
+      "community_name": "load_model_and_sae",
       "norm_label": "slow"
     },
     {
@@ -1855,8 +1855,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "tests_test_monosemanticity_test_monosemanticity_helpers_run_on_real_model_and_sae",
-      "community": 0,
-      "community_name": "experiment_app.py",
+      "community": 3,
+      "community_name": "load_model_and_sae",
       "norm_label": "test_monosemanticity_helpers_run_on_real_model_and_sae()"
     },
     {
@@ -2287,28 +2287,6 @@
       "community": 54,
       "community_name": "Session History: Layer Intervention Benchmark Subsystem",
       "norm_label": "4. verification & validation"
-    },
-    {
-      "label": "6. Hardware Acceleration, Unpacking Bug Fixes & ROME Dataset Integration",
-      "file_type": "document",
-      "source_file": "History/Session_LayerBenchmark_History.md",
-      "source_location": "L59",
-      "_origin": "ast",
-      "id": "history_session_layerbenchmark_history_6_hardware_acceleration_unpacking_bug_fixes_rome_dataset_integration",
-      "community": 54,
-      "community_name": "Session History: Layer Intervention Benchmark Subsystem",
-      "norm_label": "6. hardware acceleration, unpacking bug fixes & rome dataset integration"
-    },
-    {
-      "label": "Execution & Findings",
-      "file_type": "document",
-      "source_file": "History/Session_LayerBenchmark_History.md",
-      "source_location": "L61",
-      "_origin": "ast",
-      "id": "history_session_layerbenchmark_history_execution_findings_61",
-      "community": 54,
-      "community_name": "Session History: Layer Intervention Benchmark Subsystem",
-      "norm_label": "execution & findings"
     },
     {
       "label": "10.md",
@@ -2936,17 +2914,6 @@
       "community": 8,
       "community_name": "Research Log: Investigating SAE-Based Activation Manipulation",
       "norm_label": "2026-08-05: multi-prompt dataset benchmark & research logging subsystem"
-    },
-    {
-      "label": "2026-08-09 / 2026-08-10: Hardware Acceleration, Safety Unpacking Fix, and ROME Dataset Integration",
-      "file_type": "document",
-      "source_file": "docs/notes.md",
-      "source_location": "L72",
-      "_origin": "ast",
-      "id": "docs_notes_2026_08_09_2026_08_10_hardware_acceleration_safety_unpacking_fix_and_rome_dataset_integration",
-      "community": 8,
-      "community_name": "Research Log: Investigating SAE-Based Activation Manipulation",
-      "norm_label": "2026-08-09 / 2026-08-10: hardware acceleration, safety unpacking fix, and rome dataset integration"
     },
     {
       "label": "research_log.md",
@@ -9756,17 +9723,6 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "History/Session_LayerBenchmark_History.md",
-      "source_location": "L59",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "history_session_layerbenchmark_history_session_history_layer_intervention_benchmark_subsystem",
-      "target": "history_session_layerbenchmark_history_6_hardware_acceleration_unpacking_bug_fixes_rome_dataset_integration",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "History/Session_LayerBenchmark_History.md",
       "source_location": "L14",
       "weight": 1.0,
       "_origin": "ast",
@@ -9827,17 +9783,6 @@
       "_origin": "ast",
       "source": "history_session_layerbenchmark_history_3_multi_prompt_dataset_extension",
       "target": "history_session_layerbenchmark_history_user_request_36",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "History/Session_LayerBenchmark_History.md",
-      "source_location": "L61",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "history_session_layerbenchmark_history_6_hardware_acceleration_unpacking_bug_fixes_rome_dataset_integration",
-      "target": "history_session_layerbenchmark_history_execution_findings_61",
       "confidence_score": 1.0
     },
     {
@@ -10399,17 +10344,6 @@
       "_origin": "ast",
       "source": "docs_notes_research_log_investigating_sae_based_activation_manipulation",
       "target": "docs_notes_2026_08_05_multi_prompt_dataset_benchmark_research_logging_subsystem",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/notes.md",
-      "source_location": "L72",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_notes_research_log_investigating_sae_based_activation_manipulation",
-      "target": "docs_notes_2026_08_09_2026_08_10_hardware_acceleration_safety_unpacking_fix_and_rome_dataset_integration",
       "confidence_score": 1.0
     },
     {

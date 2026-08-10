@@ -115,3 +115,18 @@ Chronological timeline of FeatureScalpel's design modifications, pivots, and mil
 * **Files involved**: `src/editing.py`, `experiment_app.py`, `scratch/test_tab8_matrix.py`, `docs/Research_Journal/8.md`
 * **Status**: Completed (Hypothesis H12 Validated)
 
+---
+
+### 2026-08-09
+* **Title**: Candidate Selection Formalisation, Delta Patching Literature Lineage, ROME Dataset & GPU Speed Analysis
+* **Motivation**: Clarify candidate selection mechanics, formalize academic citations for Delta Patching, standardize the 22-prompt ROME dataset, and migrate PyTorch to CUDA 12.4 for hardware acceleration on NVIDIA GTX 1660 Ti.
+* **Summary**:
+  - Documented 2-stage sparse candidate screening (Stage 1: 1 pass sparse filter; Stage 2: N-pass causal ablation ranking).
+  - Formalized Delta Patching citations (Meng et al. 2022, Bricken et al. 2023, Cunningham et al. 2023, Templeton et al. 2024).
+  - Integrated 22 suppressed facts from ROME `known_1000` into `benchmark_test_prompts.json`.
+  - Migrated PyTorch environment to CUDA 12.4 (`torch-2.6.0+cu124`).
+  - Added interactive compute device switcher to `layer_benchmark.py` and empirically benchmarked hardware speed, demonstrating up to **20.67× speedup on GPU** (1.63s/prompt on GTX 1660 Ti vs 33.62s/prompt on CPU) with peak VRAM utilization of 1.45 GB / 6.00 GB.
+* **Files involved**: `layer_benchmark.py`, `benchmark_test_prompts.json`, `test_gpu_benchmark.py`, `run_speed_analysis.py`, `docs/Research_Journal/12.md`
+* **Status**: Completed
+
+

@@ -1,0 +1,90 @@
+[
+    {
+        "prompt": "Eavan Boland was born in",
+        "target": "Dublin"
+    },
+    {
+        "prompt": "The location of Massachusetts Institute of Technology is in",
+        "target": "Cambridge"
+    },
+    {
+        "prompt": "The capital of Roman Republic is",
+        "target": "Rome"
+    },
+    {
+        "prompt": "Henri Debain was born in",
+        "target": "Paris"
+    },
+    {
+        "prompt": "Knud, Hereditary Prince of Denmark passed away in",
+        "target": "Copenhagen"
+    },
+    {
+        "prompt": "Philippines's capital,",
+        "target": "Manila"
+    },
+    {
+        "prompt": "The location of Galatasaray University is in the heart of",
+        "target": "Istanbul"
+    },
+    {
+        "prompt": "Grand Duchy of Finland's capital,",
+        "target": "Helsinki"
+    },
+    {
+        "prompt": "Vichy France's capital,",
+        "target": "Paris"
+    },
+    {
+        "prompt": "John Pym died in the city of",
+        "target": "London"
+    },
+    {
+        "prompt": "Swedish Orphan Biovitrum is headquartered in",
+        "target": "Stockholm"
+    },
+    {
+        "prompt": "Nicolas Gigault was born in",
+        "target": "Paris"
+    },
+    {
+        "prompt": "Emilia Rydberg was born in",
+        "target": "Stockholm"
+    },
+    {
+        "prompt": "Joseph Goebbels worked in the city of",
+        "target": "Berlin"
+    },
+    {
+        "prompt": "Italy's capital,",
+        "target": "Rome"
+    },
+    {
+        "prompt": "Francesco Castellacci was born in",
+        "target": "Rome"
+    },
+    {
+        "prompt": "2005 Australian Open is located in",
+        "target": "Melbourne"
+    },
+    {
+        "prompt": "Giulio Romano originates from the city of",
+        "target": "Rome"
+    },
+    {
+        "prompt": "The location of Hungarian Ladies Open is in the heart of",
+        "target": "Budapest"
+    },
+    {
+        "prompt": "Coco Chanel passed away in",
+        "target": "Paris"
+    },
+    {
+        "prompt": "The headquarter of Zillow is in downtown",
+        "target": "Seattle"
+    },
+    {
+        "prompt": "The headquarter of Army of the Guardians of the Islamic Revolution is in",
+        "target": "Tehran"
+    }
+]

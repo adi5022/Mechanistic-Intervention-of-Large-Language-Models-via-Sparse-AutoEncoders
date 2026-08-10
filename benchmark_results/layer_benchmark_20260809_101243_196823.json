@@ -1,0 +1,174 @@
+{
+    "benchmark_name": "Layer Intervention Benchmark",
+    "benchmark_version": "0.3",
+    "timestamp": "2026-08-09T10:12:43.196823Z",
+    "model": "gpt2",
+    "algorithm": "Hybrid Mute & Boost",
+    "sae_release": "gpt2-small-res-jb",
+    "hook_location": "hook_resid_pre",
+    "safety_enabled": true,
+    "use_safety": true,
+    "selected_layers": [
+        2,
+        8
+    ],
+    "parameters": {
+        "mute_strength": 0.3,
+        "boost_strength": 0.5,
+        "mute_batch_size": 3,
+        "boost_batch_size": 3,
+        "use_safety": true,
+        "algorithm": "hybrid"
+    },
+    "total_prompts": 2,
+    "prompts": [
+        {
+            "prompt": "Eavan Boland was born in",
+            "target": "Dublin",
+            "layers": [
+                {
+                    "layer": 2,
+                    "hook": "blocks.2.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": 4,
+                    "final_rank": 4,
+                    "rank_improvement": 0,
+                    "clean_probability": 0.018463347107172012,
+                    "final_probability": 0.01842203363776207,
+                    "probability_gain": -4.131346940994263e-05,
+                    "runtime_ms": 14526.940999989165,
+                    "profile": {
+                        "sae_loading_ms": 4563.363499997649,
+                        "clean_baseline_ms": 253.68090000119992,
+                        "feature_selection_ms": 3313.241299998481,
+                        "safety_filtering_ms": 6345.507600010023,
+                        "intervention_ms": 49.85169999417849,
+                        "result_packaging_ms": 0.01960000372491777,
+                        "total_layer_ms": 14526.940999989165
+                    },
+                    "success": false,
+                    "top_prediction_before": " the",
+                    "top_prediction_after": " the",
+                    "mute_features": [
+                        21806,
+                        14075,
+                        22514
+                    ],
+                    "boost_features": [
+                        5077,
+                        2620,
+                        13400
+                    ]
+                },
+                {
+                    "layer": 8,
+                    "hook": "blocks.8.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": 4,
+                    "final_rank": 2,
+                    "rank_improvement": 2,
+                    "clean_probability": 0.018463347107172012,
+                    "final_probability": 0.02257012575864792,
+                    "probability_gain": 0.004106778651475906,
+                    "runtime_ms": 10811.489500003518,
+                    "profile": {
+                        "sae_loading_ms": 1184.5270999911008,
+                        "clean_baseline_ms": 64.08729999384377,
+                        "feature_selection_ms": 3621.250500000315,
+                        "safety_filtering_ms": 5890.0442000012845,
+                        "intervention_ms": 50.771499998518266,
+                        "result_packaging_ms": 0.001100008375942707,
+                        "total_layer_ms": 10811.489500003518
+                    },
+                    "success": true,
+                    "top_prediction_before": " the",
+                    "top_prediction_after": " the",
+                    "mute_features": [
+                        8782,
+                        2337,
+                        24181
+                    ],
+                    "boost_features": [
+                        3111,
+                        19288,
+                        369
+                    ]
+                }
+            ]
+        },
+        {
+            "prompt": "The location of Massachusetts Institute of Technology is in",
+            "target": "Cambridge",
+            "layers": [
+                {
+                    "layer": 2,
+                    "hook": "blocks.2.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": 8,
+                    "final_rank": 7,
+                    "rank_improvement": 1,
+                    "clean_probability": 0.01152519416064024,
+                    "final_probability": 0.012206926941871643,
+                    "probability_gain": 0.0006817327812314034,
+                    "runtime_ms": 10358.919900012552,
+                    "profile": {
+                        "sae_loading_ms": 0.0021000014385208488,
+                        "clean_baseline_ms": 70.75159999658354,
+                        "feature_selection_ms": 3589.9363000062294,
+                        "safety_filtering_ms": 6642.662900005234,
+                        "intervention_ms": 54.57529998966493,
+                        "result_packaging_ms": 0.0008999923011288047,
+                        "total_layer_ms": 10358.919900012552
+                    },
+                    "success": true,
+                    "top_prediction_before": " the",
+                    "top_prediction_after": " the",
+                    "mute_features": [
+                        9938,
+                        23196,
+                        6001
+                    ],
+                    "boost_features": [
+                        14075,
+                        11741,
+                        12711
+                    ]
+                },
+                {
+                    "layer": 8,
+                    "hook": "blocks.8.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": 8,
+                    "final_rank": 3,
+                    "rank_improvement": 5,
+                    "clean_probability": 0.01152519416064024,
+                    "final_probability": 0.035292938351631165,
+                    "probability_gain": 0.023767744190990925,
+                    "runtime_ms": 10141.609199999948,
+                    "profile": {
+                        "sae_loading_ms": 0.003100009053014219,
+                        "clean_baseline_ms": 58.17099999694619,
+                        "feature_selection_ms": 3488.891599990893,
+                        "safety_filtering_ms": 6538.153399989824,
+                        "intervention_ms": 55.52239999815356,
+                        "result_packaging_ms": 0.0008999923011288047,
+                        "total_layer_ms": 10141.609199999948
+                    },
+                    "success": true,
+                    "top_prediction_before": " the",
+                    "top_prediction_after": " the",
+                    "mute_features": [
+                        8459,
+                        21169,
+                        14430
+                    ],
+                    "boost_features": [
+                        3076,
+                        19288,
+                        8239
+                    ]
+                }
+            ]
+        }
+    ]
+}

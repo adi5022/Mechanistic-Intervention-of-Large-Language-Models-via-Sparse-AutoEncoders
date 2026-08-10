@@ -1,0 +1,454 @@
+{
+    "benchmark_name": "Layer Intervention Benchmark",
+    "benchmark_version": "0.3",
+    "timestamp": "2026-08-09T09:57:36.707394Z",
+    "model": "gpt2",
+    "algorithm": "Hybrid Mute & Boost",
+    "sae_release": "gpt2-small-res-jb",
+    "hook_location": "hook_resid_pre",
+    "safety_enabled": true,
+    "use_safety": true,
+    "selected_layers": [
+        2,
+        5,
+        8,
+        10
+    ],
+    "parameters": {
+        "mute_strength": 0.3,
+        "boost_strength": 0.5,
+        "mute_batch_size": 3,
+        "boost_batch_size": 3,
+        "use_safety": true,
+        "algorithm": "hybrid"
+    },
+    "total_prompts": 3,
+    "prompts": [
+        {
+            "prompt": "Eavan Boland was born in",
+            "target": "Dublin",
+            "layers": [
+                {
+                    "layer": 2,
+                    "hook": "blocks.2.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": 4,
+                    "final_rank": 4,
+                    "rank_improvement": 0,
+                    "clean_probability": 0.018463347107172012,
+                    "final_probability": 0.01842203363776207,
+                    "probability_gain": -4.131346940994263e-05,
+                    "runtime_ms": 20127.19410000136,
+                    "profile": {
+                        "sae_loading_ms": 10549.681000004057,
+                        "clean_baseline_ms": 376.7621000006329,
+                        "feature_selection_ms": 3441.6272999951616,
+                        "safety_filtering_ms": 5699.295600003097,
+                        "intervention_ms": 57.311500000650994,
+                        "result_packaging_ms": 0.0021000014385208488,
+                        "total_layer_ms": 20127.19410000136
+                    },
+                    "success": false,
+                    "top_prediction_before": " the",
+                    "top_prediction_after": " the",
+                    "mute_features": [
+                        21806,
+                        14075,
+                        22514
+                    ],
+                    "boost_features": [
+                        5077,
+                        2620,
+                        13400
+                    ]
+                },
+                {
+                    "layer": 5,
+                    "hook": "blocks.5.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": 4,
+                    "final_rank": 3,
+                    "rank_improvement": 1,
+                    "clean_probability": 0.018463347107172012,
+                    "final_probability": 0.018766367807984352,
+                    "probability_gain": 0.0003030207008123398,
+                    "runtime_ms": 12455.333600009908,
+                    "profile": {
+                        "sae_loading_ms": 1269.9689000000944,
+                        "clean_baseline_ms": 51.00099999981467,
+                        "feature_selection_ms": 3182.748499995796,
+                        "safety_filtering_ms": 7873.497000007774,
+                        "intervention_ms": 76.08080000500195,
+                        "result_packaging_ms": 0.0022000021999701858,
+                        "total_layer_ms": 12455.333600009908
+                    },
+                    "success": true,
+                    "top_prediction_before": " the",
+                    "top_prediction_after": " the",
+                    "mute_features": [
+                        3960,
+                        24079,
+                        19563
+                    ],
+                    "boost_features": [
+                        22108,
+                        281,
+                        3555
+                    ]
+                },
+                {
+                    "layer": 8,
+                    "hook": "blocks.8.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": 4,
+                    "final_rank": 2,
+                    "rank_improvement": 2,
+                    "clean_probability": 0.018463347107172012,
+                    "final_probability": 0.02257012575864792,
+                    "probability_gain": 0.004106778651475906,
+                    "runtime_ms": 15013.676299990038,
+                    "profile": {
+                        "sae_loading_ms": 1313.19899999653,
+                        "clean_baseline_ms": 94.98429999803193,
+                        "feature_selection_ms": 4525.852400009171,
+                        "safety_filtering_ms": 9000.501299989992,
+                        "intervention_ms": 74.48070000100415,
+                        "result_packaging_ms": 0.0005999900167807937,
+                        "total_layer_ms": 15013.676299990038
+                    },
+                    "success": true,
+                    "top_prediction_before": " the",
+                    "top_prediction_after": " the",
+                    "mute_features": [
+                        8782,
+                        2337,
+                        24181
+                    ],
+                    "boost_features": [
+                        3111,
+                        19288,
+                        369
+                    ]
+                },
+                {
+                    "layer": 10,
+                    "hook": "blocks.10.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": 4,
+                    "final_rank": 4,
+                    "rank_improvement": 0,
+                    "clean_probability": 0.018463347107172012,
+                    "final_probability": 0.019438259303569794,
+                    "probability_gain": 0.0009749121963977814,
+                    "runtime_ms": 9483.08160000306,
+                    "profile": {
+                        "sae_loading_ms": 1293.390000006184,
+                        "clean_baseline_ms": 89.03160000045318,
+                        "feature_selection_ms": 2844.623800003319,
+                        "safety_filtering_ms": 5172.606799998903,
+                        "intervention_ms": 80.91940000304021,
+                        "result_packaging_ms": 0.0021000014385208488,
+                        "total_layer_ms": 9483.08160000306
+                    },
+                    "success": true,
+                    "top_prediction_before": " the",
+                    "top_prediction_after": " the",
+                    "mute_features": [
+                        219,
+                        20254,
+                        8187
+                    ],
+                    "boost_features": [
+                        17495,
+                        19023,
+                        20009
+                    ]
+                }
+            ]
+        },
+        {
+            "prompt": "The capital of Roman Republic is",
+            "target": "Rome",
+            "layers": [
+                {
+                    "layer": 2,
+                    "hook": "blocks.2.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": 1,
+                    "final_rank": 1,
+                    "rank_improvement": 0,
+                    "clean_probability": 0.09520447254180908,
+                    "final_probability": 0.09853103011846542,
+                    "probability_gain": 0.0033265575766563416,
+                    "runtime_ms": 12884.505800000625,
+                    "profile": {
+                        "sae_loading_ms": 0.005800000508315861,
+                        "clean_baseline_ms": 93.49620000284631,
+                        "feature_selection_ms": 4637.906499992823,
+                        "safety_filtering_ms": 8073.232499998994,
+                        "intervention_ms": 77.68600000417791,
+                        "result_packaging_ms": 0.0012999953469261527,
+                        "total_layer_ms": 12884.505800000625
+                    },
+                    "success": true,
+                    "top_prediction_before": " Rome",
+                    "top_prediction_after": " Rome",
+                    "mute_features": [
+                        9736,
+                        22514,
+                        9787
+                    ],
+                    "boost_features": [
+                        8894,
+                        7388,
+                        13558
+                    ]
+                },
+                {
+                    "layer": 5,
+                    "hook": "blocks.5.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": 1,
+                    "final_rank": 1,
+                    "rank_improvement": 0,
+                    "clean_probability": 0.09520447254180908,
+                    "final_probability": 0.13514572381973267,
+                    "probability_gain": 0.039941251277923584,
+                    "runtime_ms": 12464.60730000399,
+                    "profile": {
+                        "sae_loading_ms": 0.00859999272506684,
+                        "clean_baseline_ms": 97.1886000043014,
+                        "feature_selection_ms": 4110.388699991745,
+                        "safety_filtering_ms": 8182.265399998869,
+                        "intervention_ms": 72.36439999542199,
+                        "result_packaging_ms": 0.0009999930625781417,
+                        "total_layer_ms": 12464.60730000399
+                    },
+                    "success": true,
+                    "top_prediction_before": " Rome",
+                    "top_prediction_after": " Rome",
+                    "mute_features": [
+                        22870,
+                        281,
+                        14527
+                    ],
+                    "boost_features": [
+                        11217,
+                        7384,
+                        17012
+                    ]
+                },
+                {
+                    "layer": 8,
+                    "hook": "blocks.8.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": 1,
+                    "final_rank": 1,
+                    "rank_improvement": 0,
+                    "clean_probability": 0.09520447254180908,
+                    "final_probability": 0.14598225057125092,
+                    "probability_gain": 0.050777778029441833,
+                    "runtime_ms": 12824.266499999794,
+                    "profile": {
+                        "sae_loading_ms": 0.005600013537332416,
+                        "clean_baseline_ms": 74.63780000398401,
+                        "feature_selection_ms": 4507.178499989095,
+                        "safety_filtering_ms": 8159.983200006536,
+                        "intervention_ms": 80.3003000037279,
+                        "result_packaging_ms": 0.0016999983927235007,
+                        "total_layer_ms": 12824.266499999794
+                    },
+                    "success": true,
+                    "top_prediction_before": " Rome",
+                    "top_prediction_after": " Rome",
+                    "mute_features": [
+                        11224,
+                        14626,
+                        23177
+                    ],
+                    "boost_features": [
+                        1442,
+                        18220,
+                        8628
+                    ]
+                },
+                {
+                    "layer": 10,
+                    "hook": "blocks.10.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": 1,
+                    "final_rank": 1,
+                    "rank_improvement": 0,
+                    "clean_probability": 0.09520447254180908,
+                    "final_probability": 0.09126704931259155,
+                    "probability_gain": -0.003937423229217529,
+                    "runtime_ms": 7899.6466000098735,
+                    "profile": {
+                        "sae_loading_ms": 0.006199989002197981,
+                        "clean_baseline_ms": 88.92859998741187,
+                        "feature_selection_ms": 2769.118000011076,
+                        "safety_filtering_ms": 4963.546999992104,
+                        "intervention_ms": 75.65810000232887,
+                        "result_packaging_ms": 0.0012999953469261527,
+                        "total_layer_ms": 7899.6466000098735
+                    },
+                    "success": false,
+                    "top_prediction_before": " Rome",
+                    "top_prediction_after": " Rome",
+                    "mute_features": [
+                        15545,
+                        8769,
+                        612
+                    ],
+                    "boost_features": [
+                        15338,
+                        18114,
+                        12116
+                    ]
+                }
+            ]
+        },
+        {
+            "prompt": "Henri Debain was born in",
+            "target": "Paris",
+            "layers": [
+                {
+                    "layer": 2,
+                    "hook": "blocks.2.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": 1,
+                    "final_rank": 1,
+                    "rank_improvement": 0,
+                    "clean_probability": 0.07601169496774673,
+                    "final_probability": 0.07601169496774673,
+                    "probability_gain": 0.0,
+                    "runtime_ms": 12645.289199994295,
+                    "profile": {
+                        "sae_loading_ms": 0.006299989763647318,
+                        "clean_baseline_ms": 92.81419999024365,
+                        "feature_selection_ms": 4347.562900002231,
+                        "safety_filtering_ms": 8105.04390001006,
+                        "intervention_ms": 97.33479999704286,
+                        "result_packaging_ms": 0.001200009137392044,
+                        "total_layer_ms": 12645.289199994295
+                    },
+                    "success": false,
+                    "top_prediction_before": " Paris",
+                    "top_prediction_after": " Paris",
+                    "mute_features": [
+                        9865,
+                        2047,
+                        17040
+                    ],
+                    "boost_features": [
+                        2620,
+                        22514,
+                        12711
+                    ]
+                },
+                {
+                    "layer": 5,
+                    "hook": "blocks.5.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": 1,
+                    "final_rank": 1,
+                    "rank_improvement": 0,
+                    "clean_probability": 0.07601169496774673,
+                    "final_probability": 0.07548108696937561,
+                    "probability_gain": -0.0005306079983711243,
+                    "runtime_ms": 12101.30319999007,
+                    "profile": {
+                        "sae_loading_ms": 0.006399990525096655,
+                        "clean_baseline_ms": 92.98180000041611,
+                        "feature_selection_ms": 3904.0330999996513,
+                        "safety_filtering_ms": 8033.143200009363,
+                        "intervention_ms": 68.53550000232644,
+                        "result_packaging_ms": 0.0007999915396794677,
+                        "total_layer_ms": 12101.30319999007
+                    },
+                    "success": false,
+                    "top_prediction_before": " Paris",
+                    "top_prediction_after": " Paris",
+                    "mute_features": [
+                        10061,
+                        24079,
+                        23076
+                    ],
+                    "boost_features": [
+                        5387,
+                        15554,
+                        281
+                    ]
+                },
+                {
+                    "layer": 8,
+                    "hook": "blocks.8.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": 1,
+                    "final_rank": 1,
+                    "rank_improvement": 0,
+                    "clean_probability": 0.07601169496774673,
+                    "final_probability": 0.08479373902082443,
+                    "probability_gain": 0.008782044053077698,
+                    "runtime_ms": 13069.019500006107,
+                    "profile": {
+                        "sae_loading_ms": 0.005399997462518513,
+                        "clean_baseline_ms": 92.60180000273976,
+                        "feature_selection_ms": 4581.563300002017,
+                        "safety_filtering_ms": 8322.733799999696,
+                        "intervention_ms": 69.43560000217985,
+                        "result_packaging_ms": 0.001300009898841381,
+                        "total_layer_ms": 13069.019500006107
+                    },
+                    "success": true,
+                    "top_prediction_before": " Paris",
+                    "top_prediction_after": " Paris",
+                    "mute_features": [
+                        3111,
+                        14909,
+                        77
+                    ],
+                    "boost_features": [
+                        19288,
+                        16240,
+                        15899
+                    ]
+                },
+                {
+                    "layer": 10,
+                    "hook": "blocks.10.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": 1,
+                    "final_rank": 1,
+                    "rank_improvement": 0,
+                    "clean_probability": 0.07601169496774673,
+                    "final_probability": 0.07759646326303482,
+                    "probability_gain": 0.001584768295288086,
+                    "runtime_ms": 9038.733699999284,
+                    "profile": {
+                        "sae_loading_ms": 0.005599998985417187,
+                        "clean_baseline_ms": 83.86710000922903,
+                        "feature_selection_ms": 3197.0958999881987,
+                        "safety_filtering_ms": 5675.3490999981295,
+                        "intervention_ms": 80.10830001148861,
+                        "result_packaging_ms": 0.0012999953469261527,
+                        "total_layer_ms": 9038.733699999284
+                    },
+                    "success": true,
+                    "top_prediction_before": " Paris",
+                    "top_prediction_after": " Paris",
+                    "mute_features": [
+                        20155,
+                        21587,
+                        20010
+                    ],
+                    "boost_features": [
+                        17495,
+                        19023,
+                        20009
+                    ]
+                }
+            ]
+        }
+    ]
+}

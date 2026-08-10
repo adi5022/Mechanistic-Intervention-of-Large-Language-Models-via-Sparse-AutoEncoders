@@ -8,6 +8,7 @@ import streamlit as st
 import pandas as pd
 import json
 import os
+import torch
 from src.sae_utils import load_base_model, load_sae_for_layer, load_model_and_sae
 from src.benchmark.layer_benchmark_runner import run_layer_benchmark
 
@@ -20,19 +21,19 @@ st.set_page_config(
 
 # 2. Caching Strategy
 @st.cache_resource
-def get_cached_base_model():
-    """Cached loader for GPT-2 base model (loaded ONCE per Streamlit session)."""
-    return load_base_model()
+def get_cached_base_model(device: str = "cuda"):
+    """Cached loader for GPT-2 base model on specified device."""
+    return load_base_model(device=device)
 
 @st.cache_resource
-def get_cached_sae(layer: int):
-    """Cached loader for Layer-specific SAE (loaded ONCE per layer index)."""
-    return load_sae_for_layer(layer=layer)
+def get_cached_sae(layer: int, device: str = "cuda"):
+    """Cached loader for Layer-specific SAE on specified device."""
+    return load_sae_for_layer(layer=layer, device=device)
 
-def get_cached_model_and_sae(layer: int):
-    """Composes cached GPT-2 base model and cached layer SAE without re-initializing GPT-2."""
-    model = get_cached_base_model()
-    sae = get_cached_sae(layer=layer)
+def get_cached_model_and_sae(layer: int, device: str = "cuda"):
+    """Composes cached GPT-2 base model and cached layer SAE on specified device."""
+    model = get_cached_base_model(device=device)
+    sae = get_cached_sae(layer=layer, device=device)
     return model, sae
 
 
@@ -48,6 +49,22 @@ def main():
 
     # 3. Sidebar inputs & Prompts Dataset Editor
     st.sidebar.header("Configuration")
+
+    # Hardware / Compute Device Selection
+    st.sidebar.subheader("Compute Device Target")
+    device_options = []
+    if torch.cuda.is_available():
+        gpu_name = torch.cuda.get_device_name(0)
+        device_options.append(f"⚡ GPU ({gpu_name})")
+    device_options.append("💻 CPU Host")
+
+    selected_device_label = st.sidebar.radio(
+        "Select Compute Hardware:",
+        options=device_options,
+        index=0,
+        help="Switch between GPU and CPU execution to compare benchmark processing speeds."
+    )
+    selected_device = "cuda" if "GPU" in selected_device_label else "cpu"
 
     st.sidebar.subheader("Prompts Dataset")
 
@@ -223,7 +240,7 @@ def main():
             boost_batch_size=boost_batch_size,
             use_safety=use_safety,
             algorithm="hybrid",
-            model_sae_loader=get_cached_model_and_sae,
+            model_sae_loader=lambda l: get_cached_model_and_sae(layer=l, device=selected_device),
             results_dir="benchmark_results",
             layer_callback=layer_callback
         )
@@ -240,9 +257,11 @@ def main():
         st.markdown("---")
         st.header("Benchmark Results & Research Artifacts")
 
+        device_str = f"GPU ({torch.cuda.get_device_name(0)})" if torch.cuda.is_available() else "CPU (torch+cpu)"
         # Experiment Metadata Display
         st.caption(
             f"**Model:** `{master_results.get('model', 'gpt2')}` | "
+            f"**Device:** `{device_str}` | "
             f"**SAE Release:** `{master_results.get('sae_release', 'gpt2-small-res-jb')}` | "
             f"**Hook:** `{master_results.get('hook_location', 'hook_resid_pre')}` | "
             f"**Safety:** `{'Enabled' if master_results.get('safety_enabled', True) else 'Disabled'}` | "

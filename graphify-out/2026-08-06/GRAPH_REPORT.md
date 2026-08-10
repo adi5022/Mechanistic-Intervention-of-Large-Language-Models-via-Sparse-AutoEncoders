@@ -1,11 +1,11 @@
-# Graph Report - FeatureScalpel  (2026-08-05)
+# Graph Report - FeatureScalpel  (2026-08-06)
 
 ## Corpus Check
-- 86 files · ~512,853 words
+- 88 files · ~515,049 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 420 nodes · 564 edges · 55 communities (23 shown, 32 thin omitted)
+- 437 nodes · 580 edges · 56 communities (24 shown, 32 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 2 edges (avg confidence: 0.7)
 - Token cost: 0 input · 0 output
 
@@ -67,6 +67,7 @@
 - Research Journal Entry 9: Pretrained SAE Dictionary Audit for gpt2-small-res-jb
 - investigate_gpt2_saes.py
 - Session History: Layer Intervention Benchmark Subsystem
+- Research Journal Entry 11: Benchmark Infrastructure Optimization, Stage Profiling, and Batch Dataset Processing
 
 ## God Nodes (most connected - your core abstractions)
 1. `load_model_and_sae()` - 17 edges
@@ -99,14 +100,14 @@
 - **Research Evolution: From Single to Multi-Feature Intervention** — docs_research_journal_2, docs_research_journal_3, docs_research_journal_4, docs_research_journal_8 [EXTRACTED 0.90]
 - **Theoretical Framework** — residual_stream, sparse_autoencoder, distributed_support_hypothesis [INFERRED 0.85]
 
-## Communities (55 total, 32 thin omitted)
+## Communities (56 total, 32 thin omitted)
 
 ### Community 0 - "experiment_app.py"
 Cohesion: 0.06
 Nodes (57): cache_data, get_neuronpedia_explanation(), make_feature_hover_link(), Renders a structured 6-part Educational XAI Guidance Card in the UI., Renders a structured, informative empty state card when data or metadata is…, render_empty_state_card(), render_xai_guidance_card(), slow (+49 more)
 
 ### Community 1 - "editing.py"
-Cohesion: 0.08
+Cohesion: 0.07
 Nodes (50): get_predictions(), DataFrame, check_combination_safe(), get_target_token_id(), get_top_active_features(), get_top_competitor_features(), get_top_target_features(), make_weighted_ablation_hook() (+42 more)
 
 ### Community 2 - "history.md"
@@ -114,7 +115,7 @@ Cohesion: 0.06
 Nodes (33): 1. Core Algorithmic & Engine Changes, 2. Dashboard Improvements (`experiment_app.py`), 3. Research Infrastructure, Background, Cambridge Diagnostic Output, Current Working Hypothesis (Unverified), Diagnostic Experiment, `docs/Research_Journal/4.md` (+25 more)
 
 ### Community 3 - "load_model_and_sae"
-Cohesion: 0.09
+Cohesion: 0.10
 Nodes (31): get_cached_model_and_sae(), cache_resource, get_cached_base_model(), get_cached_sae(), cache_resource, HookedTransformer, get_cached_base_model(), get_cached_model_and_sae() (+23 more)
 
 ### Community 4 - "4. Discussion & Next Steps"
@@ -178,11 +179,15 @@ Cohesion: 0.50
 Nodes (4): get_release_saes_map(), main(), Standalone script to investigate available pretrained SAE dictionaries in…, Returns dictionary mapping sae_id -> location for a given release name if…
 
 ### Community 54 - "Session History: Layer Intervention Benchmark Subsystem"
-Cohesion: 0.17
-Nodes (11): 1. Pretrained SAE Dictionary Audit (`gpt2-small-res-jb`), 2. Layer Intervention Benchmark Subsystem (Phase 1 Infrastructure), 3. Multi-Prompt Dataset Extension, 4. Verification & Validation, Execution & Findings, Implementation, Implementation, Session History: Layer Intervention Benchmark Subsystem (+3 more)
+Cohesion: 0.11
+Nodes (17): 1. Pretrained SAE Dictionary Audit (`gpt2-small-res-jb`), 2. Layer Intervention Benchmark Subsystem (Phase 1 Infrastructure), 3. Multi-Prompt Dataset Extension, 4. Loading Architecture Caching Optimization, 5. Profiling, Metadata & Batch Dataset Mechanisms, 6. Empirical Depth Findings, Execution & Findings, Implementation (+9 more)
+
+### Community 55 - "Research Journal Entry 11: Benchmark Infrastructure Optimization, Stage Profiling, and Batch Dataset Processing"
+Cohesion: 0.18
+Nodes (10): 1. Objective, 2.1 Decoupled Caching Architecture, 2.2 Stage Profiling & Extended Metadata, 2.3 Batch Dataset Processing & UI Management, 2. Architecture & Implementation Highlights, 3.1 Layer Depth Sensitivity Summary (Hybrid Mute & Boost), 3.2 Profiling Breakdown (Layer 8 Baseline), 3. Empirical Verification & Performance Breakdown (+2 more)
 
 ## Knowledge Gaps
-- **161 isolated node(s):** `MockConfig`, `graphify`, `Workflow: graphify`, `Project Context (read this fully before writing any code)`, `What has already been done and confirmed (do not re-derive from scratch —` (+156 more)
+- **172 isolated node(s):** `MockConfig`, `graphify`, `Workflow: graphify`, `Project Context (read this fully before writing any code)`, `What has already been done and confirmed (do not re-derive from scratch —` (+167 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **32 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -190,16 +195,16 @@ Nodes (11): 1. Pretrained SAE Dictionary Audit (`gpt2-small-res-jb`), 2. Layer I
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `get_target_token_id()` connect `editing.py` to `experiment_app.py`, `load_model_and_sae`?**
-  _High betweenness centrality (0.012) - this node is a cross-community bridge._
+  _High betweenness centrality (0.011) - this node is a cross-community bridge._
 - **Why does `load_model_and_sae()` connect `load_model_and_sae` to `experiment_app.py`, `editing.py`?**
-  _High betweenness centrality (0.010) - this node is a cross-community bridge._
+  _High betweenness centrality (0.009) - this node is a cross-community bridge._
 - **Why does `get_top_competitor_features()` connect `editing.py` to `experiment_app.py`, `load_model_and_sae`?**
   _High betweenness centrality (0.009) - this node is a cross-community bridge._
 - **What connects `MockConfig`, `graphify`, `Workflow: graphify` to the rest of the system?**
-  _161 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _172 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `experiment_app.py` be split into smaller, more focused modules?**
   _Cohesion score 0.05711849957374254 - nodes in this community are weakly interconnected._
 - **Should `editing.py` be split into smaller, more focused modules?**
-  _Cohesion score 0.07542087542087542 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07402597402597402 - nodes in this community are weakly interconnected._
 - **Should `history.md` be split into smaller, more focused modules?**
   _Cohesion score 0.058823529411764705 - nodes in this community are weakly interconnected._

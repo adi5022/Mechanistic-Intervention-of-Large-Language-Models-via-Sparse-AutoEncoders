@@ -51,8 +51,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "app_py_cache_resource",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "cache_resource"
     },
     {
@@ -62,8 +62,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "app_get_cached_model_and_sae",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "get_cached_model_and_sae()"
     },
     {
@@ -293,8 +293,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "layer_benchmark",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "layer_benchmark.py"
     },
     {
@@ -305,51 +305,51 @@
       "_origin": "ast",
       "id": "layer_benchmark_py_cache_resource",
       "community": 3,
-      "community_name": "load_model_and_sae",
+      "community_name": "get_cached_base_model",
       "norm_label": "cache_resource"
     },
     {
       "label": "get_cached_base_model()",
       "file_type": "code",
       "source_file": "layer_benchmark.py",
-      "source_location": "L24",
+      "source_location": "L23",
       "_origin": "ast",
       "id": "layer_benchmark_get_cached_base_model",
       "community": 3,
-      "community_name": "load_model_and_sae",
+      "community_name": "get_cached_base_model",
       "norm_label": "get_cached_base_model()"
     },
     {
       "label": "get_cached_sae()",
       "file_type": "code",
       "source_file": "layer_benchmark.py",
-      "source_location": "L29",
+      "source_location": "L28",
       "_origin": "ast",
       "id": "layer_benchmark_get_cached_sae",
       "community": 3,
-      "community_name": "load_model_and_sae",
+      "community_name": "get_cached_base_model",
       "norm_label": "get_cached_sae()"
     },
     {
       "label": "get_cached_model_and_sae()",
       "file_type": "code",
       "source_file": "layer_benchmark.py",
-      "source_location": "L33",
+      "source_location": "L32",
       "_origin": "ast",
       "id": "layer_benchmark_get_cached_model_and_sae",
       "community": 3,
-      "community_name": "load_model_and_sae",
+      "community_name": "get_cached_base_model",
       "norm_label": "get_cached_model_and_sae()"
     },
     {
       "label": "main()",
       "file_type": "code",
       "source_file": "layer_benchmark.py",
-      "source_location": "L40",
+      "source_location": "L39",
       "_origin": "ast",
       "id": "layer_benchmark_main",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "main()"
     },
     {
@@ -359,108 +359,42 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "layer_benchmark_rationale_1",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "layer intervention benchmark ui dedicated streamlit application for..."
     },
     {
-      "label": "Cached loader for GPT-2 base model on specified device.",
+      "label": "Cached loader for GPT-2 base model (loaded ONCE per Streamlit session).",
       "file_type": "rationale",
       "source_file": "layer_benchmark.py",
-      "source_location": "L25",
+      "source_location": "L24",
       "_origin": "ast",
-      "id": "layer_benchmark_rationale_25",
+      "id": "layer_benchmark_rationale_24",
       "community": 3,
-      "community_name": "load_model_and_sae",
-      "norm_label": "cached loader for gpt-2 base model on specified device."
+      "community_name": "get_cached_base_model",
+      "norm_label": "cached loader for gpt-2 base model (loaded once per streamlit session)."
     },
     {
-      "label": "Cached loader for Layer-specific SAE on specified device.",
+      "label": "Cached loader for Layer-specific SAE (loaded ONCE per layer index).",
       "file_type": "rationale",
       "source_file": "layer_benchmark.py",
-      "source_location": "L30",
-      "_origin": "ast",
-      "id": "layer_benchmark_rationale_30",
-      "community": 3,
-      "community_name": "load_model_and_sae",
-      "norm_label": "cached loader for layer-specific sae on specified device."
-    },
-    {
-      "label": "Composes cached GPT-2 base model and cached layer SAE on specified device.",
-      "file_type": "rationale",
-      "source_file": "layer_benchmark.py",
-      "source_location": "L34",
-      "_origin": "ast",
-      "id": "layer_benchmark_rationale_34",
-      "community": 3,
-      "community_name": "load_model_and_sae",
-      "norm_label": "composes cached gpt-2 base model and cached layer sae on specified device."
-    },
-    {
-      "label": "run_speed_analysis.py",
-      "file_type": "code",
-      "source_file": "run_speed_analysis.py",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "run_speed_analysis",
-      "community": 3,
-      "community_name": "load_model_and_sae",
-      "norm_label": "run_speed_analysis.py"
-    },
-    {
-      "label": "get_cached_model_and_sae()",
-      "file_type": "code",
-      "source_file": "run_speed_analysis.py",
       "source_location": "L29",
       "_origin": "ast",
-      "id": "run_speed_analysis_get_cached_model_and_sae",
+      "id": "layer_benchmark_rationale_29",
       "community": 3,
-      "community_name": "load_model_and_sae",
-      "norm_label": "get_cached_model_and_sae()"
+      "community_name": "get_cached_base_model",
+      "norm_label": "cached loader for layer-specific sae (loaded once per layer index)."
     },
     {
-      "label": "benchmark_device()",
-      "file_type": "code",
-      "source_file": "run_speed_analysis.py",
-      "source_location": "L39",
-      "_origin": "ast",
-      "id": "run_speed_analysis_benchmark_device",
-      "community": 3,
-      "community_name": "load_model_and_sae",
-      "norm_label": "benchmark_device()"
-    },
-    {
-      "label": "main()",
-      "file_type": "code",
-      "source_file": "run_speed_analysis.py",
-      "source_location": "L77",
-      "_origin": "ast",
-      "id": "run_speed_analysis_main",
-      "community": 3,
-      "community_name": "load_model_and_sae",
-      "norm_label": "main()"
-    },
-    {
-      "label": "Speed Analysis Benchmark Script Compares GPU (NVIDIA GeForce GTX 1660 Ti) vs\u2026",
+      "label": "Composes cached GPT-2 base model and cached layer SAE without re-initializing\u2026",
       "file_type": "rationale",
-      "source_file": "run_speed_analysis.py",
-      "source_location": "L1",
+      "source_file": "layer_benchmark.py",
+      "source_location": "L33",
       "_origin": "ast",
-      "id": "run_speed_analysis_rationale_1",
+      "id": "layer_benchmark_rationale_33",
       "community": 3,
-      "community_name": "load_model_and_sae",
-      "norm_label": "speed analysis benchmark script compares gpu (nvidia geforce gtx 1660 ti) vs..."
-    },
-    {
-      "label": "Caches base model and layer SAEs in RAM/VRAM to avoid redundant reload disk I/O.",
-      "file_type": "rationale",
-      "source_file": "run_speed_analysis.py",
-      "source_location": "L30",
-      "_origin": "ast",
-      "id": "run_speed_analysis_rationale_30",
-      "community": 3,
-      "community_name": "load_model_and_sae",
-      "norm_label": "caches base model and layer saes in ram/vram to avoid redundant reload disk i/o."
+      "community_name": "get_cached_base_model",
+      "norm_label": "composes cached gpt-2 base model and cached layer sae without re-initializing..."
     },
     {
       "label": "run_stage1.py",
@@ -480,8 +414,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "smoke_test",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "smoke_test.py"
     },
     {
@@ -491,19 +425,19 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_benchmark_layer_benchmark_runner",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "layer_benchmark_runner.py"
     },
     {
       "label": "run_layer_benchmark()",
       "file_type": "code",
       "source_file": "src/benchmark/layer_benchmark_runner.py",
-      "source_location": "L28",
+      "source_location": "L26",
       "_origin": "ast",
       "id": "src_benchmark_layer_benchmark_runner_run_layer_benchmark",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "run_layer_benchmark()"
     },
     {
@@ -513,19 +447,19 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_benchmark_layer_benchmark_runner_rationale_1",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "layer benchmark runner contains the algorithm-agnostic core logic for..."
     },
     {
       "label": "Sweeps the Hybrid Mute & Boost intervention across selected layers for one or\u2026",
       "file_type": "rationale",
       "source_file": "src/benchmark/layer_benchmark_runner.py",
-      "source_location": "L42",
+      "source_location": "L40",
       "_origin": "ast",
-      "id": "src_benchmark_layer_benchmark_runner_rationale_42",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "id": "src_benchmark_layer_benchmark_runner_rationale_40",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "sweeps the hybrid mute & boost intervention across selected layers for one or..."
     },
     {
@@ -601,8 +535,8 @@
       "source_location": "L196",
       "_origin": "ast",
       "id": "src_editing_check_target_safe",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "check_target_safe()"
     },
     {
@@ -612,8 +546,8 @@
       "source_location": "L234",
       "_origin": "ast",
       "id": "src_editing_check_boost_safe",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "check_boost_safe()"
     },
     {
@@ -623,8 +557,8 @@
       "source_location": "L274",
       "_origin": "ast",
       "id": "src_editing_check_combination_safe",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "check_combination_safe()"
     },
     {
@@ -634,8 +568,8 @@
       "source_location": "L400",
       "_origin": "ast",
       "id": "src_editing_make_weighted_ablation_hook",
-      "community": 1,
-      "community_name": "editing.py",
+      "community": 56,
+      "community_name": "make_weighted_ablation_hook",
       "norm_label": "make_weighted_ablation_hook()"
     },
     {
@@ -645,8 +579,8 @@
       "source_location": "L422",
       "_origin": "ast",
       "id": "src_editing_run_weighted_multi_competitor_reduction",
-      "community": 1,
-      "community_name": "editing.py",
+      "community": 56,
+      "community_name": "make_weighted_ablation_hook",
       "norm_label": "run_weighted_multi_competitor_reduction()"
     },
     {
@@ -656,8 +590,8 @@
       "source_location": "L575",
       "_origin": "ast",
       "id": "src_editing_run_weighted_multi_feature_competitor_reduction",
-      "community": 1,
-      "community_name": "editing.py",
+      "community": 56,
+      "community_name": "make_weighted_ablation_hook",
       "norm_label": "run_weighted_multi_feature_competitor_reduction()"
     },
     {
@@ -744,8 +678,8 @@
       "source_location": "L199",
       "_origin": "ast",
       "id": "src_editing_rationale_199",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "temporarily applies only this one feature's ablation (using..."
     },
     {
@@ -755,8 +689,8 @@
       "source_location": "L237",
       "_origin": "ast",
       "id": "src_editing_rationale_237",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "temporarily applies only this one feature's boost (using..."
     },
     {
@@ -766,8 +700,8 @@
       "source_location": "L280",
       "_origin": "ast",
       "id": "src_editing_rationale_280",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "evaluates the joint effect of all muted and boosted features applied together...."
     },
     {
@@ -777,8 +711,8 @@
       "source_location": "L401",
       "_origin": "ast",
       "id": "src_editing_rationale_401",
-      "community": 1,
-      "community_name": "editing.py",
+      "community": 56,
+      "community_name": "make_weighted_ablation_hook",
       "norm_label": "creates a joint ablation hook where each feature can have a different ablation..."
     },
     {
@@ -788,8 +722,8 @@
       "source_location": "L425",
       "_origin": "ast",
       "id": "src_editing_rationale_425",
-      "community": 1,
-      "community_name": "editing.py",
+      "community": 56,
+      "community_name": "make_weighted_ablation_hook",
       "norm_label": "identifies all tokens currently ranked above the target. finds each..."
     },
     {
@@ -799,8 +733,8 @@
       "source_location": "L583",
       "_origin": "ast",
       "id": "src_editing_rationale_583",
-      "community": 1,
-      "community_name": "editing.py",
+      "community": 56,
+      "community_name": "make_weighted_ablation_hook",
       "norm_label": "for each competitor above the target, take its top-k driving features,..."
     },
     {
@@ -1162,8 +1096,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_hooks_make_mute_and_boost_hook",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "make_mute_and_boost_hook()"
     },
     {
@@ -1217,8 +1151,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "src_hooks_rationale_9",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "applies muting and boosting to different features together in a single pass,..."
     },
     {
@@ -1602,8 +1536,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_sae_utils",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "sae_utils.py"
     },
     {
@@ -1613,8 +1547,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "src_sae_utils_get_default_device",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "get_default_device()"
     },
     {
@@ -1624,8 +1558,8 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "src_sae_utils_load_base_model",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "load_base_model()"
     },
     {
@@ -1635,8 +1569,8 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "src_sae_utils_load_sae_for_layer",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "load_sae_for_layer()"
     },
     {
@@ -1646,8 +1580,8 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "src_sae_utils_load_model_and_sae",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "load_model_and_sae()"
     },
     {
@@ -1657,8 +1591,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "hookedtransformer",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "hookedtransformer"
     },
     {
@@ -1668,8 +1602,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_sae_utils_rationale_1",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "utilities for loading and interacting with sparse autoencoders (saes) and..."
     },
     {
@@ -1679,8 +1613,8 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "src_sae_utils_rationale_28",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "returns the best available device for pytorch operations (cuda gpu, apple mps,..."
     },
     {
@@ -1690,8 +1624,8 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "src_sae_utils_rationale_38",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "loads gpt-2 small base model onto the specified or auto-detected device."
     },
     {
@@ -1701,8 +1635,8 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "src_sae_utils_rationale_48",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "loads the pretrained sae for the specified layer onto the specified or auto-..."
     },
     {
@@ -1712,8 +1646,8 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "src_sae_utils_rationale_63",
-      "community": 3,
-      "community_name": "load_model_and_sae",
+      "community": 1,
+      "community_name": "editing.py",
       "norm_label": "loads gpt-2 small and the pretrained sae for the specified layer (default layer..."
     },
     {
@@ -1792,39 +1726,6 @@
       "community": 1,
       "community_name": "editing.py",
       "norm_label": "tests target feature amplification (boosting): for each combination of boost..."
-    },
-    {
-      "label": "test_gpu_benchmark.py",
-      "file_type": "code",
-      "source_file": "test_gpu_benchmark.py",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "test_gpu_benchmark",
-      "community": 3,
-      "community_name": "load_model_and_sae",
-      "norm_label": "test_gpu_benchmark.py"
-    },
-    {
-      "label": "run_verification()",
-      "file_type": "code",
-      "source_file": "test_gpu_benchmark.py",
-      "source_location": "L17",
-      "_origin": "ast",
-      "id": "test_gpu_benchmark_run_verification",
-      "community": 3,
-      "community_name": "load_model_and_sae",
-      "norm_label": "run_verification()"
-    },
-    {
-      "label": "Quick GPU Verification Test for FeatureScalpel Checks PyTorch CUDA, GPT-2 model\u2026",
-      "file_type": "rationale",
-      "source_file": "test_gpu_benchmark.py",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "test_gpu_benchmark_rationale_1",
-      "community": 3,
-      "community_name": "load_model_and_sae",
-      "norm_label": "quick gpu verification test for featurescalpel checks pytorch cuda, gpt-2 model..."
     },
     {
       "label": "test_monosemanticity.py",
@@ -2289,28 +2190,6 @@
       "norm_label": "4. verification & validation"
     },
     {
-      "label": "6. Hardware Acceleration, Unpacking Bug Fixes & ROME Dataset Integration",
-      "file_type": "document",
-      "source_file": "History/Session_LayerBenchmark_History.md",
-      "source_location": "L59",
-      "_origin": "ast",
-      "id": "history_session_layerbenchmark_history_6_hardware_acceleration_unpacking_bug_fixes_rome_dataset_integration",
-      "community": 54,
-      "community_name": "Session History: Layer Intervention Benchmark Subsystem",
-      "norm_label": "6. hardware acceleration, unpacking bug fixes & rome dataset integration"
-    },
-    {
-      "label": "Execution & Findings",
-      "file_type": "document",
-      "source_file": "History/Session_LayerBenchmark_History.md",
-      "source_location": "L61",
-      "_origin": "ast",
-      "id": "history_session_layerbenchmark_history_execution_findings_61",
-      "community": 54,
-      "community_name": "Session History: Layer Intervention Benchmark Subsystem",
-      "norm_label": "execution & findings"
-    },
-    {
       "label": "10.md",
       "file_type": "document",
       "source_file": "docs/Research_Journal/10.md",
@@ -2529,138 +2408,6 @@
       "community": 55,
       "community_name": "Research Journal Entry 11: Benchmark Infrastructure Optimization, Stage Profiling, and Batch Dataset Processing",
       "norm_label": "4. conclusion & status"
-    },
-    {
-      "label": "12.md",
-      "file_type": "document",
-      "source_file": "docs/Research_Journal/12.md",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "docs_research_journal_12",
-      "community": 56,
-      "community_name": "Research Journal Entry 12: Candidate Selection Mechanics, Delta Patching Formalization, ROME Dataset Integration, and Hardware Acceleration Benchmarking",
-      "norm_label": "12.md"
-    },
-    {
-      "label": "Research Journal Entry 12: Candidate Selection Mechanics, Delta Patching Formalization, ROME Dataset Integration, and Hardware Acceleration Benchmarking",
-      "file_type": "document",
-      "source_file": "docs/Research_Journal/12.md",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "docs_research_journal_12_research_journal_entry_12_candidate_selection_mechanics_delta_patching_formalization_rome_dataset_integration_and_hardware_acceleration_benchmarking",
-      "community": 56,
-      "community_name": "Research Journal Entry 12: Candidate Selection Mechanics, Delta Patching Formalization, ROME Dataset Integration, and Hardware Acceleration Benchmarking",
-      "norm_label": "research journal entry 12: candidate selection mechanics, delta patching formalization, rome dataset integration, and hardware acceleration benchmarking"
-    },
-    {
-      "label": "1. Objective",
-      "file_type": "document",
-      "source_file": "docs/Research_Journal/12.md",
-      "source_location": "L9",
-      "_origin": "ast",
-      "id": "docs_research_journal_12_1_objective",
-      "community": 56,
-      "community_name": "Research Journal Entry 12: Candidate Selection Mechanics, Delta Patching Formalization, ROME Dataset Integration, and Hardware Acceleration Benchmarking",
-      "norm_label": "1. objective"
-    },
-    {
-      "label": "2. Theoretical & Algorithmic Foundations",
-      "file_type": "document",
-      "source_file": "docs/Research_Journal/12.md",
-      "source_location": "L20",
-      "_origin": "ast",
-      "id": "docs_research_journal_12_2_theoretical_algorithmic_foundations",
-      "community": 56,
-      "community_name": "Research Journal Entry 12: Candidate Selection Mechanics, Delta Patching Formalization, ROME Dataset Integration, and Hardware Acceleration Benchmarking",
-      "norm_label": "2. theoretical & algorithmic foundations"
-    },
-    {
-      "label": "2.1 Two-Stage Candidate Selection Mechanics",
-      "file_type": "document",
-      "source_file": "docs/Research_Journal/12.md",
-      "source_location": "L22",
-      "_origin": "ast",
-      "id": "docs_research_journal_12_2_1_two_stage_candidate_selection_mechanics",
-      "community": 56,
-      "community_name": "Research Journal Entry 12: Candidate Selection Mechanics, Delta Patching Formalization, ROME Dataset Integration, and Hardware Acceleration Benchmarking",
-      "norm_label": "2.1 two-stage candidate selection mechanics"
-    },
-    {
-      "label": "2.2 Delta Patching Formulation & Literature Lineage",
-      "file_type": "document",
-      "source_file": "docs/Research_Journal/12.md",
-      "source_location": "L43",
-      "_origin": "ast",
-      "id": "docs_research_journal_12_2_2_delta_patching_formulation_literature_lineage",
-      "community": 56,
-      "community_name": "Research Journal Entry 12: Candidate Selection Mechanics, Delta Patching Formalization, ROME Dataset Integration, and Hardware Acceleration Benchmarking",
-      "norm_label": "2.2 delta patching formulation & literature lineage"
-    },
-    {
-      "label": "Primary Academic Citations:",
-      "file_type": "document",
-      "source_file": "docs/Research_Journal/12.md",
-      "source_location": "L51",
-      "_origin": "ast",
-      "id": "docs_research_journal_12_primary_academic_citations",
-      "community": 56,
-      "community_name": "Research Journal Entry 12: Candidate Selection Mechanics, Delta Patching Formalization, ROME Dataset Integration, and Hardware Acceleration Benchmarking",
-      "norm_label": "primary academic citations:"
-    },
-    {
-      "label": "3. Empirical Hardware Speed Analysis",
-      "file_type": "document",
-      "source_file": "docs/Research_Journal/12.md",
-      "source_location": "L61",
-      "_origin": "ast",
-      "id": "docs_research_journal_12_3_empirical_hardware_speed_analysis",
-      "community": 56,
-      "community_name": "Research Journal Entry 12: Candidate Selection Mechanics, Delta Patching Formalization, ROME Dataset Integration, and Hardware Acceleration Benchmarking",
-      "norm_label": "3. empirical hardware speed analysis"
-    },
-    {
-      "label": "3.1 Speed & Resource Results",
-      "file_type": "document",
-      "source_file": "docs/Research_Journal/12.md",
-      "source_location": "L65",
-      "_origin": "ast",
-      "id": "docs_research_journal_12_3_1_speed_resource_results",
-      "community": 56,
-      "community_name": "Research Journal Entry 12: Candidate Selection Mechanics, Delta Patching Formalization, ROME Dataset Integration, and Hardware Acceleration Benchmarking",
-      "norm_label": "3.1 speed & resource results"
-    },
-    {
-      "label": "3.2 VRAM Footprint & Efficiency",
-      "file_type": "document",
-      "source_file": "docs/Research_Journal/12.md",
-      "source_location": "L74",
-      "_origin": "ast",
-      "id": "docs_research_journal_12_3_2_vram_footprint_efficiency",
-      "community": 56,
-      "community_name": "Research Journal Entry 12: Candidate Selection Mechanics, Delta Patching Formalization, ROME Dataset Integration, and Hardware Acceleration Benchmarking",
-      "norm_label": "3.2 vram footprint & efficiency"
-    },
-    {
-      "label": "4. UI & Tooling Enhancements",
-      "file_type": "document",
-      "source_file": "docs/Research_Journal/12.md",
-      "source_location": "L81",
-      "_origin": "ast",
-      "id": "docs_research_journal_12_4_ui_tooling_enhancements",
-      "community": 56,
-      "community_name": "Research Journal Entry 12: Candidate Selection Mechanics, Delta Patching Formalization, ROME Dataset Integration, and Hardware Acceleration Benchmarking",
-      "norm_label": "4. ui & tooling enhancements"
-    },
-    {
-      "label": "5. Summary & Next Steps",
-      "file_type": "document",
-      "source_file": "docs/Research_Journal/12.md",
-      "source_location": "L92",
-      "_origin": "ast",
-      "id": "docs_research_journal_12_5_summary_next_steps",
-      "community": 56,
-      "community_name": "Research Journal Entry 12: Candidate Selection Mechanics, Delta Patching Formalization, ROME Dataset Integration, and Hardware Acceleration Benchmarking",
-      "norm_label": "5. summary & next steps"
     },
     {
       "label": "9.md",
@@ -2936,17 +2683,6 @@
       "community": 8,
       "community_name": "Research Log: Investigating SAE-Based Activation Manipulation",
       "norm_label": "2026-08-05: multi-prompt dataset benchmark & research logging subsystem"
-    },
-    {
-      "label": "2026-08-09 / 2026-08-10: Hardware Acceleration, Safety Unpacking Fix, and ROME Dataset Integration",
-      "file_type": "document",
-      "source_file": "docs/notes.md",
-      "source_location": "L72",
-      "_origin": "ast",
-      "id": "docs_notes_2026_08_09_2026_08_10_hardware_acceleration_safety_unpacking_fix_and_rome_dataset_integration",
-      "community": 8,
-      "community_name": "Research Log: Investigating SAE-Based Activation Manipulation",
-      "norm_label": "2026-08-09 / 2026-08-10: hardware acceleration, safety unpacking fix, and rome dataset integration"
     },
     {
       "label": "research_log.md",
@@ -5900,7 +5636,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "layer_benchmark.py",
-      "source_location": "L24",
+      "source_location": "L23",
       "weight": 1.0,
       "_origin": "ast",
       "source": "layer_benchmark",
@@ -5911,7 +5647,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "layer_benchmark.py",
-      "source_location": "L33",
+      "source_location": "L32",
       "weight": 1.0,
       "_origin": "ast",
       "source": "layer_benchmark",
@@ -5922,7 +5658,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "layer_benchmark.py",
-      "source_location": "L29",
+      "source_location": "L28",
       "weight": 1.0,
       "_origin": "ast",
       "source": "layer_benchmark",
@@ -5933,7 +5669,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "layer_benchmark.py",
-      "source_location": "L40",
+      "source_location": "L39",
       "weight": 1.0,
       "_origin": "ast",
       "source": "layer_benchmark",
@@ -5945,7 +5681,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "layer_benchmark.py",
-      "source_location": "L13",
+      "source_location": "L12",
       "weight": 1.0,
       "_origin": "ast",
       "source": "layer_benchmark",
@@ -5957,7 +5693,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "layer_benchmark.py",
-      "source_location": "L13",
+      "source_location": "L12",
       "weight": 1.0,
       "_origin": "ast",
       "source": "layer_benchmark",
@@ -5969,7 +5705,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "layer_benchmark.py",
-      "source_location": "L12",
+      "source_location": "L11",
       "weight": 1.0,
       "_origin": "ast",
       "source": "layer_benchmark",
@@ -5981,7 +5717,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "layer_benchmark.py",
-      "source_location": "L12",
+      "source_location": "L11",
       "weight": 1.0,
       "_origin": "ast",
       "source": "layer_benchmark",
@@ -5993,7 +5729,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "layer_benchmark.py",
-      "source_location": "L12",
+      "source_location": "L11",
       "weight": 1.0,
       "_origin": "ast",
       "source": "layer_benchmark",
@@ -6005,7 +5741,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "layer_benchmark.py",
-      "source_location": "L12",
+      "source_location": "L11",
       "weight": 1.0,
       "_origin": "ast",
       "source": "layer_benchmark",
@@ -6027,7 +5763,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "layer_benchmark.py",
-      "source_location": "L23",
+      "source_location": "L22",
       "weight": 1.0,
       "context": "decorator",
       "_origin": "ast",
@@ -6039,7 +5775,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "layer_benchmark.py",
-      "source_location": "L28",
+      "source_location": "L27",
       "weight": 1.0,
       "context": "decorator",
       "_origin": "ast",
@@ -6053,7 +5789,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "layer_benchmark.py",
-      "source_location": "L26",
+      "source_location": "L25",
       "weight": 1.0,
       "_origin": "ast",
       "source": "layer_benchmark_get_cached_base_model",
@@ -6064,7 +5800,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "layer_benchmark.py",
-      "source_location": "L35",
+      "source_location": "L34",
       "weight": 1.0,
       "_origin": "ast",
       "source": "layer_benchmark_get_cached_model_and_sae",
@@ -6075,10 +5811,10 @@
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "layer_benchmark.py",
-      "source_location": "L25",
+      "source_location": "L24",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "layer_benchmark_rationale_25",
+      "source": "layer_benchmark_rationale_24",
       "target": "layer_benchmark_get_cached_base_model",
       "confidence_score": 1.0
     },
@@ -6087,7 +5823,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "layer_benchmark.py",
-      "source_location": "L36",
+      "source_location": "L35",
       "weight": 1.0,
       "_origin": "ast",
       "source": "layer_benchmark_get_cached_model_and_sae",
@@ -6100,7 +5836,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "layer_benchmark.py",
-      "source_location": "L31",
+      "source_location": "L30",
       "weight": 1.0,
       "_origin": "ast",
       "source": "layer_benchmark_get_cached_sae",
@@ -6110,33 +5846,33 @@
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "layer_benchmark.py",
-      "source_location": "L30",
+      "source_location": "L29",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "layer_benchmark_rationale_30",
+      "source": "layer_benchmark_rationale_29",
       "target": "layer_benchmark_get_cached_sae",
       "confidence_score": 1.0
     },
     {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
+      "relation": "indirect_call",
+      "context": "argument",
+      "confidence": "INFERRED",
       "source_file": "layer_benchmark.py",
-      "source_location": "L243",
+      "source_location": "L226",
       "weight": 1.0,
       "_origin": "ast",
       "source": "layer_benchmark_main",
       "target": "layer_benchmark_get_cached_model_and_sae",
-      "confidence_score": 1.0
+      "confidence_score": 0.5
     },
     {
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "layer_benchmark.py",
-      "source_location": "L34",
+      "source_location": "L33",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "layer_benchmark_rationale_34",
+      "source": "layer_benchmark_rationale_33",
       "target": "layer_benchmark_get_cached_model_and_sae",
       "confidence_score": 1.0
     },
@@ -6145,186 +5881,11 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "layer_benchmark.py",
-      "source_location": "L234",
+      "source_location": "L217",
       "weight": 1.0,
       "_origin": "ast",
       "source": "layer_benchmark_main",
       "target": "src_benchmark_layer_benchmark_runner_run_layer_benchmark",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "run_speed_analysis.py",
-      "source_location": "L39",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "run_speed_analysis",
-      "target": "run_speed_analysis_benchmark_device",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "run_speed_analysis.py",
-      "source_location": "L29",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "run_speed_analysis",
-      "target": "run_speed_analysis_get_cached_model_and_sae",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "run_speed_analysis.py",
-      "source_location": "L77",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "run_speed_analysis",
-      "target": "run_speed_analysis_main",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "run_speed_analysis.py",
-      "source_location": "L16",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "run_speed_analysis",
-      "target": "src_benchmark_layer_benchmark_runner",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "run_speed_analysis.py",
-      "source_location": "L16",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "run_speed_analysis",
-      "target": "src_benchmark_layer_benchmark_runner_run_layer_benchmark",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "run_speed_analysis.py",
-      "source_location": "L15",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "run_speed_analysis",
-      "target": "src_sae_utils",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "run_speed_analysis.py",
-      "source_location": "L15",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "run_speed_analysis",
-      "target": "src_sae_utils_load_base_model",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "run_speed_analysis.py",
-      "source_location": "L15",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "run_speed_analysis",
-      "target": "src_sae_utils_load_sae_for_layer",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "rationale_for",
-      "confidence": "EXTRACTED",
-      "source_file": "run_speed_analysis.py",
-      "source_location": "L1",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "run_speed_analysis_rationale_1",
-      "target": "run_speed_analysis",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "run_speed_analysis.py",
-      "source_location": "L58",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "run_speed_analysis_benchmark_device",
-      "target": "run_speed_analysis_get_cached_model_and_sae",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "run_speed_analysis.py",
-      "source_location": "L32",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "run_speed_analysis_get_cached_model_and_sae",
-      "target": "src_sae_utils_load_base_model",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "run_speed_analysis.py",
-      "source_location": "L36",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "run_speed_analysis_get_cached_model_and_sae",
-      "target": "src_sae_utils_load_sae_for_layer",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "rationale_for",
-      "confidence": "EXTRACTED",
-      "source_file": "run_speed_analysis.py",
-      "source_location": "L30",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "run_speed_analysis_rationale_30",
-      "target": "run_speed_analysis_get_cached_model_and_sae",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "run_speed_analysis.py",
-      "source_location": "L49",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "run_speed_analysis_benchmark_device",
-      "target": "src_benchmark_layer_benchmark_runner_run_layer_benchmark",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "run_speed_analysis.py",
-      "source_location": "L84",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "run_speed_analysis_main",
-      "target": "run_speed_analysis_benchmark_device",
       "confidence_score": 1.0
     },
     {
@@ -6439,7 +6000,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/benchmark/layer_benchmark_runner.py",
-      "source_location": "L28",
+      "source_location": "L26",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_benchmark_layer_benchmark_runner",
@@ -6551,18 +6112,6 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_benchmark_layer_benchmark_runner",
-      "target": "src_hooks_make_mute_and_boost_hook",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/benchmark/layer_benchmark_runner.py",
-      "source_location": "L21",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_benchmark_layer_benchmark_runner",
       "target": "src_hooks_make_signed_ablation_hook",
       "confidence_score": 1.0
     },
@@ -6605,10 +6154,10 @@
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "src/benchmark/layer_benchmark_runner.py",
-      "source_location": "L42",
+      "source_location": "L40",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "src_benchmark_layer_benchmark_runner_rationale_42",
+      "source": "src_benchmark_layer_benchmark_runner_rationale_40",
       "target": "src_benchmark_layer_benchmark_runner_run_layer_benchmark",
       "confidence_score": 1.0
     },
@@ -6617,7 +6166,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/benchmark/layer_benchmark_runner.py",
-      "source_location": "L154",
+      "source_location": "L152",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_benchmark_layer_benchmark_runner_run_layer_benchmark",
@@ -6629,7 +6178,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/benchmark/layer_benchmark_runner.py",
-      "source_location": "L143",
+      "source_location": "L141",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_benchmark_layer_benchmark_runner_run_layer_benchmark",
@@ -6641,7 +6190,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/benchmark/layer_benchmark_runner.py",
-      "source_location": "L95",
+      "source_location": "L93",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_benchmark_layer_benchmark_runner_run_layer_benchmark",
@@ -6653,7 +6202,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/benchmark/layer_benchmark_runner.py",
-      "source_location": "L128",
+      "source_location": "L126",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_benchmark_layer_benchmark_runner_run_layer_benchmark",
@@ -6665,7 +6214,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/benchmark/layer_benchmark_runner.py",
-      "source_location": "L129",
+      "source_location": "L127",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_benchmark_layer_benchmark_runner_run_layer_benchmark",
@@ -6677,11 +6226,11 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/benchmark/layer_benchmark_runner.py",
-      "source_location": "L173",
+      "source_location": "L170",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_benchmark_layer_benchmark_runner_run_layer_benchmark",
-      "target": "src_hooks_make_mute_and_boost_hook",
+      "target": "src_hooks_make_joint_ablation_hook",
       "confidence_score": 1.0
     },
     {
@@ -6689,7 +6238,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/benchmark/layer_benchmark_runner.py",
-      "source_location": "L92",
+      "source_location": "L90",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_benchmark_layer_benchmark_runner_run_layer_benchmark",
@@ -6921,18 +6470,6 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "test",
-      "target": "src_editing",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "test_gpu_benchmark.py",
-      "source_location": "L15",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "test_gpu_benchmark",
       "target": "src_editing",
       "confidence_score": 1.0
     },
@@ -7204,30 +6741,6 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "test",
-      "target": "src_editing_get_top_competitor_features",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "test_gpu_benchmark.py",
-      "source_location": "L15",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "test_gpu_benchmark",
-      "target": "src_editing_get_top_competitor_features",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "test_gpu_benchmark.py",
-      "source_location": "L63",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "test_gpu_benchmark_run_verification",
       "target": "src_editing_get_top_competitor_features",
       "confidence_score": 1.0
     },
@@ -8969,18 +8482,6 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "test_gpu_benchmark.py",
-      "source_location": "L14",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "test_gpu_benchmark",
-      "target": "src_sae_utils",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
       "source_file": "tests/test_monosemanticity.py",
       "source_location": "L8",
       "weight": 1.0,
@@ -9037,30 +8538,6 @@
       "confidence_score": 1.0
     },
     {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "test_gpu_benchmark.py",
-      "source_location": "L14",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "test_gpu_benchmark",
-      "target": "src_sae_utils_get_default_device",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "test_gpu_benchmark.py",
-      "source_location": "L23",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "test_gpu_benchmark_run_verification",
-      "target": "src_sae_utils_get_default_device",
-      "confidence_score": 1.0
-    },
-    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
@@ -9084,30 +8561,6 @@
       "confidence_score": 1.0
     },
     {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "test_gpu_benchmark.py",
-      "source_location": "L14",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "test_gpu_benchmark",
-      "target": "src_sae_utils_load_base_model",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "test_gpu_benchmark.py",
-      "source_location": "L35",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "test_gpu_benchmark_run_verification",
-      "target": "src_sae_utils_load_base_model",
-      "confidence_score": 1.0
-    },
-    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
@@ -9127,30 +8580,6 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_sae_utils_rationale_48",
-      "target": "src_sae_utils_load_sae_for_layer",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "test_gpu_benchmark.py",
-      "source_location": "L14",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "test_gpu_benchmark",
-      "target": "src_sae_utils_load_sae_for_layer",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "test_gpu_benchmark.py",
-      "source_location": "L44",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "test_gpu_benchmark_run_verification",
       "target": "src_sae_utils_load_sae_for_layer",
       "confidence_score": 1.0
     },
@@ -9325,28 +8754,6 @@
       "_origin": "ast",
       "source": "test_rationale_150",
       "target": "test_run_boost_trace",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "test_gpu_benchmark.py",
-      "source_location": "L17",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "test_gpu_benchmark",
-      "target": "test_gpu_benchmark_run_verification",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "rationale_for",
-      "confidence": "EXTRACTED",
-      "source_file": "test_gpu_benchmark.py",
-      "source_location": "L1",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "test_gpu_benchmark_rationale_1",
-      "target": "test_gpu_benchmark",
       "confidence_score": 1.0
     },
     {
@@ -9756,17 +9163,6 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "History/Session_LayerBenchmark_History.md",
-      "source_location": "L59",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "history_session_layerbenchmark_history_session_history_layer_intervention_benchmark_subsystem",
-      "target": "history_session_layerbenchmark_history_6_hardware_acceleration_unpacking_bug_fixes_rome_dataset_integration",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "History/Session_LayerBenchmark_History.md",
       "source_location": "L14",
       "weight": 1.0,
       "_origin": "ast",
@@ -9827,17 +9223,6 @@
       "_origin": "ast",
       "source": "history_session_layerbenchmark_history_3_multi_prompt_dataset_extension",
       "target": "history_session_layerbenchmark_history_user_request_36",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "History/Session_LayerBenchmark_History.md",
-      "source_location": "L61",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "history_session_layerbenchmark_history_6_hardware_acceleration_unpacking_bug_fixes_rome_dataset_integration",
-      "target": "history_session_layerbenchmark_history_execution_findings_61",
       "confidence_score": 1.0
     },
     {
@@ -10036,127 +9421,6 @@
       "_origin": "ast",
       "source": "docs_research_journal_11_3_empirical_verification_performance_breakdown",
       "target": "docs_research_journal_11_3_2_profiling_breakdown_layer_8_baseline",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/Research_Journal/12.md",
-      "source_location": "L1",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_research_journal_12",
-      "target": "docs_research_journal_12_research_journal_entry_12_candidate_selection_mechanics_delta_patching_formalization_rome_dataset_integration_and_hardware_acceleration_benchmarking",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/Research_Journal/12.md",
-      "source_location": "L9",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_research_journal_12_research_journal_entry_12_candidate_selection_mechanics_delta_patching_formalization_rome_dataset_integration_and_hardware_acceleration_benchmarking",
-      "target": "docs_research_journal_12_1_objective",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/Research_Journal/12.md",
-      "source_location": "L20",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_research_journal_12_research_journal_entry_12_candidate_selection_mechanics_delta_patching_formalization_rome_dataset_integration_and_hardware_acceleration_benchmarking",
-      "target": "docs_research_journal_12_2_theoretical_algorithmic_foundations",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/Research_Journal/12.md",
-      "source_location": "L61",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_research_journal_12_research_journal_entry_12_candidate_selection_mechanics_delta_patching_formalization_rome_dataset_integration_and_hardware_acceleration_benchmarking",
-      "target": "docs_research_journal_12_3_empirical_hardware_speed_analysis",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/Research_Journal/12.md",
-      "source_location": "L81",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_research_journal_12_research_journal_entry_12_candidate_selection_mechanics_delta_patching_formalization_rome_dataset_integration_and_hardware_acceleration_benchmarking",
-      "target": "docs_research_journal_12_4_ui_tooling_enhancements",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/Research_Journal/12.md",
-      "source_location": "L92",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_research_journal_12_research_journal_entry_12_candidate_selection_mechanics_delta_patching_formalization_rome_dataset_integration_and_hardware_acceleration_benchmarking",
-      "target": "docs_research_journal_12_5_summary_next_steps",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/Research_Journal/12.md",
-      "source_location": "L22",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_research_journal_12_2_theoretical_algorithmic_foundations",
-      "target": "docs_research_journal_12_2_1_two_stage_candidate_selection_mechanics",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/Research_Journal/12.md",
-      "source_location": "L43",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_research_journal_12_2_theoretical_algorithmic_foundations",
-      "target": "docs_research_journal_12_2_2_delta_patching_formulation_literature_lineage",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/Research_Journal/12.md",
-      "source_location": "L51",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_research_journal_12_2_2_delta_patching_formulation_literature_lineage",
-      "target": "docs_research_journal_12_primary_academic_citations",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/Research_Journal/12.md",
-      "source_location": "L65",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_research_journal_12_3_empirical_hardware_speed_analysis",
-      "target": "docs_research_journal_12_3_1_speed_resource_results",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/Research_Journal/12.md",
-      "source_location": "L74",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_research_journal_12_3_empirical_hardware_speed_analysis",
-      "target": "docs_research_journal_12_3_2_vram_footprint_efficiency",
       "confidence_score": 1.0
     },
     {
@@ -10399,17 +9663,6 @@
       "_origin": "ast",
       "source": "docs_notes_research_log_investigating_sae_based_activation_manipulation",
       "target": "docs_notes_2026_08_05_multi_prompt_dataset_benchmark_research_logging_subsystem",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/notes.md",
-      "source_location": "L72",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_notes_research_log_investigating_sae_based_activation_manipulation",
-      "target": "docs_notes_2026_08_09_2026_08_10_hardware_acceleration_safety_unpacking_fix_and_rome_dataset_integration",
       "confidence_score": 1.0
     },
     {
