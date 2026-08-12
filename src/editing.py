@@ -194,24 +194,26 @@ def get_top_target_features(
     return results
 
 def check_target_safe(
-    model, sae, prompt: str, feature_id: int, target_token_id: int, strength: float = 0.3
+    model, sae, prompt: str, feature_id: int, target_token_id: int, strength: float = 0.3,
+    clean_target_prob: float = None, clean_rank: int = None
 ) -> tuple[bool, float]:
     """
     Temporarily applies ONLY this one feature's ablation (using make_ablation_hook),
     measures the resulting change in the TARGET token's probability, and returns
     (is_safe, target_prob_delta) where is_safe = True if target_prob_delta >= 0 (target wasn't hurt).
-    Resets hooks after measurement.
+    Resets hooks after measurement. Accepts optional precomputed clean_target_prob and clean_rank.
     """
     tokens = model.to_tokens(prompt)
     hook_name = getattr(sae.cfg, "hook_name", HOOK_NAME)
     
-    # Baseline target prob under current model state
-    with torch.no_grad():
-        clean_logits = model(tokens)
-        clean_probs = F.softmax(clean_logits[0, -1, :], dim=-1)
-        clean_target_prob = clean_probs[target_token_id].item()
-        clean_sorted_indices = torch.argsort(clean_probs, descending=True)
-        clean_rank = (clean_sorted_indices == target_token_id).nonzero().item() + 1
+    # Baseline target prob under current model state (recomputed only if not precomputed)
+    if clean_target_prob is None or clean_rank is None:
+        with torch.no_grad():
+            clean_logits = model(tokens)
+            clean_probs = F.softmax(clean_logits[0, -1, :], dim=-1)
+            clean_target_prob = clean_probs[target_token_id].item()
+            clean_sorted_indices = torch.argsort(clean_probs, descending=True)
+            clean_rank = (clean_sorted_indices == target_token_id).nonzero().item() + 1
         
     hook_fn = make_ablation_hook(feature_id, sae, strength=strength)
     
@@ -232,24 +234,26 @@ def check_target_safe(
     return is_safe, target_prob_delta
 
 def check_boost_safe(
-    model, sae, prompt: str, feature_id: int, target_token_id: int, strength: float = 0.5
+    model, sae, prompt: str, feature_id: int, target_token_id: int, strength: float = 0.5,
+    clean_target_prob: float = None, clean_rank: int = None
 ) -> tuple[bool, float, int]:
     """
     Temporarily applies ONLY this one feature's boost (using make_signed_ablation_hook with +strength),
     measures the resulting change in the TARGET token's probability and rank, and returns
     (is_safe, target_prob_delta, rank_improvement) where is_safe = True if target rank improves or stays same,
-    and target probability does not decrease.
+    and target probability does not decrease. Accepts optional precomputed clean_target_prob and clean_rank.
     """
     from src.hooks import make_signed_ablation_hook
     tokens = model.to_tokens(prompt)
     hook_name = getattr(sae.cfg, "hook_name", HOOK_NAME)
     
-    with torch.no_grad():
-        clean_logits = model(tokens)
-        clean_probs = F.softmax(clean_logits[0, -1, :], dim=-1)
-        clean_target_prob = clean_probs[target_token_id].item()
-        clean_sorted_indices = torch.argsort(clean_probs, descending=True)
-        clean_rank = (clean_sorted_indices == target_token_id).nonzero().item() + 1
+    if clean_target_prob is None or clean_rank is None:
+        with torch.no_grad():
+            clean_logits = model(tokens)
+            clean_probs = F.softmax(clean_logits[0, -1, :], dim=-1)
+            clean_target_prob = clean_probs[target_token_id].item()
+            clean_sorted_indices = torch.argsort(clean_probs, descending=True)
+            clean_rank = (clean_sorted_indices == target_token_id).nonzero().item() + 1
         
     hook_fn = make_signed_ablation_hook([feature_id], sae, strength=+strength)
     

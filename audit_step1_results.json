@@ -1,0 +1,98 @@
+{
+  "wall_clock_ms": 13055.507400000351,
+  "total_forward_passes": 248,
+  "category_counts": {
+    "Clean baseline": 244,
+    "Feature Activation / Candidate Discovery": 4,
+    "Competitor Causal Ranking (Internal Clean Pass)": 0,
+    "Competitor Causal Feature Ranking": 0,
+    "Target Causal Ranking (Internal Clean Pass)": 0,
+    "Target Causal Feature Ranking": 0,
+    "Competitor Safety Filtering (Internal Clean Pass)": 0,
+    "Competitor Safety Filtering": 0,
+    "Target Safety Filtering (Internal Clean Pass)": 0,
+    "Target Safety Filtering": 0,
+    "Final Intervention Pass": 0,
+    "Other": 0
+  },
+  "category_runtimes_ms": {
+    "Clean baseline": 8056.678300054045,
+    "Feature Activation / Candidate Discovery": 312.0058999993489,
+    "Competitor Causal Ranking (Internal Clean Pass)": 0.0,
+    "Competitor Causal Feature Ranking": 0.0,
+    "Target Causal Ranking (Internal Clean Pass)": 0.0,
+    "Target Causal Feature Ranking": 0.0,
+    "Competitor Safety Filtering (Internal Clean Pass)": 0.0,
+    "Competitor Safety Filtering": 0.0,
+    "Target Safety Filtering (Internal Clean Pass)": 0.0,
+    "Target Safety Filtering": 0.0,
+    "Final Intervention Pass": 0.0,
+    "Other": 0.0
+  },
+  "benchmark_output": {
+    "benchmark_name": "Layer Intervention Benchmark",
+    "benchmark_version": "0.3",
+    "timestamp": "2026-08-12T08:43:42.788964Z",
+    "model": "gpt2",
+    "algorithm": "Hybrid Mute & Boost",
+    "sae_release": "gpt2-small-res-jb",
+    "hook_location": "hook_resid_pre",
+    "safety_enabled": true,
+    "use_safety": true,
+    "selected_layers": [
+      8
+    ],
+    "parameters": {
+      "mute_strength": 0.3,
+      "boost_strength": 0.5,
+      "mute_batch_size": 3,
+      "boost_batch_size": 3,
+      "use_safety": true,
+      "algorithm": "hybrid"
+    },
+    "total_prompts": 1,
+    "prompts": [
+      {
+        "prompt": "The location of Massachusetts Institute of Technology is in",
+        "target": "Cambridge",
+        "layers": [
+          {
+            "layer": 8,
+            "hook": "blocks.8.hook_resid_pre",
+            "release": "gpt2-small-res-jb",
+            "clean_rank": 8,
+            "final_rank": 3,
+            "rank_improvement": 5,
+            "clean_probability": 0.011525173671543598,
+            "final_probability": 0.035292964428663254,
+            "probability_gain": 0.023767790757119656,
+            "runtime_ms": 13052.023600001121,
+            "profile": {
+              "sae_loading_ms": 8441.853399999673,
+              "clean_baseline_ms": 272.0312000019476,
+              "feature_selection_ms": 2325.3542999955243,
+              "safety_filtering_ms": 1973.2762999992701,
+              "intervention_ms": 34.18460000102641,
+              "result_packaging_ms": 0.0010000003385357559,
+              "total_layer_ms": 13052.023600001121
+            },
+            "success": true,
+            "top_prediction_before": " the",
+            "top_prediction_after": " the",
+            "mute_features": [
+              8459,
+              21169,
+              14430
+            ],
+            "boost_features": [
+              3076,
+              19288,
+              8239
+            ]
+          }
+        ]
+      }
+    ],
+    "saved_filepath": "benchmark_results_audit\\layer_benchmark_20260812_084342_788964.json"
+  }
+}

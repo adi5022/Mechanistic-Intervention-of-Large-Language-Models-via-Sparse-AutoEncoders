@@ -140,7 +140,10 @@ def run_layer_benchmark(
                 comp_ids = []
                 for fid, _ in competitor_features:
                     if use_safety:
-                        is_safe, _ = check_target_safe(model, sae, prompt_text, fid, target_token_id, strength=mute_strength)
+                        is_safe, _ = check_target_safe(
+                            model, sae, prompt_text, fid, target_token_id, strength=mute_strength,
+                            clean_target_prob=clean_probability, clean_rank=clean_rank
+                        )
                         if is_safe:
                             comp_ids.append(fid)
                     else:
@@ -151,7 +154,10 @@ def run_layer_benchmark(
                 target_ids = []
                 for fid, _ in target_features:
                     if use_safety:
-                        is_safe, _, _ = check_boost_safe(model, sae, prompt_text, fid, target_token_id, strength=boost_strength)
+                        is_safe, _, _ = check_boost_safe(
+                            model, sae, prompt_text, fid, target_token_id, strength=boost_strength,
+                            clean_target_prob=clean_probability, clean_rank=clean_rank
+                        )
                         if is_safe:
                             target_ids.append(fid)
                     else:

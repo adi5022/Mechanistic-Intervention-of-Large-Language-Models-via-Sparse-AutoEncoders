@@ -1,0 +1,15 @@
+{
+  "reference_total": 217,
+  "optimized_total": 187,
+  "reference_breakdown": {
+    "Stage 2: Clean Baseline (layer_benchmark_runner)": 123,
+    "Stage 3: Candidate Discovery (run_with_cache)": 4,
+    "Stage 6: Competitor Safety Filtering (Redundant Clean Baseline)": 30,
+    "Stage 6: Competitor Safety Filtering (Ablation Passes)": 60
+  },
+  "optimized_breakdown": {
+    "Stage 2: Clean Baseline (layer_benchmark_runner)": 123,
+    "Stage 3: Candidate Discovery (run_with_cache)": 4,
+    "Stage 6: Competitor Safety Filtering (Ablation Passes)": 60
+  }
+}

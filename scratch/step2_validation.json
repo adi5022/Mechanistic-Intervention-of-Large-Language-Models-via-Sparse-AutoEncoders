@@ -1,0 +1,48 @@
+{
+  "clean_probability": [
+    0.011525173671543598,
+    0.011525173671543598
+  ],
+  "clean_rank": [
+    8,
+    8
+  ],
+  "competitor_safety_decisions_match": true,
+  "target_safety_decisions_match": true,
+  "mute_batch": [
+    [
+      8459,
+      21169,
+      14430
+    ],
+    [
+      8459,
+      21169,
+      14430
+    ]
+  ],
+  "boost_batch": [
+    [
+      3076,
+      19288,
+      8239
+    ],
+    [
+      3076,
+      19288,
+      8239
+    ]
+  ],
+  "final_probability": [
+    0.035292964428663254,
+    0.035292964428663254
+  ],
+  "final_rank": [
+    3,
+    3
+  ],
+  "ref_safety_forwards": 180,
+  "opt_safety_forwards": 120,
+  "ref_safety_ms": 3862.644300003012,
+  "opt_safety_ms": 1953.0532999997376
+}

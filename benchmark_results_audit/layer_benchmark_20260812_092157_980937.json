@@ -1,0 +1,58 @@
+{
+    "benchmark_name": "Layer Intervention Benchmark",
+    "benchmark_version": "0.3",
+    "timestamp": "2026-08-12T09:21:57.980937Z",
+    "model": "gpt2",
+    "algorithm": "Hybrid Mute & Boost",
+    "sae_release": "gpt2-small-res-jb",
+    "hook_location": "hook_resid_pre",
+    "safety_enabled": true,
+    "use_safety": true,
+    "selected_layers": [
+        8
+    ],
+    "parameters": {
+        "mute_strength": 0.3,
+        "boost_strength": 0.5,
+        "mute_batch_size": 3,
+        "boost_batch_size": 3,
+        "use_safety": true,
+        "algorithm": "hybrid"
+    },
+    "total_prompts": 1,
+    "prompts": [
+        {
+            "prompt": "The location of Massachusetts Institute of Technology is in",
+            "target": "Cambridge",
+            "layers": [
+                {
+                    "layer": 8,
+                    "hook": "blocks.8.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": -1,
+                    "final_rank": -1,
+                    "rank_improvement": 0,
+                    "clean_probability": 0.0,
+                    "final_probability": 0.0,
+                    "probability_gain": 0.0,
+                    "runtime_ms": 12257.585500003188,
+                    "profile": {
+                        "sae_loading_ms": 0.0,
+                        "clean_baseline_ms": 0.0,
+                        "feature_selection_ms": 0.0,
+                        "safety_filtering_ms": 0.0,
+                        "intervention_ms": 0.0,
+                        "result_packaging_ms": 0.0,
+                        "total_layer_ms": 12257.585500003188
+                    },
+                    "success": false,
+                    "top_prediction_before": "ERROR",
+                    "top_prediction_after": "ERROR",
+                    "mute_features": [],
+                    "boost_features": [],
+                    "error": "name 'HOOK_NAME' is not defined"
+                }
+            ]
+        }
+    ]
+}
