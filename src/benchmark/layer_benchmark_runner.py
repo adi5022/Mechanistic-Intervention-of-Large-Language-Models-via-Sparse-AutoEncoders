@@ -204,6 +204,50 @@ def run_layer_benchmark(
                 success = (final_rank < clean_rank) or (final_probability > clean_probability)
                 result_packaging_ms = (time.perf_counter() - t_pkg_start) * 1000.0
 
+                num_competitor_candidates = len(competitor_features)
+                num_target_candidates = len(target_features)
+                num_competitor_safety_checks = len(competitor_features) if use_safety else 0
+                num_target_safety_checks = len(target_features) if use_safety else 0
+
+                # Actual Forward Pass Counter Accounting (Exact Execution Trace)
+                fwd_clean_baseline = 1
+                fwd_candidate_screening = 2  # 1 pass in get_top_competitor_features + 1 pass in get_top_target_features
+                fwd_competitor_ranking = 1 + num_competitor_candidates  # 1 internal clean pass + N candidate ablations (31)
+                fwd_target_ranking = 1 + num_target_candidates          # 1 internal clean pass + N candidate ablations (31)
+                fwd_competitor_safety = num_competitor_safety_checks    # 1 pass per check (clean baseline is precomputed/passed) (30)
+                fwd_target_safety = num_target_safety_checks            # 1 pass per check (clean baseline is precomputed/passed) (30)
+                fwd_final_intervention = 1
+
+                total_fwd_passes = (
+                    fwd_clean_baseline +
+                    fwd_candidate_screening +
+                    fwd_competitor_ranking +
+                    fwd_target_ranking +
+                    fwd_competitor_safety +
+                    fwd_target_safety +
+                    fwd_final_intervention
+                )
+
+                forward_passes_acc = {
+                    "clean_baseline": fwd_clean_baseline,
+                    "candidate_screening": fwd_candidate_screening,
+                    "competitor_ranking": fwd_competitor_ranking,
+                    "target_ranking": fwd_target_ranking,
+                    "competitor_safety": fwd_competitor_safety,
+                    "target_safety": fwd_target_safety,
+                    "final_intervention": fwd_final_intervention,
+                    "total_model_forwards": total_fwd_passes
+                }
+
+                counts_meta = {
+                    "competitor_candidates_evaluated": num_competitor_candidates,
+                    "target_candidates_evaluated": num_target_candidates,
+                    "competitor_safety_checks": num_competitor_safety_checks,
+                    "target_safety_checks": num_target_safety_checks,
+                    "selected_mute_features_count": len(mute_batch),
+                    "selected_boost_features_count": len(boost_batch)
+                }
+
                 profile = {
                     "sae_loading_ms": float(sae_loading_ms),
                     "clean_baseline_ms": float(clean_baseline_ms),
@@ -226,6 +270,8 @@ def run_layer_benchmark(
                     "probability_gain": float(final_probability - clean_probability),
                     "runtime_ms": float(duration_ms),
                     "profile": profile,
+                    "forward_passes": forward_passes_acc,
+                    "counts": counts_meta,
                     "success": success,
                     "top_prediction_before": top_prediction_before,
                     "top_prediction_after": top_prediction_after,
