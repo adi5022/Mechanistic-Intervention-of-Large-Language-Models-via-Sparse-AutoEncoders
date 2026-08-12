@@ -76,6 +76,14 @@
 * Added hardware compute device indicator (`⚡ GPU` / `💻 CPU`) to Streamlit sidebar and header metadata in `layer_benchmark.py`.
 * Created [Research Journal Entry 12](file:///d:/Work/PROJECTS/FeatureScalpel/docs/Research_Journal/12.md) documenting hardware speed analysis and delta patching formalization.
 
+## 2026-08-12: Empirical Execution Cost Audit, Step 2 Optimization, and UI Observability
+* Conducted **Step 1 Execution Cost Audit** on Layer 8 (`gpt2-small-res-jb`) identifying 186 model forward passes on GPU.
+* Implemented **Step 2 Safety Filter Optimization**, passing precomputed clean baseline probabilities into `check_target_safe()` and `check_boost_safe()` in `src/editing.py`.
+* Removed **60 redundant GPU forward passes**, reducing safety check passes from 120 down to 60 (achieving a **1.98× safety filtering speedup**).
+* Verified 100% mathematical and scientific equivalence across all target probabilities, ranks, and safety decisions.
+* Enhanced `layer_benchmark.py` with live **Execution Cost / Forward-Pass Accounting** expander and **Stage vs Time Breakdown** table.
+* Created [Research Journal Entry 13](file:///d:/Projects/transient_steering/docs/Research_Journal/13.md) documenting the complete audit and optimization results.
+
 
 
 
