@@ -36,18 +36,18 @@ def make_ablation_hook(feature_id: int, sae, strength: float):
     """
     def hook_fn(resid, hook):
         # resid shape: [batch, seq_len, d_model]
-        # Encode activations into SAE sparse feature space
+        # Encode activations into SAE sparse feature space ONCE
         feature_acts = sae.encode(resid)
-        original_val = feature_acts[..., feature_id].clone()
+        baseline_reconstructed = sae.decode(feature_acts)
         
-        # Apply ablation (scaling down by strength)
-        feature_acts[..., feature_id] = original_val * (1.0 - strength)
+        # Clone and apply ablation (scaling down by strength)
+        modified_acts = feature_acts.clone()
+        modified_acts[..., feature_id] = modified_acts[..., feature_id] * (1.0 - strength)
         
         # Decode back to residual stream space
-        reconstructed = sae.decode(feature_acts)
+        reconstructed = sae.decode(modified_acts)
         
         # Calculate delta (difference between ablated and baseline reconstructions)
-        baseline_reconstructed = sae.decode(sae.encode(resid))
         delta = reconstructed - baseline_reconstructed
         
         return resid + delta
@@ -105,6 +105,41 @@ def make_signed_ablation_hook(feature_ids: list[int], sae, strength: float):
         delta = reconstructed - baseline_reconstructed
         return resid + delta
         
+    return hook_fn
+
+def make_per_row_scale_hook(feature_ids: list[int], sae, scale: float):
+    """
+    Batched counterpart of make_ablation_hook / make_signed_ablation_hook.
+
+    resid arrives as [B, S, d_model] where B == len(feature_ids) — the prompt
+    has been repeated B times along the batch dimension. Row i gets ONLY
+    feature feature_ids[i] scaled by `scale`, at every sequence position
+    (matching the existing single-item hooks' behavior of scaling the feature
+    at all positions, not just the last).
+
+    scale = 0.0    -> full ablation       (equivalent to make_ablation_hook strength=1.0)
+    scale = 1 - s  -> mute at strength s  (equivalent to make_ablation_hook strength=s)
+    scale = 1 + s  -> boost at strength s (equivalent to make_signed_ablation_hook +s)
+
+    Delta-patching semantics are preserved exactly:
+        delta = decode(modified_acts) - decode(clean_acts)
+        return resid + delta
+    """
+    def hook_fn(resid, hook):
+        B = resid.shape[0]
+        assert B == len(feature_ids), (
+            f"batch size {B} != len(feature_ids) {len(feature_ids)}"
+        )
+        feature_acts = sae.encode(resid)            # [B, S, n_features]
+        baseline_reconstructed = sae.decode(feature_acts)
+        modified = feature_acts.clone()
+
+        row_idx = torch.arange(B, device=resid.device)
+        feat_idx = torch.as_tensor(feature_ids, device=resid.device)
+        modified[row_idx, :, feat_idx] = modified[row_idx, :, feat_idx] * scale
+
+        return resid + (sae.decode(modified) - baseline_reconstructed)
+
     return hook_fn
 
 

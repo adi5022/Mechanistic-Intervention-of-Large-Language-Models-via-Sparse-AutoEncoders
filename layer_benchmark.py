@@ -224,11 +224,11 @@ def main():
 
         # Detailed Stage Progress Callback
         def layer_callback(p_idx, total_p, l_idx, total_l, current_layer, prompt_text, current_stage_text):
-            frac = ((p_idx - 1) + (l_idx / total_l)) / total_p
-            progress_bar.progress(min(frac, 1.0))
+            frac = ((l_idx - 1) + (p_idx / total_p)) / total_l
+            progress_bar.progress(min(max(frac, 0.0), 1.0))
             status_box.markdown(
-                f"⏳ **Prompt {p_idx} / {total_p}** (`{prompt_text[:30]}...`) | "
-                f"**Layer {current_layer}** ({l_idx} / {total_l}) | **Stage:** `{current_stage_text}`"
+                f"⏳ **Layer {current_layer}** ({l_idx} / {total_l}) | "
+                f"**Prompt {p_idx} / {total_p}** (`{prompt_text[:30]}...`) | **Stage:** `{current_stage_text}`"
             )
 
         benchmark_output = run_layer_benchmark(

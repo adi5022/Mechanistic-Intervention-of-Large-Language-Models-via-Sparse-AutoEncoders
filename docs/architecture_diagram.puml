@@ -1,0 +1,142 @@
+@startuml Transient_Activation_Steering_Architecture
+!theme plain
+skinparam backgroundColor #FFFFFF
+skinparam componentStyle rectangle
+skinparam wrapWidth 200
+skinparam defaultTextAlignment center
+skinparam component {
+  BackgroundColor #F4F6FF
+  BorderColor #4A5AC8
+  ArrowColor #333333
+}
+skinparam package {
+  BackgroundColor #FBFBFB
+  BorderColor #999999
+}
+skinparam note {
+  BackgroundColor #FFF8DC
+  BorderColor #C8A64A
+}
+
+title Transient Activation Steering — Full Project Architecture\n(core mechanism + benchmarking/optimization harness)
+
+package "1. Data Layer" {
+  [Fact Bank\n(src/fact_bank.py)\nROME known_1000-sourced\n(prompt, target) pairs] as FactBank
+  [User-Supplied Prompt/Target\n(single or batch JSON dataset)] as UserPrompt
+}
+
+package "2. Model + Diagnostic Instrument" {
+  [GPT-2-small\n(TransformerLens HookedTransformer)\nsrc/sae_utils.py :: load_base_model] as GPT2
+  [Pretrained SAE per layer\n(SAELens, "gpt2-small-res-jb")\nsrc/sae_utils.py :: load_sae_for_layer] as SAE
+  note bottom of SAE
+    Diagnostic instrument only —
+    tells us WHICH direction in the
+    residual stream = a concept.
+    It is never the edit target.
+  end note
+}
+
+package "3. Core Steering Engine (src/editing.py + src/hooks.py)" {
+
+  [Step A — Eligibility Scan\nsrc/evaluation.py :: classify_fact\nalready_correct / suppressed / absent] as Eligibility
+
+  [Step B — Clean Baseline Pass\ncapture residual stream at\nhook_resid_pre, layer L] as CleanPass
+
+  [Step C — SAE Encode\nresidual activation -> sparse\nfeature space (features = ReLU(W_enc·a+b))] as Encode
+
+  [Step D — Causal Feature Selector\nget_top_active_features\nget_top_competitor_features\nget_top_target_features\nrun_causal_selector\n(ablate each candidate, measure Δ prob)] as Selector
+
+  [Step E — Safety Filtering\ncheck_target_safe\ncheck_boost_safe\ncheck_combination_safe\n(reject candidates that harm the target)] as Safety
+
+  [Step F — Residual Stream Edit (the actual intervention)\nsrc/hooks.py\nmake_ablation_hook / make_joint_ablation_hook\nmake_signed_ablation_hook\nmake_mute_and_boost_hook\nmake_weighted_ablation_hook\n\nnew_resid = resid ∓ (activation × W_dec[feature])] as Hook
+
+  [Step G — Multi-Competitor Reduction (advanced)\nrun_weighted_multi_competitor_reduction\nrun_weighted_multi_feature_competitor_reduction\n(distributes mute strength across many\ncompeting-token driver features)] as MultiCompetitor
+
+  Eligibility --> CleanPass
+  CleanPass --> Encode
+  Encode --> Selector
+  Selector --> Safety
+  Safety --> Hook
+  Selector --> MultiCompetitor
+  MultiCompetitor --> Hook
+}
+
+[Step H — Resume Forward Pass\nremaining layers L+1..final compute\nnormally on the edited residual value] as Resume
+
+[Step I — Corrected Output\ncorrected logits / rank / probability gain\nNothing persisted — weights untouched,\nnext prompt starts fresh] as Output
+
+package "4. Interpretability / Explainability Layer" {
+  [Monosemanticity Diagnostics\nsrc/monosemanticity.py\nmax-activating examples, sparsity stats,\nfeature similarity, interpretability scoring] as Mono
+  [XAI Guidance Cards\nsrc/explain.py\n6-part educational explanation cards] as Explain
+  [Neuronpedia Lookup\n(feature -> human-readable description)] as Neuronpedia
+}
+
+package "5. Applications (UI layer, all built on the Core Engine)" {
+  [app.py\nFeatureScalpel MVP\nsingle-fact demo:\neligibility scan -> causal selector -> manual slider] as AppMVP
+  [experiment_app.py\nExperimentation & Benchmarking Bench\nfull feature set: weighted multi-competitor\nreduction, monosemanticity, XAI cards] as AppExperiment
+  [layer_benchmark.py\n+ src/benchmark/layer_benchmark_runner.py\nLayer Intervention Benchmark\n(OPTIMIZATION / CHARACTERIZATION HARNESS)] as AppBenchmark
+}
+
+package "6. Benchmark Artifacts (optimization output only)" {
+  [benchmark_results/*.json\nper-layer rank/probability deltas,\nforward-pass counts, stage timing profile] as Artifacts
+}
+
+package "7. Comparative Baselines (what the project measures itself against)" {
+  [RAG — external text, no internal edit] as RAG
+  [Fine-tuning — permanent weight change] as FT
+  [Prompting — hope, no guarantee] as Prompt
+  [ROME / MEMIT — permanent rank-one weight edit] as ROME
+  [Mean-difference Activation Steering\n(cheap baseline, no SAE)] as MeanDiff
+}
+
+FactBank --> Eligibility
+UserPrompt --> Eligibility
+GPT2 --> CleanPass
+GPT2 --> Resume
+SAE --> Encode
+SAE --> Hook
+
+Hook --> Resume
+Resume --> Output
+
+Selector ..> Mono : feature stats feed
+Selector ..> Explain : trigger XAI cards
+Explain ..> Neuronpedia : optional lookup
+
+AppMVP --> Eligibility
+AppMVP --> Selector
+AppMVP --> Hook
+
+AppExperiment --> Selector
+AppExperiment --> Safety
+AppExperiment --> MultiCompetitor
+AppExperiment --> Mono
+AppExperiment --> Explain
+
+AppBenchmark --> CleanPass
+AppBenchmark --> Selector
+AppBenchmark --> Safety
+AppBenchmark --> Hook
+AppBenchmark --> Output
+AppBenchmark --> Artifacts
+
+note right of AppBenchmark
+  layer_benchmark.py is NOT the core idea.
+  It sweeps the same Core Steering Engine
+  (Steps A-I) across transformer layer depth
+  and prompt datasets purely to characterize
+  and optimize intervention effectiveness /
+  runtime cost — the research contribution
+  itself lives in packages 2, 3 and 4.
+end note
+
+Output -[hidden]-> RAG
+note "Novelty claim: controlled, apples-to-apples\ncomparison of Ours vs RAG vs Fine-tuning vs\nPrompting vs ROME/MEMIT vs Mean-diff steering\non the same model, same facts, same metrics." as N1
+RAG .. N1
+FT .. N1
+Prompt .. N1
+ROME .. N1
+MeanDiff .. N1
+Output ..> N1 : compared against
+
+@enduml

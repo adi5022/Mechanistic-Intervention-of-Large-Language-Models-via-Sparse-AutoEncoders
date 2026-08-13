@@ -16,7 +16,11 @@ from src.editing import (
     get_top_competitor_features,
     get_top_target_features,
     check_target_safe,
-    check_boost_safe
+    check_boost_safe,
+    check_target_safe_batch,
+    check_boost_safe_batch,
+    build_clean_context,
+    CleanContext
 )
 from src.hooks import (
     make_mute_and_boost_hook,
@@ -34,6 +38,7 @@ def run_layer_benchmark(
     mute_batch_size: int = 3,
     boost_batch_size: int = 3,
     use_safety: bool = True,
+    use_batched_ranking: bool = False,
     algorithm: str = "hybrid",
     model_sae_loader=None,
     results_dir: str = "benchmark_results",
@@ -62,38 +67,42 @@ def run_layer_benchmark(
     sae_release_name = "gpt2-small-res-jb"
     hook_location_name = "hook_resid_pre"
 
-    prompt_runs = []
+    prompt_runs_dict = {
+        p_idx: {
+            "prompt": p_item["prompt"].strip(),
+            "target": p_item["target"].strip(),
+            "layers": []
+        }
+        for p_idx, p_item in enumerate(prompt_items, start=1)
+    }
+
     total_prompts = len(prompt_items)
     total_layers = len(layers)
 
-    for p_idx, p_item in enumerate(prompt_items, start=1):
-        prompt_text = p_item["prompt"].strip()
-        target_text = p_item["target"].strip()
+    for l_idx, layer in enumerate(layers, start=1):
+        # STAGE 1: Load SAE & Base Model ONCE per layer
+        t_sae_start = time.perf_counter()
+        if model_sae_loader is not None:
+            model, sae = model_sae_loader(layer)
+        else:
+            model, sae = load_model_and_sae(layer=layer)
+        sae_loading_ms = (time.perf_counter() - t_sae_start) * 1000.0
 
-        # Format target completion (ensure leading space for standard GPT-2 tokenization)
-        target_str = target_text if target_text.startswith(" ") else " " + target_text
-        layer_results = []
+        for p_idx, p_item in enumerate(prompt_items, start=1):
+            prompt_text = p_item["prompt"].strip()
+            target_text = p_item["target"].strip()
+            target_str = target_text if target_text.startswith(" ") else " " + target_text
 
-        for l_idx, layer in enumerate(layers, start=1):
             start_time = time.perf_counter()
             
             try:
-                # STAGE 1: Load SAE & Base Model
                 if layer_callback is not None:
                     try:
-                        layer_callback(p_idx, total_prompts, l_idx, total_layers, layer, prompt_text, "Loading SAE...")
+                        layer_callback(p_idx, total_prompts, l_idx, total_layers, layer, prompt_text, "Executing layer benchmark...")
                     except Exception:
                         pass
 
-                t_sae_start = time.perf_counter()
-                if model_sae_loader is not None:
-                    model, sae = model_sae_loader(layer)
-                else:
-                    model, sae = load_model_and_sae(layer=layer)
-                sae_loading_ms = (time.perf_counter() - t_sae_start) * 1000.0
-
                 target_token_id = get_target_token_id(model, target_str)
-                tokens = model.to_tokens(prompt_text)
                 hook_name = getattr(sae.cfg, "hook_name", f"blocks.{layer}.hook_resid_pre")
                 release_name = getattr(sae.cfg, "release", sae_release_name)
 
@@ -106,15 +115,14 @@ def run_layer_benchmark(
 
                 t_clean_start = time.perf_counter()
                 model.reset_hooks()
-                with torch.no_grad():
-                    logits = model(tokens)
-                probs = F.softmax(logits[0, -1, :], dim=-1)
+                clean_ctx = build_clean_context(model, sae, prompt_text, target_token_id)
+                tokens = clean_ctx.tokens
+                probs = clean_ctx.clean_probs
                 
                 current_top1_id = torch.argmax(probs).item()
                 top_prediction_before = model.to_string([current_top1_id])
-                clean_probability = probs[target_token_id].item()
-                clean_sorted_indices = torch.argsort(probs, descending=True)
-                clean_rank = (clean_sorted_indices == target_token_id).nonzero().item() + 1
+                clean_probability = clean_ctx.clean_target_prob
+                clean_rank = clean_ctx.clean_rank
                 clean_baseline_ms = (time.perf_counter() - t_clean_start) * 1000.0
 
                 # STAGE 3: Feature Candidate Selection
@@ -125,8 +133,14 @@ def run_layer_benchmark(
                         pass
 
                 t_feat_start = time.perf_counter()
-                competitor_features = get_top_competitor_features(model, sae, prompt_text, current_top1_id, top_n=30)
-                target_features = get_top_target_features(model, sae, prompt_text, target_token_id, top_n=30)
+                competitor_features = get_top_competitor_features(
+                    model, sae, prompt_text, current_top1_id, top_n=30,
+                    clean_ctx=clean_ctx, use_batched=use_batched_ranking
+                )
+                target_features = get_top_target_features(
+                    model, sae, prompt_text, target_token_id, top_n=30,
+                    clean_ctx=clean_ctx, use_batched=use_batched_ranking
+                )
                 feature_selection_ms = (time.perf_counter() - t_feat_start) * 1000.0
 
                 # STAGE 4: Safety Filtering
@@ -138,32 +152,49 @@ def run_layer_benchmark(
 
                 t_safe_start = time.perf_counter()
                 comp_ids = []
-                for fid, _ in competitor_features:
-                    if use_safety:
-                        is_safe, _ = check_target_safe(
-                            model, sae, prompt_text, fid, target_token_id, strength=mute_strength,
-                            clean_target_prob=clean_probability, clean_rank=clean_rank
+                if use_safety:
+                    if use_batched_ranking:
+                        all_comp_fids = [fid for fid, _ in competitor_features]
+                        batch_res = check_target_safe_batch(
+                            model, sae, clean_ctx, all_comp_fids, target_token_id, strength=mute_strength
                         )
-                        if is_safe:
-                            comp_ids.append(fid)
+                        for fid, (is_safe, _) in zip(all_comp_fids, batch_res):
+                            if is_safe:
+                                comp_ids.append(fid)
                     else:
-                        comp_ids.append(fid)
+                        for fid, _ in competitor_features:
+                            is_safe, _ = check_target_safe(
+                                model, sae, prompt_text, fid, target_token_id, strength=mute_strength,
+                                clean_target_prob=clean_probability, clean_rank=clean_rank
+                            )
+                            if is_safe:
+                                comp_ids.append(fid)
+                else:
+                    comp_ids = [fid for fid, _ in competitor_features]
                 
                 mute_batch = comp_ids[:mute_batch_size]
 
                 target_ids = []
-                for fid, _ in target_features:
-                    if use_safety:
-                        is_safe, _, _ = check_boost_safe(
-                            model, sae, prompt_text, fid, target_token_id, strength=boost_strength,
-                            clean_target_prob=clean_probability, clean_rank=clean_rank
+                if use_safety:
+                    if use_batched_ranking:
+                        all_tgt_fids = [fid for fid, _ in target_features]
+                        batch_res = check_boost_safe_batch(
+                            model, sae, clean_ctx, all_tgt_fids, target_token_id, strength=boost_strength
                         )
-                        if is_safe:
-                            target_ids.append(fid)
+                        for fid, (is_safe, _, _) in zip(all_tgt_fids, batch_res):
+                            if is_safe:
+                                target_ids.append(fid)
                     else:
-                        target_ids.append(fid)
+                        for fid, _ in target_features:
+                            is_safe, _, _ = check_boost_safe(
+                                model, sae, prompt_text, fid, target_token_id, strength=boost_strength,
+                                clean_target_prob=clean_probability, clean_rank=clean_rank
+                            )
+                            if is_safe:
+                                target_ids.append(fid)
+                else:
+                    target_ids = [fid for fid, _ in target_features]
 
-                
                 boost_batch = target_ids[:boost_batch_size]
                 safety_filtering_ms = (time.perf_counter() - t_safe_start) * 1000.0
 
@@ -211,11 +242,19 @@ def run_layer_benchmark(
 
                 # Actual Forward Pass Counter Accounting (Exact Execution Trace)
                 fwd_clean_baseline = 1
-                fwd_candidate_screening = 2  # 1 pass in get_top_competitor_features + 1 pass in get_top_target_features
-                fwd_competitor_ranking = 1 + num_competitor_candidates  # 1 internal clean pass + N candidate ablations (31)
-                fwd_target_ranking = 1 + num_target_candidates          # 1 internal clean pass + N candidate ablations (31)
-                fwd_competitor_safety = num_competitor_safety_checks    # 1 pass per check (clean baseline is precomputed/passed) (30)
-                fwd_target_safety = num_target_safety_checks            # 1 pass per check (clean baseline is precomputed/passed) (30)
+                fwd_candidate_screening = 0  # Reuses clean_ctx.resid_last
+
+                if use_batched_ranking:
+                    fwd_competitor_ranking = 1 if num_competitor_candidates > 0 else 0
+                    fwd_target_ranking = 1 if num_target_candidates > 0 else 0
+                    fwd_competitor_safety = 1 if num_competitor_safety_checks > 0 else 0
+                    fwd_target_safety = 1 if num_target_safety_checks > 0 else 0
+                else:
+                    fwd_competitor_ranking = num_competitor_candidates
+                    fwd_target_ranking = num_target_candidates
+                    fwd_competitor_safety = num_competitor_safety_checks
+                    fwd_target_safety = num_target_safety_checks
+
                 fwd_final_intervention = 1
 
                 total_fwd_passes = (
@@ -258,7 +297,7 @@ def run_layer_benchmark(
                     "total_layer_ms": float(duration_ms)
                 }
 
-                layer_results.append({
+                prompt_runs_dict[p_idx]["layers"].append({
                     "layer": layer,
                     "hook": hook_name,
                     "release": release_name,
@@ -279,14 +318,11 @@ def run_layer_benchmark(
                     "boost_features": [int(f) for f in boost_batch]
                 })
 
-                # TASK 5: Safe Memory Cleanup of intermediate PyTorch tensors
                 del logits, probs, clean_sorted_indices, logits_int, probs_int, sorted_indices_after, tokens
-                if torch.cuda.is_available():
-                    torch.cuda.empty_cache()
 
             except Exception as e:
                 duration_ms = (time.perf_counter() - start_time) * 1000.0
-                layer_results.append({
+                prompt_runs_dict[p_idx]["layers"].append({
                     "layer": layer,
                     "hook": f"blocks.{layer}.hook_resid_pre",
                     "release": sae_release_name,
@@ -313,14 +349,12 @@ def run_layer_benchmark(
                     "boost_features": [],
                     "error": str(e)
                 })
-                if torch.cuda.is_available():
-                    torch.cuda.empty_cache()
 
-        prompt_runs.append({
-            "prompt": prompt_text,
-            "target": target_text,
-            "layers": layer_results
-        })
+        # Memory Cleanup: Run once per layer completion across all prompts
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+
+    prompt_runs = [prompt_runs_dict[i] for i in range(1, total_prompts + 1)]
 
     # TASK 2: Assemble master JSON-serializable benchmark output dictionary with extended metadata
     output = {

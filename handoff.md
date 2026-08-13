@@ -1,76 +1,77 @@
 # Project Handoff: Transient Steering & Layer Intervention Benchmark
 
-**Date:** August 5, 2026  
-**Git Branch:** `layer-intervention-benchmark` (Pushed & Up-to-Date with Remote)  
+**Date:** August 13, 2026  
+**Git Branch:** `layer-intervention-benchmark`  
 **Repository:** `Mechanistic-Intervention-of-Large-Language-Models-via-Sparse-AutoEncoders`
 
 ---
 
 ## 1. Executive Summary & Session Context
 
-This session focused on extending the **Layer Intervention Benchmark Subsystem**, resolving SAE model/weight caching workflow questions, consolidating multi-prompt outputs into unified research artifacts, and ensuring total git synchronization across remote branches.
+This session implemented **Step 3 — GPU Batched Candidate Evaluation** (Sub-steps 3A, 3B, and 3C) of the Layer Intervention Benchmark optimization plan. By stacking candidate evaluations into PyTorch batch dimensions (`batch_tokens = tokens.repeat(N, 1)`), we reduced the total model forward calls per prompt×layer evaluation from **126 down to 6** ($21\times$ reduction in forward call dispatch overhead) while maintaining **100% bit-exact equivalence** on selected features and safety decisions.
 
 ---
 
-## 2. Key Architecture & File Changes
+## 2. Key Architecture & Optimization Changes
 
-### A. Consolidated Multi-Prompt Benchmark Engine
-* **`src/benchmark/layer_benchmark_runner.py`**
-  - Updated `run_layer_benchmark(...)` to accept either single prompt strings or dataset lists of prompt-target pairs.
-  - Generates a **single consolidated master JSON artifact** (`benchmark_results/layer_benchmark_YYYYMMDD_HHMMSS_ffffff.json`) per run rather than polluting disk with multiple fragmented files.
-  - Automatically structures output with metadata (`benchmark_name`, `benchmark_version`, `timestamp`, `parameters`, `total_prompts`, and array of `prompts`).
+### A. Pre-Batching Cleanup (Step 3A)
+* **`src/editing.py`**:
+  - Removed duplicated file header block.
+  - Added `@dataclass CleanContext` and `build_clean_context()` to cache unablated forward pass outputs (`tokens`, `clean_probs`, `resid_last`, `clean_target_prob`, `clean_rank`).
+  - Added optional `clean_ctx` parameter to `get_top_active_features`, `get_top_competitor_features`, and `get_top_target_features`.
+* **`src/hooks.py`**:
+  - Fixed double SAE encode bug in `make_ablation_hook` (encodes `resid` once, snapshots baseline reconstruction, and clones before mutating).
+* **`src/benchmark/layer_benchmark_runner.py`**:
+  - Integrated `build_clean_context` to reuse clean pass outputs across candidate screening and ranking.
+* **Forward Calls Reduction:** **126 $\rightarrow$ 122 calls**.
 
-### B. Streamlit UI Updates (`layer_benchmark.py`)
-* **`layer_benchmark.py`**
-  - Updated benchmark execution button to pass full prompt dataset in a single call.
-  - Added prompt selection dropdown (`Select Benchmark Prompt to Inspect:`) to switch between result tables and performance charts per prompt without cluttering the screen.
-  - Added single **"Download Master Benchmark JSON"** button allowing full dataset export.
+### B. Batched Causal Candidate Ranking (Step 3B)
+* **`src/hooks.py`**: Added `make_per_row_scale_hook(feature_ids, sae, scale)` for row-wise feature scaling across batch rows.
+* **`src/batched_eval.py` (NEW)**: Created module containing GPU primitives `batched_ablation_probs` and `batched_ablation_probs_and_ranks` with configurable `MAX_EVAL_BATCH = 32` chunking.
+* **`src/editing.py`**: Added `use_batched: bool = False` kwarg to `get_top_competitor_features` and `get_top_target_features`.
+* **Verification**: Verified ordered feature-ID lists match element-by-element with 0 misorderings across 6 ROME prompts.
 
-### C. Documentation & History Tracking
-* **`History/Session_LayerBenchmark_History.md`**: Summarizes the Layer Intervention Benchmark subsystem, pre-trained SAE audit findings, and layer depth performance trends.
-* **`History/chat_transcript_20260805.jsonl`**: Complete raw JSONL transcript export of this AI session for reference/debugging on another machine.
-
----
-
-## 3. SAE Loading & Caching Notes
-
-* **Behavior:** `SAELens` downloads SAE weights to local HuggingFace cache (`~/.cache/huggingface/hub/`). 
-* **Streamlit Invalidation:** Streamlit uses `@st.cache_resource` to keep loaded PyTorch models/SAEs in system RAM/VRAM. Reloads only happen on server restarts or initial layer sweeps.
-* **Optimization Note for Next PC:** All 12 layers (`blocks.0` through `blocks.11`) of `gpt2-small-res-jb` are verified available. The Hugging Face local cache will automatically persist after the first run.
-
----
-
-## 4. Current Git State & Remote Branches
-
-* **Current Active Branch:** `layer-intervention-benchmark`
-* **Status:** Clean, committed, and pushed to `origin/layer-intervention-benchmark`.
-* **Last Commit:** `b5253af` - *"Consolidate layer benchmark results into single JSON artifact and export chat transcript history"*
+### C. Batched Safety Filter Checking (Step 3C)
+* **`src/editing.py`**: Added `check_target_safe_batch` (`scale = 1 - strength`) and `check_boost_safe_batch` (`scale = 1 + strength`).
+* **`src/benchmark/layer_benchmark_runner.py`**: Wired `check_target_safe_batch` and `check_boost_safe_batch` into Stage 4 safety filtering when `use_batched_ranking` is enabled.
+* **Validation**: **60 / 60 (100%) safety boolean agreement** on canonical test case (`Layer 8`, MIT $\rightarrow$ Cambridge).
+* **Forward Calls Reduction:** **122 $\rightarrow$ 6 calls**.
 
 ---
 
-## 5. How to Resume on Another PC
+## 3. End-to-End Execution Trace Summary
 
-### Step 1: Environment Setup
+| Stage | Sequential Forward Calls | Batched Forward Calls (Post-Step 3C) |
+|---|:---:|:---:|
+| **Clean Baseline** | 1 | 1 |
+| **Candidate Screening** | 0 | 0 |
+| **Competitor Ranking** | 30 | **1** |
+| **Target Ranking** | 30 | **1** |
+| **Competitor Safety Filter** | 30 | **1** |
+| **Target Safety Filter** | 30 | **1** |
+| **Final Intervention Pass** | 1 | 1 |
+| **Total Model Forward Calls** | **122** | **6** |
+
+---
+
+## 4. Documentation & Validation Deliverables
+
+* **`docs/Research_Journal/14.md`**: Created Research Journal Entry 14 detailing Step 3A/3B/3C implementation, tolerance standards, and forward call accounting.
+* **`scratch/validate_step3a.py`**: Step 3A validation script ($1\text{e-}9$ precision).
+* **`scratch/validate_step3b.py`**: Step 3B validation script (element-by-element list ordering, chunking, and multi-prompt margin checks).
+* **`scratch/validate_step3c.py`**: Step 3C validation script ($60/60$ safety boolean agreement table).
+
+---
+
+## 5. Instructions to Commit & Push to GitHub
+
 ```powershell
-# 1. Fetch latest remote branches
-git fetch --all
+# 1. Stage all modified core files, new batched primitives, scripts, and documentation
+git add .gitignore src/hooks.py src/batched_eval.py src/editing.py src/benchmark/layer_benchmark_runner.py docs/Research_Journal/14.md handoff.md scratch/validate_step3a.py scratch/validate_step3b.py scratch/validate_step3c.py
 
-# 2. Switch to the benchmark branch
-git checkout layer-intervention-benchmark
+# 2. Commit changes
+git commit -m "Step 3 (3A-3C): Implement GPU Batched Candidate Evaluation and Safety Filters (126 -> 6 forward calls)"
 
-# 3. Activate virtual environment & verify dependencies
-.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
+# 3. Push to remote branch
+git push origin layer_benchmark_runner
 ```
-
-### Step 2: Run the Benchmark UI
-```powershell
-streamlit run layer_benchmark.py
-```
-
----
-
-## 6. Immediate Next Steps / Roadmap
-
-1. **Layer 8 Deep Dive:** Layer 8 has proven to be the most responsive depth for steering target completions (+2.37% probability gain, +5 rank positions). Further test layer 8 with larger prompt datasets.
-2. **Cross-Prompt Aggregation UI:** Add an optional side-by-side summary table in `layer_benchmark.py` calculating mean rank improvement across all prompts in a benchmark run.

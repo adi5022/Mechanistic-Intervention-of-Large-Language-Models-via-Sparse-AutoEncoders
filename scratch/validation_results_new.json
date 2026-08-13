@@ -1,0 +1,93 @@
+{
+    "total_time_sec": 89.87226930000179,
+    "runs": [
+        {
+            "prompt": "The location of Massachusetts ",
+            "target": "Cambridge",
+            "layer": 7,
+            "clean_rank": 8,
+            "final_rank": 5,
+            "clean_probability": 0.011525,
+            "final_probability": 0.026344,
+            "mute_features": [
+                13027,
+                22536,
+                23417
+            ],
+            "boost_features": [
+                10591,
+                1002,
+                11229
+            ],
+            "success": true,
+            "runtime_ms": 4464.4,
+            "total_model_forwards": 126
+        },
+        {
+            "prompt": "The location of Massachusetts ",
+            "target": "Cambridge",
+            "layer": 8,
+            "clean_rank": 8,
+            "final_rank": 5,
+            "clean_probability": 0.011525,
+            "final_probability": 0.027049,
+            "mute_features": [
+                8459,
+                21169,
+                14430
+            ],
+            "boost_features": [
+                3076,
+                19288,
+                8239
+            ],
+            "success": true,
+            "runtime_ms": 4419.0,
+            "total_model_forwards": 126
+        },
+        {
+            "prompt": "The capital of France is",
+            "target": "Paris",
+            "layer": 7,
+            "clean_rank": 93,
+            "final_rank": 37,
+            "clean_probability": 0.001629,
+            "final_probability": 0.003215,
+            "mute_features": [
+                903,
+                21247,
+                2149
+            ],
+            "boost_features": [
+                10165,
+                9758,
+                8715
+            ],
+            "success": true,
+            "runtime_ms": 4337.5,
+            "total_model_forwards": 126
+        },
+        {
+            "prompt": "The capital of France is",
+            "target": "Paris",
+            "layer": 8,
+            "clean_rank": 93,
+            "final_rank": 45,
+            "clean_probability": 0.001629,
+            "final_probability": 0.003064,
+            "mute_features": [
+                19805,
+                10852,
+                8448
+            ],
+            "boost_features": [
+                1442,
+                18220,
+                8628
+            ],
+            "success": true,
+            "runtime_ms": 4049.9,
+            "total_model_forwards": 126
+        }
+    ]
+}

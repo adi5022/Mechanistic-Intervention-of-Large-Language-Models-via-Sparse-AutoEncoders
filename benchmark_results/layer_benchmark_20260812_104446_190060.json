@@ -1,0 +1,83 @@
+{
+    "benchmark_name": "Layer Intervention Benchmark",
+    "benchmark_version": "0.3",
+    "timestamp": "2026-08-12T10:44:46.190060Z",
+    "model": "gpt2",
+    "algorithm": "Hybrid Mute & Boost",
+    "sae_release": "gpt2-small-res-jb",
+    "hook_location": "hook_resid_pre",
+    "safety_enabled": true,
+    "use_safety": true,
+    "selected_layers": [
+        8
+    ],
+    "parameters": {
+        "mute_strength": 0.3,
+        "boost_strength": 0.5,
+        "mute_batch_size": 3,
+        "boost_batch_size": 3,
+        "use_safety": true,
+        "algorithm": "hybrid"
+    },
+    "total_prompts": 1,
+    "prompts": [
+        {
+            "prompt": "The location of Massachusetts Institute of Technology is in",
+            "target": "Cambridge",
+            "layers": [
+                {
+                    "layer": 8,
+                    "hook": "blocks.8.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": 8,
+                    "final_rank": 3,
+                    "rank_improvement": 5,
+                    "clean_probability": 0.011525173671543598,
+                    "final_probability": 0.035292964428663254,
+                    "probability_gain": 0.023767790757119656,
+                    "runtime_ms": 5389.69320000615,
+                    "profile": {
+                        "sae_loading_ms": 0.1584999990882352,
+                        "clean_baseline_ms": 50.973299992620014,
+                        "feature_selection_ms": 2761.0405000014,
+                        "safety_filtering_ms": 2527.053000012529,
+                        "intervention_ms": 45.47729999467265,
+                        "result_packaging_ms": 0.0005999900167807937,
+                        "total_layer_ms": 5389.69320000615
+                    },
+                    "forward_passes": {
+                        "clean_baseline": 1,
+                        "candidate_screening": 2,
+                        "competitor_ranking": 31,
+                        "target_ranking": 31,
+                        "competitor_safety": 30,
+                        "target_safety": 30,
+                        "final_intervention": 1,
+                        "total_model_forwards": 126
+                    },
+                    "counts": {
+                        "competitor_candidates_evaluated": 30,
+                        "target_candidates_evaluated": 30,
+                        "competitor_safety_checks": 30,
+                        "target_safety_checks": 30,
+                        "selected_mute_features_count": 3,
+                        "selected_boost_features_count": 3
+                    },
+                    "success": true,
+                    "top_prediction_before": " the",
+                    "top_prediction_after": " the",
+                    "mute_features": [
+                        8459,
+                        21169,
+                        14430
+                    ],
+                    "boost_features": [
+                        3076,
+                        19288,
+                        8239
+                    ]
+                }
+            ]
+        }
+    ]
+}
