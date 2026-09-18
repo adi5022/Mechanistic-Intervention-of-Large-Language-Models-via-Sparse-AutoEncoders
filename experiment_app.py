@@ -2,7 +2,9 @@ import streamlit as st
 import torch
 import torch.nn.functional as F
 import pandas as pd
+import altair as alt
 import json
+import time
 from datetime import datetime
 
 from src.sae_utils import load_base_model, load_sae_for_layer, get_default_device
@@ -12,7 +14,10 @@ from src.editing import (
     get_top_target_features,
     check_target_safe,
     check_boost_safe,
+    check_target_safe_batch,
+    check_boost_safe_batch,
     check_combination_safe,
+    build_clean_context,
     run_weighted_multi_competitor_reduction,
     run_weighted_multi_feature_competitor_reduction,
     make_weighted_ablation_hook,
@@ -22,6 +27,7 @@ from src.hooks import (
     make_ablation_hook,
     make_joint_ablation_hook,
     make_signed_ablation_hook,
+    make_mute_and_boost_hook,
 )
 from src.monosemanticity import (
     find_max_activating_examples,
@@ -67,6 +73,68 @@ def render_empty_state_card(state_dict: dict):
         st.markdown(f"### {state_dict['title']}")
         st.warning(f"**Why is this unavailable?:** {state_dict['why']}")
         st.info(f"**Is this expected?:** {state_dict['expected']}\n\n👉 **Recommended Next Steps:** {state_dict['next_steps']}")
+
+def render_rank_progression_chart(rank_progression: list[dict], best_step: int | None = None, height: int = 320):
+    """
+    Renders a labeled, publication-quality line chart of the target token's rank across
+    sweep steps (Step 0 = clean baseline). The y-axis is inverted so that improvement
+    (a lower, better rank) reads as an upward-moving line, with a dashed reference line
+    at Rank #1 and the best-so-far step highlighted as a distinct marker.
+
+    rank_progression: list of {"Step": int, "Label": str, "Target Rank": int, "Target Prob (%)": float}
+    """
+    df = pd.DataFrame(rank_progression)
+    max_rank = max(int(df["Target Rank"].max()), 2)
+    y_domain = [max_rank * 1.08, 0.5]
+
+    base = alt.Chart(df)
+
+    line = base.mark_line(
+        interpolate="monotone",
+        strokeWidth=2.5,
+        color="#4C78A8",
+    ).encode(
+        x=alt.X("Step:Q", title="Sweep Step (0 = Baseline)", axis=alt.Axis(tickMinStep=1, format="d", grid=True)),
+        y=alt.Y("Target Rank:Q", title="Target Rank (lower is better)",
+                scale=alt.Scale(domain=y_domain), axis=alt.Axis(grid=True)),
+    )
+
+    points = base.mark_circle(size=90, color="#4C78A8", opacity=0.9).encode(
+        x="Step:Q",
+        y="Target Rank:Q",
+        tooltip=[
+            alt.Tooltip("Label:N", title="Step"),
+            alt.Tooltip("Target Rank:Q", title="Target Rank"),
+            alt.Tooltip("Target Prob (%):Q", title="Target Probability", format=".2f"),
+        ],
+    )
+
+    target_ref_line = alt.Chart(pd.DataFrame({"y": [1]})).mark_rule(
+        strokeDash=[5, 4], color="#59A14F", strokeWidth=1.5
+    ).encode(y=alt.Y("y:Q"))
+
+    layers = [line, points, target_ref_line]
+
+    if best_step is not None:
+        best_row = df[df["Step"] == best_step]
+        if not best_row.empty:
+            best_marker = alt.Chart(best_row).mark_point(
+                shape="diamond", size=260, color="#E45756", filled=True, stroke="white", strokeWidth=1.5
+            ).encode(
+                x="Step:Q", y="Target Rank:Q",
+                tooltip=[
+                    alt.Tooltip("Label:N", title="Best Step"),
+                    alt.Tooltip("Target Rank:Q", title="Best Rank"),
+                    alt.Tooltip("Target Prob (%):Q", title="Probability", format=".2f"),
+                ],
+            )
+            layers.append(best_marker)
+
+    chart = alt.layer(*layers).properties(height=height).configure_axis(
+        labelFontSize=12, titleFontSize=13, titleFontWeight="normal", labelColor="#666", titleColor="#333"
+    ).configure_view(strokeWidth=0)
+
+    st.altair_chart(chart, use_container_width=True)
 
 import requests
 
@@ -146,7 +214,7 @@ enable_xai = st.sidebar.checkbox("Enable AI Explanations (Groq)", value=bool(def
 groq_key_input = default_groq_key
 
 # Tabs setup
-tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10, tab11 = st.tabs([
     "🧪 Single-trace iterative ablation",
     "📦 Compound batch test",
     "⚡ Target feature boost",
@@ -156,7 +224,8 @@ tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs([
     "📊 Session history and benchmarks",
     "⚖️ Weighted multi-competitor reduction",
     "🎛️ Weighted multi-feature competitor reduction",
-    "🧠 Towards Monosemanticity"
+    "🧠 Towards Monosemanticity",
+    "⏱️ Sequential vs Batched Proof"
 ])
 
 
@@ -557,15 +626,23 @@ with tab4:
         target_4 = st.text_input("Target Completion", "Tokyo", key="t4_target")
         top_n_4 = st.number_input("Top N Candidate Features", value=30, min_value=1, step=1, key="t4_topn")
     with col2:
+        cumulative_sweep_4 = st.checkbox(
+            "🔁 Cumulative Sweep (pile on one feature at a time until Target reaches Rank 1)", value=False, key="t4_cumulative",
+            help="Ignores the Mute/Boost Batch Sizes below. Instead runs Mute 1/Boost 1, then Mute 2/Boost 2, then Mute 3/Boost 3, and so on — one feature added to each side per step — stopping the moment the target reaches Rank #1 (or once the candidate pool runs out)."
+        )
         col_m1, col_m2 = st.columns(2)
         with col_m1:
             strength_mute_4 = st.number_input("Mute Strength", value=0.3, step=0.1, key="t4_m_strength")
-            mute_sizes_str_4 = st.text_input("Mute Batch Sizes", "1, 3, 5", key="t4_m_bs")
+            mute_sizes_str_4 = st.text_input("Mute Batch Sizes", "1, 3, 5", key="t4_m_bs", disabled=cumulative_sweep_4)
         with col_m2:
             strength_boost_4 = st.number_input("Boost Strength", value=0.5, step=0.1, key="t4_b_strength")
-            boost_sizes_str_4 = st.text_input("Boost Batch Sizes", "1, 3, 5", key="t4_b_bs")
+            boost_sizes_str_4 = st.text_input("Boost Batch Sizes", "1, 3, 5", key="t4_b_bs", disabled=cumulative_sweep_4)
         use_safety_4 = st.checkbox("Enable Safety Filter (Target Protection)", value=True, key="t4_safety")
-
+        stop_on_rank1_4 = st.checkbox("Stop sweep once Target reaches Rank 1", value=True, key="t4_stop_rank1")
+        use_batched_4 = st.checkbox(
+            "⚡ Use GPU-Batched Optimization", value=True, key="t4_use_batched",
+            help="ON = candidate ranking & safety filtering run as batched GPU calls (fast, current default). OFF = the original one-candidate-at-a-time method (slow, kept for comparison)."
+        )
 
     if st.button("Run Hybrid Mute & Boost Test", key="btn_t4"):
         try:
@@ -580,66 +657,144 @@ with tab4:
             boost_sizes_4 = [1, 3, 5]
             st.warning("Invalid boost batch sizes; using default [1, 3, 5].")
             
-        target_str = target_4 if target_4.startswith(" ") else " " + target_4
-        tokens = model.to_tokens(prompt_4)
+        prompt_4 = prompt_4.strip()
+        target_4 = target_4.strip()
+        target_str = " " + target_4
         target_token_id = get_target_token_id(model, target_str)
-        
+
+        # --- Stopwatch start ---
+        if device == "cuda":
+            torch.cuda.synchronize()
+        t4_start = time.perf_counter()
+
         # Clean baseline pass
         model.reset_hooks()
-        with torch.no_grad():
-            logits = model(tokens)
-        probs = F.softmax(logits[0, -1, :], dim=-1)
+        clean_ctx = build_clean_context(model, sae, prompt_4, target_token_id)
+        tokens = clean_ctx.tokens
+        probs = clean_ctx.clean_probs
         current_top1_id = torch.argmax(probs).item()
         current_top1_str = model.to_string([current_top1_id])
-        baseline_target_prob = probs[target_token_id].item()
-        
-        st.write(f"**Baseline Top-1:** `{current_top1_str}` | **Target '{target_str}' Prob:** `{baseline_target_prob*100:.2f}%`")
-        
-        # Candidate feature sets with safety filtering
-        competitor_features = get_top_competitor_features(model, sae, prompt_4, current_top1_id, top_n=top_n_4)
-        comp_ids = []
-        for fid, _ in competitor_features:
-            if use_safety_4:
-                is_safe, t_delta = check_target_safe(model, sae, prompt_4, fid, target_token_id, strength=strength_mute_4)
-                if is_safe:
-                    comp_ids.append(fid)
-                else:
-                    st.markdown(f"❌ Competitor {make_feature_hover_link(fid, layer)} excluded from mute pool (harms target token).", unsafe_allow_html=True)
-            else:
-                comp_ids.append(fid)
-        
-        target_features = get_top_target_features(model, sae, prompt_4, target_token_id, top_n=top_n_4)
-        target_ids = []
-        for fid, _ in target_features:
-            if use_safety_4:
-                is_safe, t_delta, r_imp = check_boost_safe(model, sae, prompt_4, fid, target_token_id, strength=strength_boost_4)
-                if is_safe:
-                    target_ids.append(fid)
-                else:
-                    st.markdown(f"❌ Target {make_feature_hover_link(fid, layer)} excluded from boost pool (amplifies competitor, degrading target rank).", unsafe_allow_html=True)
-            else:
-                target_ids.append(fid)
+        baseline_target_prob = clean_ctx.clean_target_prob
+        t4_baseline_done = time.perf_counter()
 
-        
+        st.write(f"**Baseline Top-1:** `{current_top1_str}` | **Target '{target_str}' Prob:** `{baseline_target_prob*100:.2f}%`")
+
+        # Candidate feature sets with safety filtering (batched or sequential, per checkbox)
+        competitor_features = get_top_competitor_features(
+            model, sae, prompt_4, current_top1_id, top_n=top_n_4,
+            clean_ctx=clean_ctx, use_batched=use_batched_4
+        )
+        # NOTE: rejection reasons are only collected here (fid + delta, no network calls) —
+        # the Neuronpedia hover-link lookups happen AFTER the stopwatch stops, further down,
+        # so fetching feature descriptions over the network never contaminates the timing.
+        comp_ids = []
+        comp_rejections_4 = []
+        comp_fids = [fid for fid, _ in competitor_features]
+        if use_safety_4:
+            if use_batched_4:
+                comp_results = check_target_safe_batch(model, sae, clean_ctx, comp_fids, target_token_id, strength=strength_mute_4)
+                for fid, (is_safe, t_delta) in zip(comp_fids, comp_results):
+                    if is_safe:
+                        comp_ids.append(fid)
+                    else:
+                        comp_rejections_4.append((fid, t_delta))
+            else:
+                for fid in comp_fids:
+                    is_safe, t_delta = check_target_safe(
+                        model, sae, prompt_4, fid, target_token_id, strength=strength_mute_4,
+                        clean_target_prob=baseline_target_prob, clean_rank=clean_ctx.clean_rank
+                    )
+                    if is_safe:
+                        comp_ids.append(fid)
+                    else:
+                        comp_rejections_4.append((fid, t_delta))
+        else:
+            comp_ids = comp_fids
+
+        target_features = get_top_target_features(
+            model, sae, prompt_4, target_token_id, top_n=top_n_4,
+            clean_ctx=clean_ctx, use_batched=use_batched_4
+        )
+        target_ids = []
+        boost_rejections_4 = []
+        tgt_fids = [fid for fid, _ in target_features]
+        if use_safety_4:
+            if use_batched_4:
+                tgt_results = check_boost_safe_batch(model, sae, clean_ctx, tgt_fids, target_token_id, strength=strength_boost_4)
+                for fid, (is_safe, t_delta, r_imp) in zip(tgt_fids, tgt_results):
+                    if is_safe:
+                        target_ids.append(fid)
+                    else:
+                        boost_rejections_4.append((fid, t_delta))
+            else:
+                for fid in tgt_fids:
+                    is_safe, t_delta, r_imp = check_boost_safe(
+                        model, sae, prompt_4, fid, target_token_id, strength=strength_boost_4,
+                        clean_target_prob=baseline_target_prob, clean_rank=clean_ctx.clean_rank
+                    )
+                    if is_safe:
+                        target_ids.append(fid)
+                    else:
+                        boost_rejections_4.append((fid, t_delta))
+        else:
+            target_ids = tgt_fids
+
+        t4_filtering_done = time.perf_counter()
+
+
         hybrid_details = []
+
+        # Tracks the single best combination seen across the whole sweep — "best" means
+        # lowest target rank, tie-broken by higher target probability. This is what fixes
+        # the "safety filter says fine but rank still got worse later" issue: instead of
+        # reporting whatever the LAST sweep row happened to be, we report the BEST one ever seen.
+        best_so_far = {
+            "rank": clean_ctx.clean_rank,
+            "prob": baseline_target_prob,
+            "top1": current_top1_str,
+            "mute_size": 0,
+            "boost_size": 0,
+            "mute_features": [],
+            "boost_features": [],
+            "step": 0,
+        }
+        rank_progression = [{
+            "Step": 0,
+            "Label": "Baseline",
+            "Target Rank": clean_ctx.clean_rank,
+            "Target Prob (%)": baseline_target_prob * 100,
+        }]
+
         is_any_success = False
         best_final_top1 = current_top1_str
         best_final_target_prob = baseline_target_prob
-        
-        for m_n in mute_sizes_4:
-            for b_n in boost_sizes_4:
+
+        step_counter = 0
+        stop_sweep = False
+
+        if cumulative_sweep_4:
+            max_pile = min(len(comp_ids), len(target_ids))
+            combo_pairs_4 = [(n, n) for n in range(1, max_pile + 1)]
+            if not combo_pairs_4:
+                st.warning("Cumulative Sweep has no candidates to work with (mute or boost pool is empty after safety filtering).")
+        else:
+            combo_pairs_4 = [(m_n, b_n) for m_n in mute_sizes_4 for b_n in boost_sizes_4]
+
+        for m_n, b_n in combo_pairs_4:
+                if stop_sweep:
+                    break
                 mute_batch = comp_ids[:m_n]
                 boost_batch = target_ids[:b_n]
-                
+
                 model.reset_hooks()
-                # Apply joint mute hook
-                joint_mute_fn = make_joint_ablation_hook(mute_batch, sae, strength=strength_mute_4)
-                model.add_hook(hook_name, joint_mute_fn)
-                
-                # Apply signed boost hook
-                signed_boost_fn = make_signed_ablation_hook(boost_batch, sae, strength=+strength_boost_4)
-                model.add_hook(hook_name, signed_boost_fn)
-                
+                # Single combined hook — mutes and boosts together in one pass, starting from the
+                # same original signal (matches check_combination_safe's hook exactly, so the
+                # displayed top5/rank here and the Combination Safety Check's rank always agree).
+                # Two separate chained hooks would each round-trip through the SAE independently,
+                # compounding reconstruction error and silently disagreeing with the safety check.
+                combined_fn = make_mute_and_boost_hook(mute_batch, strength_mute_4, boost_batch, strength_boost_4, sae)
+                model.add_hook(hook_name, combined_fn)
+
                 with torch.no_grad():
                     logits = model(tokens)
                 probs = F.softmax(logits[0, -1, :], dim=-1)
@@ -650,9 +805,7 @@ with tab4:
                 
                 if new_top1_id == target_token_id:
                     is_any_success = True
-                best_final_top1 = new_top1_str
-                best_final_target_prob = target_prob
-                
+
                 st.subheader(f"Mute: {m_n} features (-{strength_mute_4}) | Boost: {b_n} features (+{strength_boost_4})")
                 st.write(f"**Muted Features:** `{mute_batch}` | **Boosted Features:** `{boost_batch}`")
                 
@@ -687,7 +840,35 @@ with tab4:
                         st.write(f"⚠️ New blocker: {blocker['token']!r} rose to rank {blocker['new_rank']} ({was_str} in clean baseline)")
                 else:
                     st.write("✅ No new blockers detected")
-                
+
+                # --- Track rank progression + best-so-far (does NOT stop the sweep, just records it) ---
+                step_counter += 1
+                combo_rank = safety_res["target_new_rank"]
+                rank_progression.append({
+                    "Step": step_counter,
+                    "Label": f"M{m_n}/B{b_n}",
+                    "Target Rank": combo_rank,
+                    "Target Prob (%)": target_prob * 100,
+                })
+                is_new_best = (
+                    combo_rank < best_so_far["rank"]
+                    or (combo_rank == best_so_far["rank"] and target_prob > best_so_far["prob"])
+                )
+                if is_new_best:
+                    best_so_far = {
+                        "rank": combo_rank,
+                        "prob": target_prob,
+                        "top1": new_top1_str,
+                        "mute_size": m_n,
+                        "boost_size": b_n,
+                        "mute_features": mute_batch,
+                        "boost_features": boost_batch,
+                        "step": step_counter,
+                    }
+                    st.caption(f"🏆 New best so far — target rank {combo_rank}")
+                elif combo_rank > best_so_far["rank"]:
+                    st.caption(f"↘️ Worse than the best so far (rank {best_so_far['rank']}, found at Mute {best_so_far['mute_size']}/Boost {best_so_far['boost_size']}) — that best is still kept as the reported result.")
+
                 hybrid_details.append({
                     "mute_batch_size": m_n,
                     "mute_features": mute_batch,
@@ -700,9 +881,86 @@ with tab4:
                     "top5": table_data,
                     "combination_safety_check": safety_res
                 })
+
+                if stop_on_rank1_4 and new_top1_id == target_token_id:
+                    st.success(f"🎯 **Target token '{target_str}' reached Rank #1** with Mute Batch {m_n} & Boost Batch {b_n}! Stopping further sweep combinations.")
+                    stop_sweep = True
+                    break
                 
         model.reset_hooks()
-        
+
+        best_final_top1 = best_so_far["top1"]
+        best_final_target_prob = best_so_far["prob"]
+
+        st.markdown("---")
+        st.subheader("🏆 Best Result Found During Sweep")
+        if enable_xai:
+            from src.explain import generate_best_result_explanation
+            with st.spinner("Generating explanation..."):
+                best_result_explanation = generate_best_result_explanation(
+                    prompt=prompt_4,
+                    target=target_4,
+                    baseline_prob=baseline_target_prob,
+                    baseline_rank=clean_ctx.clean_rank,
+                    best_prob=best_so_far["prob"],
+                    best_rank=best_so_far["rank"],
+                    best_mute_size=best_so_far["mute_size"],
+                    best_boost_size=best_so_far["boost_size"],
+                    reached_target=is_any_success,
+                    n_combinations_run=step_counter,
+                    api_key=groq_key_input,
+                )
+            st.markdown(best_result_explanation)
+        else:
+            st.markdown(
+                "This is the best combination seen across every row above — picked by lowest target rank "
+                "(ties broken by higher target probability), **not** just whichever row ran last. The safety "
+                "filter only vets individual candidate features before the sweep starts; it doesn't stop the "
+                "target's rank from drifting up and down as more features get piled on within the sweep itself, "
+                "so this is what tracks and protects the best result actually found. Enable **AI Explanations (Groq)** "
+                "in the sidebar for an explanation generated specifically for this run's numbers."
+            )
+        bc1, bc2, bc3 = st.columns(3)
+        bc1.metric("Best Target Rank", f"#{best_so_far['rank']}", delta=f"{clean_ctx.clean_rank - best_so_far['rank']:+d} vs baseline", delta_color="normal")
+        bc2.metric("Best Target Prob", f"{best_so_far['prob']*100:.2f}%")
+        bc3.metric("Found at", f"Mute {best_so_far['mute_size']} / Boost {best_so_far['boost_size']}" if best_so_far["step"] > 0 else "Baseline (no combo beat it)")
+        st.write(f"**Muted Features:** `{best_so_far['mute_features']}` | **Boosted Features:** `{best_so_far['boost_features']}` | **New Top-1:** `{best_so_far['top1']}`")
+
+        st.subheader("📉 Target Rank Progression")
+        st.caption("The dashed green line marks Rank #1. The red diamond marks the best step found. Hover a point for exact values.")
+        render_rank_progression_chart(rank_progression, best_step=best_so_far["step"])
+        with st.expander("Show underlying data"):
+            st.dataframe(pd.DataFrame(rank_progression).set_index("Step"), use_container_width=True)
+
+        # --- Compute stopwatch stop (GPU/CPU work only) ---
+        if device == "cuda":
+            torch.cuda.synchronize()
+        t4_end = time.perf_counter()
+
+        st.markdown("---")
+        st.subheader("⏱️ Stopwatch")
+        sw1, sw2, sw3 = st.columns(3)
+        sw1.metric("Model compute time", f"{t4_end - t4_start:.3f}s")
+        sw2.metric("Candidate ranking + safety filter", f"{t4_filtering_done - t4_baseline_done:.3f}s")
+        sw3.metric("Sweep (intervention passes)", f"{t4_end - t4_filtering_done:.3f}s")
+        st.caption(
+            ("⚡ GPU-Batched mode was ON for this run." if use_batched_4 else "🐢 GPU-Batched mode was OFF — this run used the original one-at-a-time method.")
+            + " Toggle the checkbox above and re-run with the same prompt to compare timings directly."
+            + " This breakdown isolates the model computation (the thing the optimization actually changes) — it excludes the Neuronpedia network lookups below, which cost the same either way and depend on your internet, not on this code."
+        )
+
+        if comp_rejections_4 or boost_rejections_4:
+            with st.expander(f"❌ Candidates rejected by safety filter ({len(comp_rejections_4) + len(boost_rejections_4)})"):
+                for fid, t_delta in comp_rejections_4:
+                    st.markdown(f"❌ Competitor {make_feature_hover_link(fid, layer)} excluded from mute pool (harms target token by `{t_delta*100:.2f}%`).", unsafe_allow_html=True)
+                for fid, t_delta in boost_rejections_4:
+                    st.markdown(f"❌ Target {make_feature_hover_link(fid, layer)} excluded from boost pool (amplifies competitor, degrading target rank by `{t_delta*100:.2f}%`).", unsafe_allow_html=True)
+
+        # --- Full wall-clock stopwatch stop (everything, including the network lookups above) ---
+        t4_wall_end = time.perf_counter()
+        st.metric("⏱️ Total wall-clock time (entire run, including network lookups)", f"{t4_wall_end - t4_start:.3f}s")
+        st.caption("This is the number that matches how long you actually waited — model compute plus everything else the run did on screen.")
+
         # Save run to session history
         run_record = {
             "run_id": len(st.session_state["history"]) + 1,
@@ -712,10 +970,13 @@ with tab4:
             "prompt": prompt_4,
             "target": target_4,
             "mute_strength": strength_mute_4,
-            "mute_sizes": mute_sizes_str_4,
             "boost_strength": strength_boost_4,
-            "boost_sizes": boost_sizes_str_4,
+            "cumulative_sweep": cumulative_sweep_4,
+            "mute_sizes": (f"cumulative 1..{hybrid_details[-1]['mute_batch_size']} (pool max {combo_pairs_4[-1][0]})" if cumulative_sweep_4 and hybrid_details else mute_sizes_str_4),
+            "boost_sizes": (f"cumulative 1..{hybrid_details[-1]['boost_batch_size']} (pool max {combo_pairs_4[-1][1]})" if cumulative_sweep_4 and hybrid_details else boost_sizes_str_4),
             "top_n": top_n_4,
+            "use_batched": use_batched_4,
+            "total_time_s": round(t4_end - t4_start, 3),
             "baseline_top1": current_top1_str,
             "baseline_target_prob": f"{baseline_target_prob*100:.2f}%",
             "final_top1": best_final_top1,
@@ -1784,3 +2045,370 @@ with tab7:
                 st.write(f"**Final Top-1:** `{rec['final_top1']}` | **Final Target Prob:** `{rec['final_target_prob']}`")
                 st.write(f"**Success Status:** `{'Success' if rec['success'] else 'Failure'}`")
                 st.json(rec)
+
+# --- TAB 11: Hybrid Mute & Boost — Original (Sequential) vs Optimized (GPU Batched) ---
+with tab11:
+    st.header("Hybrid Mute & Boost — Original vs Optimized, Side by Side")
+    st.markdown(
+        """
+        This is **the same Hybrid Mute & Boost sweep as Tab 4** (mute competitors, boost target,
+        try each mute/boost batch-size combination until the target reaches Rank #1), run **twice
+        end-to-end on identical inputs**: once with the **original sequential method** (the one the
+        app first shipped with — everything one candidate/one forward pass at a time), and once with
+        the **new GPU-batched method**. Both stop early the moment the target hits Rank #1, exactly
+        like Tab 4. The clock starts at the clean baseline pass and stops the instant a run finishes
+        (either by hitting the target or exhausting the sweep), so the total time you see below is the
+        real, whole-workflow time — not just one isolated piece of it.
+        """
+    )
+
+    col1, col2 = st.columns(2)
+    with col1:
+        prompt_11 = st.text_input("Prompt", "Seiyu Group's headquarters are in", key="t11_prompt")
+        target_11 = st.text_input("Target Completion", "Tokyo", key="t11_target")
+        top_n_11 = st.number_input("Top N Candidate Features", value=30, min_value=1, step=1, key="t11_topn")
+    with col2:
+        cumulative_sweep_11 = st.checkbox(
+            "🔁 Cumulative Sweep (pile on one feature at a time until Target reaches Rank 1)", value=False, key="t11_cumulative",
+            help="Ignores the Mute/Boost Batch Sizes below. Instead runs Mute 1/Boost 1, then Mute 2/Boost 2, then Mute 3/Boost 3, and so on — one feature added to each side per step — stopping the moment the target reaches Rank #1 (or once the candidate pool runs out). Applied identically to both the sequential and batched runs."
+        )
+        col_m1, col_m2 = st.columns(2)
+        with col_m1:
+            strength_mute_11 = st.number_input("Mute Strength", value=0.3, step=0.1, key="t11_m_strength")
+            mute_sizes_str_11 = st.text_input("Mute Batch Sizes", "1, 3, 5", key="t11_m_bs", disabled=cumulative_sweep_11)
+        with col_m2:
+            strength_boost_11 = st.number_input("Boost Strength", value=0.5, step=0.1, key="t11_b_strength")
+            boost_sizes_str_11 = st.text_input("Boost Batch Sizes", "1, 3, 5", key="t11_b_bs", disabled=cumulative_sweep_11)
+        use_safety_11 = st.checkbox("Enable Safety Filter (Target Protection)", value=True, key="t11_safety")
+        stop_on_rank1_11 = st.checkbox("Stop sweep once Target reaches Rank 1", value=True, key="t11_stop_rank1")
+
+    def _run_hybrid_workflow(prompt, target_token_id, top_n, mute_sizes, boost_sizes,
+                              strength_mute, strength_boost, use_safety, stop_on_rank1, use_batched, cumulative=False):
+        """Runs the full Tab-4-style hybrid sweep end-to-end and times it with a single stopwatch.
+        use_batched=False reproduces the app's original sequential behaviour;
+        use_batched=True uses the GPU-batched candidate ranking + safety filtering."""
+        if device == "cuda":
+            torch.cuda.synchronize()
+        t_start = time.perf_counter()
+
+        model.reset_hooks()
+        clean_ctx = build_clean_context(model, sae, prompt, target_token_id)
+        tokens = clean_ctx.tokens
+        current_top1_id = torch.argmax(clean_ctx.clean_probs).item()
+        current_top1_str = model.to_string([current_top1_id])
+        baseline_target_prob = clean_ctx.clean_target_prob
+        t_baseline_done = time.perf_counter()
+
+        competitor_features = get_top_competitor_features(
+            model, sae, prompt, current_top1_id, top_n=top_n, clean_ctx=clean_ctx, use_batched=use_batched
+        )
+        comp_ids = []
+        comp_rejections = []
+        if use_safety:
+            comp_fids = [fid for fid, _ in competitor_features]
+            if use_batched:
+                batch_res = check_target_safe_batch(model, sae, clean_ctx, comp_fids, target_token_id, strength=strength_mute)
+                for fid, (is_safe, delta) in zip(comp_fids, batch_res):
+                    if is_safe:
+                        comp_ids.append(fid)
+                    else:
+                        comp_rejections.append({"feature_id": fid, "reason": "harms target token", "target_prob_delta": f"{delta*100:.3f}%"})
+            else:
+                for fid in comp_fids:
+                    is_safe, delta = check_target_safe(
+                        model, sae, prompt, fid, target_token_id, strength=strength_mute,
+                        clean_target_prob=baseline_target_prob, clean_rank=clean_ctx.clean_rank
+                    )
+                    if is_safe:
+                        comp_ids.append(fid)
+                    else:
+                        comp_rejections.append({"feature_id": fid, "reason": "harms target token", "target_prob_delta": f"{delta*100:.3f}%"})
+        else:
+            comp_ids = [fid for fid, _ in competitor_features]
+
+        target_features = get_top_target_features(
+            model, sae, prompt, target_token_id, top_n=top_n, clean_ctx=clean_ctx, use_batched=use_batched
+        )
+        target_ids = []
+        boost_rejections = []
+        if use_safety:
+            tgt_fids = [fid for fid, _ in target_features]
+            if use_batched:
+                batch_res = check_boost_safe_batch(model, sae, clean_ctx, tgt_fids, target_token_id, strength=strength_boost)
+                for fid, (is_safe, delta, rank_imp) in zip(tgt_fids, batch_res):
+                    if is_safe:
+                        target_ids.append(fid)
+                    else:
+                        boost_rejections.append({"feature_id": fid, "reason": "degrades target rank", "target_prob_delta": f"{delta*100:.3f}%"})
+            else:
+                for fid in tgt_fids:
+                    is_safe, delta, rank_imp = check_boost_safe(
+                        model, sae, prompt, fid, target_token_id, strength=strength_boost,
+                        clean_target_prob=baseline_target_prob, clean_rank=clean_ctx.clean_rank
+                    )
+                    if is_safe:
+                        target_ids.append(fid)
+                    else:
+                        boost_rejections.append({"feature_id": fid, "reason": "degrades target rank", "target_prob_delta": f"{delta*100:.3f}%"})
+        else:
+            target_ids = [fid for fid, _ in target_features]
+
+        t_filtering_done = time.perf_counter()
+
+        steps = []
+        reached_target = False
+        stopped_at = None
+        best_so_far = {
+            "rank": clean_ctx.clean_rank,
+            "prob": baseline_target_prob,
+            "top1": current_top1_str,
+            "mute_size": 0,
+            "boost_size": 0,
+            "mute_features": [],
+            "boost_features": [],
+            "step": 0,
+        }
+        rank_progression = [{
+            "Step": 0, "Label": "Baseline",
+            "Target Rank": clean_ctx.clean_rank, "Target Prob (%)": baseline_target_prob * 100,
+        }]
+        step_counter = 0
+
+        if cumulative:
+            max_pile = min(len(comp_ids), len(target_ids))
+            combo_pairs = [(n, n) for n in range(1, max_pile + 1)]
+        else:
+            combo_pairs = [(m_n, b_n) for m_n in mute_sizes for b_n in boost_sizes]
+
+        for m_n, b_n in combo_pairs:
+                if reached_target:
+                    break
+                mute_batch = comp_ids[:m_n]
+                boost_batch = target_ids[:b_n]
+
+                model.reset_hooks()
+                # Single combined hook (see Tab 4 for why): keeps this sweep's own rank/prob
+                # numbers consistent with check_combination_safe's independently-computed rank.
+                combined_fn = make_mute_and_boost_hook(mute_batch, strength_mute, boost_batch, strength_boost, sae)
+                model.add_hook(hook_name, combined_fn)
+
+                with torch.no_grad():
+                    logits = model(tokens)
+                probs = F.softmax(logits[0, -1, :], dim=-1)
+                top5_probs, top5_indices = torch.topk(probs, k=5)
+                new_top1_id = top5_indices[0].item()
+                new_top1_str = model.to_string([new_top1_id])
+                target_prob = probs[target_token_id].item()
+
+                top5_table = []
+                for rank_idx, (p, idx) in enumerate(zip(top5_probs, top5_indices), start=1):
+                    top5_table.append({
+                        "Rank": rank_idx,
+                        "Token": model.to_string([idx.item()]),
+                        "Probability": f"{p.item()*100:.2f}%",
+                        "Is Target": "Yes (TARGET)" if idx.item() == target_token_id else "No",
+                    })
+
+                sorted_indices = torch.argsort(probs, descending=True)
+                new_rank = (sorted_indices == target_token_id).nonzero().item() + 1
+
+                steps.append({
+                    "mute_size": m_n,
+                    "boost_size": b_n,
+                    "muted_features": mute_batch,
+                    "boosted_features": boost_batch,
+                    "new_top1": new_top1_str,
+                    "target_prob": target_prob,
+                    "target_rank": new_rank,
+                    "target_reached": new_top1_id == target_token_id,
+                    "top5_table": top5_table,
+                })
+
+                step_counter += 1
+                rank_progression.append({
+                    "Step": step_counter, "Label": f"M{m_n}/B{b_n}",
+                    "Target Rank": new_rank, "Target Prob (%)": target_prob * 100,
+                })
+                if new_rank < best_so_far["rank"] or (new_rank == best_so_far["rank"] and target_prob > best_so_far["prob"]):
+                    best_so_far = {
+                        "rank": new_rank, "prob": target_prob, "top1": new_top1_str,
+                        "mute_size": m_n, "boost_size": b_n,
+                        "mute_features": mute_batch, "boost_features": boost_batch,
+                        "step": step_counter,
+                    }
+
+                if stop_on_rank1 and new_top1_id == target_token_id:
+                    reached_target = True
+                    stopped_at = (m_n, b_n)
+                    break
+
+        model.reset_hooks()
+        if device == "cuda":
+            torch.cuda.synchronize()
+        elapsed = time.perf_counter() - t_start
+
+        rows = [{
+            "Mute Size": s["mute_size"],
+            "Boost Size": s["boost_size"],
+            "New Top-1": s["new_top1"],
+            "Target Prob": f"{s['target_prob']*100:.2f}%",
+            "Target Reached #1": "✅" if s["target_reached"] else "",
+        } for s in steps]
+
+        return {
+            "elapsed": elapsed,
+            "t_baseline": t_baseline_done - t_start,
+            "t_filtering": t_filtering_done - t_baseline_done,
+            "t_sweep": elapsed - (t_filtering_done - t_start),
+            "rows": rows,
+            "steps": steps,
+            "comp_rejections": comp_rejections,
+            "boost_rejections": boost_rejections,
+            "n_combinations_run": len(steps),
+            "n_combinations_total": len(combo_pairs),
+            "reached_target": reached_target,
+            "stopped_at": stopped_at,
+            "baseline_top1": current_top1_str,
+            "baseline_target_prob": baseline_target_prob,
+            "final_top1": rows[-1]["New Top-1"] if rows else current_top1_str,
+            "final_target_prob": rows[-1]["Target Prob"] if rows else f"{baseline_target_prob*100:.2f}%",
+            "mute_pool_size": len(comp_ids),
+            "boost_pool_size": len(target_ids),
+            "best_so_far": best_so_far,
+            "rank_progression": rank_progression,
+        }
+
+    if st.button("Run Both Versions & Compare", key="btn_t11"):
+        try:
+            mute_sizes_11 = [int(x.strip()) for x in mute_sizes_str_11.split(",") if x.strip()]
+        except ValueError:
+            mute_sizes_11 = [1, 3, 5]
+            st.warning("Invalid mute batch sizes; using default [1, 3, 5].")
+
+        try:
+            boost_sizes_11 = [int(x.strip()) for x in boost_sizes_str_11.split(",") if x.strip()]
+        except ValueError:
+            boost_sizes_11 = [1, 3, 5]
+            st.warning("Invalid boost batch sizes; using default [1, 3, 5].")
+
+        prompt_11_s = prompt_11.strip()
+        target_11_s = " " + target_11.strip()
+        target_token_id_11 = get_target_token_id(model, target_11_s)
+
+        wall_start_seq = time.perf_counter()
+        with st.spinner("Running the ORIGINAL sequential version in the background..."):
+            result_seq = _run_hybrid_workflow(
+                prompt_11_s, target_token_id_11, top_n_11, mute_sizes_11, boost_sizes_11,
+                strength_mute_11, strength_boost_11, use_safety_11, stop_on_rank1_11, use_batched=False,
+                cumulative=cumulative_sweep_11
+            )
+
+        wall_start_batch = time.perf_counter()
+        with st.spinner("Running the NEW GPU-batched version..."):
+            result_batch = _run_hybrid_workflow(
+                prompt_11_s, target_token_id_11, top_n_11, mute_sizes_11, boost_sizes_11,
+                strength_mute_11, strength_boost_11, use_safety_11, stop_on_rank1_11, use_batched=True,
+                cumulative=cumulative_sweep_11
+            )
+
+        speedup = result_seq["elapsed"] / result_batch["elapsed"] if result_batch["elapsed"] > 0 else float("inf")
+        same_outcome = (
+            result_seq["final_top1"] == result_batch["final_top1"]
+            and result_seq["reached_target"] == result_batch["reached_target"]
+            and result_seq["n_combinations_run"] == result_batch["n_combinations_run"]
+        )
+
+        st.markdown("---")
+        st.subheader("⏱️ Stopwatch — Head-to-Head Result")
+        m1, m2, m3 = st.columns(3)
+        m1.metric("Original (sequential)", f"{result_seq['elapsed']:.3f}s")
+        m2.metric("Optimized (GPU batched)", f"{result_batch['elapsed']:.3f}s")
+        m3.metric("Speedup", f"{speedup:.2f}x")
+
+        st.write("**Stage-by-stage breakdown** (where the time actually goes):")
+        st.table([
+            {
+                "Stage": "Baseline pass",
+                "Original (s)": f"{result_seq['t_baseline']:.3f}",
+                "Optimized (s)": f"{result_batch['t_baseline']:.3f}",
+            },
+            {
+                "Stage": "Candidate ranking + safety filter",
+                "Original (s)": f"{result_seq['t_filtering']:.3f}",
+                "Optimized (s)": f"{result_batch['t_filtering']:.3f}",
+            },
+            {
+                "Stage": "Sweep (intervention passes)",
+                "Original (s)": f"{result_seq['t_sweep']:.3f}",
+                "Optimized (s)": f"{result_batch['t_sweep']:.3f}",
+            },
+            {
+                "Stage": "TOTAL",
+                "Original (s)": f"{result_seq['elapsed']:.3f}",
+                "Optimized (s)": f"{result_batch['elapsed']:.3f}",
+            },
+        ])
+
+        if same_outcome:
+            st.success(f"Both versions reached the same final result — same Top-1 token (`{result_seq['final_top1']}`), same stop condition, same number of sweep combinations run. Only the runtime differs.")
+        else:
+            st.error("The two versions did NOT reach the same outcome — check the tables below.")
+
+        def _render_side(label, caption, result, wall_start):
+            st.write(f"**Model compute time:** `{result['elapsed']:.3f}s`  (baseline `{result['t_baseline']:.3f}s` + filtering `{result['t_filtering']:.3f}s` + sweep `{result['t_sweep']:.3f}s`)")
+            st.write(f"**Baseline Top-1:** `{result['baseline_top1']}` | **Baseline Target Prob:** `{result['baseline_target_prob']*100:.2f}%`")
+            st.write(f"**Mute pool (passed safety):** {result['mute_pool_size']} | **Boost pool (passed safety):** {result['boost_pool_size']}")
+            st.write(f"**Combinations run:** {result['n_combinations_run']} / {result['n_combinations_total']}" + (f" (stopped early at mute={result['stopped_at'][0]}, boost={result['stopped_at'][1]})" if result["stopped_at"] else " (target never reached rank #1 — sweep exhausted)"))
+            st.write(f"**Final Top-1:** `{result['final_top1']}` | **Final Target Prob:** `{result['final_target_prob']}`")
+
+            with st.expander(f"❌ Candidates rejected by safety filter ({len(result['comp_rejections']) + len(result['boost_rejections'])})"):
+                if result["comp_rejections"]:
+                    st.write("**Mute pool rejections:**")
+                    st.table(result["comp_rejections"])
+                else:
+                    st.write("No mute candidates rejected.")
+                if result["boost_rejections"]:
+                    st.write("**Boost pool rejections:**")
+                    st.table(result["boost_rejections"])
+                else:
+                    st.write("No boost candidates rejected.")
+
+            best = result["best_so_far"]
+            st.write(
+                f"**🏆 Best rank found in sweep:** `#{best['rank']}` at `{best['prob']*100:.2f}%` "
+                + (f"(Mute {best['mute_size']} / Boost {best['boost_size']})" if best["step"] > 0 else "(baseline — no combo beat it)")
+                + " — tracked across every row, not just the last one run."
+            )
+            render_rank_progression_chart(result["rank_progression"], best_step=best["step"], height=260)
+
+            st.write("**Step-by-step sweep:**")
+            for i, s in enumerate(result["steps"], start=1):
+                title = f"Step {i}: Mute {s['mute_size']} | Boost {s['boost_size']} → Top-1 `{s['new_top1']}` (rank #{s['target_rank']}, {s['target_prob']*100:.2f}%)" + (" ✅ TARGET REACHED" if s["target_reached"] else "") + (" 🏆" if s["mute_size"] == best["mute_size"] and s["boost_size"] == best["boost_size"] and s["target_rank"] == best["rank"] else "")
+                with st.expander(title):
+                    st.write(f"**Muted Features:** `{s['muted_features']}`")
+                    st.write(f"**Boosted Features:** `{s['boosted_features']}`")
+                    st.table(s["top5_table"])
+
+            wall_elapsed = time.perf_counter() - wall_start
+            st.metric("⏱️ Total wall-clock time (this run, everything included)", f"{wall_elapsed:.3f}s")
+            st.caption("Compute time plus any extra work spent building this display — the number that matches how long this side actually took, start to finish.")
+            return wall_elapsed
+
+        col_seq, col_batch = st.columns(2)
+        with col_seq:
+            st.markdown("### 🐢 Original (Sequential)")
+            st.caption("The version the app first shipped with — evaluates candidate features and safety checks one at a time.")
+            wall_seq = _render_side("Original", "sequential", result_seq, wall_start_seq)
+
+        with col_batch:
+            st.markdown("### ⚡ Optimized (GPU Batched)")
+            st.caption("Candidate ranking + safety filtering run as batched GPU calls instead of one-by-one.")
+            wall_batch = _render_side("Optimized", "batched", result_batch, wall_start_batch)
+
+        st.markdown("---")
+        st.subheader("⏱️ Wall-Clock Summary (entire run, including everything on screen)")
+        wc1, wc2, wc3 = st.columns(3)
+        wc1.metric("Original — wall-clock", f"{wall_seq:.3f}s")
+        wc2.metric("Optimized — wall-clock", f"{wall_batch:.3f}s")
+        wc3.metric("Speedup (wall-clock)", f"{wall_seq / wall_batch:.2f}x" if wall_batch > 0 else "N/A")
+        st.caption("This is the total time each side actually took, start to finish — not just the isolated model-compute numbers above.")

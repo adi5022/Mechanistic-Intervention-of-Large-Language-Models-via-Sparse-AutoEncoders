@@ -101,3 +101,80 @@ This diagnostic reveals a fundamental bottleneck in token-focused mechanistic in
 3. **Implications**: The hypothesis that *"a single representative feature per competitor is enough to shift the ranking"* is false for highly distributed grammatical tokens.
 4. **Next Steps**: A successful multi-competitor intervention must shift from a `1 competitor -> 1 feature` mapping to a `1 competitor -> N influential features` (subspace) representation.
 
+---
+
+## 2026-09-09T19:49:15+05:30: Fix Cleanup `del` Statement NameError in `layer_benchmark_runner.py`
+
+### 1. Issue & Root Cause Analysis
+In `src/benchmark/layer_benchmark_runner.py`, inside `run_layer_benchmark` (around line 321), the cleanup statement `del logits, probs, clean_sorted_indices, logits_int, probs_int, sorted_indices_after, tokens` referenced `logits` and `clean_sorted_indices` which were never assigned in the function scope (the function uses `clean_ctx.clean_probs` and precomputed ranks via `build_clean_context`). This line raised a `NameError` at the end of every successful iteration, triggering the `except` block and appending a duplicate bogus "ERROR" entry (`clean_rank: -1`) to `prompt_runs_dict[p_idx]["layers"]`.
+
+### 2. Code Changes
+**File**: [`src/benchmark/layer_benchmark_runner.py`](file:///d:/Work/PROJECTS/FeatureScalpel/src/benchmark/layer_benchmark_runner.py#L321)
+
+```diff
+-                del logits, probs, clean_sorted_indices, logits_int, probs_int, sorted_indices_after, tokens
++                del probs, logits_int, probs_int, sorted_indices_after, tokens
+```
+
+### 3. Empirical Validation Results
+Validated via direct call to `run_layer_benchmark` with:
+- Prompt: `"The location of Massachusetts Institute of Technology is in"`
+- Target: `"Cambridge"`
+- Layers: `[8]`
+- `use_safety`: `False`
+- Strengths & Batches: `mute_strength=0.3`, `boost_strength=0.5`, `mute_batch_size=3`, `boost_batch_size=3`
+- `use_batched_ranking`: `False`
+
+**Results**:
+- `len(output["prompts"][0]["layers"])`: `1` (No duplicate error entry created)
+- `"error"` key present: `False`
+- `wall_clock_time`: `20.332201499999883` seconds
+
+**Layer Result Entry (`layers[0]`)**:
+```json
+{
+  "layer": 8,
+  "hook": "blocks.8.hook_resid_pre",
+  "release": "gpt2-small-res-jb",
+  "clean_rank": 8,
+  "final_rank": 3,
+  "rank_improvement": 5,
+  "clean_probability": 0.01152519416064024,
+  "final_probability": 0.0355326384305954,
+  "probability_gain": 0.024007444269955158,
+  "runtime_ms": 5720.880599999873,
+  "profile": {
+    "sae_loading_ms": 14593.68160000031,
+    "clean_baseline_ms": 880.5392999997821,
+    "feature_selection_ms": 4762.711500000023,
+    "safety_filtering_ms": 0.009999999747378752,
+    "intervention_ms": 66.72550000030242,
+    "result_packaging_ms": 0.0009000000318337698,
+    "total_layer_ms": 5720.880599999873
+  },
+  "forward_passes": {
+    "clean_baseline": 1,
+    "candidate_screening": 0,
+    "competitor_ranking": 30,
+    "target_ranking": 30,
+    "competitor_safety": 0,
+    "target_safety": 0,
+    "final_intervention": 1,
+    "total_model_forwards": 62
+  },
+  "counts": {
+    "competitor_candidates_evaluated": 30,
+    "target_candidates_evaluated": 30,
+    "competitor_safety_checks": 0,
+    "target_safety_checks": 0,
+    "selected_mute_features_count": 3,
+    "selected_boost_features_count": 3
+  },
+  "success": true,
+  "top_prediction_before": " the",
+  "top_prediction_after": " the",
+  "mute_features": [313, 8459, 21169],
+  "boost_features": [3076, 19288, 8239]
+}
+```
+

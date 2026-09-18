@@ -76,6 +76,11 @@
 * Added hardware compute device indicator (`⚡ GPU` / `💻 CPU`) to Streamlit sidebar and header metadata in `layer_benchmark.py`.
 * Created [Research Journal Entry 12](file:///d:/Work/PROJECTS/FeatureScalpel/docs/Research_Journal/12.md) documenting hardware speed analysis and delta patching formalization.
 
+## 2026-09-09T19:49:15+05:30: Fix Cleanup `del` Statement NameError in `layer_benchmark_runner.py`
+* Fixed `del` statement in [`src/benchmark/layer_benchmark_runner.py`](file:///d:/Work/PROJECTS/FeatureScalpel/src/benchmark/layer_benchmark_runner.py#L321) by removing unassigned local variables `logits` and `clean_sorted_indices`.
+* Eliminates `NameError` exceptions causing bogus duplicate `ERROR` entries (`clean_rank: -1`) in benchmark prompt results.
+* Validated standalone execution on Layer 8 (`gpt2-small-res-jb`) confirming single layer output entry (`len == 1`), zero error keys, and wall-clock execution time of 20.33s.
+
 ## 2026-08-12: Empirical Execution Cost Audit, Step 2 Optimization, and UI Observability
 * Conducted **Step 1 Execution Cost Audit** on Layer 8 (`gpt2-small-res-jb`) identifying 186 model forward passes on GPU.
 * Implemented **Step 2 Safety Filter Optimization**, passing precomputed clean baseline probabilities into `check_target_safe()` and `check_boost_safe()` in `src/editing.py`.

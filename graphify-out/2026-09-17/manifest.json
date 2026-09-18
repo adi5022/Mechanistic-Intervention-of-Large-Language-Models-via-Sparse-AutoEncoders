@@ -35,8 +35,8 @@
     "semantic_hash": "ceba1cf7cbd9eb9a38b123e9a5937542"
   },
   "experiment_app.py": {
-    "mtime": 1789677732.464142,
-    "ast_hash": "7897f4cadfe95331910f72ffbc68d72c",
+    "mtime": 1789657585.3862805,
+    "ast_hash": "3d8d613db5e5d517aa62f09dd2e2914b",
     "semantic_hash": ""
   },
   "run_stage1.py": {
@@ -50,8 +50,8 @@
     "semantic_hash": "69d37e4b91b761cdeaf6c275773fdffb"
   },
   "src/editing.py": {
-    "mtime": 1789676274.9166062,
-    "ast_hash": "4ea2126df108696a1a15b7a7e4575746",
+    "mtime": 1786634662.489985,
+    "ast_hash": "4382fcf61966025b46b9671bb5617d31",
     "semantic_hash": ""
   },
   "src/evaluation.py": {
@@ -60,9 +60,9 @@
     "semantic_hash": "fea623af6e6998d07b92a7a142225976"
   },
   "src/explain.py": {
-    "mtime": 1789676820.00818,
-    "ast_hash": "e21269ca5fadf3983f2277d7549061f1",
-    "semantic_hash": ""
+    "mtime": 1785571190.6240146,
+    "ast_hash": "5621187969453950fbfed75a784dc1cf",
+    "semantic_hash": "5621187969453950fbfed75a784dc1cf"
   },
   "src/fact_bank.py": {
     "mtime": 1784841489.5150094,
@@ -787,46 +787,6 @@
   "docs/Research_Journal/14.md": {
     "mtime": 1786634662.4729848,
     "ast_hash": "2e3afbda8f04736444ad4a635901bfd6",
-    "semantic_hash": ""
-  },
-  "scratch/run_test_cases.py": {
-    "mtime": 1789658770.0503953,
-    "ast_hash": "21c719618221c6443718f50cddffaa57",
-    "semantic_hash": ""
-  },
-  ".claude/launch.json": {
-    "mtime": 1789670771.3731985,
-    "ast_hash": "c67dc8bd5d7db6bf8331351a1be6433e",
-    "semantic_hash": ""
-  },
-  "benchmark_sequential_vs_batched.py": {
-    "mtime": 1789670519.4238994,
-    "ast_hash": "5b4dece9ad06b92257a8a364992f02a5",
-    "semantic_hash": ""
-  },
-  "scratch/test_melbourne_boost.py": {
-    "mtime": 1789669689.869356,
-    "ast_hash": "1814c189873f6dce63b23f98950f313e",
-    "semantic_hash": ""
-  },
-  "docs/Research_Journal/15.md": {
-    "mtime": 1789673642.130537,
-    "ast_hash": "393a1fb15cc98a9f170a2088674f6329",
-    "semantic_hash": ""
-  },
-  "docs/Research_Journal/16.md": {
-    "mtime": 1789675096.5959845,
-    "ast_hash": "a137d9754fd034f5b830b10a51347253",
-    "semantic_hash": ""
-  },
-  "docs/Research_Journal/17.md": {
-    "mtime": 1789675924.6702144,
-    "ast_hash": "35297c60058d1d04a5ca085aa81ef03a",
-    "semantic_hash": ""
-  },
-  "docs/Research_Journal/18.md": {
-    "mtime": 1789677992.7046826,
-    "ast_hash": "7f4ad0845553bca593b03c69a46ebd95",
     "semantic_hash": ""
   }
 }

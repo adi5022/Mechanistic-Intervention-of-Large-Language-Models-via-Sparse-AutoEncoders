@@ -1,11 +1,12 @@
-# Graph Report - .  (2026-09-18)
+# Graph Report - FeatureScalpel  (2026-09-17)
 
 ## Corpus Check
-- cluster-only mode — file stats not available
+- 151 files · ~571,826 words
+- Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 615 nodes · 973 edges · 67 communities (35 shown, 32 thin omitted)
-- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 13 edges (avg confidence: 0.53)
+- 562 nodes · 860 edges · 63 communities (30 shown, 33 thin omitted)
+- Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 13 edges (avg confidence: 0.53)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
@@ -15,9 +16,9 @@
 
 ## Community Hubs (Navigation)
 - experiment_app.py
-- validate_step3b.py
+- make_ablation_hook
 - history.md
-- load_model_and_sae
+- sae_utils.py
 - 4. Discussion & Next Steps
 - Experiment: Weighted Multi-Competitor Reduction & Grammatical Feature Collapse on the Cambridge Case
 - Experiment: Competitor-Focused Iterative Ablation
@@ -63,7 +64,7 @@
 - README
 - Residual Stream
 - Sparse Autoencoder (SAE)
-- authoritative_accounting.py
+- validate_step3b.py
 - Research Journal Entry 10: Layer Intervention Depth Characterization Benchmark
 - Research Journal Entry 9: Pretrained SAE Dictionary Audit for gpt2-small-res-jb
 - investigate_gpt2_saes.py
@@ -71,38 +72,34 @@
 - Research Journal Entry 11: Benchmark Infrastructure Optimization, Stage Profiling, and Batch Dataset Processing
 - Research Journal Entry 12: Candidate Selection Mechanics, Delta Patching Formalization, ROME Dataset Integration, and Hardware Acceleration Benchmarking
 - editing.py
-- audit_step1_instrumentation.py
+- load_model_and_sae
 - Research Journal Entry 13: Empirical Execution Cost Audit, Step 2 Safety Filter Optimization, and Benchmark UI Observability Enhancements
 - Research Journal Entry 14: GPU Batched Candidate Evaluation (Steps 3A, 3B, 3C)
-- step2_validation.py
-- Research Journal Entry 15: Making the Hybrid Sweep Faster, and Proving It
-- Research Journal Entry 16: Best-So-Far Result Tracking and Rank Progression Visualization
-- Research Journal Entry 17: Cumulative Sweep Mode and Chart Readability Fixes
-- Research Journal Entry 18: Groq Model Migration, Dynamic Best-Result Explanations, and a Run-History Logging Fix
+- ForwardPassTracker
 
 ## God Nodes (most connected - your core abstractions)
-1. `get_top_competitor_features()` - 32 edges
-2. `load_model_and_sae()` - 31 edges
-3. `get_target_token_id()` - 26 edges
-4. `run_layer_benchmark()` - 25 edges
-5. `get_top_target_features()` - 23 edges
+1. `load_model_and_sae()` - 29 edges
+2. `get_top_competitor_features()` - 27 edges
+3. `run_layer_benchmark()` - 25 edges
+4. `get_target_token_id()` - 22 edges
+5. `get_top_target_features()` - 18 edges
 6. `Research Log: Investigating SAE-Based Activation Manipulation` - 18 edges
 7. `make_ablation_hook()` - 17 edges
-8. `load_base_model()` - 17 edges
-9. `build_clean_context()` - 16 edges
-10. `load_sae_for_layer()` - 15 edges
+8. `load_base_model()` - 15 edges
+9. `load_sae_for_layer()` - 13 edges
+10. `main()` - 12 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `patched_check_boost_safe()` --calls--> `make_signed_ablation_hook()`  [EXTRACTED]
-  scratch/audit_step1_instrumentation.py → src/hooks.py
 - `get_predictions()` --calls--> `make_ablation_hook()`  [EXTRACTED]
   app.py → src/hooks.py
-- `main()` --calls--> `get_default_device()`  [EXTRACTED]
-  benchmark_sequential_vs_batched.py → src/sae_utils.py
-- `main()` --calls--> `load_model_and_sae()`  [EXTRACTED]
-  benchmark_sequential_vs_batched.py → src/sae_utils.py
 - `main()` --calls--> `run_layer_benchmark()`  [EXTRACTED]
   layer_benchmark.py → src/benchmark/layer_benchmark_runner.py
+- `get_cached_model_and_sae()` --calls--> `load_base_model()`  [EXTRACTED]
+  run_speed_analysis.py → src/sae_utils.py
+- `get_cached_model_and_sae()` --calls--> `load_sae_for_layer()`  [EXTRACTED]
+  run_speed_analysis.py → src/sae_utils.py
+- `patched_get_top_competitor_features()` --calls--> `get_top_active_features()`  [EXTRACTED]
+  scratch/audit_step1_instrumentation.py → src/editing.py
 
 ## Import Cycles
 - None detected.
@@ -111,23 +108,23 @@
 - **Research Evolution: From Single to Multi-Feature Intervention** — docs_research_journal_2, docs_research_journal_3, docs_research_journal_4, docs_research_journal_8 [EXTRACTED 0.90]
 - **Theoretical Framework** — residual_stream, sparse_autoencoder, distributed_support_hypothesis [INFERRED 0.85]
 
-## Communities (67 total, 32 thin omitted)
+## Communities (63 total, 33 thin omitted)
 
 ### Community 0 - "experiment_app.py"
-Cohesion: 0.05
-Nodes (63): cache_data, get_neuronpedia_explanation(), make_feature_hover_link(), Renders a structured 6-part Educational XAI Guidance Card in the UI., # NOTE: rejection reasons are only collected here (fid + delta, no network…, Renders a structured, informative empty state card when data or metadata is…, Renders a labeled, publication-quality line chart of the target token's rank…, render_empty_state_card() (+55 more)
+Cohesion: 0.06
+Nodes (57): cache_data, get_neuronpedia_explanation(), make_feature_hover_link(), Renders a structured 6-part Educational XAI Guidance Card in the UI., Renders a structured, informative empty state card when data or metadata is…, render_empty_state_card(), render_xai_guidance_card(), slow (+49 more)
 
-### Community 1 - "validate_step3b.py"
-Cohesion: 0.18
-Nodes (17): compare_ordered_lists(), compute_stability_margin(), count_forward_calls(), main(), Evaluates 6 prompts (1 canonical MIT + 5 spread-out prompts from FACT_BANK) at…, Wraps model.forward exclusively to count forward calls accurately., Compares two feature ID lists element-by-element in order. Returns…, run_multi_prompt_check() (+9 more)
+### Community 1 - "make_ablation_hook"
+Cohesion: 0.11
+Nodes (28): get_predictions(), DataFrame, Ranks the top-N active features by their causal effect on the target token's…, run_causal_selector(), check_specificity(), classify_fact(), iterative_ablate(), Evaluation metrics and scripts for measuring intervention success. (+20 more)
 
 ### Community 2 - "history.md"
 Cohesion: 0.06
 Nodes (33): 1. Core Algorithmic & Engine Changes, 2. Dashboard Improvements (`experiment_app.py`), 3. Research Infrastructure, Background, Cambridge Diagnostic Output, Current Working Hypothesis (Unverified), Diagnostic Experiment, `docs/Research_Journal/4.md` (+25 more)
 
-### Community 3 - "load_model_and_sae"
-Cohesion: 0.09
-Nodes (31): get_cached_model_and_sae(), cache_resource, get_cached_base_model(), get_cached_sae(), cache_resource, HookedTransformer, get_cached_base_model(), get_cached_model_and_sae() (+23 more)
+### Community 3 - "sae_utils.py"
+Cohesion: 0.14
+Nodes (21): get_cached_base_model(), get_cached_sae(), cache_resource, get_cached_base_model(), get_cached_model_and_sae(), get_cached_sae(), main(), cache_resource (+13 more)
 
 ### Community 4 - "4. Discussion & Next Steps"
 Cohesion: 0.11
@@ -181,9 +178,9 @@ Nodes (3): Research Contribution Guidelines, Research Workflow, Writing Guidelin
 Cohesion: 0.25
 Nodes (7): 1. Iterative ablation loop (`editing.py`), 2. Specificity check (new: `specificity.py`, or a function added to `evaluation.py`), 3. Batch runner, Explicit constraints (do not let this expand), Step 1 — Iterative Ablation + Specificity Check, What "done" looks like, What gets built
 
-### Community 49 - "authoritative_accounting.py"
-Cohesion: 0.19
-Nodes (5): ForwardPassTracker, Authoritative Single-Pass Forward Pass Counter Script Measures the EXACT call…, run_accounting(), tracked_check_boost_safe(), tracked_check_target_safe()
+### Community 49 - "validate_step3b.py"
+Cohesion: 0.18
+Nodes (17): compare_ordered_lists(), compute_stability_margin(), count_forward_calls(), main(), Evaluates 6 prompts (1 canonical MIT + 5 spread-out prompts from FACT_BANK) at…, Wraps model.forward exclusively to count forward calls accurately., Compares two feature ID lists element-by-element in order. Returns…, run_multi_prompt_check() (+9 more)
 
 ### Community 50 - "Research Journal Entry 10: Layer Intervention Depth Characterization Benchmark"
 Cohesion: 0.22
@@ -210,12 +207,12 @@ Cohesion: 0.17
 Nodes (11): 1. Objective, 2.1 Two-Stage Candidate Selection Mechanics, 2.2 Delta Patching Formulation & Literature Lineage, 2. Theoretical & Algorithmic Foundations, 3.1 Speed & Resource Results, 3.2 VRAM Footprint & Efficiency, 3. Empirical Hardware Speed Analysis, 4. UI & Tooling Enhancements (+3 more)
 
 ### Community 57 - "editing.py"
-Cohesion: 0.06
-Nodes (78): get_predictions(), main(), Sequential vs GPU-Batched candidate safety-filtering benchmark. Runs the OLD…, run_batched(), run_sequential(), sync_if_cuda(), verify_parity(), DataFrame (+70 more)
+Cohesion: 0.09
+Nodes (47): benchmark_device(), get_cached_model_and_sae(), main(), Speed Analysis Benchmark Script Compares GPU (NVIDIA GeForce GTX 1660 Ti) vs…, Caches base model and layer SAEs in RAM/VRAM to avoid redundant reload disk I/O., instrument_model(), Step 2 Validation & Performance Comparison Script Compares Reference vs…, run_step2_validation() (+39 more)
 
-### Community 58 - "audit_step1_instrumentation.py"
-Cohesion: 0.15
-Nodes (8): ForwardPassTracker, patched_check_boost_safe(), patched_get_top_competitor_features(), patched_get_top_target_features(), Temporary Audit Instrumentation Script (Step 1 Audit Only) Measures execution…, run_audit(), get_top_active_features(), Runs the model on the prompt, extracts the final token's residual stream…
+### Community 58 - "load_model_and_sae"
+Cohesion: 0.07
+Nodes (20): get_cached_model_and_sae(), cache_resource, HookedTransformer, ForwardPassTracker, patched_check_boost_safe(), patched_get_top_competitor_features(), patched_get_top_target_features(), Temporary Audit Instrumentation Script (Step 1 Audit Only) Measures execution… (+12 more)
 
 ### Community 59 - "Research Journal Entry 13: Empirical Execution Cost Audit, Step 2 Safety Filter Optimization, and Benchmark UI Observability Enhancements"
 Cohesion: 0.17
@@ -225,45 +222,25 @@ Nodes (11): 1. Executive Summary, 2. Step 1: Execution-Cost Audit & Baseline Acc
 Cohesion: 0.20
 Nodes (9): 1. Accounting Framework: Forward Calls vs. Sequence Evaluations, 2. Implemented Sub-Steps & Verification Gates, 3. End-to-End Execution Trace Comparison, 4. Scientific Equivalence Results (Canonical Case), Executive Summary, Research Journal Entry 14: GPU Batched Candidate Evaluation (Steps 3A, 3B, 3C), Step 3A — Pre-Batching Cleanup, Step 3B — Batched Causal Ranking Stages (+1 more)
 
-### Community 61 - "step2_validation.py"
-Cohesion: 0.29
-Nodes (3): ForwardPassTracker, instrument_model(), Step 2 Validation & Performance Comparison Script Compares Reference vs…
-
-### Community 63 - "Research Journal Entry 15: Making the Hybrid Sweep Faster, and Proving It"
-Cohesion: 0.20
-Nodes (9): A bug I caught while wiring up the timer, worth writing down, One more thing: a second stopwatch for "how long did I actually wait", Research Journal Entry 15: Making the Hybrid Sweep Faster, and Proving It, Tab 4 now has an on/off switch, plus its own stopwatch, What I actually changed, What I found, What I was trying to fix today, Where to look / how to reproduce this (+1 more)
-
-### Community 64 - "Research Journal Entry 16: Best-So-Far Result Tracking and Rank Progression Visualization"
-Cohesion: 0.22
-Nodes (8): 1. Best-so-far result tracking (Tab 4 and Tab 11), 2. Rank progression visualization, Changes Made, Problem Statement, Research Journal Entry 16: Best-So-Far Result Tracking and Rank Progression Visualization, Scope and Limitations, Verification, Where to Look
-
-### Community 65 - "Research Journal Entry 17: Cumulative Sweep Mode and Chart Readability Fixes"
-Cohesion: 0.22
-Nodes (8): 1. Rank Progression Chart — Axis Labels and Rendering Quality, 2. Cumulative Sweep Mode, Implementation, Motivation, Research Journal Entry 17: Cumulative Sweep Mode and Chart Readability Fixes, Scope, Verification, Where to Look
-
-### Community 66 - "Research Journal Entry 18: Groq Model Migration, Dynamic Best-Result Explanations, and a Run-History Logging Fix"
-Cohesion: 0.25
-Nodes (7): 1. Groq Model Deprecation, 2. Dynamic Explanation for "Best Result Found During Sweep", 3. Run-History Logging Bug: Cumulative Sweep Metadata, 4. Rank Mismatch Bug: Chained Hooks vs. the Combined Safety-Check Hook, Analysis Note (from reviewing the flagged JSON), Research Journal Entry 18: Groq Model Migration, Dynamic Best-Result Explanations, and a Run-History Logging Fix, Where to Look
-
 ## Knowledge Gaps
-- **225 isolated node(s):** `MockConfig`, `graphify`, `Workflow: graphify`, `Project Context (read this fully before writing any code)`, `What has already been done and confirmed (do not re-derive from scratch —` (+220 more)
+- **199 isolated node(s):** `MockConfig`, `graphify`, `Workflow: graphify`, `Project Context (read this fully before writing any code)`, `What has already been done and confirmed (do not re-derive from scratch —` (+194 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **32 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **33 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `load_model_and_sae()` connect `load_model_and_sae` to `experiment_app.py`, `validate_step3b.py`, `authoritative_accounting.py`, `editing.py`, `audit_step1_instrumentation.py`, `step2_validation.py`?**
-  _High betweenness centrality (0.017) - this node is a cross-community bridge._
-- **Why does `get_top_competitor_features()` connect `editing.py` to `experiment_app.py`, `validate_step3b.py`, `audit_step1_instrumentation.py`, `load_model_and_sae`?**
-  _High betweenness centrality (0.013) - this node is a cross-community bridge._
-- **Why does `get_target_token_id()` connect `editing.py` to `experiment_app.py`, `validate_step3b.py`, `load_model_and_sae`?**
-  _High betweenness centrality (0.013) - this node is a cross-community bridge._
+- **Why does `load_model_and_sae()` connect `load_model_and_sae` to `experiment_app.py`, `make_ablation_hook`, `sae_utils.py`, `validate_step3b.py`, `editing.py`?**
+  _High betweenness centrality (0.020) - this node is a cross-community bridge._
+- **Why does `get_top_competitor_features()` connect `editing.py` to `experiment_app.py`, `make_ablation_hook`, `sae_utils.py`, `validate_step3b.py`, `load_model_and_sae`?**
+  _High betweenness centrality (0.014) - this node is a cross-community bridge._
+- **Why does `get_target_token_id()` connect `editing.py` to `experiment_app.py`, `validate_step3b.py`, `sae_utils.py`, `make_ablation_hook`?**
+  _High betweenness centrality (0.014) - this node is a cross-community bridge._
 - **What connects `MockConfig`, `graphify`, `Workflow: graphify` to the rest of the system?**
-  _225 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _199 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `experiment_app.py` be split into smaller, more focused modules?**
-  _Cohesion score 0.05153153153153153 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05711849957374254 - nodes in this community are weakly interconnected._
+- **Should `make_ablation_hook` be split into smaller, more focused modules?**
+  _Cohesion score 0.10795454545454546 - nodes in this community are weakly interconnected._
 - **Should `history.md` be split into smaller, more focused modules?**
   _Cohesion score 0.058823529411764705 - nodes in this community are weakly interconnected._
-- **Should `load_model_and_sae` be split into smaller, more focused modules?**
-  _Cohesion score 0.09230769230769231 - nodes in this community are weakly interconnected._

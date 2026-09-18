@@ -288,19 +288,20 @@ def main():
         # Formatted results DataFrame
         table_rows = []
         chart_rows = []
-        profile_rows = []
+
+        safety_on = master_results.get("safety_enabled", True)
 
         for r in layers_data:
             table_rows.append({
                 "Layer": f"Layer {r['layer']}",
-                "Clean Rank": r["clean_rank"],
-                "Final Rank": r["final_rank"],
-                "Rank Improvement": r["rank_improvement"],
+                "Safety Filter": "ON 🛡️" if safety_on else "OFF ⚠️",
+                "Rank Before → After (Clean Rank → Final Rank)": f"{r['clean_rank']} → {r['final_rank']}",
+                "Rank Shift (Rank Improvement)": f"+{r['rank_improvement']}" if r['rank_improvement'] > 0 else f"{r['rank_improvement']}",
                 "Clean Probability": f"{r['clean_probability']*100:.3f}%",
                 "Final Probability": f"{r['final_probability']*100:.3f}%",
-                "Probability Gain": f"{r['probability_gain']*100:.3f}%",
-                "Runtime (ms)": f"{r['runtime_ms']:.1f}",
-                "Success": "Yes" if r["success"] else "No"
+                "Confidence Gain (Probability Gain)": f"{r['probability_gain']*100:.3f}%",
+                "Fixed? (Success)": "Yes ✅" if r["success"] else "No ❌",
+                "Runtime (ms)": f"{r['runtime_ms']:.1f}"
             })
             chart_rows.append({
                 "Layer": f"Layer {r['layer']}",
@@ -308,45 +309,44 @@ def main():
                 "Rank Improvement": r["rank_improvement"],
                 "Runtime (ms)": r["runtime_ms"]
             })
-            prof = r.get("profile", {})
-            tot_ms = prof.get("total_layer_ms", 1.0)
-            if tot_ms <= 0:
-                tot_ms = 1.0
-
-            profile_rows.append({
-                "Layer": f"Layer {r['layer']}",
-                "SAE Load (ms / %)": f"{prof.get('sae_loading_ms', 0.0):.1f} ms ({prof.get('sae_loading_ms', 0.0)/tot_ms*100.0:.1f}%)",
-                "Clean Baseline (ms / %)": f"{prof.get('clean_baseline_ms', 0.0):.1f} ms ({prof.get('clean_baseline_ms', 0.0)/tot_ms*100.0:.1f}%)",
-                "Feature Select (ms / %)": f"{prof.get('feature_selection_ms', 0.0):.1f} ms ({prof.get('feature_selection_ms', 0.0)/tot_ms*100.0:.1f}%)",
-                "Safety Filter (ms / %)": f"{prof.get('safety_filtering_ms', 0.0):.1f} ms ({prof.get('safety_filtering_ms', 0.0)/tot_ms*100.0:.1f}%)",
-                "Intervention (ms / %)": f"{prof.get('intervention_ms', 0.0):.1f} ms ({prof.get('intervention_ms', 0.0)/tot_ms*100.0:.1f}%)",
-                "Total (ms)": f"{tot_ms:.1f} ms"
-            })
 
         df_table = pd.DataFrame(table_rows)
         df_chart = pd.DataFrame(chart_rows)
-        df_profile = pd.DataFrame(profile_rows)
 
         # Summary Top Cards Metrics
         st.subheader("Benchmark Execution Summary")
-        total_time_sec = sum(r["runtime_ms"] for r in layers_data) / 1000.0
-        avg_time_ms = total_time_sec * 1000.0 / len(layers_data) if layers_data else 0.0
+        selected_prompt_time_sec = sum(r["runtime_ms"] for r in layers_data) / 1000.0
+        full_sweep_total_sec = sum(
+            r["runtime_ms"]
+            for pr in master_results.get("prompts", [])
+            for r in pr.get("layers", [])
+        ) / 1000.0
+        avg_time_ms = selected_prompt_time_sec * 1000.0 / len(layers_data) if layers_data else 0.0
         max_prob_gain = max(r["probability_gain"] for r in layers_data) * 100.0 if layers_data else 0.0
         best_layer = max(layers_data, key=lambda x: x["probability_gain"])["layer"] if layers_data else 0
 
-        m_col1, m_col2, m_col3, m_col4 = st.columns(4)
-        m_col1.metric("Total Layer Execution Time", f"{total_time_sec:.2f} s")
-        m_col2.metric("Avg Time per Layer", f"{avg_time_ms:.1f} ms")
-        m_col3.metric("Peak Target Gain", f"+{max_prob_gain:.2f}%")
-        m_col4.metric("Best Performing Layer", f"Layer {best_layer}")
+        m_col1, m_col2, m_col3, m_col4, m_col5 = st.columns(5)
+        m_col1.metric("This Prompt's Total Time", f"{selected_prompt_time_sec:.2f} s")
+        m_col2.metric("Full Sweep Total Time", f"{full_sweep_total_sec:.2f} s")
+        m_col3.metric("Avg Time per Layer", f"{avg_time_ms:.1f} ms")
+        m_col4.metric("Peak Target Gain", f"+{max_prob_gain:.2f}%")
+        m_col5.metric("Best Performing Layer", f"Layer {best_layer}")
 
         st.subheader(f"Results for Prompt #{selected_prompt_idx + 1}")
         st.caption(f"Prompt: `{selected_run.get('prompt', '')}` | Target: `{selected_run.get('target', '')}`")
-        
+
+        # Static Legend Block
+        st.info(
+            "💡 **Understanding Results:**\n"
+            "- **Rank**: The target completion's position in model predictions (Rank 1 = Top prediction). Lower rank is better.\n"
+            "- **Fixed? (Success)**: Marked **Yes** if the intervention improved target rank OR increased target probability.\n"
+            "- **Safety Filter**: When **ON**, candidate features are excluded if muting or boosting them individually harms target probability or rank."
+        )
+
         st.dataframe(df_table, hide_index=True)
 
-        # 1. Expandable Execution Cost / Forward-Pass Accounting
-        with st.expander("🔍 Execution Cost / Forward-Pass Accounting", expanded=True):
+        # Expandable Raw Execution Cost / Forward-Pass Accounting & Stage Profiling
+        with st.expander("🛠️ Advanced / Raw Detail (Forward Passes, Counts & Stage Profiling)", expanded=False):
             fwd_rows = []
             cnt_rows = []
             for r in layers_data:
@@ -355,20 +355,20 @@ def main():
                 fwd_rows.append({
                     "Layer": f"Layer {r['layer']}",
                     "Clean Baseline": fwd.get("clean_baseline", 1),
-                    "Candidate Screening": fwd.get("candidate_screening", 2),
-                    "Competitor Ranking": fwd.get("competitor_ranking", 31),
-                    "Target Ranking": fwd.get("target_ranking", 31),
-                    "Competitor Safety": fwd.get("competitor_safety", 30),
-                    "Target Safety": fwd.get("target_safety", 30),
+                    "Candidate Screening": fwd.get("candidate_screening", 0),
+                    "Competitor Ranking": fwd.get("competitor_ranking", 0),
+                    "Target Ranking": fwd.get("target_ranking", 0),
+                    "Competitor Safety": fwd.get("competitor_safety", 0),
+                    "Target Safety": fwd.get("target_safety", 0),
                     "Final Intervention": fwd.get("final_intervention", 1),
-                    "Total Model Forwards": fwd.get("total_model_forwards", 127)
+                    "Total Model Forwards": fwd.get("total_model_forwards", 0)
                 })
                 cnt_rows.append({
                     "Layer": f"Layer {r['layer']}",
-                    "Competitor Candidates": cnt.get("competitor_candidates_evaluated", 30),
-                    "Target Candidates": cnt.get("target_candidates_evaluated", 30),
-                    "Competitor Safety Checks": cnt.get("competitor_safety_checks", 30),
-                    "Target Safety Checks": cnt.get("target_safety_checks", 30),
+                    "Competitor Candidates": cnt.get("competitor_candidates_evaluated", 0),
+                    "Target Candidates": cnt.get("target_candidates_evaluated", 0),
+                    "Competitor Safety Checks": cnt.get("competitor_safety_checks", 0),
+                    "Target Safety Checks": cnt.get("target_safety_checks", 0),
                     "Selected Mute Features": cnt.get("selected_mute_features_count", len(r.get("mute_features", []))),
                     "Selected Boost Features": cnt.get("selected_boost_features_count", len(r.get("boost_features", [])))
                 })
@@ -379,8 +379,7 @@ def main():
             st.markdown("**Candidates & Safety Evaluation Counts per Layer:**")
             st.dataframe(pd.DataFrame(cnt_rows), hide_index=True)
 
-        # 2. Display Stage Profiling Breakdown Table with Timing & Percentage Highlights
-        with st.expander("⏱️ Detailed Stage Timing Breakdown (Stage vs Time)", expanded=True):
+            st.markdown("---")
             st.markdown("**Stage-by-Stage Execution Times for Selected Layer:**")
             
             stage_table_rows = []
@@ -393,7 +392,6 @@ def main():
                 safe_ms = prof.get("safety_filtering_ms", 0.0)
                 int_ms = prof.get("intervention_ms", 0.0)
 
-                # Format in seconds / ms cleanly like research journal
                 stage_table_rows.append({
                     "Layer": f"Layer {r['layer']}",
                     "SAE Loading": f"{sae_ms/1000.0:.2f} s ({sae_ms:.1f} ms)",
@@ -406,7 +404,6 @@ def main():
 
             st.dataframe(pd.DataFrame(stage_table_rows), hide_index=True)
             
-            # Show single vertical Stage vs Time breakdown for primary layer
             if layers_data:
                 first_r = layers_data[0]
                 f_prof = first_r.get("profile", {})
