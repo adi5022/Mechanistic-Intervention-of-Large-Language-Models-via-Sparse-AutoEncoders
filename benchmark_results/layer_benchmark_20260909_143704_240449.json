@@ -1,0 +1,242 @@
+{
+    "benchmark_name": "Layer Intervention Benchmark",
+    "benchmark_version": "0.3",
+    "timestamp": "2026-09-09T14:37:04.240449Z",
+    "model": "gpt2",
+    "algorithm": "Hybrid Mute & Boost",
+    "sae_release": "gpt2-small-res-jb",
+    "hook_location": "hook_resid_pre",
+    "safety_enabled": true,
+    "use_safety": true,
+    "selected_layers": [
+        2,
+        5,
+        8,
+        10
+    ],
+    "parameters": {
+        "mute_strength": 0.3,
+        "boost_strength": 0.5,
+        "mute_batch_size": 3,
+        "boost_batch_size": 3,
+        "use_safety": true,
+        "algorithm": "hybrid"
+    },
+    "total_prompts": 1,
+    "prompts": [
+        {
+            "prompt": "The location of Massachusetts Institute of Technology is in",
+            "target": "Cambridge",
+            "layers": [
+                {
+                    "layer": 2,
+                    "hook": "blocks.2.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": 8,
+                    "final_rank": 7,
+                    "rank_improvement": 1,
+                    "clean_probability": 0.01152519416064024,
+                    "final_probability": 0.012206926941871643,
+                    "probability_gain": 0.0006817327812314034,
+                    "runtime_ms": 14528.481599999395,
+                    "profile": {
+                        "sae_loading_ms": 18932.891299999937,
+                        "clean_baseline_ms": 953.7054000002172,
+                        "feature_selection_ms": 6159.136599999329,
+                        "safety_filtering_ms": 7266.797799999949,
+                        "intervention_ms": 140.0725000003149,
+                        "result_packaging_ms": 0.0018000000636675395,
+                        "total_layer_ms": 14528.481599999395
+                    },
+                    "forward_passes": {
+                        "clean_baseline": 1,
+                        "candidate_screening": 0,
+                        "competitor_ranking": 30,
+                        "target_ranking": 30,
+                        "competitor_safety": 30,
+                        "target_safety": 30,
+                        "final_intervention": 1,
+                        "total_model_forwards": 122
+                    },
+                    "counts": {
+                        "competitor_candidates_evaluated": 30,
+                        "target_candidates_evaluated": 30,
+                        "competitor_safety_checks": 30,
+                        "target_safety_checks": 30,
+                        "selected_mute_features_count": 3,
+                        "selected_boost_features_count": 3
+                    },
+                    "success": true,
+                    "top_prediction_before": " the",
+                    "top_prediction_after": " the",
+                    "mute_features": [
+                        9938,
+                        23196,
+                        6001
+                    ],
+                    "boost_features": [
+                        14075,
+                        11741,
+                        12711
+                    ]
+                },
+                {
+                    "layer": 5,
+                    "hook": "blocks.5.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": 8,
+                    "final_rank": 5,
+                    "rank_improvement": 3,
+                    "clean_probability": 0.01152519416064024,
+                    "final_probability": 0.01935272477567196,
+                    "probability_gain": 0.00782753061503172,
+                    "runtime_ms": 13305.211500000041,
+                    "profile": {
+                        "sae_loading_ms": 1813.3489000001646,
+                        "clean_baseline_ms": 241.13110000052984,
+                        "feature_selection_ms": 6656.944100000146,
+                        "safety_filtering_ms": 6290.984899999785,
+                        "intervention_ms": 105.03590000007534,
+                        "result_packaging_ms": 0.001600000359758269,
+                        "total_layer_ms": 13305.211500000041
+                    },
+                    "forward_passes": {
+                        "clean_baseline": 1,
+                        "candidate_screening": 0,
+                        "competitor_ranking": 30,
+                        "target_ranking": 30,
+                        "competitor_safety": 30,
+                        "target_safety": 30,
+                        "final_intervention": 1,
+                        "total_model_forwards": 122
+                    },
+                    "counts": {
+                        "competitor_candidates_evaluated": 30,
+                        "target_candidates_evaluated": 30,
+                        "competitor_safety_checks": 30,
+                        "target_safety_checks": 30,
+                        "selected_mute_features_count": 3,
+                        "selected_boost_features_count": 3
+                    },
+                    "success": true,
+                    "top_prediction_before": " the",
+                    "top_prediction_after": " the",
+                    "mute_features": [
+                        13596,
+                        17808,
+                        13865
+                    ],
+                    "boost_features": [
+                        22108,
+                        19381,
+                        6246
+                    ]
+                },
+                {
+                    "layer": 8,
+                    "hook": "blocks.8.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": 8,
+                    "final_rank": 3,
+                    "rank_improvement": 5,
+                    "clean_probability": 0.01152519416064024,
+                    "final_probability": 0.035292938351631165,
+                    "probability_gain": 0.023767744190990925,
+                    "runtime_ms": 13042.94370000025,
+                    "profile": {
+                        "sae_loading_ms": 1432.3531999998522,
+                        "clean_baseline_ms": 182.3247000002084,
+                        "feature_selection_ms": 6436.281899999813,
+                        "safety_filtering_ms": 6277.297099999487,
+                        "intervention_ms": 138.26270000026852,
+                        "result_packaging_ms": 0.0010999992809956893,
+                        "total_layer_ms": 13042.94370000025
+                    },
+                    "forward_passes": {
+                        "clean_baseline": 1,
+                        "candidate_screening": 0,
+                        "competitor_ranking": 30,
+                        "target_ranking": 30,
+                        "competitor_safety": 30,
+                        "target_safety": 30,
+                        "final_intervention": 1,
+                        "total_model_forwards": 122
+                    },
+                    "counts": {
+                        "competitor_candidates_evaluated": 30,
+                        "target_candidates_evaluated": 30,
+                        "competitor_safety_checks": 30,
+                        "target_safety_checks": 30,
+                        "selected_mute_features_count": 3,
+                        "selected_boost_features_count": 3
+                    },
+                    "success": true,
+                    "top_prediction_before": " the",
+                    "top_prediction_after": " the",
+                    "mute_features": [
+                        8459,
+                        21169,
+                        14430
+                    ],
+                    "boost_features": [
+                        3076,
+                        19288,
+                        8239
+                    ]
+                },
+                {
+                    "layer": 10,
+                    "hook": "blocks.10.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": 8,
+                    "final_rank": 5,
+                    "rank_improvement": 3,
+                    "clean_probability": 0.01152519416064024,
+                    "final_probability": 0.019633539021015167,
+                    "probability_gain": 0.008108344860374928,
+                    "runtime_ms": 9055.443000000196,
+                    "profile": {
+                        "sae_loading_ms": 2029.2697999993834,
+                        "clean_baseline_ms": 208.18679999956657,
+                        "feature_selection_ms": 4444.576699999743,
+                        "safety_filtering_ms": 4260.083099999974,
+                        "intervention_ms": 131.67780000003404,
+                        "result_packaging_ms": 0.0015999994502635673,
+                        "total_layer_ms": 9055.443000000196
+                    },
+                    "forward_passes": {
+                        "clean_baseline": 1,
+                        "candidate_screening": 0,
+                        "competitor_ranking": 20,
+                        "target_ranking": 20,
+                        "competitor_safety": 20,
+                        "target_safety": 20,
+                        "final_intervention": 1,
+                        "total_model_forwards": 82
+                    },
+                    "counts": {
+                        "competitor_candidates_evaluated": 20,
+                        "target_candidates_evaluated": 20,
+                        "competitor_safety_checks": 20,
+                        "target_safety_checks": 20,
+                        "selected_mute_features_count": 3,
+                        "selected_boost_features_count": 3
+                    },
+                    "success": true,
+                    "top_prediction_before": " the",
+                    "top_prediction_after": " the",
+                    "mute_features": [
+                        6762,
+                        10712,
+                        15625
+                    ],
+                    "boost_features": [
+                        20330,
+                        21513,
+                        7589
+                    ]
+                }
+            ]
+        }
+    ]
+}

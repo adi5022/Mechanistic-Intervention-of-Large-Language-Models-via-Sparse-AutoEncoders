@@ -3,7 +3,7 @@ import requests
 import streamlit as st
 
 
-def query_groq(prompt: str, api_key: str = None, model: str = "llama-3.1-8b-instant", temperature: float = 0.3, max_tokens: int = 200) -> str:
+def query_groq(prompt: str, api_key: str = None, model: str = "openai/gpt-oss-20b", temperature: float = 0.3, max_tokens: int = 200) -> str:
     """Send a prompt to Groq using the same connection pattern already used by the app."""
     if not api_key:
         api_key = os.environ.get("GROQ_API_KEY")
@@ -28,7 +28,12 @@ def query_groq(prompt: str, api_key: str = None, model: str = "llama-3.1-8b-inst
             {"role": "user", "content": prompt}
         ],
         "temperature": temperature,
-        "max_tokens": max_tokens
+        "max_tokens": max_tokens,
+        # gpt-oss models spend part of max_tokens on hidden reasoning before writing the
+        # final answer; without this, short max_tokens budgets can be consumed entirely by
+        # reasoning and return an empty "content" field. "low" keeps reasoning minimal so the
+        # token budget goes to the actual answer. Harmless (ignored) on non-gpt-oss models.
+        "reasoning_effort": "low",
     }
 
     try:
@@ -80,6 +85,52 @@ Write a concise, plain-English summary (2-3 sentences max) explaining what this 
 
     res = query_groq(user_prompt, api_key=api_key, max_tokens=150)
     return res if res else "Configure your GROQ_API_KEY to enable automated AI intervention explanations."
+
+
+def generate_best_result_explanation(
+    prompt: str,
+    target: str,
+    baseline_prob: float,
+    baseline_rank: int,
+    best_prob: float,
+    best_rank: int,
+    best_mute_size: int,
+    best_boost_size: int,
+    reached_target: bool,
+    n_combinations_run: int,
+    api_key: str = None,
+) -> str:
+    """
+    Calls Groq to explain, in plain English and grounded in this run's actual numbers, why the
+    reported "best" combination is the one shown — not necessarily the last row the sweep tried —
+    and what the rank/probability shift implies about how effective the intervention was.
+    """
+    if reached_target:
+        outcome = f"the sweep succeeded: the target reached Rank #1 (the model's top prediction) after {n_combinations_run} combination(s) tried"
+    else:
+        outcome = f"the sweep did not reach Rank #1; it stopped after {n_combinations_run} combination(s), either exhausting its candidate pool or the configured batch sizes"
+
+    user_prompt = f"""
+A causal intervention search (muting competitor features, boosting target-aligned features) was run on GPT-2 to try to push the token "{target}" higher in the model's output ranking for the prompt: "{prompt}"
+
+- Baseline (no intervention): target rank {baseline_rank}, probability {baseline_prob*100:.4f}%
+- Best result found anywhere in the sweep: target rank {best_rank}, probability {best_prob*100:.4f}%, achieved by muting {best_mute_size} competitor feature(s) and boosting {best_boost_size} target-aligned feature(s) together in one forward pass
+- Outcome: {outcome}
+
+Task: In 2-3 plain-English sentences, explain (a) why this specific combination is reported as the "best" result rather than whichever combination happened to run last, and (b) what the rank/probability change from baseline to best tells us about how effective this intervention was for this prompt. Do not restate the raw numbers verbatim — interpret them. Avoid neural network jargon.
+"""
+
+    res = query_groq(user_prompt, api_key=api_key, max_tokens=180)
+    if res:
+        return res
+    return (
+        "This is the best combination seen across every row in the sweep — picked by lowest target rank "
+        "(ties broken by higher target probability), not just whichever row ran last. The safety filter only "
+        "vets individual candidate features before the sweep starts; it doesn't stop the target's rank from "
+        "drifting up and down as more features get piled on within the sweep itself, so this tracks and "
+        "protects the best result actually found. Configure your GROQ_API_KEY for an AI-generated explanation "
+        "tailored to this specific run."
+    )
 
 
 def get_xai_guidance_card(section_key: str) -> dict:

@@ -42,10 +42,23 @@ def build_clean_context(model, sae, prompt: str, target_token_id: int = None) ->
     tokens = model.to_tokens(prompt)
     hook_name = getattr(sae.cfg, "hook_name", HOOK_NAME)
 
+    # Defensive reset: model/sae are shared, cached resources (e.g. Streamlit's
+    # @st.cache_resource). If a prior run's hooks are still attached — e.g. a rerun was
+    # triggered mid-forward-pass by a widget interaction — run_with_cache can silently
+    # cache under different hook names, causing a KeyError below. Resetting immediately
+    # before the pass, and retrying once on failure, recovers from that race instead of
+    # crashing the whole app on an otherwise-transient glitch.
+    model.reset_hooks()
     with torch.no_grad():
         logits, cache = model.run_with_cache(tokens)
         clean_probs = F.softmax(logits[0, -1, :], dim=-1)
-        resid_last = cache[hook_name][:, -1, :]  # [1, d_model]
+        try:
+            resid_last = cache[hook_name][:, -1, :]  # [1, d_model]
+        except KeyError:
+            model.reset_hooks()
+            logits, cache = model.run_with_cache(tokens)
+            clean_probs = F.softmax(logits[0, -1, :], dim=-1)
+            resid_last = cache[hook_name][:, -1, :]
 
     clean_target_prob = None
     clean_rank = None

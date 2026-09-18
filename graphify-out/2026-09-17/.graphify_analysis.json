@@ -1,0 +1,665 @@
+{
+  "communities": {
+    "0": [
+      "cache_data",
+      "experiment_app",
+      "experiment_app_get_neuronpedia_explanation",
+      "experiment_app_make_feature_hover_link",
+      "experiment_app_rationale_52",
+      "experiment_app_rationale_65",
+      "experiment_app_render_empty_state_card",
+      "experiment_app_render_xai_guidance_card",
+      "experiment_app_sae_clamp_hook",
+      "slow",
+      "src_explain",
+      "src_explain_generate_decoder_similarity_xai",
+      "src_explain_generate_mechanistic_explanation",
+      "src_explain_generate_polysemanticity_comparison_xai",
+      "src_explain_generate_sparsity_xai",
+      "src_explain_get_empty_state_guidance",
+      "src_explain_get_xai_guidance_card",
+      "src_explain_query_groq",
+      "src_explain_rationale_143",
+      "src_explain_rationale_167",
+      "src_explain_rationale_185",
+      "src_explain_rationale_210",
+      "src_explain_rationale_53",
+      "src_explain_rationale_7",
+      "src_explain_rationale_86",
+      "src_monosemanticity",
+      "src_monosemanticity_compute_feature_similarity",
+      "src_monosemanticity_compute_sparsity_stats",
+      "src_monosemanticity_encode_feature_activations",
+      "src_monosemanticity_find_max_activating_examples",
+      "src_monosemanticity_find_max_activating_neuron_examples",
+      "src_monosemanticity_find_most_similar_features",
+      "src_monosemanticity_generate_synthetic_corpus",
+      "src_monosemanticity_get_curated_feature_registry",
+      "src_monosemanticity_get_default_corpus",
+      "src_monosemanticity_get_hook_name",
+      "src_monosemanticity_get_sae_status_summary",
+      "src_monosemanticity_highlight_token_in_text",
+      "src_monosemanticity_load_default_corpus",
+      "src_monosemanticity_rationale_134",
+      "src_monosemanticity_rationale_175",
+      "src_monosemanticity_rationale_190",
+      "src_monosemanticity_rationale_248",
+      "src_monosemanticity_rationale_300",
+      "src_monosemanticity_rationale_376",
+      "src_monosemanticity_rationale_425",
+      "src_monosemanticity_rationale_438",
+      "src_monosemanticity_rationale_459",
+      "src_monosemanticity_rationale_50",
+      "src_monosemanticity_rationale_65",
+      "src_monosemanticity_rationale_80",
+      "src_monosemanticity_scan_dual_activations",
+      "src_monosemanticity_score_feature_interpretability",
+      "src_monosemanticity_validate_feature_id",
+      "src_monosemanticity_validate_neuron_index",
+      "tests_test_monosemanticity",
+      "tests_test_monosemanticity_robustness",
+      "tests_test_monosemanticity_robustness_mockconfig",
+      "tests_test_monosemanticity_robustness_mockmodel",
+      "tests_test_monosemanticity_robustness_mocksae",
+      "tests_test_monosemanticity_robustness_testmonosemanticityrobustness",
+      "tests_test_monosemanticity_robustness_testmonosemanticityrobustness_test_curated_feature_registry",
+      "tests_test_monosemanticity_robustness_testmonosemanticityrobustness_test_empty_corpus_handling",
+      "tests_test_monosemanticity_robustness_testmonosemanticityrobustness_test_empty_state_guidance_fallback",
+      "tests_test_monosemanticity_robustness_testmonosemanticityrobustness_test_get_sae_status_summary",
+      "tests_test_monosemanticity_robustness_testmonosemanticityrobustness_test_validate_feature_id",
+      "tests_test_monosemanticity_robustness_testmonosemanticityrobustness_test_validate_neuron_index",
+      "tests_test_monosemanticity_test_monosemanticity_helpers_run_on_real_model_and_sae"
+    ],
+    "1": [
+      "app",
+      "app_get_predictions",
+      "dataframe",
+      "smoke_test",
+      "src_editing",
+      "src_editing_check_combination_safe",
+      "src_editing_check_target_safe",
+      "src_editing_get_target_token_id",
+      "src_editing_get_top_active_features",
+      "src_editing_get_top_competitor_features",
+      "src_editing_get_top_target_features",
+      "src_editing_make_weighted_ablation_hook",
+      "src_editing_rationale_1",
+      "src_editing_rationale_123",
+      "src_editing_rationale_13",
+      "src_editing_rationale_199",
+      "src_editing_rationale_280",
+      "src_editing_rationale_401",
+      "src_editing_rationale_41",
+      "src_editing_rationale_425",
+      "src_editing_rationale_583",
+      "src_editing_rationale_65",
+      "src_editing_run_causal_selector",
+      "src_editing_run_weighted_multi_competitor_reduction",
+      "src_editing_run_weighted_multi_feature_competitor_reduction",
+      "src_evaluation",
+      "src_evaluation_check_specificity",
+      "src_evaluation_classify_fact",
+      "src_evaluation_iterative_ablate",
+      "src_evaluation_rationale_1",
+      "src_evaluation_rationale_13",
+      "src_evaluation_rationale_179",
+      "src_evaluation_rationale_209",
+      "src_evaluation_rationale_271",
+      "src_evaluation_rationale_55",
+      "src_evaluation_rationale_74",
+      "src_evaluation_run_grid_sweep",
+      "src_evaluation_run_stage_1_evaluation",
+      "src_evaluation_scan_fact_batch",
+      "src_hooks",
+      "src_hooks_make_ablation_hook",
+      "src_hooks_make_joint_ablation_hook",
+      "src_hooks_make_mute_and_boost_hook",
+      "src_hooks_rationale_1",
+      "src_hooks_rationale_30",
+      "src_hooks_rationale_58",
+      "src_hooks_rationale_9"
+    ],
+    "2": [
+      "src_new_folder_history",
+      "src_new_folder_history_1_core_algorithmic_engine_changes",
+      "src_new_folder_history_2_dashboard_improvements_experiment_app_py",
+      "src_new_folder_history_3_research_infrastructure",
+      "src_new_folder_history_background",
+      "src_new_folder_history_cambridge_diagnostic_output",
+      "src_new_folder_history_current_working_hypothesis_unverified",
+      "src_new_folder_history_diagnostic_experiment",
+      "src_new_folder_history_docs_research_journal_4_md",
+      "src_new_folder_history_experiment_002",
+      "src_new_folder_history_experiment_004",
+      "src_new_folder_history_experiment_006",
+      "src_new_folder_history_explainable_ai_integration",
+      "src_new_folder_history_explainable_ai_module_src_explain_py",
+      "src_new_folder_history_feature_assignments",
+      "src_new_folder_history_interpretation",
+      "src_new_folder_history_intervention_results",
+      "src_new_folder_history_joint_safety_checker_src_editing_py",
+      "src_new_folder_history_make_weighted_ablation_hook",
+      "src_new_folder_history_neuronpedia_hover_integration",
+      "src_new_folder_history_new_components",
+      "src_new_folder_history_notes",
+      "src_new_folder_history_observation",
+      "src_new_folder_history_open_research_questions",
+      "src_new_folder_history_purpose",
+      "src_new_folder_history_research_journal",
+      "src_new_folder_history_research_note_analysis_of_weighted_multi_competitor_reduction_cambridge_case",
+      "src_new_folder_history_research_notebook_entries",
+      "src_new_folder_history_run_weighted_multi_competitor_reduction",
+      "src_new_folder_history_session_summary_weighted_multi_competitor_reduction_research_infrastructure",
+      "src_new_folder_history_tab_7_weighted_multi_competitor_reduction",
+      "src_new_folder_history_ui_improvements",
+      "src_new_folder_history_unexpected_finding",
+      "src_new_folder_history_weighted_multi_competitor_reduction_src_editing_py"
+    ],
+    "3": [
+      "app_get_cached_model_and_sae",
+      "app_py_cache_resource",
+      "experiment_app_get_cached_base_model",
+      "experiment_app_get_cached_sae",
+      "experiment_app_py_cache_resource",
+      "run_stage1",
+      "src_editing_check_boost_safe",
+      "src_editing_rationale_237",
+      "src_hooks_make_signed_ablation_hook",
+      "src_hooks_rationale_88",
+      "src_sae_utils",
+      "src_sae_utils_get_default_device",
+      "src_sae_utils_load_base_model",
+      "src_sae_utils_load_model_and_sae",
+      "src_sae_utils_load_sae_for_layer",
+      "src_sae_utils_rationale_1",
+      "src_sae_utils_rationale_28",
+      "src_sae_utils_rationale_38",
+      "src_sae_utils_rationale_48",
+      "src_sae_utils_rationale_63",
+      "test",
+      "test_main",
+      "test_rationale_150",
+      "test_rationale_94",
+      "test_run_batch_trace",
+      "test_run_boost_trace",
+      "test_run_trace"
+    ],
+    "4": [
+      "research_notebook_experiment_template",
+      "research_notebook_experiment_template_1_context_motivation",
+      "research_notebook_experiment_template_2_hypothesis_setup",
+      "research_notebook_experiment_template_3_results_observations",
+      "research_notebook_experiment_template_4_discussion_next_steps",
+      "research_notebook_experiment_template_background",
+      "research_notebook_experiment_template_evidence_artifacts",
+      "research_notebook_experiment_template_experiment_title",
+      "research_notebook_experiment_template_experimental_setup",
+      "research_notebook_experiment_template_hypothesis",
+      "research_notebook_experiment_template_interpretation",
+      "research_notebook_experiment_template_limitations",
+      "research_notebook_experiment_template_method",
+      "research_notebook_experiment_template_motivation",
+      "research_notebook_experiment_template_next_steps",
+      "research_notebook_experiment_template_observations",
+      "research_notebook_experiment_template_question",
+      "research_notebook_experiment_template_related_experiments",
+      "research_notebook_experiment_template_results"
+    ],
+    "5": [
+      "research_notebook_exp_004",
+      "research_notebook_exp_004_1_context_motivation",
+      "research_notebook_exp_004_2_hypothesis_setup",
+      "research_notebook_exp_004_3_results_observations",
+      "research_notebook_exp_004_4_discussion_next_steps",
+      "research_notebook_exp_004_background",
+      "research_notebook_exp_004_experiment_weighted_multi_competitor_reduction_grammatical_feature_collapse_on_the_cambridge_case",
+      "research_notebook_exp_004_experimental_setup",
+      "research_notebook_exp_004_hypotheses",
+      "research_notebook_exp_004_interpretation",
+      "research_notebook_exp_004_limitations",
+      "research_notebook_exp_004_motivation",
+      "research_notebook_exp_004_next_steps",
+      "research_notebook_exp_004_observations",
+      "research_notebook_exp_004_question",
+      "research_notebook_exp_004_results"
+    ],
+    "6": [
+      "research_notebook_exp_002",
+      "research_notebook_exp_002_1_context_motivation",
+      "research_notebook_exp_002_2_hypothesis_setup",
+      "research_notebook_exp_002_3_results_observations",
+      "research_notebook_exp_002_4_discussion_next_steps",
+      "research_notebook_exp_002_background",
+      "research_notebook_exp_002_experiment_competitor_focused_iterative_ablation",
+      "research_notebook_exp_002_experimental_setup",
+      "research_notebook_exp_002_hypothesis",
+      "research_notebook_exp_002_limitations",
+      "research_notebook_exp_002_motivation",
+      "research_notebook_exp_002_next_steps",
+      "research_notebook_exp_002_observations",
+      "research_notebook_exp_002_question",
+      "research_notebook_exp_002_results"
+    ],
+    "7": [
+      "research_notebook_exp_009",
+      "research_notebook_exp_009_1_context_objective",
+      "research_notebook_exp_009_2_methodology_verification_of_delta_additivity",
+      "research_notebook_exp_009_3_results_diagnostics",
+      "research_notebook_exp_009_4_discussion_research_findings",
+      "research_notebook_exp_009_a_concentration_decay_profile_table",
+      "research_notebook_exp_009_b_shared_feature_overlap_table",
+      "research_notebook_exp_009_background",
+      "research_notebook_exp_009_c_shared_feature_statistics",
+      "research_notebook_exp_009_experiment_multi_feature_representation_diagnostic",
+      "research_notebook_exp_009_interpretations",
+      "research_notebook_exp_009_observations",
+      "research_notebook_exp_009_question",
+      "research_notebook_exp_009_research_question_answered",
+      "research_notebook_exp_009_verification_result"
+    ],
+    "8": [
+      "docs_notes",
+      "docs_notes_2026_07_08_project_setup",
+      "docs_notes_2026_07_10_first_automated_validation_breakthrough_causal_feature_selector",
+      "docs_notes_2026_07_19_iterative_ablation_specificity_verification",
+      "docs_notes_2026_07_20_competitor_focused_iterative_ablation",
+      "docs_notes_2026_07_24_whole_combination_safety_weighted_multi_competitor_reduction",
+      "docs_notes_2026_07_25_diagnostic_investigation_of_rank_regression",
+      "docs_notes_2026_07_25_session_2_shared_feature_aggregation_experiment",
+      "docs_notes_2026_07_25_session_3_multi_feature_representation_diagnostic",
+      "docs_notes_2026_07_30_towards_monosemanticity_baseline_monosemanticity_analysis_tab",
+      "docs_notes_2026_07_31_gpu_acceleration_decoupled_caching_and_hf_token_authentication",
+      "docs_notes_2026_08_01_synthetic_corpus_generator_bundled_corpus_viewer_robust_autointerp_parsing",
+      "docs_notes_research_log_investigating_sae_based_activation_manipulation"
+    ],
+    "9": [
+      "agent_utilities_featurescalpel_agent_prompt",
+      "agent_utilities_featurescalpel_agent_prompt_agent_task_build_featurescalpel_mvp_prototype",
+      "agent_utilities_featurescalpel_agent_prompt_deliverable",
+      "agent_utilities_featurescalpel_agent_prompt_explicit_non_goals_for_this_prototype_do_not_build_these_they_would_blow",
+      "agent_utilities_featurescalpel_agent_prompt_project_context_read_this_fully_before_writing_any_code",
+      "agent_utilities_featurescalpel_agent_prompt_section_1_feature_selector_the_new_automated_part",
+      "agent_utilities_featurescalpel_agent_prompt_section_2_the_slider_manual_intervention_already_validated",
+      "agent_utilities_featurescalpel_agent_prompt_section_3_specificity_side_effect_check",
+      "agent_utilities_featurescalpel_agent_prompt_technical_requirements",
+      "agent_utilities_featurescalpel_agent_prompt_the_identified_research_gap_why_today_s_build_matters",
+      "agent_utilities_featurescalpel_agent_prompt_what_has_already_been_done_and_confirmed_do_not_re_derive_from_scratch",
+      "agent_utilities_featurescalpel_agent_prompt_what_to_build"
+    ],
+    "10": [
+      "research_notebook_exp_008",
+      "research_notebook_exp_008_1_context_objective",
+      "research_notebook_exp_008_2_hypothesis_setup",
+      "research_notebook_exp_008_3_results_diagnostics",
+      "research_notebook_exp_008_4_discussion_scientific_conclusions",
+      "research_notebook_exp_008_aggregation_diagnostics",
+      "research_notebook_exp_008_background",
+      "research_notebook_exp_008_cambridge_evaluation_metrics",
+      "research_notebook_exp_008_experiment_shared_feature_aggregation_max_vs_sum",
+      "research_notebook_exp_008_experimental_setup",
+      "research_notebook_exp_008_hypothesis",
+      "research_notebook_exp_008_question"
+    ],
+    "11": [
+      "research_notebook_exp_007",
+      "research_notebook_exp_007_1_context_investigation_goal",
+      "research_notebook_exp_007_2_experimental_data_reproduction_logs",
+      "research_notebook_exp_007_3_analysis_key_findings",
+      "research_notebook_exp_007_diagnosis_of_regressions",
+      "research_notebook_exp_007_experiment_diagnostic_investigation_of_rank_regression_under_hybrid_steering",
+      "research_notebook_exp_007_question",
+      "research_notebook_exp_007_sweep_results_raw_candidate_features_unsafe_included",
+      "research_notebook_exp_007_sweep_results_safe_features_only",
+      "research_notebook_exp_007_verification_of_implementation_integrity_option_a_vs_b"
+    ],
+    "12": [
+      "research_notebook_exp_010",
+      "research_notebook_exp_010_1_regression_test_k_1",
+      "research_notebook_exp_010_2_full_sweep_results_table",
+      "research_notebook_exp_010_experiment_010_weighted_multi_feature_competitor_reduction_sweep",
+      "research_notebook_exp_010_experimental_parameters",
+      "research_notebook_exp_010_interpretations_conclusions",
+      "research_notebook_exp_010_observations"
+    ],
+    "13": [
+      "concept_hybrid_steering",
+      "distributed_support_hypothesis",
+      "docs_research_journal_4",
+      "docs_research_journal_7",
+      "docs_research_journal_8",
+      "research_hypothesis_log"
+    ],
+    "14": [
+      "research_readme",
+      "research_readme_directory_structure",
+      "research_readme_distinction_of_concepts",
+      "research_readme_featurescalpel_research_directory",
+      "research_readme_purpose_of_this_directory"
+    ],
+    "15": [
+      "research_contributing_research",
+      "research_contributing_research_research_contribution_guidelines",
+      "research_contributing_research_research_workflow",
+      "research_contributing_research_writing_guidelines"
+    ],
+    "16": [
+      "docs_research_journal_3",
+      "history_ghistory",
+      "outputs_stage_1_report"
+    ],
+    "17": [
+      "docs_research_log",
+      "docs_research_log_log_entries",
+      "docs_research_log_research_log"
+    ],
+    "18": [
+      "research_paper_outline",
+      "research_paper_outline_research_paper_outline_transient_activation_steering_with_sparse_autoencoders_for_factual_correction",
+      "research_paper_outline_tentative_paper_structure"
+    ],
+    "19": [
+      "agents_rules_graphify",
+      "agents_rules_graphify_graphify"
+    ],
+    "20": [
+      "agents_workflows_graphify",
+      "agents_workflows_graphify_workflow_graphify"
+    ],
+    "21": [
+      "research_experiment_index",
+      "research_timeline"
+    ],
+    "22": [
+      "research_paper_abstract",
+      "research_paper_abstract_abstract"
+    ],
+    "23": [
+      "research_paper_conclusion",
+      "research_paper_conclusion_conclusion"
+    ],
+    "24": [
+      "research_paper_discussion",
+      "research_paper_discussion_discussion"
+    ],
+    "25": [
+      "research_paper_experiments",
+      "research_paper_experiments_experiments"
+    ],
+    "26": [
+      "research_paper_future_work",
+      "research_paper_future_work_future_work"
+    ],
+    "27": [
+      "research_paper_introduction",
+      "research_paper_introduction_introduction"
+    ],
+    "28": [
+      "research_paper_limitations",
+      "research_paper_limitations_limitations"
+    ],
+    "29": [
+      "research_paper_methodology",
+      "research_paper_methodology_methodology"
+    ],
+    "30": [
+      "research_paper_related_work",
+      "research_paper_related_work_related_work"
+    ],
+    "31": [
+      "research_paper_results",
+      "research_paper_results_results"
+    ],
+    "32": [
+      "causal_feature_selector"
+    ],
+    "33": [
+      "concept_competitor_ablation"
+    ],
+    "34": [
+      "concept_suppressed_knowledge"
+    ],
+    "35": [
+      "delta_patching"
+    ],
+    "36": [
+      "docs_architecture"
+    ],
+    "37": [
+      "docs_research_journal_1"
+    ],
+    "38": [
+      "docs_research_journal_2"
+    ],
+    "39": [
+      "docs_research_journal_5"
+    ],
+    "40": [
+      "docs_research_journal_6"
+    ],
+    "41": [
+      "docs_stage_additions_step_1"
+    ],
+    "42": [
+      "gpt2_small"
+    ],
+    "43": [
+      "handoff"
+    ],
+    "44": [
+      "notes"
+    ],
+    "45": [
+      "outputs_stage_1_baseline_target_report"
+    ],
+    "46": [
+      "readme"
+    ],
+    "47": [
+      "residual_stream"
+    ],
+    "48": [
+      "sparse_autoencoder"
+    ],
+    "49": [
+      "src_fact_bank"
+    ]
+  },
+  "cohesion": {
+    "0": 0.058823529411764705,
+    "1": 0.0851063829787234,
+    "2": 0.058823529411764705,
+    "3": 0.1111111111111111,
+    "4": 0.10526315789473684,
+    "5": 0.125,
+    "6": 0.13333333333333333,
+    "7": 0.13333333333333333,
+    "8": 0.15384615384615385,
+    "9": 0.16666666666666666,
+    "10": 0.16666666666666666,
+    "11": 0.2,
+    "12": 0.2857142857142857,
+    "13": 0.3333333333333333,
+    "14": 0.4,
+    "15": 0.5,
+    "16": 0.6666666666666666,
+    "17": 0.6666666666666666,
+    "18": 0.6666666666666666,
+    "19": 1.0,
+    "20": 1.0,
+    "21": 1.0,
+    "22": 1.0,
+    "23": 1.0,
+    "24": 1.0,
+    "25": 1.0,
+    "26": 1.0,
+    "27": 1.0,
+    "28": 1.0,
+    "29": 1.0,
+    "30": 1.0,
+    "31": 1.0,
+    "32": 1.0,
+    "33": 1.0,
+    "34": 1.0,
+    "35": 1.0,
+    "36": 1.0,
+    "37": 1.0,
+    "38": 1.0,
+    "39": 1.0,
+    "40": 1.0,
+    "41": 1.0,
+    "42": 1.0,
+    "43": 1.0,
+    "44": 1.0,
+    "45": 1.0,
+    "46": 1.0,
+    "47": 1.0,
+    "48": 1.0,
+    "49": 1.0
+  },
+  "gods": [
+    {
+      "id": "src_hooks_make_ablation_hook",
+      "label": "make_ablation_hook()",
+      "degree": 15
+    },
+    {
+      "id": "src_editing_get_top_competitor_features",
+      "label": "get_top_competitor_features()",
+      "degree": 13
+    },
+    {
+      "id": "src_sae_utils_load_model_and_sae",
+      "label": "load_model_and_sae()",
+      "degree": 13
+    },
+    {
+      "id": "docs_notes_research_log_investigating_sae_based_activation_manipulation",
+      "label": "Research Log: Investigating SAE-Based Activation Manipulation",
+      "degree": 12
+    },
+    {
+      "id": "src_editing_get_target_token_id",
+      "label": "get_target_token_id()",
+      "degree": 10
+    },
+    {
+      "id": "src_explain_query_groq",
+      "label": "query_groq()",
+      "degree": 9
+    },
+    {
+      "id": "src_monosemanticity_find_max_activating_examples",
+      "label": "find_max_activating_examples()",
+      "degree": 9
+    },
+    {
+      "id": "agent_utilities_featurescalpel_agent_prompt_agent_task_build_featurescalpel_mvp_prototype",
+      "label": "Agent Task: Build FeatureScalpel MVP Prototype",
+      "degree": 8
+    },
+    {
+      "id": "src_hooks_make_joint_ablation_hook",
+      "label": "make_joint_ablation_hook()",
+      "degree": 8
+    },
+    {
+      "id": "src_editing_run_causal_selector",
+      "label": "run_causal_selector()",
+      "degree": 7
+    }
+  ],
+  "surprises": [
+    {
+      "source": "get_predictions()",
+      "target": "make_ablation_hook()",
+      "source_files": [
+        "app.py",
+        "src/hooks.py"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; peripheral node `get_predictions()` unexpectedly reaches hub `make_ablation_hook()`"
+    },
+    {
+      "source": "run_batch_trace()",
+      "target": "get_top_competitor_features()",
+      "source_files": [
+        "test.py",
+        "src/editing.py"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "run_trace()",
+      "target": "get_top_competitor_features()",
+      "source_files": [
+        "test.py",
+        "src/editing.py"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "run_boost_trace()",
+      "target": "get_top_target_features()",
+      "source_files": [
+        "test.py",
+        "src/editing.py"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "run_trace()",
+      "target": "make_ablation_hook()",
+      "source_files": [
+        "test.py",
+        "src/hooks.py"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; bridges separate communities"
+    }
+  ],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `get_target_token_id()` connect `editing.py` to `experiment_app.py`?",
+      "why": "High betweenness centrality (0.010) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `make_ablation_hook()` connect `editing.py` to `experiment_app.py`, `load_model_and_sae`?",
+      "why": "High betweenness centrality (0.010) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `get_top_competitor_features()` connect `editing.py` to `experiment_app.py`, `load_model_and_sae`?",
+      "why": "High betweenness centrality (0.009) - this node is a cross-community bridge."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `graphify`, `Workflow: graphify`, `Project Context (read this fully before writing any code)` to the rest of the system?",
+      "why": "140 weakly-connected nodes found - possible documentation gaps or missing edges."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `experiment_app.py` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.058823529411764705 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `editing.py` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.0851063829787234 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `history.md` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.058823529411764705 - nodes in this community are weakly interconnected."
+    }
+  ]
+}

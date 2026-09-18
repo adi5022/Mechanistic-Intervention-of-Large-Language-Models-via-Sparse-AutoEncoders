@@ -5,13 +5,18 @@
       "experiment_app",
       "experiment_app_get_neuronpedia_explanation",
       "experiment_app_make_feature_hover_link",
-      "experiment_app_rationale_52",
-      "experiment_app_rationale_65",
+      "experiment_app_rationale_58",
+      "experiment_app_rationale_687",
+      "experiment_app_rationale_71",
+      "experiment_app_rationale_78",
       "experiment_app_render_empty_state_card",
+      "experiment_app_render_rank_progression_chart",
+      "experiment_app_render_side",
       "experiment_app_render_xai_guidance_card",
       "experiment_app_sae_clamp_hook",
       "slow",
       "src_explain",
+      "src_explain_generate_best_result_explanation",
       "src_explain_generate_decoder_similarity_xai",
       "src_explain_generate_mechanistic_explanation",
       "src_explain_generate_polysemanticity_comparison_xai",
@@ -19,13 +24,14 @@
       "src_explain_get_empty_state_guidance",
       "src_explain_get_xai_guidance_card",
       "src_explain_query_groq",
-      "src_explain_rationale_143",
-      "src_explain_rationale_167",
-      "src_explain_rationale_185",
-      "src_explain_rationale_210",
-      "src_explain_rationale_53",
+      "src_explain_rationale_103",
+      "src_explain_rationale_137",
+      "src_explain_rationale_194",
+      "src_explain_rationale_218",
+      "src_explain_rationale_236",
+      "src_explain_rationale_261",
+      "src_explain_rationale_58",
       "src_explain_rationale_7",
-      "src_explain_rationale_86",
       "src_monosemanticity",
       "src_monosemanticity_compute_feature_similarity",
       "src_monosemanticity_compute_sparsity_stats",
@@ -43,6 +49,7 @@
       "src_monosemanticity_rationale_134",
       "src_monosemanticity_rationale_175",
       "src_monosemanticity_rationale_190",
+      "src_monosemanticity_rationale_220",
       "src_monosemanticity_rationale_248",
       "src_monosemanticity_rationale_300",
       "src_monosemanticity_rationale_376",
@@ -71,53 +78,26 @@
       "tests_test_monosemanticity_test_monosemanticity_helpers_run_on_real_model_and_sae"
     ],
     "1": [
-      "app",
-      "app_get_predictions",
-      "dataframe",
-      "smoke_test",
-      "src_editing",
-      "src_editing_check_combination_safe",
-      "src_editing_check_target_safe",
-      "src_editing_get_target_token_id",
-      "src_editing_get_top_active_features",
-      "src_editing_get_top_competitor_features",
-      "src_editing_get_top_target_features",
-      "src_editing_make_weighted_ablation_hook",
-      "src_editing_rationale_1",
-      "src_editing_rationale_123",
-      "src_editing_rationale_13",
-      "src_editing_rationale_199",
-      "src_editing_rationale_280",
-      "src_editing_rationale_401",
-      "src_editing_rationale_41",
-      "src_editing_rationale_425",
-      "src_editing_rationale_583",
-      "src_editing_rationale_65",
-      "src_editing_run_causal_selector",
-      "src_editing_run_weighted_multi_competitor_reduction",
-      "src_editing_run_weighted_multi_feature_competitor_reduction",
-      "src_evaluation",
-      "src_evaluation_check_specificity",
-      "src_evaluation_classify_fact",
-      "src_evaluation_iterative_ablate",
-      "src_evaluation_rationale_1",
-      "src_evaluation_rationale_13",
-      "src_evaluation_rationale_179",
-      "src_evaluation_rationale_209",
-      "src_evaluation_rationale_271",
-      "src_evaluation_rationale_55",
-      "src_evaluation_rationale_74",
-      "src_evaluation_run_grid_sweep",
-      "src_evaluation_run_stage_1_evaluation",
-      "src_evaluation_scan_fact_batch",
-      "src_hooks",
-      "src_hooks_make_ablation_hook",
-      "src_hooks_make_joint_ablation_hook",
-      "src_hooks_make_mute_and_boost_hook",
-      "src_hooks_rationale_1",
-      "src_hooks_rationale_30",
-      "src_hooks_rationale_58",
-      "src_hooks_rationale_9"
+      "scratch_validate_step3b",
+      "scratch_validate_step3b_compare_ordered_lists",
+      "scratch_validate_step3b_compute_stability_margin",
+      "scratch_validate_step3b_count_forward_calls",
+      "scratch_validate_step3b_main",
+      "scratch_validate_step3b_rationale_116",
+      "scratch_validate_step3b_rationale_23",
+      "scratch_validate_step3b_rationale_54",
+      "scratch_validate_step3b_run_multi_prompt_check",
+      "scratch_validate_step3b_run_single_pass",
+      "src_batched_eval",
+      "src_batched_eval_batched_ablation_probs",
+      "src_batched_eval_batched_ablation_probs_and_ranks",
+      "src_batched_eval_rationale_1",
+      "src_batched_eval_rationale_17",
+      "src_batched_eval_rationale_59",
+      "src_fact_bank",
+      "src_hooks_make_per_row_scale_hook",
+      "src_hooks_rationale_111",
+      "tensor"
     ],
     "2": [
       "src_new_folder_history",
@@ -161,11 +141,28 @@
       "experiment_app_get_cached_base_model",
       "experiment_app_get_cached_sae",
       "experiment_app_py_cache_resource",
+      "hookedtransformer",
+      "layer_benchmark",
+      "layer_benchmark_get_cached_base_model",
+      "layer_benchmark_get_cached_model_and_sae",
+      "layer_benchmark_get_cached_sae",
+      "layer_benchmark_main",
+      "layer_benchmark_py_cache_resource",
+      "layer_benchmark_rationale_1",
+      "layer_benchmark_rationale_25",
+      "layer_benchmark_rationale_30",
+      "layer_benchmark_rationale_34",
+      "run_speed_analysis",
+      "run_speed_analysis_benchmark_device",
+      "run_speed_analysis_get_cached_model_and_sae",
+      "run_speed_analysis_main",
+      "run_speed_analysis_rationale_1",
+      "run_speed_analysis_rationale_30",
       "run_stage1",
-      "src_editing_check_boost_safe",
-      "src_editing_rationale_237",
-      "src_hooks_make_signed_ablation_hook",
-      "src_hooks_rationale_88",
+      "scratch_debug_tab4",
+      "scratch_test_eavan",
+      "scratch_test_prompt_spaces",
+      "smoke_test",
       "src_sae_utils",
       "src_sae_utils_get_default_device",
       "src_sae_utils_load_base_model",
@@ -176,13 +173,9 @@
       "src_sae_utils_rationale_38",
       "src_sae_utils_rationale_48",
       "src_sae_utils_rationale_63",
-      "test",
-      "test_main",
-      "test_rationale_150",
-      "test_rationale_94",
-      "test_run_batch_trace",
-      "test_run_boost_trace",
-      "test_run_trace"
+      "test_gpu_benchmark",
+      "test_gpu_benchmark_rationale_1",
+      "test_gpu_benchmark_run_verification"
     ],
     "4": [
       "research_notebook_experiment_template",
@@ -270,6 +263,12 @@
       "docs_notes_2026_07_30_towards_monosemanticity_baseline_monosemanticity_analysis_tab",
       "docs_notes_2026_07_31_gpu_acceleration_decoupled_caching_and_hf_token_authentication",
       "docs_notes_2026_08_01_synthetic_corpus_generator_bundled_corpus_viewer_robust_autointerp_parsing",
+      "docs_notes_2026_08_04_pretrained_sae_dictionary_audit_for_gpt2_small_res_jb",
+      "docs_notes_2026_08_04_session_2_layer_intervention_depth_characterization_benchmark",
+      "docs_notes_2026_08_05_multi_prompt_dataset_benchmark_research_logging_subsystem",
+      "docs_notes_2026_08_09_2026_08_10_hardware_acceleration_safety_unpacking_fix_and_rome_dataset_integration",
+      "docs_notes_2026_08_12_empirical_execution_cost_audit_step_2_optimization_and_ui_observability",
+      "docs_notes_2026_09_09t19_49_15_05_30_fix_cleanup_del_statement_nameerror_in_layer_benchmark_runner_py",
       "docs_notes_research_log_investigating_sae_based_activation_manipulation"
     ],
     "9": [
@@ -437,7 +436,14 @@
       "docs_research_journal_6"
     ],
     "41": [
-      "docs_stage_additions_step_1"
+      "docs_stage_additions_step_1",
+      "docs_stage_additions_step_1_1_iterative_ablation_loop_editing_py",
+      "docs_stage_additions_step_1_2_specificity_check_new_specificity_py_or_a_function_added_to_evaluation_py",
+      "docs_stage_additions_step_1_3_batch_runner",
+      "docs_stage_additions_step_1_explicit_constraints_do_not_let_this_expand",
+      "docs_stage_additions_step_1_step_1_iterative_ablation_specificity_check",
+      "docs_stage_additions_step_1_what_done_looks_like",
+      "docs_stage_additions_step_1_what_gets_built"
     ],
     "42": [
       "gpt2_small"
@@ -461,19 +467,299 @@
       "sparse_autoencoder"
     ],
     "49": [
-      "src_fact_bank"
+      "scratch_authoritative_accounting",
+      "scratch_authoritative_accounting_forwardpasstracker",
+      "scratch_authoritative_accounting_forwardpasstracker_init",
+      "scratch_authoritative_accounting_forwardpasstracker_record_forward",
+      "scratch_authoritative_accounting_forwardpasstracker_reset",
+      "scratch_authoritative_accounting_forwardpasstracker_sync",
+      "scratch_authoritative_accounting_instrument_model",
+      "scratch_authoritative_accounting_rationale_1",
+      "scratch_authoritative_accounting_run_accounting",
+      "scratch_authoritative_accounting_tracked_check_boost_safe",
+      "scratch_authoritative_accounting_tracked_check_target_safe",
+      "scratch_authoritative_accounting_tracked_get_top_active_features",
+      "scratch_authoritative_accounting_tracked_get_top_competitor_features",
+      "scratch_authoritative_accounting_tracked_get_top_target_features"
+    ],
+    "50": [
+      "docs_research_journal_10",
+      "docs_research_journal_10_1_layman_s_summary_purpose",
+      "docs_research_journal_10_2_experimental_data_results_table",
+      "docs_research_journal_10_3_visualization_graphs_tracked_progress",
+      "docs_research_journal_10_4_key_observations_research_progress",
+      "docs_research_journal_10_a_probability_gain_vs_layer_depth",
+      "docs_research_journal_10_b_rank_improvement_vs_layer_depth",
+      "docs_research_journal_10_c_execution_runtime_s_vs_layer_depth",
+      "docs_research_journal_10_research_journal_entry_10_layer_intervention_depth_characterization_benchmark"
+    ],
+    "51": [
+      "docs_research_journal_9",
+      "docs_research_journal_9_1_executive_summary",
+      "docs_research_journal_9_2_experimental_audit_methodology",
+      "docs_research_journal_9_3_results_availability_matrix",
+      "docs_research_journal_9_4_architectural_findings_key_takeaways",
+      "docs_research_journal_9_a_pretrained_hook_availability_table_for_gpt2_small_res_jb",
+      "docs_research_journal_9_b_registered_sae_ids_under_gpt2_small_res_jb",
+      "docs_research_journal_9_research_journal_entry_9_pretrained_sae_dictionary_audit_for_gpt2_small_res_jb"
+    ],
+    "52": [
+      "investigate_gpt2_saes",
+      "investigate_gpt2_saes_get_release_saes_map",
+      "investigate_gpt2_saes_main",
+      "investigate_gpt2_saes_rationale_1",
+      "investigate_gpt2_saes_rationale_19"
+    ],
+    "53": [
+      "generate_benchmark_charts",
+      "generate_benchmark_charts_main"
+    ],
+    "54": [
+      "history_session_layerbenchmark_history",
+      "history_session_layerbenchmark_history_1_pretrained_sae_dictionary_audit_gpt2_small_res_jb",
+      "history_session_layerbenchmark_history_2_layer_intervention_benchmark_subsystem_phase_1_infrastructure",
+      "history_session_layerbenchmark_history_3_multi_prompt_dataset_extension",
+      "history_session_layerbenchmark_history_4_verification_validation",
+      "history_session_layerbenchmark_history_6_hardware_acceleration_unpacking_bug_fixes_rome_dataset_integration",
+      "history_session_layerbenchmark_history_execution_findings",
+      "history_session_layerbenchmark_history_execution_findings_61",
+      "history_session_layerbenchmark_history_implementation",
+      "history_session_layerbenchmark_history_implementation_39",
+      "history_session_layerbenchmark_history_session_history_layer_intervention_benchmark_subsystem",
+      "history_session_layerbenchmark_history_user_request",
+      "history_session_layerbenchmark_history_user_request_24",
+      "history_session_layerbenchmark_history_user_request_36"
+    ],
+    "55": [
+      "docs_research_journal_11",
+      "docs_research_journal_11_1_objective",
+      "docs_research_journal_11_2_1_decoupled_caching_architecture",
+      "docs_research_journal_11_2_2_stage_profiling_extended_metadata",
+      "docs_research_journal_11_2_3_batch_dataset_processing_ui_management",
+      "docs_research_journal_11_2_architecture_implementation_highlights",
+      "docs_research_journal_11_3_1_layer_depth_sensitivity_summary_hybrid_mute_boost",
+      "docs_research_journal_11_3_2_profiling_breakdown_layer_8_baseline",
+      "docs_research_journal_11_3_empirical_verification_performance_breakdown",
+      "docs_research_journal_11_4_conclusion_status",
+      "docs_research_journal_11_research_journal_entry_11_benchmark_infrastructure_optimization_stage_profiling_and_batch_dataset_processing"
+    ],
+    "56": [
+      "docs_research_journal_12",
+      "docs_research_journal_12_1_objective",
+      "docs_research_journal_12_2_1_two_stage_candidate_selection_mechanics",
+      "docs_research_journal_12_2_2_delta_patching_formulation_literature_lineage",
+      "docs_research_journal_12_2_theoretical_algorithmic_foundations",
+      "docs_research_journal_12_3_1_speed_resource_results",
+      "docs_research_journal_12_3_2_vram_footprint_efficiency",
+      "docs_research_journal_12_3_empirical_hardware_speed_analysis",
+      "docs_research_journal_12_4_ui_tooling_enhancements",
+      "docs_research_journal_12_5_summary_next_steps",
+      "docs_research_journal_12_primary_academic_citations",
+      "docs_research_journal_12_research_journal_entry_12_candidate_selection_mechanics_delta_patching_formalization_rome_dataset_integration_and_hardware_acceleration_benchmarking"
+    ],
+    "57": [
+      "app",
+      "app_get_predictions",
+      "benchmark_sequential_vs_batched",
+      "benchmark_sequential_vs_batched_main",
+      "benchmark_sequential_vs_batched_rationale_1",
+      "benchmark_sequential_vs_batched_run_batched",
+      "benchmark_sequential_vs_batched_run_sequential",
+      "benchmark_sequential_vs_batched_sync_if_cuda",
+      "benchmark_sequential_vs_batched_verify_parity",
+      "dataframe",
+      "experiment_app_rationale_2087",
+      "experiment_app_run_hybrid_workflow",
+      "scratch_run_test_cases",
+      "scratch_step2_validation_run_step2_validation",
+      "scratch_test_melbourne_boost",
+      "scratch_validate_reordering",
+      "scratch_validate_reordering_rationale_1",
+      "scratch_validate_step3a",
+      "scratch_validate_step3a_count_forward_calls",
+      "scratch_validate_step3a_main",
+      "scratch_validate_step3a_rationale_22",
+      "scratch_validate_step3c",
+      "scratch_validate_step3c_count_forward_calls",
+      "scratch_validate_step3c_main",
+      "scratch_validate_step3c_rationale_26",
+      "src_benchmark_layer_benchmark_runner",
+      "src_benchmark_layer_benchmark_runner_rationale_1",
+      "src_benchmark_layer_benchmark_runner_rationale_47",
+      "src_benchmark_layer_benchmark_runner_run_layer_benchmark",
+      "src_editing",
+      "src_editing_build_clean_context",
+      "src_editing_check_boost_safe",
+      "src_editing_check_boost_safe_batch",
+      "src_editing_check_combination_safe",
+      "src_editing_check_target_safe",
+      "src_editing_check_target_safe_batch",
+      "src_editing_cleancontext",
+      "src_editing_get_target_token_id",
+      "src_editing_get_top_competitor_features",
+      "src_editing_get_top_target_features",
+      "src_editing_make_weighted_ablation_hook",
+      "src_editing_rationale_1",
+      "src_editing_rationale_108",
+      "src_editing_rationale_14",
+      "src_editing_rationale_167",
+      "src_editing_rationale_235",
+      "src_editing_rationale_24",
+      "src_editing_rationale_299",
+      "src_editing_rationale_339",
+      "src_editing_rationale_36",
+      "src_editing_rationale_380",
+      "src_editing_rationale_423",
+      "src_editing_rationale_470",
+      "src_editing_rationale_591",
+      "src_editing_rationale_615",
+      "src_editing_rationale_773",
+      "src_editing_run_causal_selector",
+      "src_editing_run_weighted_multi_competitor_reduction",
+      "src_editing_run_weighted_multi_feature_competitor_reduction",
+      "src_evaluation",
+      "src_evaluation_check_specificity",
+      "src_evaluation_classify_fact",
+      "src_evaluation_iterative_ablate",
+      "src_evaluation_rationale_1",
+      "src_evaluation_rationale_13",
+      "src_evaluation_rationale_179",
+      "src_evaluation_rationale_209",
+      "src_evaluation_rationale_271",
+      "src_evaluation_rationale_55",
+      "src_evaluation_rationale_74",
+      "src_evaluation_run_grid_sweep",
+      "src_evaluation_run_stage_1_evaluation",
+      "src_evaluation_scan_fact_batch",
+      "src_hooks",
+      "src_hooks_make_ablation_hook",
+      "src_hooks_make_joint_ablation_hook",
+      "src_hooks_make_mute_and_boost_hook",
+      "src_hooks_make_signed_ablation_hook",
+      "src_hooks_rationale_1",
+      "src_hooks_rationale_30",
+      "src_hooks_rationale_58",
+      "src_hooks_rationale_88",
+      "src_hooks_rationale_9",
+      "test",
+      "test_main",
+      "test_rationale_150",
+      "test_rationale_94",
+      "test_run_batch_trace",
+      "test_run_boost_trace",
+      "test_run_trace"
+    ],
+    "58": [
+      "scratch_audit_step1_instrumentation",
+      "scratch_audit_step1_instrumentation_forwardpasstracker",
+      "scratch_audit_step1_instrumentation_forwardpasstracker_init",
+      "scratch_audit_step1_instrumentation_forwardpasstracker_record_forward",
+      "scratch_audit_step1_instrumentation_forwardpasstracker_sync",
+      "scratch_audit_step1_instrumentation_instrument_model",
+      "scratch_audit_step1_instrumentation_patched_check_boost_safe",
+      "scratch_audit_step1_instrumentation_patched_check_target_safe",
+      "scratch_audit_step1_instrumentation_patched_get_top_active_features",
+      "scratch_audit_step1_instrumentation_patched_get_top_competitor_features",
+      "scratch_audit_step1_instrumentation_patched_get_top_target_features",
+      "scratch_audit_step1_instrumentation_rationale_1",
+      "scratch_audit_step1_instrumentation_run_audit",
+      "src_editing_get_top_active_features",
+      "src_editing_rationale_81"
+    ],
+    "59": [
+      "docs_research_journal_13",
+      "docs_research_journal_13_1_executive_summary",
+      "docs_research_journal_13_2_step_1_execution_cost_audit_baseline_accounting",
+      "docs_research_journal_13_3_step_2_safety_filter_redundancy_elimination",
+      "docs_research_journal_13_4_performance_execution_cost_comparison",
+      "docs_research_journal_13_5_authoritative_stage_by_stage_forward_pass_accounting",
+      "docs_research_journal_13_6_benchmark_ui_observability_dashboard_enhancements",
+      "docs_research_journal_13_7_git_verification_commit_history",
+      "docs_research_journal_13_empirical_audit_findings",
+      "docs_research_journal_13_implementation_details",
+      "docs_research_journal_13_research_journal_entry_13_empirical_execution_cost_audit_step_2_safety_filter_optimization_and_benchmark_ui_observability_enhancements",
+      "docs_research_journal_13_scientific_equivalence_verification"
+    ],
+    "60": [
+      "docs_research_journal_14",
+      "docs_research_journal_14_1_accounting_framework_forward_calls_vs_sequence_evaluations",
+      "docs_research_journal_14_2_implemented_sub_steps_verification_gates",
+      "docs_research_journal_14_3_end_to_end_execution_trace_comparison",
+      "docs_research_journal_14_4_scientific_equivalence_results_canonical_case",
+      "docs_research_journal_14_executive_summary",
+      "docs_research_journal_14_research_journal_entry_14_gpu_batched_candidate_evaluation_steps_3a_3b_3c",
+      "docs_research_journal_14_step_3a_pre_batching_cleanup",
+      "docs_research_journal_14_step_3b_batched_causal_ranking_stages",
+      "docs_research_journal_14_step_3c_batched_safety_filter_stages"
+    ],
+    "61": [
+      "scratch_step2_validation",
+      "scratch_step2_validation_forwardpasstracker",
+      "scratch_step2_validation_forwardpasstracker_init",
+      "scratch_step2_validation_forwardpasstracker_record_forward",
+      "scratch_step2_validation_forwardpasstracker_reset",
+      "scratch_step2_validation_forwardpasstracker_sync",
+      "scratch_step2_validation_instrument_model",
+      "scratch_step2_validation_rationale_1"
+    ],
+    "62": [
+      "scratch_test_hf_eavan"
+    ],
+    "63": [
+      "docs_research_journal_15",
+      "docs_research_journal_15_a_bug_i_caught_while_wiring_up_the_timer_worth_writing_down",
+      "docs_research_journal_15_one_more_thing_a_second_stopwatch_for_how_long_did_i_actually_wait",
+      "docs_research_journal_15_research_journal_entry_15_making_the_hybrid_sweep_faster_and_proving_it",
+      "docs_research_journal_15_tab_4_now_has_an_on_off_switch_plus_its_own_stopwatch",
+      "docs_research_journal_15_what_i_actually_changed",
+      "docs_research_journal_15_what_i_found",
+      "docs_research_journal_15_what_i_was_trying_to_fix_today",
+      "docs_research_journal_15_where_to_look_how_to_reproduce_this",
+      "docs_research_journal_15_why_this_matters_going_forward"
+    ],
+    "64": [
+      "docs_research_journal_16",
+      "docs_research_journal_16_1_best_so_far_result_tracking_tab_4_and_tab_11",
+      "docs_research_journal_16_2_rank_progression_visualization",
+      "docs_research_journal_16_changes_made",
+      "docs_research_journal_16_problem_statement",
+      "docs_research_journal_16_research_journal_entry_16_best_so_far_result_tracking_and_rank_progression_visualization",
+      "docs_research_journal_16_scope_and_limitations",
+      "docs_research_journal_16_verification",
+      "docs_research_journal_16_where_to_look"
+    ],
+    "65": [
+      "docs_research_journal_17",
+      "docs_research_journal_17_1_rank_progression_chart_axis_labels_and_rendering_quality",
+      "docs_research_journal_17_2_cumulative_sweep_mode",
+      "docs_research_journal_17_implementation",
+      "docs_research_journal_17_motivation",
+      "docs_research_journal_17_research_journal_entry_17_cumulative_sweep_mode_and_chart_readability_fixes",
+      "docs_research_journal_17_scope",
+      "docs_research_journal_17_verification",
+      "docs_research_journal_17_where_to_look"
+    ],
+    "66": [
+      "docs_research_journal_18",
+      "docs_research_journal_18_1_groq_model_deprecation",
+      "docs_research_journal_18_2_dynamic_explanation_for_best_result_found_during_sweep",
+      "docs_research_journal_18_3_run_history_logging_bug_cumulative_sweep_metadata",
+      "docs_research_journal_18_4_rank_mismatch_bug_chained_hooks_vs_the_combined_safety_check_hook",
+      "docs_research_journal_18_analysis_note_from_reviewing_the_flagged_json",
+      "docs_research_journal_18_research_journal_entry_18_groq_model_migration_dynamic_best_result_explanations_and_a_run_history_logging_fix",
+      "docs_research_journal_18_where_to_look"
     ]
   },
   "cohesion": {
-    "0": 0.058823529411764705,
-    "1": 0.0851063829787234,
+    "0": 0.05153153153153153,
+    "1": 0.18421052631578946,
     "2": 0.058823529411764705,
-    "3": 0.1111111111111111,
+    "3": 0.09230769230769231,
     "4": 0.10526315789473684,
     "5": 0.125,
     "6": 0.13333333333333333,
     "7": 0.13333333333333333,
-    "8": 0.15384615384615385,
+    "8": 0.10526315789473684,
     "9": 0.16666666666666666,
     "10": 0.16666666666666666,
     "11": 0.2,
@@ -506,7 +792,7 @@
     "38": 1.0,
     "39": 1.0,
     "40": 1.0,
-    "41": 1.0,
+    "41": 0.25,
     "42": 1.0,
     "43": 1.0,
     "44": 1.0,
@@ -514,61 +800,89 @@
     "46": 1.0,
     "47": 1.0,
     "48": 1.0,
-    "49": 1.0
+    "49": 0.18681318681318682,
+    "50": 0.2222222222222222,
+    "51": 0.25,
+    "52": 0.5,
+    "53": 1.0,
+    "54": 0.14285714285714285,
+    "55": 0.18181818181818182,
+    "56": 0.16666666666666666,
+    "57": 0.06491885143570537,
+    "58": 0.1523809523809524,
+    "59": 0.16666666666666666,
+    "60": 0.2,
+    "61": 0.2857142857142857,
+    "62": 1.0,
+    "63": 0.2,
+    "64": 0.2222222222222222,
+    "65": 0.2222222222222222,
+    "66": 0.25
   },
   "gods": [
     {
-      "id": "src_hooks_make_ablation_hook",
-      "label": "make_ablation_hook()",
-      "degree": 15
-    },
-    {
       "id": "src_editing_get_top_competitor_features",
       "label": "get_top_competitor_features()",
-      "degree": 13
+      "degree": 32
     },
     {
       "id": "src_sae_utils_load_model_and_sae",
       "label": "load_model_and_sae()",
-      "degree": 13
-    },
-    {
-      "id": "docs_notes_research_log_investigating_sae_based_activation_manipulation",
-      "label": "Research Log: Investigating SAE-Based Activation Manipulation",
-      "degree": 12
+      "degree": 31
     },
     {
       "id": "src_editing_get_target_token_id",
       "label": "get_target_token_id()",
-      "degree": 10
+      "degree": 26
     },
     {
-      "id": "src_explain_query_groq",
-      "label": "query_groq()",
-      "degree": 9
+      "id": "src_benchmark_layer_benchmark_runner_run_layer_benchmark",
+      "label": "run_layer_benchmark()",
+      "degree": 25
     },
     {
-      "id": "src_monosemanticity_find_max_activating_examples",
-      "label": "find_max_activating_examples()",
-      "degree": 9
+      "id": "src_editing_get_top_target_features",
+      "label": "get_top_target_features()",
+      "degree": 23
     },
     {
-      "id": "agent_utilities_featurescalpel_agent_prompt_agent_task_build_featurescalpel_mvp_prototype",
-      "label": "Agent Task: Build FeatureScalpel MVP Prototype",
-      "degree": 8
+      "id": "docs_notes_research_log_investigating_sae_based_activation_manipulation",
+      "label": "Research Log: Investigating SAE-Based Activation Manipulation",
+      "degree": 18
     },
     {
-      "id": "src_hooks_make_joint_ablation_hook",
-      "label": "make_joint_ablation_hook()",
-      "degree": 8
+      "id": "src_hooks_make_ablation_hook",
+      "label": "make_ablation_hook()",
+      "degree": 17
     },
     {
-      "id": "src_editing_run_causal_selector",
-      "label": "run_causal_selector()",
-      "degree": 7
+      "id": "src_sae_utils_load_base_model",
+      "label": "load_base_model()",
+      "degree": 17
+    },
+    {
+      "id": "src_editing_build_clean_context",
+      "label": "build_clean_context()",
+      "degree": 16
+    },
+    {
+      "id": "src_sae_utils_load_sae_for_layer",
+      "label": "load_sae_for_layer()",
+      "degree": 15
     }
   ],
   "surprises": [
+    {
+      "source": "patched_check_boost_safe()",
+      "target": "make_signed_ablation_hook()",
+      "source_files": [
+        "scratch/audit_step1_instrumentation.py",
+        "src/hooks.py"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; bridges separate communities; peripheral node `patched_check_boost_safe()` unexpectedly reaches hub `make_signed_ablation_hook()`"
+    },
     {
       "source": "get_predictions()",
       "target": "make_ablation_hook()",
@@ -581,44 +895,33 @@
       "why": "connects across different repos/directories; peripheral node `get_predictions()` unexpectedly reaches hub `make_ablation_hook()`"
     },
     {
-      "source": "run_batch_trace()",
-      "target": "get_top_competitor_features()",
+      "source": "main()",
+      "target": "get_default_device()",
       "source_files": [
-        "test.py",
-        "src/editing.py"
+        "benchmark_sequential_vs_batched.py",
+        "src/sae_utils.py"
       ],
       "confidence": "EXTRACTED",
       "relation": "calls",
       "why": "connects across different repos/directories; bridges separate communities"
     },
     {
-      "source": "run_trace()",
-      "target": "get_top_competitor_features()",
+      "source": "main()",
+      "target": "load_model_and_sae()",
       "source_files": [
-        "test.py",
-        "src/editing.py"
+        "benchmark_sequential_vs_batched.py",
+        "src/sae_utils.py"
       ],
       "confidence": "EXTRACTED",
       "relation": "calls",
       "why": "connects across different repos/directories; bridges separate communities"
     },
     {
-      "source": "run_boost_trace()",
-      "target": "get_top_target_features()",
+      "source": "main()",
+      "target": "run_layer_benchmark()",
       "source_files": [
-        "test.py",
-        "src/editing.py"
-      ],
-      "confidence": "EXTRACTED",
-      "relation": "calls",
-      "why": "connects across different repos/directories; bridges separate communities"
-    },
-    {
-      "source": "run_trace()",
-      "target": "make_ablation_hook()",
-      "source_files": [
-        "test.py",
-        "src/hooks.py"
+        "layer_benchmark.py",
+        "src/benchmark/layer_benchmark_runner.py"
       ],
       "confidence": "EXTRACTED",
       "relation": "calls",
@@ -628,38 +931,38 @@
   "questions": [
     {
       "type": "bridge_node",
-      "question": "Why does `get_target_token_id()` connect `editing.py` to `experiment_app.py`?",
-      "why": "High betweenness centrality (0.010) - this node is a cross-community bridge."
+      "question": "Why does `load_model_and_sae()` connect `load_model_and_sae` to `experiment_app.py`, `validate_step3b.py`, `authoritative_accounting.py`, `editing.py`, `audit_step1_instrumentation.py`, `step2_validation.py`?",
+      "why": "High betweenness centrality (0.017) - this node is a cross-community bridge."
     },
     {
       "type": "bridge_node",
-      "question": "Why does `make_ablation_hook()` connect `editing.py` to `experiment_app.py`, `load_model_and_sae`?",
-      "why": "High betweenness centrality (0.010) - this node is a cross-community bridge."
+      "question": "Why does `get_top_competitor_features()` connect `editing.py` to `experiment_app.py`, `validate_step3b.py`, `audit_step1_instrumentation.py`, `load_model_and_sae`?",
+      "why": "High betweenness centrality (0.013) - this node is a cross-community bridge."
     },
     {
       "type": "bridge_node",
-      "question": "Why does `get_top_competitor_features()` connect `editing.py` to `experiment_app.py`, `load_model_and_sae`?",
-      "why": "High betweenness centrality (0.009) - this node is a cross-community bridge."
+      "question": "Why does `get_target_token_id()` connect `editing.py` to `experiment_app.py`, `validate_step3b.py`, `load_model_and_sae`?",
+      "why": "High betweenness centrality (0.013) - this node is a cross-community bridge."
     },
     {
       "type": "isolated_nodes",
-      "question": "What connects `graphify`, `Workflow: graphify`, `Project Context (read this fully before writing any code)` to the rest of the system?",
-      "why": "140 weakly-connected nodes found - possible documentation gaps or missing edges."
+      "question": "What connects `MockConfig`, `graphify`, `Workflow: graphify` to the rest of the system?",
+      "why": "225 weakly-connected nodes found - possible documentation gaps or missing edges."
     },
     {
       "type": "low_cohesion",
       "question": "Should `experiment_app.py` be split into smaller, more focused modules?",
-      "why": "Cohesion score 0.058823529411764705 - nodes in this community are weakly interconnected."
-    },
-    {
-      "type": "low_cohesion",
-      "question": "Should `editing.py` be split into smaller, more focused modules?",
-      "why": "Cohesion score 0.0851063829787234 - nodes in this community are weakly interconnected."
+      "why": "Cohesion score 0.05153153153153153 - nodes in this community are weakly interconnected."
     },
     {
       "type": "low_cohesion",
       "question": "Should `history.md` be split into smaller, more focused modules?",
       "why": "Cohesion score 0.058823529411764705 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `load_model_and_sae` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.09230769230769231 - nodes in this community are weakly interconnected."
     }
   ]
 }

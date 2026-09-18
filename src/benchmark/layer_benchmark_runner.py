@@ -318,7 +318,7 @@ def run_layer_benchmark(
                     "boost_features": [int(f) for f in boost_batch]
                 })
 
-                del logits, probs, clean_sorted_indices, logits_int, probs_int, sorted_indices_after, tokens
+                del probs, logits_int, probs_int, sorted_indices_after, tokens
 
             except Exception as e:
                 duration_ms = (time.perf_counter() - start_time) * 1000.0
