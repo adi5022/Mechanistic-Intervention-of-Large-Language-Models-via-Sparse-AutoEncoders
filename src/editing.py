@@ -6,7 +6,7 @@ from dataclasses import dataclass
 import torch
 import torch.nn.functional as F
 from typing import List, Dict, Tuple
-from src.hooks import make_ablation_hook
+from src.hooks import make_ablation_hook, make_scale_map_hook, with_extra_scale
 
 HOOK_NAME = "blocks.8.hook_resid_pre"
 
@@ -30,6 +30,7 @@ class CleanContext:
     resid_last: torch.Tensor      # residual stream at the SAE hook point, final token position
     clean_target_prob: float      # clean_probs[target_token_id].item(), if a target is known
     clean_rank: int                # rank of target_token_id in clean_probs, if a target is known
+    resid_all: torch.Tensor = None # residual stream at the SAE hook point, ALL positions [1, seq, d_model]
 
 
 def build_clean_context(model, sae, prompt: str, target_token_id: int = None) -> CleanContext:
@@ -53,12 +54,14 @@ def build_clean_context(model, sae, prompt: str, target_token_id: int = None) ->
         logits, cache = model.run_with_cache(tokens)
         clean_probs = F.softmax(logits[0, -1, :], dim=-1)
         try:
-            resid_last = cache[hook_name][:, -1, :]  # [1, d_model]
+            resid_all = cache[hook_name]
+            resid_last = resid_all[:, -1, :]  # [1, d_model]
         except KeyError:
             model.reset_hooks()
             logits, cache = model.run_with_cache(tokens)
             clean_probs = F.softmax(logits[0, -1, :], dim=-1)
-            resid_last = cache[hook_name][:, -1, :]
+            resid_all = cache[hook_name]
+            resid_last = resid_all[:, -1, :]
 
     clean_target_prob = None
     clean_rank = None
@@ -73,15 +76,76 @@ def build_clean_context(model, sae, prompt: str, target_token_id: int = None) ->
         resid_last=resid_last,
         clean_target_prob=clean_target_prob,
         clean_rank=clean_rank,
+        resid_all=resid_all,
     )
 
+def build_steered_context(model, sae, clean_ctx: CleanContext, base_scale_map: dict,
+                          target_token_id: int = None) -> CleanContext:
+    """
+    Same shape as CleanContext, but its distribution/rank/prob come from a forward pass with
+    the already-applied features in base_scale_map active (the "steered baseline").
+    resid_last is reused from clean_ctx: the SAE hook point sits upstream of every
+    intervention, so the active-feature set at that point does not change with steering.
+    """
+    hook_name = getattr(sae.cfg, "hook_name", HOOK_NAME)
+    model.reset_hooks()
+    with torch.no_grad():
+        logits = model.run_with_hooks(
+            clean_ctx.tokens, fwd_hooks=[(hook_name, make_scale_map_hook(base_scale_map, sae))]
+        )
+        probs = F.softmax(logits[0, -1, :], dim=-1)
+    model.reset_hooks()
+
+    target_prob = None
+    rank = None
+    if target_token_id is not None:
+        target_prob = probs[target_token_id].item()
+        rank = (torch.argsort(probs, descending=True) == target_token_id).nonzero().item() + 1
+
+    return CleanContext(
+        tokens=clean_ctx.tokens,
+        clean_probs=probs,
+        resid_last=clean_ctx.resid_last,
+        clean_target_prob=target_prob,
+        clean_rank=rank,
+        resid_all=clean_ctx.resid_all,
+    )
+
+
 def get_top_active_features(
-    model, sae, prompt: str, top_n: int = 20, clean_ctx: CleanContext = None
+    model, sae, prompt: str, top_n: int = 20, clean_ctx: CleanContext = None,
+    exclude_ids=None, positions: str = "last"
 ) -> List[Tuple[int, float]]:
     """
-    Runs the model on the prompt, extracts the final token's residual stream activation,
-    encodes it with the SAE, and returns the top_n feature indices and their raw activations.
+    Runs the model on the prompt, encodes the residual stream with the SAE, and returns the top_n
+    feature indices and their raw activations.
+
+    positions="last": only the final prompt token (original behaviour).
+    positions="all":  every prompt token except BOS; a feature's score is its maximum activation
+                      over those positions, so features that fire on earlier words (e.g. "sky")
+                      become candidates too.
     """
+    if positions == "all":
+        if clean_ctx is not None and clean_ctx.resid_all is not None:
+            resid_all = clean_ctx.resid_all
+        else:
+            tokens = model.to_tokens(prompt)
+            hook_name = getattr(sae.cfg, "hook_name", HOOK_NAME)
+            model.reset_hooks()
+            with torch.no_grad():
+                _, cache = model.run_with_cache(tokens)
+            resid_all = cache[hook_name]
+        with torch.no_grad():
+            acts = sae.encode(resid_all[0])          # [seq, n_features]
+            if acts.shape[0] > 1:
+                acts = acts[1:]                      # drop BOS
+            best = acts.max(dim=0).values            # [n_features]
+            if exclude_ids:
+                best = best.clone()
+                best[torch.as_tensor(list(exclude_ids), device=best.device)] = 0.0
+        values, indices = torch.topk(best, min(top_n, best.numel()))
+        return [(idx.item(), val.item()) for idx, val in zip(indices, values) if val.item() > 0.0]
+
     if clean_ctx is not None:
         last_token_act = clean_ctx.resid_last
     else:
@@ -97,6 +161,9 @@ def get_top_active_features(
     with torch.no_grad():
         feature_acts = sae.encode(last_token_act)  # [batch, n_features]
         last_token_features = feature_acts[0]  # [n_features]
+        if exclude_ids:
+            last_token_features = last_token_features.clone()
+            last_token_features[torch.as_tensor(list(exclude_ids), device=last_token_features.device)] = 0.0
         
     values, indices = torch.topk(last_token_features, top_n)
     
@@ -160,9 +227,17 @@ def run_causal_selector(
     results.sort(key=lambda x: x["prob_delta"])
     return results
 
+def _single_scale_hook(sae, base_scale_map, feature_id: int, scale: float):
+    """Original single-feature hook when nothing is applied; otherwise the same feature scaled on top of the applied set."""
+    if not base_scale_map:
+        return make_ablation_hook(feature_id, sae, strength=1.0 - scale)
+    return make_scale_map_hook(with_extra_scale(base_scale_map, feature_id, scale), sae)
+
+
 def get_top_competitor_features(
     model, sae, prompt: str, current_top_token_id: int, top_n: int = 20,
-    clean_ctx: CleanContext = None, use_batched: bool = False
+    clean_ctx: CleanContext = None, use_batched: bool = False,
+    exclude_ids=None, base_scale_map: dict | None = None, positions: str = "last"
 ) -> list[tuple[int, float]]:
     """
     Ranks active features by how much their ablation (strength=1.0) decreases the probability of current_top_token_id.
@@ -180,7 +255,7 @@ def get_top_competitor_features(
             clean_competitor_prob = clean_probs[current_top_token_id].item()
         
     # 2. Get top active features
-    active_features = get_top_active_features(model, sae, prompt, top_n=top_n, clean_ctx=clean_ctx)
+    active_features = get_top_active_features(model, sae, prompt, top_n=top_n, clean_ctx=clean_ctx, exclude_ids=exclude_ids, positions=positions)
     if not active_features:
         return []
 
@@ -196,7 +271,8 @@ def get_top_competitor_features(
             feature_ids=feature_ids,
             scale=0.0,
             token_ids_of_interest=[current_top_token_id],
-            hook_name=hook_name
+            hook_name=hook_name,
+            base_scale_map=base_scale_map
         )
         ablated_competitor_probs = ablated_probs_tensor[:, 0].tolist()
         results = [
@@ -208,7 +284,7 @@ def get_top_competitor_features(
 
     results = []
     for feature_id, activation in active_features:
-        hook_fn = make_ablation_hook(feature_id, sae, strength=1.0)
+        hook_fn = _single_scale_hook(sae, base_scale_map, feature_id, 0.0)
         hook_name = getattr(sae.cfg, "hook_name", HOOK_NAME)
         
         with torch.no_grad():
@@ -230,7 +306,8 @@ def get_top_competitor_features(
 
 def get_top_target_features(
     model, sae, prompt: str, target_token_id: int, top_n: int = 30,
-    clean_ctx: CleanContext = None, use_batched: bool = False
+    clean_ctx: CleanContext = None, use_batched: bool = False,
+    exclude_ids=None, base_scale_map: dict | None = None, positions: str = "last"
 ) -> list[tuple[int, float]]:
     """
     Ranks active features by how much their ablation (strength=1.0) decreases the probability of target_token_id.
@@ -248,7 +325,7 @@ def get_top_target_features(
             clean_probs = F.softmax(clean_logits[0, -1, :], dim=-1)
             clean_target_prob = clean_probs[target_token_id].item()
         
-    active_features = get_top_active_features(model, sae, prompt, top_n=top_n, clean_ctx=clean_ctx)
+    active_features = get_top_active_features(model, sae, prompt, top_n=top_n, clean_ctx=clean_ctx, exclude_ids=exclude_ids, positions=positions)
     if not active_features:
         return []
 
@@ -263,7 +340,8 @@ def get_top_target_features(
             feature_ids=feature_ids,
             scale=0.0,
             token_ids_of_interest=[target_token_id],
-            hook_name=hook_name
+            hook_name=hook_name,
+            base_scale_map=base_scale_map
         )
         ablated_target_probs = ablated_probs_tensor[:, 0].tolist()
         results = [
@@ -275,7 +353,7 @@ def get_top_target_features(
 
     results = []
     for feature_id, activation in active_features:
-        hook_fn = make_ablation_hook(feature_id, sae, strength=1.0)
+        hook_fn = _single_scale_hook(sae, base_scale_map, feature_id, 0.0)
         
         with torch.no_grad():
             ablated_logits = model.run_with_hooks(
@@ -294,7 +372,8 @@ def get_top_target_features(
 
 def check_target_safe(
     model, sae, prompt: str, feature_id: int, target_token_id: int, strength: float = 0.3,
-    clean_target_prob: float = None, clean_rank: int = None
+    clean_target_prob: float = None, clean_rank: int = None,
+    base_scale_map: dict | None = None
 ) -> tuple[bool, float]:
     """
     Temporarily applies ONLY this one feature's ablation (using make_ablation_hook),
@@ -314,7 +393,7 @@ def check_target_safe(
             clean_sorted_indices = torch.argsort(clean_probs, descending=True)
             clean_rank = (clean_sorted_indices == target_token_id).nonzero().item() + 1
         
-    hook_fn = make_ablation_hook(feature_id, sae, strength=strength)
+    hook_fn = _single_scale_hook(sae, base_scale_map, feature_id, 1.0 - strength)
     
     # Run with temporary ablation hook for feature_id
     with torch.no_grad():
@@ -334,7 +413,8 @@ def check_target_safe(
 
 def check_boost_safe(
     model, sae, prompt: str, feature_id: int, target_token_id: int, strength: float = 0.5,
-    clean_target_prob: float = None, clean_rank: int = None
+    clean_target_prob: float = None, clean_rank: int = None,
+    base_scale_map: dict | None = None
 ) -> tuple[bool, float, int]:
     """
     Temporarily applies ONLY this one feature's boost (using make_signed_ablation_hook with +strength),
@@ -354,7 +434,7 @@ def check_boost_safe(
             clean_sorted_indices = torch.argsort(clean_probs, descending=True)
             clean_rank = (clean_sorted_indices == target_token_id).nonzero().item() + 1
         
-    hook_fn = make_signed_ablation_hook([feature_id], sae, strength=+strength)
+    hook_fn = _single_scale_hook(sae, base_scale_map, feature_id, 1.0 + strength) if base_scale_map else make_signed_ablation_hook([feature_id], sae, strength=+strength)
     
     with torch.no_grad():
         boosted_logits = model.run_with_hooks(
@@ -375,7 +455,8 @@ def check_boost_safe(
 
 def check_target_safe_batch(
     model, sae, clean_ctx: CleanContext, feature_ids: list[int],
-    target_token_id: int, strength: float = 0.3
+    target_token_id: int, strength: float = 0.3,
+    base_scale_map: dict | None = None
 ) -> list[tuple[bool, float]]:
     """
     Batched counterpart of check_target_safe.
@@ -398,7 +479,8 @@ def check_target_safe_batch(
         feature_ids=feature_ids,
         scale=scale,
         target_token_id=target_token_id,
-        hook_name=hook_name
+        hook_name=hook_name,
+        base_scale_map=base_scale_map
     )
 
     clean_target_prob = clean_ctx.clean_target_prob
@@ -418,7 +500,8 @@ def check_target_safe_batch(
 
 def check_boost_safe_batch(
     model, sae, clean_ctx: CleanContext, feature_ids: list[int],
-    target_token_id: int, strength: float = 0.5
+    target_token_id: int, strength: float = 0.5,
+    base_scale_map: dict | None = None
 ) -> list[tuple[bool, float, int]]:
     """
     Batched counterpart of check_boost_safe.
@@ -441,7 +524,8 @@ def check_boost_safe_batch(
         feature_ids=feature_ids,
         scale=scale,
         target_token_id=target_token_id,
-        hook_name=hook_name
+        hook_name=hook_name,
+        base_scale_map=base_scale_map
     )
 
     clean_target_prob = clean_ctx.clean_target_prob

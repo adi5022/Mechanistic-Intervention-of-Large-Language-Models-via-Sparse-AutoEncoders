@@ -1,8 +1,27 @@
 # Project Handoff: Transient Steering & Layer Intervention Benchmark
 
-**Date:** August 13, 2026  
-**Git Branch:** `layer-intervention-benchmark`  
+**Date:** September 24, 2026  
+**Git Branch:** `pool-refill-implementation` (from `stable-batched-workflow`)  
 **Repository:** `Mechanistic-Intervention-of-Large-Language-Models-via-Sparse-AutoEncoders`
+
+---
+
+## 0. Latest Session (2026-09-24): Tab 4 Pool Refill
+
+**Why:** Tab 4's Cumulative Sweep stopped early (e.g. `black`, rank 10 -> 5) because its length was `min(safe mute pool, safe boost pool)`, built once against the clean model. Full write-up: `docs/Research_Journal/19.md`.
+
+**What changed (uncommitted on `pool-refill-implementation`):**
+* `src/hooks.py`: `build_scale_map`, `with_extra_scale`, `make_scale_map_hook`, `make_per_row_scale_hook_with_base`.
+* `src/batched_eval.py`: `base_scale_map` param on both batched primitives (empty = original behaviour).
+* `src/editing.py`: `build_steered_context`; `exclude_ids` / `base_scale_map` on candidate ranking and the four safety checks.
+* `experiment_app.py` (Tab 4): round loop with pool refill against a steered baseline; independent mute/boost growth inside a round; retries of earlier-rejected features; track-only regressions; optional Max Refill Rounds (0 = unlimited); live status, baseline cards, pool tables, refill log, ledger, per-round timeline, refill markers on the chart, extended run-history record.
+* `scratch/validate_pool_refill.py`: validation (steered baseline, batched vs sequential parity, empty-base identity) - all pass.
+
+* Later the same day: overlap fix (each feature used on one side only), clearer baseline cards, top-of-page live tracker, **candidate source = all prompt positions**, and Top N auto-capped to the number of active features (see Journal Entry 19, sections 8-10).
+
+**Key finding:** candidates are limited to SAE features active at the final token (67 for the test prompt at layer 8); multiplicative steering cannot activate inactive features, so refill cannot exceed that ceiling. Any further gain needs a different mechanism (the proposed architectural change).
+
+**Not done:** Tab 11 still uses the old single-pool sweep. Changes are not committed or pushed.
 
 ---
 

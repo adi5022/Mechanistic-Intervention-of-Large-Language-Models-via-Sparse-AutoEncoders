@@ -5,14 +5,21 @@ changing what is scientifically being evaluated.
 """
 
 import torch
-from src.hooks import make_per_row_scale_hook
+from src.hooks import make_per_row_scale_hook, make_per_row_scale_hook_with_base
 
 MAX_EVAL_BATCH = 32
 
 
+def _row_hook(chunk_fids, sae, scale, base_scale_map):
+    if base_scale_map:
+        return make_per_row_scale_hook_with_base(chunk_fids, sae, scale, base_scale_map)
+    return make_per_row_scale_hook(chunk_fids, sae, scale)
+
+
 def batched_ablation_probs(
     model, sae, tokens, feature_ids: list[int], scale: float,
-    token_ids_of_interest: list[int], hook_name: str, max_eval_batch: int = MAX_EVAL_BATCH
+    token_ids_of_interest: list[int], hook_name: str, max_eval_batch: int = MAX_EVAL_BATCH,
+    base_scale_map: dict | None = None
 ) -> torch.Tensor:
     """
     Evaluates `len(feature_ids)` single-feature ablations of `tokens` in one or
@@ -37,7 +44,7 @@ def batched_ablation_probs(
         chunk_size = len(chunk_fids)
 
         batch_tokens = tokens.repeat(chunk_size, 1)
-        hook_fn = make_per_row_scale_hook(chunk_fids, sae, scale)
+        hook_fn = _row_hook(chunk_fids, sae, scale, base_scale_map)
 
         with torch.no_grad():
             ablated_logits = model.run_with_hooks(
@@ -54,7 +61,8 @@ def batched_ablation_probs(
 
 def batched_ablation_probs_and_ranks(
     model, sae, tokens, feature_ids: list[int], scale: float,
-    target_token_id: int, hook_name: str, max_eval_batch: int = MAX_EVAL_BATCH
+    target_token_id: int, hook_name: str, max_eval_batch: int = MAX_EVAL_BATCH,
+    base_scale_map: dict | None = None
 ) -> tuple[torch.Tensor, torch.Tensor]:
     """
     Like batched_ablation_probs, but also returns the target token's rank
@@ -80,7 +88,7 @@ def batched_ablation_probs_and_ranks(
         chunk_size = len(chunk_fids)
 
         batch_tokens = tokens.repeat(chunk_size, 1)
-        hook_fn = make_per_row_scale_hook(chunk_fids, sae, scale)
+        hook_fn = _row_hook(chunk_fids, sae, scale, base_scale_map)
 
         with torch.no_grad():
             ablated_logits = model.run_with_hooks(

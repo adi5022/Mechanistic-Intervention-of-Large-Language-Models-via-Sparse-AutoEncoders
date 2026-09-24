@@ -107,6 +107,68 @@ def make_signed_ablation_hook(feature_ids: list[int], sae, strength: float):
         
     return hook_fn
 
+def build_scale_map(mute_ids, mute_strength: float, boost_ids, boost_strength: float) -> dict:
+    """Per-feature multiplicative scale for an applied mute/boost set (product if a feature is in both)."""
+    scale_map = {}
+    for fid in mute_ids:
+        scale_map[fid] = scale_map.get(fid, 1.0) * (1.0 - mute_strength)
+    for fid in boost_ids:
+        scale_map[fid] = scale_map.get(fid, 1.0) * (1.0 + boost_strength)
+    return scale_map
+
+
+def with_extra_scale(base_scale_map: dict | None, feature_id: int, scale: float) -> dict:
+    """Copy of base_scale_map with feature_id additionally scaled by `scale`."""
+    out = dict(base_scale_map or {})
+    out[feature_id] = out.get(feature_id, 1.0) * scale
+    return out
+
+
+def make_scale_map_hook(scale_map: dict, sae):
+    """Single encode/decode delta-patch hook scaling each feature id by its scale_map value."""
+    def hook_fn(resid, hook):
+        if not scale_map:
+            return resid
+        feature_acts = sae.encode(resid)
+        baseline_reconstructed = sae.decode(feature_acts)
+        modified = feature_acts.clone()
+        idx = torch.as_tensor(list(scale_map.keys()), device=resid.device)
+        scales = torch.as_tensor(list(scale_map.values()), device=resid.device, dtype=modified.dtype)
+        modified[..., idx] = modified[..., idx] * scales
+        return resid + (sae.decode(modified) - baseline_reconstructed)
+
+    return hook_fn
+
+
+def make_per_row_scale_hook_with_base(feature_ids: list[int], sae, scale: float, base_scale_map: dict):
+    """
+    Like make_per_row_scale_hook, but every row additionally has the already-applied
+    features in base_scale_map scaled (the "steered state"), in the same single
+    encode/decode pass. Row i then also scales feature_ids[i] by `scale`.
+    """
+    def hook_fn(resid, hook):
+        B = resid.shape[0]
+        assert B == len(feature_ids), (
+            f"batch size {B} != len(feature_ids) {len(feature_ids)}"
+        )
+        feature_acts = sae.encode(resid)
+        baseline_reconstructed = sae.decode(feature_acts)
+        modified = feature_acts.clone()
+
+        if base_scale_map:
+            b_idx = torch.as_tensor(list(base_scale_map.keys()), device=resid.device)
+            b_scales = torch.as_tensor(list(base_scale_map.values()), device=resid.device, dtype=modified.dtype)
+            modified[:, :, b_idx] = modified[:, :, b_idx] * b_scales
+
+        row_idx = torch.arange(B, device=resid.device)
+        feat_idx = torch.as_tensor(feature_ids, device=resid.device)
+        modified[row_idx, :, feat_idx] = modified[row_idx, :, feat_idx] * scale
+
+        return resid + (sae.decode(modified) - baseline_reconstructed)
+
+    return hook_fn
+
+
 def make_per_row_scale_hook(feature_ids: list[int], sae, scale: float):
     """
     Batched counterpart of make_ablation_hook / make_signed_ablation_hook.

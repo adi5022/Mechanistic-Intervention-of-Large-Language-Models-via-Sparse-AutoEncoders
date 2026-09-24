@@ -18,6 +18,7 @@ from src.editing import (
     check_boost_safe_batch,
     check_combination_safe,
     build_clean_context,
+    build_steered_context,
     run_weighted_multi_competitor_reduction,
     run_weighted_multi_feature_competitor_reduction,
     make_weighted_ablation_hook,
@@ -28,7 +29,9 @@ from src.hooks import (
     make_joint_ablation_hook,
     make_signed_ablation_hook,
     make_mute_and_boost_hook,
+    build_scale_map,
 )
+from src.batched_eval import MAX_EVAL_BATCH
 from src.monosemanticity import (
     find_max_activating_examples,
     find_max_activating_neuron_examples,
@@ -74,7 +77,7 @@ def render_empty_state_card(state_dict: dict):
         st.warning(f"**Why is this unavailable?:** {state_dict['why']}")
         st.info(f"**Is this expected?:** {state_dict['expected']}\n\n👉 **Recommended Next Steps:** {state_dict['next_steps']}")
 
-def render_rank_progression_chart(rank_progression: list[dict], best_step: int | None = None, height: int = 320):
+def render_rank_progression_chart(rank_progression: list[dict], best_step: int | None = None, height: int = 320, refill_steps: list[int] | None = None):
     """
     Renders a labeled, publication-quality line chart of the target token's rank across
     sweep steps (Step 0 = clean baseline). The y-axis is inverted so that improvement
@@ -114,6 +117,12 @@ def render_rank_progression_chart(rank_progression: list[dict], best_step: int |
     ).encode(y=alt.Y("y:Q"))
 
     layers = [line, points, target_ref_line]
+
+    if refill_steps:
+        refill_rules = alt.Chart(pd.DataFrame({"Step": refill_steps, "Event": "Pool refill"})).mark_rule(
+            strokeDash=[2, 3], color="#F58518", strokeWidth=1.5
+        ).encode(x="Step:Q", tooltip=[alt.Tooltip("Event:N"), alt.Tooltip("Step:Q")])
+        layers.append(refill_rules)
 
     if best_step is not None:
         best_row = df[df["Step"] == best_step]
@@ -624,11 +633,27 @@ with tab4:
     with col1:
         prompt_4 = st.text_input("Prompt", "Seiyu Group's headquarters are in", key="t4_prompt")
         target_4 = st.text_input("Target Completion", "Tokyo", key="t4_target")
-        top_n_4 = st.number_input("Top N Candidate Features", value=30, min_value=1, step=1, key="t4_topn")
+        top_n_4 = st.number_input(
+            "Top N Candidate Features (maximum)", value=30, min_value=1, step=1, key="t4_topn",
+            help="A ceiling, not a target. It is automatically capped at the number of features that are actually active for the chosen candidate source, so asking for more than exist just uses all of them (the pool table shows requested vs available)."
+        )
+        candidate_source_4 = st.radio(
+            "Candidate source", ["All prompt positions", "Last token only"], horizontal=True, key="t4_cand_source",
+            help="Last token only = features active on the final prompt token (the original behaviour). All prompt positions = also features active on earlier words (BOS excluded), e.g. 'sky' in 'The sky is'. The edit already scales a feature at every position; this only widens which features are considered."
+        )
+        cand_positions_4 = "all" if candidate_source_4.startswith("All") else "last"
     with col2:
         cumulative_sweep_4 = st.checkbox(
             "🔁 Cumulative Sweep (pile on one feature at a time until Target reaches Rank 1)", value=False, key="t4_cumulative",
             help="Ignores the Mute/Boost Batch Sizes below. Instead runs Mute 1/Boost 1, then Mute 2/Boost 2, then Mute 3/Boost 3, and so on — one feature added to each side per step — stopping the moment the target reaches Rank #1 (or once the candidate pool runs out)."
+        )
+        refill_enabled_4 = st.checkbox(
+            "♻️ Pool Refill (adaptive rounds — only with Cumulative Sweep)", value=True, key="t4_refill", disabled=not cumulative_sweep_4,
+            help="When the safe-candidate pool is used up and the target is not yet Rank #1, keep every applied feature, run a fresh forward pass to get a new steered baseline, then re-rank and re-filter candidates (including ones rejected earlier) against that state, and continue. Repeats until Rank #1 or no safe candidate remains."
+        )
+        max_rounds_4 = st.number_input(
+            "Max Refill Rounds (0 = unlimited)", value=0, min_value=0, step=1, key="t4_max_rounds",
+            disabled=not (cumulative_sweep_4 and refill_enabled_4)
         )
         col_m1, col_m2 = st.columns(2)
         with col_m1:
@@ -677,161 +702,391 @@ with tab4:
         baseline_target_prob = clean_ctx.clean_target_prob
         t4_baseline_done = time.perf_counter()
 
+        tracker_box = st.container(border=True)
+        with tracker_box:
+            st.markdown("**📡 Live progress — all rounds so far** (updates as the run goes; details continue below)")
+            tr_status = st.empty()
+            tr_table = st.empty()
+            tr_chart = st.empty()
         st.write(f"**Baseline Top-1:** `{current_top1_str}` | **Target '{target_str}' Prob:** `{baseline_target_prob*100:.2f}%`")
 
-        # Candidate feature sets with safety filtering (batched or sequential, per checkbox)
-        competitor_features = get_top_competitor_features(
-            model, sae, prompt_4, current_top1_id, top_n=top_n_4,
-            clean_ctx=clean_ctx, use_batched=use_batched_4
-        )
-        # NOTE: rejection reasons are only collected here (fid + delta, no network calls) —
-        # the Neuronpedia hover-link lookups happen AFTER the stopwatch stops, further down,
-        # so fetching feature descriptions over the network never contaminates the timing.
-        comp_ids = []
-        comp_rejections_4 = []
-        comp_fids = [fid for fid, _ in competitor_features]
-        if use_safety_4:
-            if use_batched_4:
-                comp_results = check_target_safe_batch(model, sae, clean_ctx, comp_fids, target_token_id, strength=strength_mute_4)
-                for fid, (is_safe, t_delta) in zip(comp_fids, comp_results):
-                    if is_safe:
-                        comp_ids.append(fid)
-                    else:
-                        comp_rejections_4.append((fid, t_delta))
+        # ==================================================================
+        # POOL-REFILL SWEEP
+        # Round 0 builds candidate pools against the CLEAN model. Every later round
+        # (only when Cumulative Sweep + Pool Refill are on) re-scores and re-filters
+        # candidates against the STEERED model — the clean model plus every mute/boost
+        # applied so far — so the pool is never a stale snapshot of the original prompt.
+        # ==================================================================
+        refill_on = bool(cumulative_sweep_4 and refill_enabled_4)
+        sm4, sb4 = strength_mute_4, strength_boost_4
+
+        def _chunks(n):
+            return (-(-n // MAX_EVAL_BATCH) if use_batched_4 else n) if n else 0
+
+        def build_pools(ctx, base_map, exclude_ids):
+            """Rank + safety-filter candidates against `ctx` (clean or steered baseline)."""
+            blocker_id = int(torch.argmax(ctx.clean_probs).item())
+            with torch.no_grad():
+                acts_all = sae.encode(ctx.resid_all[0])          # [seq, n_features]
+            tok_strs = model.to_str_tokens(prompt_4)
+            per_token = [(tok_strs[i], int((acts_all[i] > 0).sum().item())) for i in range(1, acts_all.shape[0])]
+            if cand_positions_4 == "all":
+                active_mask = (acts_all[1:] > 0).any(dim=0)
             else:
-                for fid in comp_fids:
-                    is_safe, t_delta = check_target_safe(
-                        model, sae, prompt_4, fid, target_token_id, strength=strength_mute_4,
-                        clean_target_prob=baseline_target_prob, clean_rank=clean_ctx.clean_rank
-                    )
-                    if is_safe:
-                        comp_ids.append(fid)
-                    else:
-                        comp_rejections_4.append((fid, t_delta))
-        else:
-            comp_ids = comp_fids
+                active_mask = acts_all[-1] > 0
+            active_ids = set(torch.nonzero(active_mask).flatten().tolist())
+            available = len(active_ids - set(exclude_ids))
+            eff_top_n = min(top_n_4, available)
 
-        target_features = get_top_target_features(
-            model, sae, prompt_4, target_token_id, top_n=top_n_4,
-            clean_ctx=clean_ctx, use_batched=use_batched_4
-        )
-        target_ids = []
-        boost_rejections_4 = []
-        tgt_fids = [fid for fid, _ in target_features]
-        if use_safety_4:
-            if use_batched_4:
-                tgt_results = check_boost_safe_batch(model, sae, clean_ctx, tgt_fids, target_token_id, strength=strength_boost_4)
-                for fid, (is_safe, t_delta, r_imp) in zip(tgt_fids, tgt_results):
-                    if is_safe:
-                        target_ids.append(fid)
-                    else:
-                        boost_rejections_4.append((fid, t_delta))
+            comp_feats = get_top_competitor_features(
+                model, sae, prompt_4, blocker_id, top_n=eff_top_n, clean_ctx=ctx,
+                use_batched=use_batched_4, exclude_ids=exclude_ids, base_scale_map=base_map, positions=cand_positions_4
+            ) if eff_top_n > 0 else []
+            tgt_feats = get_top_target_features(
+                model, sae, prompt_4, target_token_id, top_n=eff_top_n, clean_ctx=ctx,
+                use_batched=use_batched_4, exclude_ids=exclude_ids, base_scale_map=base_map, positions=cand_positions_4
+            ) if eff_top_n > 0 else []
+            comp_fids = [f for f, _ in comp_feats]
+            tgt_fids = [f for f, _ in tgt_feats]
+            comp_effect = dict(comp_feats)
+            tgt_effect = dict(tgt_feats)
+            n_passes = _chunks(len(comp_fids)) + _chunks(len(tgt_fids))
+
+            comp_ok, comp_rej, comp_delta = [], [], {}
+            tgt_ok, tgt_rej, tgt_delta = [], [], {}
+            if use_safety_4:
+                if use_batched_4:
+                    res = check_target_safe_batch(model, sae, ctx, comp_fids, target_token_id, strength=sm4, base_scale_map=base_map)
+                    for fid, (ok, d) in zip(comp_fids, res):
+                        (comp_ok if ok else comp_rej).append(fid if ok else (fid, d))
+                        comp_delta[fid] = d
+                    res = check_boost_safe_batch(model, sae, ctx, tgt_fids, target_token_id, strength=sb4, base_scale_map=base_map)
+                    for fid, (ok, d, _r) in zip(tgt_fids, res):
+                        (tgt_ok if ok else tgt_rej).append(fid if ok else (fid, d))
+                        tgt_delta[fid] = d
+                else:
+                    for fid in comp_fids:
+                        ok, d = check_target_safe(model, sae, prompt_4, fid, target_token_id, strength=sm4,
+                                                  clean_target_prob=ctx.clean_target_prob, clean_rank=ctx.clean_rank,
+                                                  base_scale_map=base_map)
+                        (comp_ok if ok else comp_rej).append(fid if ok else (fid, d))
+                        comp_delta[fid] = d
+                    for fid in tgt_fids:
+                        ok, d, _r = check_boost_safe(model, sae, prompt_4, fid, target_token_id, strength=sb4,
+                                                     clean_target_prob=ctx.clean_target_prob, clean_rank=ctx.clean_rank,
+                                                     base_scale_map=base_map)
+                        (tgt_ok if ok else tgt_rej).append(fid if ok else (fid, d))
+                        tgt_delta[fid] = d
+                n_passes += _chunks(len(comp_fids)) + _chunks(len(tgt_fids))
             else:
-                for fid in tgt_fids:
-                    is_safe, t_delta, r_imp = check_boost_safe(
-                        model, sae, prompt_4, fid, target_token_id, strength=strength_boost_4,
-                        clean_target_prob=baseline_target_prob, clean_rank=clean_ctx.clean_rank
-                    )
-                    if is_safe:
-                        target_ids.append(fid)
-                    else:
-                        boost_rejections_4.append((fid, t_delta))
-        else:
-            target_ids = tgt_fids
+                comp_ok, tgt_ok = list(comp_fids), list(tgt_fids)
 
-        t4_filtering_done = time.perf_counter()
+            # Overlap resolution: a feature that passed BOTH safety tests would be muted (x(1-sm)) and
+            # boosted (x(1+sb)) at once, which nearly cancels out. Give each such feature to ONE side.
+            # With the safety filter on, compare what each action does to the TARGET's probability
+            # (same units for both) and keep the side that helps the target more. With it off there
+            # are no such deltas, so keep the side where the feature ranks higher in its own list.
+            overlap = []
+            both = [f for f in comp_ok if f in set(tgt_ok)]
+            for fid in both:
+                if use_safety_4:
+                    md, bd = comp_delta[fid], tgt_delta[fid]
+                    keep = "boost" if bd > md else "mute"
+                    detail = {"Target Δprob if muted (%)": md * 100, "Target Δprob if boosted (%)": bd * 100}
+                else:
+                    keep = "boost" if tgt_fids.index(fid) < comp_fids.index(fid) else "mute"
+                    detail = {"Position in mute list": comp_fids.index(fid) + 1, "Position in boost list": tgt_fids.index(fid) + 1}
+                overlap.append({"Feature": fid, **detail, "Kept on": keep})
+            drop_from_boost = {o["Feature"] for o in overlap if o["Kept on"] == "mute"}
+            drop_from_mute = {o["Feature"] for o in overlap if o["Kept on"] == "boost"}
+            comp_ok = [f for f in comp_ok if f not in drop_from_mute]
+            tgt_ok = [f for f in tgt_ok if f not in drop_from_boost]
 
+            return {
+                "overlap": overlap,
+                "blocker_id": blocker_id, "available": available, "n_active": len(active_ids),
+                "eff_top_n": eff_top_n, "per_token": per_token,
+                "comp_fids": comp_fids, "tgt_fids": tgt_fids,
+                "comp_ok": comp_ok, "tgt_ok": tgt_ok, "comp_rej": comp_rej, "tgt_rej": tgt_rej,
+                "comp_delta": comp_delta, "tgt_delta": tgt_delta,
+                "comp_effect": comp_effect, "tgt_effect": tgt_effect, "passes": n_passes,
+            }
+
+        def _fmt_rank_change(new, old):
+            d = old - new
+            return f"{d:+d} ranks ({'better' if d > 0 else 'worse' if d < 0 else 'no change'})"
 
         hybrid_details = []
-
-        # Tracks the single best combination seen across the whole sweep — "best" means
-        # lowest target rank, tie-broken by higher target probability. This is what fixes
-        # the "safety filter says fine but rank still got worse later" issue: instead of
-        # reporting whatever the LAST sweep row happened to be, we report the BEST one ever seen.
         best_so_far = {
-            "rank": clean_ctx.clean_rank,
-            "prob": baseline_target_prob,
-            "top1": current_top1_str,
-            "mute_size": 0,
-            "boost_size": 0,
-            "mute_features": [],
-            "boost_features": [],
-            "step": 0,
+            "rank": clean_ctx.clean_rank, "prob": baseline_target_prob, "top1": current_top1_str,
+            "mute_size": 0, "boost_size": 0, "mute_features": [], "boost_features": [], "step": 0,
         }
         rank_progression = [{
-            "Step": 0,
-            "Label": "Baseline",
-            "Target Rank": clean_ctx.clean_rank,
-            "Target Prob (%)": baseline_target_prob * 100,
+            "Step": 0, "Label": "Baseline", "Round": 0,
+            "Target Rank": clean_ctx.clean_rank, "Target Prob (%)": baseline_target_prob * 100,
         }]
+        refill_markers = []          # steps at which a pool refill happened
 
         is_any_success = False
         best_final_top1 = current_top1_str
         best_final_target_prob = baseline_target_prob
-
         step_counter = 0
         stop_sweep = False
+        stop_reason = None
 
-        if cumulative_sweep_4:
-            max_pile = min(len(comp_ids), len(target_ids))
-            combo_pairs_4 = [(n, n) for n in range(1, max_pile + 1)]
-            if not combo_pairs_4:
-                st.warning("Cumulative Sweep has no candidates to work with (mute or boost pool is empty after safety filtering).")
-        else:
-            combo_pairs_4 = [(m_n, b_n) for m_n in mute_sizes_4 for b_n in boost_sizes_4]
+        applied_mutes, applied_boosts = [], []
+        ledger = []                  # every applied feature: id, side, round, effects
+        rejected_history = {"mute": {}, "boost": {}}   # fid -> [rounds in which it was rejected]
+        all_rejections = []          # (round, side, fid, delta)
+        round_records = []
+        event_log = []
+        total_passes = {"baseline": 1, "ranking+safety": 0, "steered baseline": 0, "sweep": 0}
+        filter_time = 0.0
 
-        for m_n, b_n in combo_pairs_4:
+        ctx = clean_ctx
+        prev_ctx = clean_ctx
+        prev_start_counts = (0, 0)
+        round_start_counts = (0, 0)
+        round_idx = 0
+        comp_ids, target_ids = [], []
+        status_box = st.empty()
+        cur_round = {}
+
+        def update_tracker(phase, final=False):
+            rows = []
+            for r in round_records:
+                rows.append({
+                    "Round": r["round"], "Status": "✅ done",
+                    "Started at rank": r["baseline_rank"], "Ended at rank": r["end_rank"], "Best rank in round": r["best_rank"],
+                    "Safe mute / boost": f"{r['safe_mutes']} / {r['safe_boosts']}", "Steps": r["steps"],
+                })
+            if cur_round and not final:
+                rows.append({
+                    "Round": cur_round["round"], "Status": f"⏳ {phase}",
+                    "Started at rank": cur_round["start_rank"], "Ended at rank": cur_round.get("now_rank", "…"),
+                    "Best rank in round": cur_round.get("best_rank", "…"),
+                    "Safe mute / boost": cur_round.get("pools", "…"), "Steps": cur_round.get("steps", 0),
+                })
+            last = rank_progression[-1]
+            summary = (
+                f"Rounds finished: **{len(round_records)}** · steps run: **{step_counter}** · target rank now **#{last['Target Rank']}** "
+                f"({last['Target Prob (%)']:.2f}%) · best so far **#{best_so_far['rank']}** (started at #{clean_ctx.clean_rank}) · "
+                f"features applied: **{len(applied_mutes)} mute / {len(applied_boosts)} boost** (committed at round ends)"
+            )
+            if final:
+                msg = f"**Finished — {stop_reason or 'done'}**  \n{summary}"
+                (tr_status.success if is_any_success else tr_status.warning)(msg)
+            else:
+                tr_status.info(f"🔄 **{phase}**  \n{summary}")
+            if rows:
+                tr_table.dataframe(pd.DataFrame(rows).set_index("Round"), use_container_width=True)
+            with tr_chart.container():
+                render_rank_progression_chart(rank_progression, best_step=best_so_far["step"], height=220, refill_steps=refill_markers)
+
+        update_tracker("starting")
+
+        while True:
+            round_t0 = time.perf_counter()
+            base_map = build_scale_map(applied_mutes, sm4, applied_boosts, sb4)
+            round_top1_id = int(torch.argmax(ctx.clean_probs).item())
+            round_top1_str = model.to_string([round_top1_id])
+            round_top1_prob = ctx.clean_probs[round_top1_id].item()
+
+            if round_idx == 0 and round_top1_id == target_token_id:
+                stop_reason = "Target is already Rank #1 in the clean baseline — nothing to steer."
+                is_any_success = True
+                st.info(f"ℹ️ {stop_reason}")
+                break
+
+            st.markdown("---")
+            st.header(f"🔄 Round {round_idx}" + (" — clean baseline" if round_idx == 0 else " — pool refill against the steered model"))
+
+            # ---- Where things stand: original prompt vs how the previous round went vs where this round starts ----
+            round_start_counts = (len(applied_mutes), len(applied_boosts))
+            top1_orig_str = current_top1_str
+            if round_idx == 0:
+                st.markdown("**Starting point — the original prompt, nothing applied yet**")
+                st.metric("Target rank", f"#{ctx.clean_rank}")
+                st.caption(f"Target prob {ctx.clean_target_prob*100:.2f}% · the model's top-1 (the blocker) is `{round_top1_str}` at {round_top1_prob*100:.2f}%.")
+            else:
+                prev_top1_str = model.to_string([int(torch.argmax(prev_ctx.clean_probs))])
+                bc_a, bc_b, bc_c = st.columns(3)
+                with bc_a:
+                    st.markdown("**1 · Original prompt** (nothing applied — never changes)")
+                    st.metric("Target rank", f"#{clean_ctx.clean_rank}")
+                    st.caption(f"Prob {clean_ctx.clean_target_prob*100:.2f}% · top-1 `{top1_orig_str}`")
+                with bc_b:
+                    st.markdown(f"**2 · How Round {round_idx - 1} went** (start → end)")
+                    st.metric(
+                        "Target rank", f"#{prev_ctx.clean_rank} → #{ctx.clean_rank}",
+                        delta=(f"{prev_ctx.clean_rank - ctx.clean_rank:+d} ranks" if prev_ctx.clean_rank != ctx.clean_rank else "no change"),
+                        delta_color="normal" if prev_ctx.clean_rank != ctx.clean_rank else "off",
+                    )
+                    st.caption(
+                        f"Prob {prev_ctx.clean_target_prob*100:.2f}% → {ctx.clean_target_prob*100:.2f}% · "
+                        f"applied features {prev_start_counts[0]} mute / {prev_start_counts[1]} boost → {len(applied_mutes)} / {len(applied_boosts)}"
+                    )
+                with bc_c:
+                    st.markdown(f"**3 · Round {round_idx} starts here** (= where Round {round_idx - 1} ended)")
+                    st.metric("Target rank", f"#{ctx.clean_rank}")
+                    st.caption(f"Prob {ctx.clean_target_prob*100:.2f}% · top-1 (the blocker) `{round_top1_str}` at {round_top1_prob*100:.2f}%")
+                if prev_ctx.clean_rank == ctx.clean_rank:
+                    st.warning(
+                        f"⚠️ Round {round_idx - 1} did not improve the target's rank (#{prev_ctx.clean_rank} → #{ctx.clean_rank}). "
+                        f"Candidates are still re-ranked and re-tested below, but this round may not help either."
+                    )
+                st.info(
+                    f"Round {round_idx - 1}'s candidate pool ran out and all of its features stay applied. Candidates for Round {round_idx} "
+                    f"are now re-ranked and safety-tested against state 3 (target rank #{ctx.clean_rank}, blocker `{round_top1_str}`), not the original prompt."
+                )
+
+            # ---- Build this round's pools ----
+            tf0 = time.perf_counter()
+            with st.spinner(f"Round {round_idx}: ranking candidates and running the safety filter..."):
+                pools = build_pools(ctx, base_map, set(applied_mutes) | set(applied_boosts))
+            filter_time += time.perf_counter() - tf0
+            total_passes["ranking+safety"] += pools["passes"]
+            comp_ids, target_ids = pools["comp_ok"], pools["tgt_ok"]
+
+            for fid, d in pools["comp_rej"]:
+                rejected_history["mute"].setdefault(fid, []).append(round_idx)
+                all_rejections.append((round_idx, "mute", fid, d))
+            for fid, d in pools["tgt_rej"]:
+                rejected_history["boost"].setdefault(fid, []).append(round_idx)
+                all_rejections.append((round_idx, "boost", fid, d))
+
+            # ---- Pool summary ----
+            cur_round.clear()
+            cur_round.update(round=round_idx, start_rank=ctx.clean_rank, now_rank=ctx.clean_rank, best_rank=ctx.clean_rank, steps=0, pools="…")
+            st.subheader(f"Round {round_idx} candidate pools")
+            st.write(f"Blocking token being suppressed this round: `{round_top1_str}` ({round_top1_prob*100:.2f}%).")
+            st.write(
+                "Active SAE features per prompt token (BOS excluded): "
+                + " · ".join(f"`{t}` **{n}**" for t, n in pools["per_token"])
+            )
+            st.write(
+                f"Candidate source: **{candidate_source_4}** → **{pools['n_active']}** distinct active features, "
+                f"**{pools['available']}** not yet applied. Top N requested **{top_n_4}**, "
+                f"so at most **{pools['eff_top_n']}** can be evaluated per side."
+            )
+            st.table([
+                {"Pool": "Mute (competitor features)", "Requested (Top N)": top_n_4, "Available": pools["available"], "Candidates evaluated": len(pools["comp_fids"]),
+                 "Safe (after overlap fix)": len(pools["comp_ok"]) if use_safety_4 else "filter off", "Rejected": len(pools["comp_rej"]),
+                 "Moved to other side (overlap)": sum(1 for o in pools["overlap"] if o["Kept on"] == "boost")},
+                {"Pool": "Boost (target features)", "Requested (Top N)": top_n_4, "Available": pools["available"], "Candidates evaluated": len(pools["tgt_fids"]),
+                 "Safe (after overlap fix)": len(pools["tgt_ok"]) if use_safety_4 else "filter off", "Rejected": len(pools["tgt_rej"]),
+                 "Moved to other side (overlap)": sum(1 for o in pools["overlap"] if o["Kept on"] == "mute")},
+            ])
+            if pools["overlap"]:
+                st.caption(
+                    f"🔀 **Overlap fix:** {len(pools['overlap'])} feature(s) passed the safety test on BOTH sides. Applied to both they would be muted and boosted at "
+                    f"once and mostly cancel out, so each is now used on one side only. "
+                    + ("The side that raises the target's probability more was kept." if use_safety_4 else "The side where it ranks higher in its own list was kept.")
+                )
+                with st.expander(f"🔀 Features assigned to one side ({len(pools['overlap'])})"):
+                    st.dataframe(pd.DataFrame(pools["overlap"]).set_index("Feature"), use_container_width=True)
+            else:
+                st.caption("🔀 Overlap check: no feature was safe on both sides this round.")
+            if top_n_4 > pools["available"]:
+                st.caption(f"ℹ️ Top N was capped: you asked for {top_n_4} but only {pools['available']} unapplied feature(s) are active for '{candidate_source_4}', so that is the most that can be evaluated.")
+
+            retested = []
+            for side, fids, rej, ok in (("mute", pools["comp_fids"], pools["comp_rej"], pools["comp_ok"]),
+                                       ("boost", pools["tgt_fids"], pools["tgt_rej"], pools["tgt_ok"])):
+                rej_now = {f for f, _ in rej}
+                for fid in fids:
+                    earlier = [r for r in rejected_history[side].get(fid, []) if r < round_idx]
+                    if earlier:
+                        retested.append({
+                            "Side": side, "Feature": fid,
+                            "Rejected in round(s)": ", ".join(map(str, earlier)),
+                            f"Round {round_idx} verdict": "❌ rejected again" if fid in rej_now else "✅ now safe",
+                        })
+            if retested:
+                with st.expander(f"♻️ Previously rejected features re-tested this round ({len(retested)})", expanded=True):
+                    st.table(retested)
+
+            M, B = len(comp_ids), len(target_ids)
+            event_log.append(
+                f"Round {round_idx}: baseline rank #{ctx.clean_rank} (top-1 `{round_top1_str}`); pools built — "
+                f"{M} safe mute / {B} safe boost (rejected {len(pools['comp_rej'])} / {len(pools['tgt_rej'])}; {len(pools['overlap'])} overlapping feature(s) assigned to one side); "
+                f"{pools['passes']} forward passes for ranking + safety."
+            )
+
+            if M == 0 and B == 0:
+                stop_reason = ("No unapplied active features remain at this position." if pools["available"] == 0
+                               else f"Dead end: Round {round_idx} produced no safe mute or boost candidates.")
+                st.warning(f"🛑 {stop_reason}")
+                round_records.append({
+                    "round": round_idx, "baseline_rank": ctx.clean_rank, "baseline_prob": ctx.clean_target_prob,
+                    "blocker": round_top1_str, "safe_mutes": 0, "safe_boosts": 0, "overlap_resolved": len(pools["overlap"]),
+                    "rejected_mutes": len(pools["comp_rej"]), "rejected_boosts": len(pools["tgt_rej"]),
+                    "steps": 0, "end_rank": ctx.clean_rank, "best_rank": ctx.clean_rank,
+                    "time_s": round(time.perf_counter() - round_t0, 3),
+                })
+                break
+
+            if cumulative_sweep_4:
+                combo_pairs_4 = [(min(k, M), min(k, B)) for k in range(1, max(M, B) + 1)]
+            else:
+                combo_pairs_4 = [(m_n, b_n) for m_n in mute_sizes_4 for b_n in boost_sizes_4]
+
+            round_start_step = step_counter
+            cur_round["pools"] = f"{M} / {B}"
+            update_tracker(f"Round {round_idx}: pools built ({M} safe mute / {B} safe boost) — sweeping")
+            round_best_rank = ctx.clean_rank
+            round_end_rank = ctx.clean_rank
+            st.subheader(f"Round {round_idx} sweep ({len(combo_pairs_4)} steps)")
+
+            for m_n, b_n in combo_pairs_4:
                 if stop_sweep:
                     break
                 mute_batch = comp_ids[:m_n]
                 boost_batch = target_ids[:b_n]
+                full_mutes = applied_mutes + mute_batch
+                full_boosts = applied_boosts + boost_batch
 
                 model.reset_hooks()
-                # Single combined hook — mutes and boosts together in one pass, starting from the
-                # same original signal (matches check_combination_safe's hook exactly, so the
-                # displayed top5/rank here and the Combination Safety Check's rank always agree).
-                # Two separate chained hooks would each round-trip through the SAE independently,
-                # compounding reconstruction error and silently disagreeing with the safety check.
-                combined_fn = make_mute_and_boost_hook(mute_batch, strength_mute_4, boost_batch, strength_boost_4, sae)
+                # Single combined hook (mutes + boosts from the same original signal) — matches
+                # check_combination_safe exactly, so the top-5 table and the safety-check rank agree.
+                combined_fn = make_mute_and_boost_hook(full_mutes, sm4, full_boosts, sb4, sae)
                 model.add_hook(hook_name, combined_fn)
 
                 with torch.no_grad():
                     logits = model(tokens)
+                total_passes["sweep"] += 1
                 probs = F.softmax(logits[0, -1, :], dim=-1)
                 top5_probs, top5_indices = torch.topk(probs, k=5)
                 new_top1_id = top5_indices[0].item()
                 new_top1_str = model.to_string([new_top1_id])
                 target_prob = probs[target_token_id].item()
-                
+
                 if new_top1_id == target_token_id:
                     is_any_success = True
 
-                st.subheader(f"Mute: {m_n} features (-{strength_mute_4}) | Boost: {b_n} features (+{strength_boost_4})")
-                st.write(f"**Muted Features:** `{mute_batch}` | **Boosted Features:** `{boost_batch}`")
-                
+                st.subheader(f"Round {round_idx} · Mute: {len(full_mutes)} features (-{sm4}) | Boost: {len(full_boosts)} features (+{sb4})")
+                st.caption(f"{len(applied_mutes)} mutes / {len(applied_boosts)} boosts carried over from earlier rounds; this round adds {len(mute_batch)} / {len(boost_batch)}.")
+                st.write(f"**Muted Features:** `{full_mutes}` | **Boosted Features:** `{full_boosts}`")
                 st.write(f"**New Top-1:** `{new_top1_str}` | **Target Prob:** `{target_prob*100:.2f}%`")
-                
+
                 table_data = []
                 for rank_idx, (p, idx) in enumerate(zip(top5_probs, top5_indices), start=1):
                     tok_str = model.to_string([idx.item()])
                     is_target = "Yes (TARGET)" if idx.item() == target_token_id else "No"
                     table_data.append({
-                        "Rank": rank_idx,
-                        "Token": tok_str,
-                        "Probability": f"{p.item()*100:.2f}%",
-                        "Is Target": is_target
+                        "Rank": rank_idx, "Token": tok_str,
+                        "Probability": f"{p.item()*100:.2f}%", "Is Target": is_target,
                     })
                 st.table(table_data)
-                
-                # Run the whole-combination safety check
+
                 safety_res = check_combination_safe(
                     model, sae, prompt_4,
-                    mute_feature_ids=mute_batch, mute_strength=strength_mute_4,
-                    boost_feature_ids=boost_batch, boost_strength=strength_boost_4,
+                    mute_feature_ids=full_mutes, mute_strength=sm4,
+                    boost_feature_ids=full_boosts, boost_strength=sb4,
                     target_token_id=target_token_id, top_k=10
                 )
-                
-                # Display safety results
+                total_passes["sweep"] += 2
+
                 st.write(f"**Combination Safety Check:** Target clean rank: `{safety_res['target_clean_rank']}` -> New rank: `{safety_res['target_new_rank']}`")
                 if safety_res["new_blockers"]:
                     for blocker in safety_res["new_blockers"]:
@@ -841,12 +1096,18 @@ with tab4:
                 else:
                     st.write("✅ No new blockers detected")
 
-                # --- Track rank progression + best-so-far (does NOT stop the sweep, just records it) ---
                 step_counter += 1
                 combo_rank = safety_res["target_new_rank"]
+                round_end_rank = combo_rank
+                round_best_rank = min(round_best_rank, combo_rank)
+                st.caption(
+                    f"Round {round_idx} baseline was rank #{ctx.clean_rank} → now #{combo_rank} "
+                    f"({_fmt_rank_change(combo_rank, ctx.clean_rank)}); vs the clean prompt: {_fmt_rank_change(combo_rank, clean_ctx.clean_rank)}."
+                )
                 rank_progression.append({
                     "Step": step_counter,
-                    "Label": f"M{m_n}/B{b_n}",
+                    "Label": f"R{round_idx} M{len(full_mutes)}/B{len(full_boosts)}",
+                    "Round": round_idx,
                     "Target Rank": combo_rank,
                     "Target Prob (%)": target_prob * 100,
                 })
@@ -856,13 +1117,9 @@ with tab4:
                 )
                 if is_new_best:
                     best_so_far = {
-                        "rank": combo_rank,
-                        "prob": target_prob,
-                        "top1": new_top1_str,
-                        "mute_size": m_n,
-                        "boost_size": b_n,
-                        "mute_features": mute_batch,
-                        "boost_features": boost_batch,
+                        "rank": combo_rank, "prob": target_prob, "top1": new_top1_str,
+                        "mute_size": len(full_mutes), "boost_size": len(full_boosts),
+                        "mute_features": list(full_mutes), "boost_features": list(full_boosts),
                         "step": step_counter,
                     }
                     st.caption(f"🏆 New best so far — target rank {combo_rank}")
@@ -870,24 +1127,93 @@ with tab4:
                     st.caption(f"↘️ Worse than the best so far (rank {best_so_far['rank']}, found at Mute {best_so_far['mute_size']}/Boost {best_so_far['boost_size']}) — that best is still kept as the reported result.")
 
                 hybrid_details.append({
-                    "mute_batch_size": m_n,
-                    "mute_features": mute_batch,
-                    "mute_strength": strength_mute_4,
-                    "boost_batch_size": b_n,
-                    "boost_features": boost_batch,
-                    "boost_strength": strength_boost_4,
+                    "round": round_idx,
+                    "mute_batch_size": len(full_mutes),
+                    "mute_features": list(full_mutes),
+                    "mute_strength": sm4,
+                    "boost_batch_size": len(full_boosts),
+                    "boost_features": list(full_boosts),
+                    "boost_strength": sb4,
                     "new_top1": new_top1_str,
                     "target_prob": f"{target_prob*100:.2f}%",
                     "top5": table_data,
                     "combination_safety_check": safety_res
                 })
 
+                cur_round.update(now_rank=combo_rank, best_rank=round_best_rank, steps=step_counter - round_start_step)
+                update_tracker(f"Round {round_idx}: sweep step {step_counter - round_start_step} of {len(combo_pairs_4)}")
+                status_box.info(
+                    f"🔄 **Live status** — Round {round_idx} · step {step_counter} · target rank **#{combo_rank}** "
+                    f"({target_prob*100:.2f}%) · top-1 `{new_top1_str}` · applied {len(full_mutes)} mutes / {len(full_boosts)} boosts · "
+                    f"best so far #{best_so_far['rank']}"
+                )
+
                 if stop_on_rank1_4 and new_top1_id == target_token_id:
-                    st.success(f"🎯 **Target token '{target_str}' reached Rank #1** with Mute Batch {m_n} & Boost Batch {b_n}! Stopping further sweep combinations.")
+                    st.success(f"🎯 **Target token '{target_str}' reached Rank #1** in Round {round_idx} with {len(full_mutes)} mutes & {len(full_boosts)} boosts! Stopping.")
                     stop_sweep = True
                     break
-                
+
+            model.reset_hooks()
+            round_records.append({
+                "round": round_idx, "baseline_rank": ctx.clean_rank, "baseline_prob": ctx.clean_target_prob,
+                "blocker": round_top1_str, "safe_mutes": M, "safe_boosts": B, "overlap_resolved": len(pools["overlap"]),
+                "rejected_mutes": len(pools["comp_rej"]), "rejected_boosts": len(pools["tgt_rej"]),
+                "steps": step_counter - round_start_step, "end_rank": round_end_rank, "best_rank": round_best_rank,
+                "time_s": round(time.perf_counter() - round_t0, 3),
+            })
+            regressed = round_end_rank > ctx.clean_rank
+            cur_round.clear()
+            update_tracker(f"Round {round_idx} finished — deciding whether to refill")
+
+            if stop_sweep:
+                stop_reason = f"Target reached Rank #1 in Round {round_idx}."
+                break
+            if not refill_on:
+                stop_reason = ("Candidate pool exhausted (pool refill is off)." if cumulative_sweep_4
+                               else "All requested batch-size combinations were run.")
+                break
+
+            # ---- Pool exhausted: commit this round's features, then refill ----
+            for fid in comp_ids:
+                ledger.append({"Feature": fid, "Side": "mute", "Round joined": round_idx,
+                               "Target Δprob when tested (%)": (pools["comp_delta"][fid] * 100) if fid in pools["comp_delta"] else None,
+                               "Effect on blocker if fully ablated (%)": pools["comp_effect"].get(fid, 0.0) * 100})
+            for fid in target_ids:
+                ledger.append({"Feature": fid, "Side": "boost", "Round joined": round_idx,
+                               "Target Δprob when tested (%)": (pools["tgt_delta"][fid] * 100) if fid in pools["tgt_delta"] else None,
+                               "Effect on target if fully ablated (%)": pools["tgt_effect"].get(fid, 0.0) * 100})
+            applied_mutes = applied_mutes + comp_ids
+            applied_boosts = applied_boosts + target_ids
+
+            if max_rounds_4 and round_idx >= max_rounds_4:
+                stop_reason = f"Reached the Max Refill Rounds limit ({max_rounds_4})."
+                break
+
+            tf0 = time.perf_counter()
+            new_ctx = build_steered_context(model, sae, clean_ctx, build_scale_map(applied_mutes, sm4, applied_boosts, sb4), target_token_id)
+            filter_time += time.perf_counter() - tf0
+            total_passes["steered baseline"] += 1
+
+            event_log.append(
+                f"Round {round_idx} pool exhausted at {len(applied_mutes)} mutes / {len(applied_boosts)} boosts applied "
+                f"(target rank #{round_end_rank}" + (", REGRESSED vs round baseline — kept applied (track-only)" if regressed else "") +
+                f"). Refill: fresh steered forward pass → new baseline rank #{new_ctx.clean_rank}."
+            )
+            refill_markers.append(step_counter)
+            if int(torch.argmax(new_ctx.clean_probs).item()) == target_token_id:
+                stop_reason = "Target is already Rank #1 in the steered model (stop-on-rank-1 was off)."
+                break
+            prev_start_counts = round_start_counts
+            prev_ctx, ctx = ctx, new_ctx
+            round_idx += 1
+
         model.reset_hooks()
+        status_box.empty()
+        cur_round.clear()
+        update_tracker("finished", final=True)
+
+        if stop_reason:
+            (st.success if is_any_success else st.warning)(f"**Run finished:** {stop_reason}")
 
         best_final_top1 = best_so_far["top1"]
         best_final_target_prob = best_so_far["prob"]
@@ -926,9 +1252,35 @@ with tab4:
         bc3.metric("Found at", f"Mute {best_so_far['mute_size']} / Boost {best_so_far['boost_size']}" if best_so_far["step"] > 0 else "Baseline (no combo beat it)")
         st.write(f"**Muted Features:** `{best_so_far['mute_features']}` | **Boosted Features:** `{best_so_far['boost_features']}` | **New Top-1:** `{best_so_far['top1']}`")
 
+        st.subheader("🧾 Run Summary")
+        rs1, rs2, rs3, rs4 = st.columns(4)
+        rs1.metric("Rounds run", len(round_records))
+        rs2.metric("Features applied at end", f"{len(applied_mutes)} mute / {len(applied_boosts)} boost" if refill_on else "n/a (single pool)")
+        rs3.metric("Sweep steps", step_counter)
+        rs4.metric("Forward passes (est.)", sum(total_passes.values()))
+        st.write(f"**Stop reason:** {stop_reason or 'n/a'}")
+        st.caption(
+            "Forward passes: " + " · ".join(f"{k} {v}" for k, v in total_passes.items())
+            + ". Sweep passes include the 2 extra passes the per-step Combination Safety Check runs."
+        )
+        if round_records:
+            st.write("**Per-round timeline**")
+            st.dataframe(pd.DataFrame([{
+                "Round": r["round"], "Blocking token": r["blocker"],
+                "Baseline rank": r["baseline_rank"], "Baseline prob (%)": round(r["baseline_prob"] * 100, 3),
+                "Safe mute / boost": f"{r['safe_mutes']} / {r['safe_boosts']}",
+                "Rejected mute / boost": f"{r['rejected_mutes']} / {r['rejected_boosts']}",
+                "Steps": r["steps"], "Best rank in round": r["best_rank"], "End rank": r["end_rank"],
+                "Time (s)": r["time_s"],
+            } for r in round_records]).set_index("Round"), use_container_width=True)
+        if event_log:
+            with st.expander(f"📜 Refill event log ({len(event_log)} entries)", expanded=refill_on):
+                for line in event_log:
+                    st.markdown(f"- {line}")
+
         st.subheader("📉 Target Rank Progression")
-        st.caption("The dashed green line marks Rank #1. The red diamond marks the best step found. Hover a point for exact values.")
-        render_rank_progression_chart(rank_progression, best_step=best_so_far["step"])
+        st.caption("The dashed green line marks Rank #1. The red diamond marks the best step found. Dotted orange lines mark where the pool was refilled. Hover a point for exact values.")
+        render_rank_progression_chart(rank_progression, best_step=best_so_far["step"], refill_steps=refill_markers)
         with st.expander("Show underlying data"):
             st.dataframe(pd.DataFrame(rank_progression).set_index("Step"), use_container_width=True)
 
@@ -941,20 +1293,32 @@ with tab4:
         st.subheader("⏱️ Stopwatch")
         sw1, sw2, sw3 = st.columns(3)
         sw1.metric("Model compute time", f"{t4_end - t4_start:.3f}s")
-        sw2.metric("Candidate ranking + safety filter", f"{t4_filtering_done - t4_baseline_done:.3f}s")
-        sw3.metric("Sweep (intervention passes)", f"{t4_end - t4_filtering_done:.3f}s")
+        sw2.metric("Candidate ranking + safety filter (all rounds)", f"{filter_time:.3f}s")
+        sw3.metric("Sweep (intervention passes)", f"{t4_end - t4_baseline_done - filter_time:.3f}s")
         st.caption(
             ("⚡ GPU-Batched mode was ON for this run." if use_batched_4 else "🐢 GPU-Batched mode was OFF — this run used the original one-at-a-time method.")
             + " Toggle the checkbox above and re-run with the same prompt to compare timings directly."
             + " This breakdown isolates the model computation (the thing the optimization actually changes) — it excludes the Neuronpedia network lookups below, which cost the same either way and depend on your internet, not on this code."
         )
 
-        if comp_rejections_4 or boost_rejections_4:
-            with st.expander(f"❌ Candidates rejected by safety filter ({len(comp_rejections_4) + len(boost_rejections_4)})"):
-                for fid, t_delta in comp_rejections_4:
-                    st.markdown(f"❌ Competitor {make_feature_hover_link(fid, layer)} excluded from mute pool (harms target token by `{t_delta*100:.2f}%`).", unsafe_allow_html=True)
-                for fid, t_delta in boost_rejections_4:
-                    st.markdown(f"❌ Target {make_feature_hover_link(fid, layer)} excluded from boost pool (amplifies competitor, degrading target rank by `{t_delta*100:.2f}%`).", unsafe_allow_html=True)
+        if ledger:
+            with st.expander(f"📒 Applied-features ledger ({len(ledger)} features committed by pool refills)"):
+                st.caption("Features committed at the end of each exhausted round, with the round they joined. The final round's pool is shown in its sweep rows above.")
+                for row in ledger:
+                    tested = row["Target Δprob when tested (%)"]
+                    st.markdown(
+                        f"- Round {row['Round joined']} · **{row['Side']}** · {make_feature_hover_link(row['Feature'], layer)} · target Δprob when tested alone: "
+                        + (f"`{tested:+.3f}%`" if tested is not None else "`safety filter off`"),
+                        unsafe_allow_html=True,
+                    )
+
+        if all_rejections:
+            with st.expander(f"❌ Candidates rejected by safety filter ({len(all_rejections)} rejections across {len(round_records)} round(s))"):
+                for rnd, side, fid, t_delta in all_rejections:
+                    if side == "mute":
+                        st.markdown(f"❌ Round {rnd}: competitor {make_feature_hover_link(fid, layer)} excluded from mute pool (target Δprob `{t_delta*100:+.2f}%`, or its rank got worse).", unsafe_allow_html=True)
+                    else:
+                        st.markdown(f"❌ Round {rnd}: target {make_feature_hover_link(fid, layer)} excluded from boost pool (target Δprob `{t_delta*100:+.2f}%`, or its rank got worse).", unsafe_allow_html=True)
 
         # --- Full wall-clock stopwatch stop (everything, including the network lookups above) ---
         t4_wall_end = time.perf_counter()
@@ -972,9 +1336,15 @@ with tab4:
             "mute_strength": strength_mute_4,
             "boost_strength": strength_boost_4,
             "cumulative_sweep": cumulative_sweep_4,
-            "mute_sizes": (f"cumulative 1..{hybrid_details[-1]['mute_batch_size']} (pool max {combo_pairs_4[-1][0]})" if cumulative_sweep_4 and hybrid_details else mute_sizes_str_4),
-            "boost_sizes": (f"cumulative 1..{hybrid_details[-1]['boost_batch_size']} (pool max {combo_pairs_4[-1][1]})" if cumulative_sweep_4 and hybrid_details else boost_sizes_str_4),
+            "pool_refill": refill_on,
+            "max_refill_rounds": int(max_rounds_4) if refill_on else None,
+            "rounds": round_records,
+            "stop_reason": stop_reason,
+            "forward_passes": total_passes,
+            "mute_sizes": (f"cumulative 1..{hybrid_details[-1]['mute_batch_size']} across {len(round_records)} round(s)" if cumulative_sweep_4 and hybrid_details else mute_sizes_str_4),
+            "boost_sizes": (f"cumulative 1..{hybrid_details[-1]['boost_batch_size']} across {len(round_records)} round(s)" if cumulative_sweep_4 and hybrid_details else boost_sizes_str_4),
             "top_n": top_n_4,
+            "candidate_source": candidate_source_4,
             "use_batched": use_batched_4,
             "total_time_s": round(t4_end - t4_start, 3),
             "baseline_top1": current_top1_str,
