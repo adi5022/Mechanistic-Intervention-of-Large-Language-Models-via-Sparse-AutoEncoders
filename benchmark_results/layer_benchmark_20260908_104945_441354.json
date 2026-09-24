@@ -1,0 +1,350 @@
+{
+    "benchmark_name": "Layer Intervention Benchmark",
+    "benchmark_version": "0.3",
+    "timestamp": "2026-09-08T10:49:45.441354Z",
+    "model": "gpt2",
+    "algorithm": "Hybrid Mute & Boost",
+    "sae_release": "gpt2-small-res-jb",
+    "hook_location": "hook_resid_pre",
+    "safety_enabled": true,
+    "use_safety": true,
+    "selected_layers": [
+        2,
+        5,
+        8,
+        10
+    ],
+    "parameters": {
+        "mute_strength": 0.3,
+        "boost_strength": 0.5,
+        "mute_batch_size": 3,
+        "boost_batch_size": 3,
+        "use_safety": true,
+        "algorithm": "hybrid"
+    },
+    "total_prompts": 1,
+    "prompts": [
+        {
+            "prompt": "The location of Massachusetts Institute of Technology is in",
+            "target": "Cambridge",
+            "layers": [
+                {
+                    "layer": 2,
+                    "hook": "blocks.2.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": 8,
+                    "final_rank": 7,
+                    "rank_improvement": 1,
+                    "clean_probability": 0.011525173671543598,
+                    "final_probability": 0.012206886895000935,
+                    "probability_gain": 0.0006817132234573364,
+                    "runtime_ms": 4386.038699999517,
+                    "profile": {
+                        "sae_loading_ms": 167489.9461999994,
+                        "clean_baseline_ms": 687.9977000007784,
+                        "feature_selection_ms": 1822.1081000001504,
+                        "safety_filtering_ms": 1829.737600000044,
+                        "intervention_ms": 40.840700000444485,
+                        "result_packaging_ms": 0.0007999997251317836,
+                        "total_layer_ms": 4386.038699999517
+                    },
+                    "forward_passes": {
+                        "clean_baseline": 1,
+                        "candidate_screening": 0,
+                        "competitor_ranking": 30,
+                        "target_ranking": 30,
+                        "competitor_safety": 30,
+                        "target_safety": 30,
+                        "final_intervention": 1,
+                        "total_model_forwards": 122
+                    },
+                    "counts": {
+                        "competitor_candidates_evaluated": 30,
+                        "target_candidates_evaluated": 30,
+                        "competitor_safety_checks": 30,
+                        "target_safety_checks": 30,
+                        "selected_mute_features_count": 3,
+                        "selected_boost_features_count": 3
+                    },
+                    "success": true,
+                    "top_prediction_before": " the",
+                    "top_prediction_after": " the",
+                    "mute_features": [
+                        9938,
+                        23196,
+                        6001
+                    ],
+                    "boost_features": [
+                        14075,
+                        11741,
+                        12711
+                    ]
+                },
+                {
+                    "layer": 2,
+                    "hook": "blocks.2.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": -1,
+                    "final_rank": -1,
+                    "rank_improvement": 0,
+                    "clean_probability": 0.0,
+                    "final_probability": 0.0,
+                    "probability_gain": 0.0,
+                    "runtime_ms": 4386.058699999921,
+                    "profile": {
+                        "sae_loading_ms": 0.0,
+                        "clean_baseline_ms": 0.0,
+                        "feature_selection_ms": 0.0,
+                        "safety_filtering_ms": 0.0,
+                        "intervention_ms": 0.0,
+                        "result_packaging_ms": 0.0,
+                        "total_layer_ms": 4386.058699999921
+                    },
+                    "success": false,
+                    "top_prediction_before": "ERROR",
+                    "top_prediction_after": "ERROR",
+                    "mute_features": [],
+                    "boost_features": [],
+                    "error": "cannot access local variable 'logits' where it is not associated with a value"
+                },
+                {
+                    "layer": 5,
+                    "hook": "blocks.5.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": 8,
+                    "final_rank": 5,
+                    "rank_improvement": 3,
+                    "clean_probability": 0.011525173671543598,
+                    "final_probability": 0.0193527452647686,
+                    "probability_gain": 0.007827571593225002,
+                    "runtime_ms": 3808.0697000004875,
+                    "profile": {
+                        "sae_loading_ms": 46040.4109000001,
+                        "clean_baseline_ms": 241.22540000007575,
+                        "feature_selection_ms": 1727.8016000000207,
+                        "safety_filtering_ms": 1800.582800000484,
+                        "intervention_ms": 31.712099999822385,
+                        "result_packaging_ms": 0.0006999998731771484,
+                        "total_layer_ms": 3808.0697000004875
+                    },
+                    "forward_passes": {
+                        "clean_baseline": 1,
+                        "candidate_screening": 0,
+                        "competitor_ranking": 30,
+                        "target_ranking": 30,
+                        "competitor_safety": 30,
+                        "target_safety": 30,
+                        "final_intervention": 1,
+                        "total_model_forwards": 122
+                    },
+                    "counts": {
+                        "competitor_candidates_evaluated": 30,
+                        "target_candidates_evaluated": 30,
+                        "competitor_safety_checks": 30,
+                        "target_safety_checks": 30,
+                        "selected_mute_features_count": 3,
+                        "selected_boost_features_count": 3
+                    },
+                    "success": true,
+                    "top_prediction_before": " the",
+                    "top_prediction_after": " the",
+                    "mute_features": [
+                        13596,
+                        17808,
+                        13865
+                    ],
+                    "boost_features": [
+                        22108,
+                        19381,
+                        6246
+                    ]
+                },
+                {
+                    "layer": 5,
+                    "hook": "blocks.5.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": -1,
+                    "final_rank": -1,
+                    "rank_improvement": 0,
+                    "clean_probability": 0.0,
+                    "final_probability": 0.0,
+                    "probability_gain": 0.0,
+                    "runtime_ms": 3808.0872999998974,
+                    "profile": {
+                        "sae_loading_ms": 0.0,
+                        "clean_baseline_ms": 0.0,
+                        "feature_selection_ms": 0.0,
+                        "safety_filtering_ms": 0.0,
+                        "intervention_ms": 0.0,
+                        "result_packaging_ms": 0.0,
+                        "total_layer_ms": 3808.0872999998974
+                    },
+                    "success": false,
+                    "top_prediction_before": "ERROR",
+                    "top_prediction_after": "ERROR",
+                    "mute_features": [],
+                    "boost_features": [],
+                    "error": "cannot access local variable 'logits' where it is not associated with a value"
+                },
+                {
+                    "layer": 8,
+                    "hook": "blocks.8.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": 8,
+                    "final_rank": 3,
+                    "rank_improvement": 5,
+                    "clean_probability": 0.011525173671543598,
+                    "final_probability": 0.035292964428663254,
+                    "probability_gain": 0.023767790757119656,
+                    "runtime_ms": 3759.496100000433,
+                    "profile": {
+                        "sae_loading_ms": 18023.65529999952,
+                        "clean_baseline_ms": 194.88189999992755,
+                        "feature_selection_ms": 1722.3401000001104,
+                        "safety_filtering_ms": 1804.9410000003263,
+                        "intervention_ms": 32.13849999974627,
+                        "result_packaging_ms": 0.0006000000212225132,
+                        "total_layer_ms": 3759.496100000433
+                    },
+                    "forward_passes": {
+                        "clean_baseline": 1,
+                        "candidate_screening": 0,
+                        "competitor_ranking": 30,
+                        "target_ranking": 30,
+                        "competitor_safety": 30,
+                        "target_safety": 30,
+                        "final_intervention": 1,
+                        "total_model_forwards": 122
+                    },
+                    "counts": {
+                        "competitor_candidates_evaluated": 30,
+                        "target_candidates_evaluated": 30,
+                        "competitor_safety_checks": 30,
+                        "target_safety_checks": 30,
+                        "selected_mute_features_count": 3,
+                        "selected_boost_features_count": 3
+                    },
+                    "success": true,
+                    "top_prediction_before": " the",
+                    "top_prediction_after": " the",
+                    "mute_features": [
+                        8459,
+                        21169,
+                        14430
+                    ],
+                    "boost_features": [
+                        3076,
+                        19288,
+                        8239
+                    ]
+                },
+                {
+                    "layer": 8,
+                    "hook": "blocks.8.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": -1,
+                    "final_rank": -1,
+                    "rank_improvement": 0,
+                    "clean_probability": 0.0,
+                    "final_probability": 0.0,
+                    "probability_gain": 0.0,
+                    "runtime_ms": 3759.515400000055,
+                    "profile": {
+                        "sae_loading_ms": 0.0,
+                        "clean_baseline_ms": 0.0,
+                        "feature_selection_ms": 0.0,
+                        "safety_filtering_ms": 0.0,
+                        "intervention_ms": 0.0,
+                        "result_packaging_ms": 0.0,
+                        "total_layer_ms": 3759.515400000055
+                    },
+                    "success": false,
+                    "top_prediction_before": "ERROR",
+                    "top_prediction_after": "ERROR",
+                    "mute_features": [],
+                    "boost_features": [],
+                    "error": "cannot access local variable 'logits' where it is not associated with a value"
+                },
+                {
+                    "layer": 10,
+                    "hook": "blocks.10.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": 8,
+                    "final_rank": 5,
+                    "rank_improvement": 3,
+                    "clean_probability": 0.011525173671543598,
+                    "final_probability": 0.019633542746305466,
+                    "probability_gain": 0.008108369074761868,
+                    "runtime_ms": 2679.7393000006196,
+                    "profile": {
+                        "sae_loading_ms": 5719.968700000209,
+                        "clean_baseline_ms": 108.84700000042358,
+                        "feature_selection_ms": 1332.8788999997414,
+                        "safety_filtering_ms": 1199.6808999992936,
+                        "intervention_ms": 33.74410000014905,
+                        "result_packaging_ms": 0.0008999995770864189,
+                        "total_layer_ms": 2679.7393000006196
+                    },
+                    "forward_passes": {
+                        "clean_baseline": 1,
+                        "candidate_screening": 0,
+                        "competitor_ranking": 20,
+                        "target_ranking": 20,
+                        "competitor_safety": 20,
+                        "target_safety": 20,
+                        "final_intervention": 1,
+                        "total_model_forwards": 82
+                    },
+                    "counts": {
+                        "competitor_candidates_evaluated": 20,
+                        "target_candidates_evaluated": 20,
+                        "competitor_safety_checks": 20,
+                        "target_safety_checks": 20,
+                        "selected_mute_features_count": 3,
+                        "selected_boost_features_count": 3
+                    },
+                    "success": true,
+                    "top_prediction_before": " the",
+                    "top_prediction_after": " the",
+                    "mute_features": [
+                        6762,
+                        10712,
+                        15625
+                    ],
+                    "boost_features": [
+                        20330,
+                        21513,
+                        7589
+                    ]
+                },
+                {
+                    "layer": 10,
+                    "hook": "blocks.10.hook_resid_pre",
+                    "release": "gpt2-small-res-jb",
+                    "clean_rank": -1,
+                    "final_rank": -1,
+                    "rank_improvement": 0,
+                    "clean_probability": 0.0,
+                    "final_probability": 0.0,
+                    "probability_gain": 0.0,
+                    "runtime_ms": 2679.757900000368,
+                    "profile": {
+                        "sae_loading_ms": 0.0,
+                        "clean_baseline_ms": 0.0,
+                        "feature_selection_ms": 0.0,
+                        "safety_filtering_ms": 0.0,
+                        "intervention_ms": 0.0,
+                        "result_packaging_ms": 0.0,
+                        "total_layer_ms": 2679.757900000368
+                    },
+                    "success": false,
+                    "top_prediction_before": "ERROR",
+                    "top_prediction_after": "ERROR",
+                    "mute_features": [],
+                    "boost_features": [],
+                    "error": "cannot access local variable 'logits' where it is not associated with a value"
+                }
+            ]
+        }
+    ]
+}
