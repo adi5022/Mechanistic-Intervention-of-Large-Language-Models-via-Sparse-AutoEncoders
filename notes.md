@@ -178,3 +178,13 @@ Validated via direct call to `run_layer_benchmark` with:
 }
 ```
 
+
+## 2026-09-26: Paired benchmark of candidate source (all prompt positions vs last token only)
+
+- Full study in `docs/Research_Journal/20.md` (tables + 10 figures); data in `benchmark_results/candidate_source_study/`; run with the new **Batch** tab or `python run_batch.py`.
+- 17 prompts x 2 modes = 34 runs at layer 8 (mute 0.6, boost 0.5, Top N 120). Re-running from the UI and from the CLI gave bit-identical results.
+- 13 valid pairs (excluded: 3 controls already rank 1, 1 multi-token target): all positions reached rank #1 on 10/13, last token on 4/13; 9 wins / 4 ties / 0 losses; higher final probability on 12/13 (one identical).
+- Why: last-token draws ~56 candidate features vs ~281; every last-token failure was "no unapplied active features remain".
+- Trade-off: all positions edits more features (94 vs 42 mean) and takes ~2x time; when both succeed last-token is never worse.
+- Sophia example (earlier manual run): rank 6 -> 1 (1.44% -> 2.66%), 68 features, margin over " very" only 0.03 pts.
+- Still to do: fix stale blocker, fix explainer baseline-rank bug, measure side effects, widen benchmark (more prompts/layers/repeats, baselines).
