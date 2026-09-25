@@ -1,0 +1,35 @@
+{
+  "name": "Candidate source study: all prompt positions vs last token only",
+  "settings": {
+    "mute_strength": 0.6,
+    "boost_strength": 0.5,
+    "top_n": 120,
+    "cumulative_sweep": true,
+    "pool_refill": true,
+    "max_refill_rounds": 0,
+    "safety_filter": true,
+    "stop_on_rank1": true,
+    "use_batched": true
+  },
+  "modes": ["all", "last"],
+  "repeats": 1,
+  "prompts": [
+    {"prompt": "This is Sophia, she is a", "target": "woman"},
+    {"prompt": "Seiyu Group's headquarters are in", "target": "Tokyo"},
+    {"prompt": "The Eiffel Tower is in the city of", "target": "Paris"},
+    {"prompt": "Marie Curie won the Nobel Prize in", "target": "Physics"},
+    {"prompt": "The Colosseum is located in", "target": "Rome"},
+    {"prompt": "Barack Obama was born in", "target": "Hawaii"},
+    {"prompt": "She opened the door and saw a", "target": "cat"},
+    {"prompt": "The programming language created by Guido van Rossum is", "target": "Python"},
+    {"prompt": "The doctor said that", "target": "she"},
+    {"prompt": "Mount Everest is located in", "target": "Nepal"},
+    {"prompt": "The CEO of Tesla is", "target": "Elon"},
+    {"prompt": "Albert Einstein was born in", "target": "Germany"},
+    {"prompt": "The largest planet in our solar system is", "target": "Jupiter"},
+    {"prompt": "In Japan, people eat sushi with", "target": "chopsticks"},
+    {"prompt": "This is James, he is a", "target": "man"},
+    {"prompt": "The opposite of hot is", "target": "cold"},
+    {"prompt": "Water is made of hydrogen and", "target": "oxygen"}
+  ]
+}

@@ -6,6 +6,19 @@
 
 ---
 
+## 0a. Latest Session (2026-09-25/26): cleanup, Session History rewrite, Batch tab, first paired benchmark
+
+* **Tabs:** removed the older single-trace / compound / boost / safety-filtered / weighted / Towards-Monosemanticity tabs. Kept: Hybrid Mute & Boost, Monosemanticity Analysis, Session History, Sequential vs Batched Proof. **Added: "Batch: Last vs All Tokens".**
+* **Session History rewritten** and **auto-saved to `outputs/session_history/`** (refresh no longer loses runs). Each Hybrid run stores settings, per-round pools, every step, rejections, ledger, rank progression, timings, explanations.
+* **New engine:** `src/hybrid_runner.py` (headless port of the Hybrid tab, validated to reproduce it exactly), `src/batch_runner.py` (spec parsing, batch loop, paired summary), `run_batch.py` (CLI). Spec: `data/candidate_source_batch_spec.json`.
+* **Benchmark (Entry 20, `docs/Research_Journal/20.md`):** 17 prompts x {all positions, last token} = 34 runs, ~5 min, 0 errors, identical when re-run (UI vs CLI).
+  * 13 valid pairs: **all positions 10/13 reached rank #1 vs last token 4/13**; 9 wins / 4 ties / 0 losses (sign test p ~ 0.004).
+  * Mechanism: last-token pool ~56 features vs ~281; all 9 last-token failures ended because features ran out.
+  * Cost: ~94 vs ~42 features edited, ~12 s vs ~5 s. When both succeed, last-token is as cheap or cheaper.
+  * 3 controls already at rank 1 -> no edits. Multi-token target (" chopsticks") is silently scored on its last token -> excluded; both tabs now warn.
+* **Known issues / next:** stale blocker inside a round; AI mechanistic explanation uses an overwritten `probs` for baseline rank; side effects of 100+ feature edits unmeasured; only GPT-2 small layer 8. Full list in Entry 20 Section 9.
+* Uncommitted on `pool-refill-implementation`.
+
 ## 0. Latest Session (2026-09-24): Tab 4 Pool Refill
 
 **Why:** Tab 4's Cumulative Sweep stopped early (e.g. `black`, rank 10 -> 5) because its length was `min(safe mute pool, safe boost pool)`, built once against the clean model. Full write-up: `docs/Research_Journal/19.md`.

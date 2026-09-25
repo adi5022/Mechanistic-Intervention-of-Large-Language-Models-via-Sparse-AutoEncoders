@@ -1,0 +1,18 @@
+prompt,target,single_token,baseline_rank,baseline_prob_pct,all_final_rank,all_success,all_final_prob_pct,all_steps,all_rounds,all_features_used,all_round0_candidates,all_time_s,last_final_rank,last_success,last_final_prob_pct,last_steps,last_rounds,last_features_used,last_round0_candidates,last_time_s,winner
+"This is Sophia, she is a",woman,True,6,1.44,1,True,2.664,34,1,68,264,7.366,2,False,2.477,30,2,60,60,6.025,all
+Seiyu Group's headquarters are in,Tokyo,True,2,10.0,1,True,14.81,1,1,2,357,1.333,1,True,14.81,1,1,2,54,1.02,tie
+The Eiffel Tower is in the city of,Paris,True,2,6.87,1,True,10.789,7,1,14,378,2.288,2,False,10.487,23,2,36,42,4.717,all
+Marie Curie won the Nobel Prize in,Physics,True,5,6.34,1,True,11.025,8,1,16,365,2.528,1,True,9.894,6,1,12,73,1.86,tie
+The Colosseum is located in,Rome,True,7,0.83,2,False,12.74,202,5,358,358,45.766,3,False,2.404,28,2,52,52,5.822,all
+Barack Obama was born in,Hawaii,True,3,5.19,1,True,9.786,1,1,2,183,1.37,1,True,7.159,1,1,2,53,0.805,tie
+She opened the door and saw a,cat,True,152,0.07,34,False,0.304,140,4,243,245,32.386,62,False,0.164,31,3,53,53,6.845,all
+The programming language created by Guido van Rossum is,Python,True,44,0.3,1,True,6.489,67,2,126,497,15.778,4,False,3.279,46,2,70,70,9.734,all
+The doctor said that,she,True,3,4.58,2,False,12.775,59,3,106,107,13.158,3,False,9.15,27,2,29,40,5.751,all
+Mount Everest is located in,Nepal,True,3,4.71,1,True,20.047,12,1,24,241,3.499,2,False,19.144,33,3,63,63,7.49,all
+The CEO of Tesla is,Elon,True,335,0.04,1,True,6.423,78,1,118,156,16.453,1,True,4.07,29,1,47,49,6.105,tie
+Albert Einstein was born in,Germany,True,8,1.97,1,True,7.947,16,1,32,197,4.086,3,False,6.154,26,2,50,50,5.589,all
+The largest planet in our solar system is,Jupiter,True,30,0.61,1,True,9.426,57,1,112,308,12.331,2,False,8.298,40,3,70,70,8.887,all
+"In Japan, people eat sushi with",chopsticks,False,14781,0.0,4378,False,0.001,167,5,287,288,40.305,9541,False,0.0,38,2,68,68,8.116,n/a (multi-token target)
+"This is James, he is a",man,True,1,2.72,1,True,2.716,0,0,0,,0.107,1,True,2.716,0,0,0,,0.125,n/a (already rank 1)
+The opposite of hot is,cold,True,1,9.96,1,True,9.964,0,0,0,,0.137,1,True,9.964,0,0,0,,0.134,n/a (already rank 1)
+Water is made of hydrogen and,oxygen,True,1,48.38,1,True,48.381,0,0,0,,0.11,1,True,48.381,0,0,0,,0.137,n/a (already rank 1)

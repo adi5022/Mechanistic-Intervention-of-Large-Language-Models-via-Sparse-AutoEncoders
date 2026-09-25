@@ -1,0 +1,7 @@
+Run ID,Timestamp,Mode,Layer,Prompt,Target,Rounds,Steps,Baseline rank,Best rank,Baseline Top-1,Baseline Target Prob,Final Top-1,Final Target Prob,Total time (s),Stop reason,Success
+1,2026-09-25 23:26:59,Hybrid Mute & Boost,8,"This is James, he is a",man,0,0,1,1, man,2.72%, man,2.72%,0.363,Target is already Rank #1 in the clean baseline — nothing to steer.,TRUE
+2,2026-09-25 23:27:04,Hybrid Mute & Boost,8,"This is James, he is a",man,0,0,1,1, man,2.72%, man,2.72%,0.408,Target is already Rank #1 in the clean baseline — nothing to steer.,TRUE
+3,2026-09-25 23:33:27,Hybrid Mute & Boost,8,The opposite of hot is,cold,0,0,1,1, cold,9.96%, cold,9.96%,0.347,Target is already Rank #1 in the clean baseline — nothing to steer.,TRUE
+4,2026-09-25 23:33:39,Hybrid Mute & Boost,8,The opposite of hot is,cold,0,0,1,1, cold,9.96%, cold,9.96%,0.327,Target is already Rank #1 in the clean baseline — nothing to steer.,TRUE
+5,2026-09-25 23:35:59,Hybrid Mute & Boost,8,Water is made of hydrogen and,oxygen,0,0,1,1, oxygen,48.38%, oxygen,48.38%,0.353,Target is already Rank #1 in the clean baseline — nothing to steer.,TRUE
+6,2026-09-25 23:36:02,Hybrid Mute & Boost,8,Water is made of hydrogen and,oxygen,0,0,1,1, oxygen,48.38%, oxygen,48.38%,0.344,Target is already Rank #1 in the clean baseline — nothing to steer.,TRUE
