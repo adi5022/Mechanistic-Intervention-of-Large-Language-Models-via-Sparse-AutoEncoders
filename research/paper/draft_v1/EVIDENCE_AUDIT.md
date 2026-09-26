@@ -79,3 +79,9 @@ Every claim in `main.tex`, the artifact that supports it, and its status. **Veri
 - Any statement about ROME, MEMIT, steering vectors, prompting, RAG, LoRA, or fine-tuning performance.
 - H6, H7, H8 outcomes, "20.67x" speedups, factual-vs-grammatical success rates from the stage-1 report, and all numbers from the earlier draft's cited papers (Gupta et al., Arad et al.).
 - Claims about novelty.
+
+## Draft v2 changes (restructure around the current application)
+- The paper now describes the Hybrid Mute and Boost workflow of `experiment_app.py` (and `src/hybrid_runner.py`) as the system. Earlier versions are in Section "Development Path" with a table (journal entry, change, recorded outcome, status in the current application). Status entries were checked against `experiment_app.py` (tab defaults: mute 0.3, boost 0.5, top N 30, candidate source default "All prompt positions", cumulative sweep off by default, pool refill on, strict safety filter with on/off switch; tolerance and graded exist only in the batch harness).
+- Rows 31 to 38 above (H6 to H8 and the H10/H11/top-K details): H-labels and the decay and top-K tables were removed. Only the one-prompt numbers (7 competitors, features 313 and 21169, ranks 8/8/6) remain, as development history, with no hypothesis wording.
+- Row 19 (weighted reduction formulas) removed from the Method; the code is listed as "not in the application".
+- Table 1 of the paper (development stages) rests on Journal entries 1 to 20 and `research/timeline.md`. Timeline statements without stored output (Dublin/Melbourne success, collapse point of compound ablation) are not used.
