@@ -205,3 +205,40 @@ def make_per_row_scale_hook(feature_ids: list[int], sae, scale: float):
     return hook_fn
 
 
+def build_scale_map_graded(mute_strengths: dict, boost_strengths: dict) -> dict:
+    """Per-feature scale map where every applied feature has its OWN strength (fid -> strength)."""
+    scale_map = {}
+    for fid, st in mute_strengths.items():
+        scale_map[fid] = scale_map.get(fid, 1.0) * (1.0 - st)
+    for fid, st in boost_strengths.items():
+        scale_map[fid] = scale_map.get(fid, 1.0) * (1.0 + st)
+    return scale_map
+
+
+def make_per_row_scales_hook_with_base(feature_ids: list[int], sae, scales: list[float], base_scale_map: dict | None):
+    """
+    Like make_per_row_scale_hook_with_base, but row i scales feature_ids[i] by scales[i] (its own value),
+    so one batched pass can test every candidate at a different strength.
+    """
+    def hook_fn(resid, hook):
+        B = resid.shape[0]
+        assert B == len(feature_ids) == len(scales), (
+            f"batch size {B} != len(feature_ids) {len(feature_ids)} / len(scales) {len(scales)}"
+        )
+        feature_acts = sae.encode(resid)
+        baseline_reconstructed = sae.decode(feature_acts)
+        modified = feature_acts.clone()
+
+        if base_scale_map:
+            b_idx = torch.as_tensor(list(base_scale_map.keys()), device=resid.device)
+            b_scales = torch.as_tensor(list(base_scale_map.values()), device=resid.device, dtype=modified.dtype)
+            modified[:, :, b_idx] = modified[:, :, b_idx] * b_scales
+
+        row_idx = torch.arange(B, device=resid.device)
+        feat_idx = torch.as_tensor(feature_ids, device=resid.device)
+        row_scales = torch.as_tensor(scales, device=resid.device, dtype=modified.dtype).view(B, 1)
+        modified[row_idx, :, feat_idx] = modified[row_idx, :, feat_idx] * row_scales
+
+        return resid + (sae.decode(modified) - baseline_reconstructed)
+
+    return hook_fn

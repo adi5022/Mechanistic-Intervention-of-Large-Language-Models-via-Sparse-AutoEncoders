@@ -32,6 +32,7 @@ from src.hooks import (
     build_scale_map,
 )
 from src.batched_eval import MAX_EVAL_BATCH
+from src.format_utils import fmt_prob, fmt_prob_pct
 from src.monosemanticity import (
     find_max_activating_examples,
     find_max_activating_neuron_examples,
@@ -339,7 +340,7 @@ with tab4:
             tr_status = st.empty()
             tr_table = st.empty()
             tr_chart = st.empty()
-        st.write(f"**Baseline Top-1:** `{current_top1_str}` | **Target '{target_str}' Prob:** `{baseline_target_prob*100:.2f}%`")
+        st.write(f"**Baseline Top-1:** `{current_top1_str}` | **Target '{target_str}' Prob:** `{fmt_prob(baseline_target_prob)}`")
 
         # ==================================================================
         # POOL-REFILL SWEEP
@@ -454,7 +455,7 @@ with tab4:
         }
         rank_progression = [{
             "Step": 0, "Label": "Baseline", "Round": 0,
-            "Target Rank": clean_ctx.clean_rank, "Target Prob (%)": baseline_target_prob * 100,
+            "Target Rank": clean_ctx.clean_rank, "Target Prob (%)": baseline_target_prob * 100, "Target Prob": fmt_prob(baseline_target_prob),
         }]
         refill_markers = []          # steps at which a pool refill happened
 
@@ -501,7 +502,7 @@ with tab4:
             last = rank_progression[-1]
             summary = (
                 f"Rounds finished: **{len(round_records)}** · steps run: **{step_counter}** · target rank now **#{last['Target Rank']}** "
-                f"({last['Target Prob (%)']:.2f}%) · best so far **#{best_so_far['rank']}** (started at #{clean_ctx.clean_rank}) · "
+                f"({fmt_prob_pct(last['Target Prob (%)'])}) · best so far **#{best_so_far['rank']}** (started at #{clean_ctx.clean_rank}) · "
                 f"features applied: **{len(applied_mutes)} mute / {len(applied_boosts)} boost** (committed at round ends)"
             )
             if final:
@@ -538,14 +539,14 @@ with tab4:
             if round_idx == 0:
                 st.markdown("**Starting point — the original prompt, nothing applied yet**")
                 st.metric("Target rank", f"#{ctx.clean_rank}")
-                st.caption(f"Target prob {ctx.clean_target_prob*100:.2f}% · the model's top-1 (the blocker) is `{round_top1_str}` at {round_top1_prob*100:.2f}%.")
+                st.caption(f"Target prob {fmt_prob(ctx.clean_target_prob)} · the model's top-1 (the blocker) is `{round_top1_str}` at {fmt_prob(round_top1_prob)}.")
             else:
                 prev_top1_str = model.to_string([int(torch.argmax(prev_ctx.clean_probs))])
                 bc_a, bc_b, bc_c = st.columns(3)
                 with bc_a:
                     st.markdown("**1 · Original prompt** (nothing applied — never changes)")
                     st.metric("Target rank", f"#{clean_ctx.clean_rank}")
-                    st.caption(f"Prob {clean_ctx.clean_target_prob*100:.2f}% · top-1 `{top1_orig_str}`")
+                    st.caption(f"Prob {fmt_prob(clean_ctx.clean_target_prob)} · top-1 `{top1_orig_str}`")
                 with bc_b:
                     st.markdown(f"**2 · How Round {round_idx - 1} went** (start → end)")
                     st.metric(
@@ -554,13 +555,13 @@ with tab4:
                         delta_color="normal" if prev_ctx.clean_rank != ctx.clean_rank else "off",
                     )
                     st.caption(
-                        f"Prob {prev_ctx.clean_target_prob*100:.2f}% → {ctx.clean_target_prob*100:.2f}% · "
+                        f"Prob {fmt_prob(prev_ctx.clean_target_prob)} → {fmt_prob(ctx.clean_target_prob)} · "
                         f"applied features {prev_start_counts[0]} mute / {prev_start_counts[1]} boost → {len(applied_mutes)} / {len(applied_boosts)}"
                     )
                 with bc_c:
                     st.markdown(f"**3 · Round {round_idx} starts here** (= where Round {round_idx - 1} ended)")
                     st.metric("Target rank", f"#{ctx.clean_rank}")
-                    st.caption(f"Prob {ctx.clean_target_prob*100:.2f}% · top-1 (the blocker) `{round_top1_str}` at {round_top1_prob*100:.2f}%")
+                    st.caption(f"Prob {fmt_prob(ctx.clean_target_prob)} · top-1 (the blocker) `{round_top1_str}` at {fmt_prob(round_top1_prob)}")
                 if prev_ctx.clean_rank == ctx.clean_rank:
                     st.warning(
                         f"⚠️ Round {round_idx - 1} did not improve the target's rank (#{prev_ctx.clean_rank} → #{ctx.clean_rank}). "
@@ -590,7 +591,7 @@ with tab4:
             cur_round.clear()
             cur_round.update(round=round_idx, start_rank=ctx.clean_rank, now_rank=ctx.clean_rank, best_rank=ctx.clean_rank, steps=0, pools="…")
             st.subheader(f"Round {round_idx} candidate pools")
-            st.write(f"Blocking token being suppressed this round: `{round_top1_str}` ({round_top1_prob*100:.2f}%).")
+            st.write(f"Blocking token being suppressed this round: `{round_top1_str}` ({fmt_prob(round_top1_prob)}).")
             st.write(
                 "Active SAE features per prompt token (BOS excluded): "
                 + " · ".join(f"`{t}` **{n}**" for t, n in pools["per_token"])
@@ -701,7 +702,7 @@ with tab4:
                 st.subheader(f"Round {round_idx} · Mute: {len(full_mutes)} features (-{sm4}) | Boost: {len(full_boosts)} features (+{sb4})")
                 st.caption(f"{len(applied_mutes)} mutes / {len(applied_boosts)} boosts carried over from earlier rounds; this round adds {len(mute_batch)} / {len(boost_batch)}.")
                 st.write(f"**Muted Features:** `{full_mutes}` | **Boosted Features:** `{full_boosts}`")
-                st.write(f"**New Top-1:** `{new_top1_str}` | **Target Prob:** `{target_prob*100:.2f}%`")
+                st.write(f"**New Top-1:** `{new_top1_str}` | **Target Prob:** `{fmt_prob(target_prob)}`")
 
                 table_data = []
                 for rank_idx, (p, idx) in enumerate(zip(top5_probs, top5_indices), start=1):
@@ -709,7 +710,7 @@ with tab4:
                     is_target = "Yes (TARGET)" if idx.item() == target_token_id else "No"
                     table_data.append({
                         "Rank": rank_idx, "Token": tok_str,
-                        "Probability": f"{p.item()*100:.2f}%", "Is Target": is_target,
+                        "Probability": f"{fmt_prob(p.item())}", "Is Target": is_target,
                     })
                 st.table(table_data)
 
@@ -743,7 +744,7 @@ with tab4:
                     "Label": f"R{round_idx} M{len(full_mutes)}/B{len(full_boosts)}",
                     "Round": round_idx,
                     "Target Rank": combo_rank,
-                    "Target Prob (%)": target_prob * 100,
+                    "Target Prob (%)": target_prob * 100, "Target Prob": fmt_prob(target_prob),
                 })
                 is_new_best = (
                     combo_rank < best_so_far["rank"]
@@ -769,7 +770,7 @@ with tab4:
                     "boost_features": list(full_boosts),
                     "boost_strength": sb4,
                     "new_top1": new_top1_str,
-                    "target_prob": f"{target_prob*100:.2f}%",
+                    "target_prob": f"{fmt_prob(target_prob)}",
                     "top5": table_data,
                     "combination_safety_check": safety_res
                 })
@@ -778,7 +779,7 @@ with tab4:
                 update_tracker(f"Round {round_idx}: sweep step {step_counter - round_start_step} of {len(combo_pairs_4)}")
                 status_box.info(
                     f"🔄 **Live status** — Round {round_idx} · step {step_counter} · target rank **#{combo_rank}** "
-                    f"({target_prob*100:.2f}%) · top-1 `{new_top1_str}` · applied {len(full_mutes)} mutes / {len(full_boosts)} boosts · "
+                    f"({fmt_prob(target_prob)}) · top-1 `{new_top1_str}` · applied {len(full_mutes)} mutes / {len(full_boosts)} boosts · "
                     f"best so far #{best_so_far['rank']}"
                 )
 
@@ -885,7 +886,7 @@ with tab4:
             )
         bc1, bc2, bc3 = st.columns(3)
         bc1.metric("Best Target Rank", f"#{best_so_far['rank']}", delta=f"{clean_ctx.clean_rank - best_so_far['rank']:+d} vs baseline", delta_color="normal")
-        bc2.metric("Best Target Prob", f"{best_so_far['prob']*100:.2f}%")
+        bc2.metric("Best Target Prob", f"{fmt_prob(best_so_far['prob'])}")
         bc3.metric("Found at", f"Mute {best_so_far['mute_size']} / Boost {best_so_far['boost_size']}" if best_so_far["step"] > 0 else "Baseline (no combo beat it)")
         st.write(f"**Muted Features:** `{best_so_far['mute_features']}` | **Boosted Features:** `{best_so_far['boost_features']}` | **New Top-1:** `{best_so_far['top1']}`")
 
@@ -904,7 +905,7 @@ with tab4:
             st.write("**Per-round timeline**")
             st.dataframe(pd.DataFrame([{
                 "Round": r["round"], "Blocking token": r["blocker"],
-                "Baseline rank": r["baseline_rank"], "Baseline prob (%)": round(r["baseline_prob"] * 100, 3),
+                "Baseline rank": r["baseline_rank"], "Baseline prob": fmt_prob(r["baseline_prob"]),
                 "Safe mute / boost": f"{r['safe_mutes']} / {r['safe_boosts']}",
                 "Rejected mute / boost": f"{r['rejected_mutes']} / {r['rejected_boosts']}",
                 "Steps": r["steps"], "Best rank in round": r["best_rank"], "End rank": r["end_rank"],
@@ -985,9 +986,11 @@ with tab4:
             "use_batched": use_batched_4,
             "total_time_s": round(t4_end - t4_start, 3),
             "baseline_top1": current_top1_str,
-            "baseline_target_prob": f"{baseline_target_prob*100:.2f}%",
+            "baseline_target_prob": f"{fmt_prob(baseline_target_prob)}",
+            "baseline_target_prob_pct": baseline_target_prob * 100,
             "final_top1": best_final_top1,
-            "final_target_prob": f"{best_final_target_prob*100:.2f}%",
+            "final_target_prob": f"{fmt_prob(best_final_target_prob)}",
+            "final_target_prob_pct": best_final_target_prob * 100,
             "success": is_any_success,
             "hybrid_details": hybrid_details,
             # --- everything else shown on screen during the run ---
@@ -1682,7 +1685,7 @@ with tab11:
                     top5_table.append({
                         "Rank": rank_idx,
                         "Token": model.to_string([idx.item()]),
-                        "Probability": f"{p.item()*100:.2f}%",
+                        "Probability": f"{fmt_prob(p.item())}",
                         "Is Target": "Yes (TARGET)" if idx.item() == target_token_id else "No",
                     })
 
@@ -1728,7 +1731,7 @@ with tab11:
             "Mute Size": s["mute_size"],
             "Boost Size": s["boost_size"],
             "New Top-1": s["new_top1"],
-            "Target Prob": f"{s['target_prob']*100:.2f}%",
+            "Target Prob": f"{fmt_prob(s['target_prob'])}",
             "Target Reached #1": "✅" if s["target_reached"] else "",
         } for s in steps]
 
@@ -1748,7 +1751,7 @@ with tab11:
             "baseline_top1": current_top1_str,
             "baseline_target_prob": baseline_target_prob,
             "final_top1": rows[-1]["New Top-1"] if rows else current_top1_str,
-            "final_target_prob": rows[-1]["Target Prob"] if rows else f"{baseline_target_prob*100:.2f}%",
+            "final_target_prob": rows[-1]["Target Prob"] if rows else f"{fmt_prob(baseline_target_prob)}",
             "mute_pool_size": len(comp_ids),
             "boost_pool_size": len(target_ids),
             "best_so_far": best_so_far,
@@ -1833,7 +1836,7 @@ with tab11:
 
         def _render_side(label, caption, result, wall_start):
             st.write(f"**Model compute time:** `{result['elapsed']:.3f}s`  (baseline `{result['t_baseline']:.3f}s` + filtering `{result['t_filtering']:.3f}s` + sweep `{result['t_sweep']:.3f}s`)")
-            st.write(f"**Baseline Top-1:** `{result['baseline_top1']}` | **Baseline Target Prob:** `{result['baseline_target_prob']*100:.2f}%`")
+            st.write(f"**Baseline Top-1:** `{result['baseline_top1']}` | **Baseline Target Prob:** `{fmt_prob(result['baseline_target_prob'])}`")
             st.write(f"**Mute pool (passed safety):** {result['mute_pool_size']} | **Boost pool (passed safety):** {result['boost_pool_size']}")
             st.write(f"**Combinations run:** {result['n_combinations_run']} / {result['n_combinations_total']}" + (f" (stopped early at mute={result['stopped_at'][0]}, boost={result['stopped_at'][1]})" if result["stopped_at"] else " (target never reached rank #1 — sweep exhausted)"))
             st.write(f"**Final Top-1:** `{result['final_top1']}` | **Final Target Prob:** `{result['final_target_prob']}`")
@@ -1852,7 +1855,7 @@ with tab11:
 
             best = result["best_so_far"]
             st.write(
-                f"**🏆 Best rank found in sweep:** `#{best['rank']}` at `{best['prob']*100:.2f}%` "
+                f"**🏆 Best rank found in sweep:** `#{best['rank']}` at `{fmt_prob(best['prob'])}` "
                 + (f"(Mute {best['mute_size']} / Boost {best['boost_size']})" if best["step"] > 0 else "(baseline — no combo beat it)")
                 + " — tracked across every row, not just the last one run."
             )
@@ -1860,7 +1863,7 @@ with tab11:
 
             st.write("**Step-by-step sweep:**")
             for i, s in enumerate(result["steps"], start=1):
-                title = f"Step {i}: Mute {s['mute_size']} | Boost {s['boost_size']} → Top-1 `{s['new_top1']}` (rank #{s['target_rank']}, {s['target_prob']*100:.2f}%)" + (" ✅ TARGET REACHED" if s["target_reached"] else "") + (" 🏆" if s["mute_size"] == best["mute_size"] and s["boost_size"] == best["boost_size"] and s["target_rank"] == best["rank"] else "")
+                title = f"Step {i}: Mute {s['mute_size']} | Boost {s['boost_size']} → Top-1 `{s['new_top1']}` (rank #{s['target_rank']}, {fmt_prob(s['target_prob'])})" + (" ✅ TARGET REACHED" if s["target_reached"] else "") + (" 🏆" if s["mute_size"] == best["mute_size"] and s["boost_size"] == best["boost_size"] and s["target_rank"] == best["rank"] else "")
                 with st.expander(title):
                     st.write(f"**Muted Features:** `{s['muted_features']}`")
                     st.write(f"**Boosted Features:** `{s['boosted_features']}`")
@@ -1890,54 +1893,91 @@ with tab11:
         wc3.metric("Speedup (wall-clock)", f"{wall_seq / wall_batch:.2f}x" if wall_batch > 0 else "N/A")
         st.caption("This is the total time each side actually took, start to finish — not just the isolated model-compute numbers above.")
 
-
-# --- TAB 12: Batch runner — Last token vs All prompt positions ---
+# --- TAB 12: Batch runner — safety-filter study, candidate-source comparison, any prompt list ---
 with tab12:
-    from src.batch_runner import parse_spec, run_batch
+    import subprocess as _sp
+    import sys as _sys
+    import glob as _glob
+    from src.batch_runner import parse_spec, run_batch, write_progress
+    from src.batch_analysis import analyze as analyze_batch
 
-    st.header("Batch Runner — Last Token vs All Prompt Positions")
+    st.header("Batch Runner — run a whole study from one JSON")
     st.markdown(
-        "Paste or upload a JSON spec listing many prompts. Every prompt is run through the **Hybrid Mute & Boost** sweep "
-        "in each selected candidate-source mode (*All prompt positions* and/or *Last token only*), with identical settings. "
-        "Everything the Hybrid tab shows on screen is captured for each run, then a paired comparison is built. "
-        "Download the result as one JSON file for analysis."
+        "Pick a study (or paste your own JSON), press **Start**, and this tab runs every prompt through the Hybrid Mute & Boost sweep "
+        "for every filter variant (\"arm\") and candidate source, then shows charts, tables and statistics and lets you download everything. "
+        "Big studies run in a **background process**, so closing this page does not stop them; results are auto-saved after every run."
     )
 
-    _spec_default_path = _os.path.join("data", "candidate_source_batch_spec.json")
-    _spec_default = ""
+    _PROJECT_ROOT = _os.getcwd()
+    _OUT_DIR = _os.path.join("outputs", "safety_batches")
+    _os.makedirs(_OUT_DIR, exist_ok=True)
+    _ACTIVE_FILE = _os.path.join(_OUT_DIR, ".active_run.json")
+
+    _SPEC_NOTES = {
+        "safety_filter_spec_quick.json": "≈ 80 runs, a few minutes. Use this first to check that everything works.",
+        "safety_filter_spec_pilot.json": "250 runs (50 prompts × 5 filter variants, all positions). Roughly an hour.",
+        "safety_filter_spec_full.json": "780 runs (156 prompts × 5 variants, all positions). Several hours.",
+        "safety_filter_spec_full_last.json": "780 runs (156 prompts × 5 variants, last token). Several hours.",
+        "safety_filter_spec_everything.json": "1,560 runs — the whole study (both candidate sources). Leave it running overnight.",
+        "candidate_source_batch_spec.json": "34 runs, about 5 minutes (last token vs all positions, one filter).",
+    }
+
+    def _pid_alive(pid):
+        try:
+            if _os.name == "nt":
+                out = _sp.run(["tasklist", "/FI", f"PID eq {int(pid)}", "/NH"], capture_output=True, text=True, timeout=10).stdout
+                return str(int(pid)) in out
+            _os.kill(int(pid), 0)
+            return True
+        except Exception:
+            return False
+
+    def _read_json(path):
+        try:
+            with open(path, encoding="utf-8") as _f:
+                return json.load(_f)
+        except Exception:
+            return None
+
+    def _fmt_secs(x):
+        if x is None:
+            return "unknown"
+        x = int(x)
+        h, r = divmod(x, 3600)
+        m, s_ = divmod(r, 60)
+        return f"{h}h {m:02d}m" if h else f"{m}m {s_:02d}s"
+
+    # ------------------------------------------------------------------ spec chooser
+    _spec_files = sorted(f_ for f_ in _os.listdir("data") if f_.endswith(".json") and "spec" in f_) if _os.path.isdir("data") else []
+    _order = ["safety_filter_spec_quick.json", "safety_filter_spec_pilot.json", "safety_filter_spec_everything.json",
+              "safety_filter_spec_full.json", "safety_filter_spec_full_last.json", "candidate_source_batch_spec.json"]
+    _spec_files = [f_ for f_ in _order if f_ in _spec_files] + [f_ for f_ in _spec_files if f_ not in _order]
+    _spec_choice = st.selectbox("Study (spec file in data/)", _spec_files, index=0, key="batch_spec_choice") if _spec_files else None
+    if _spec_choice:
+        st.caption(_SPEC_NOTES.get(_spec_choice, ""))
+    _spec_default_path = _os.path.join("data", _spec_choice) if _spec_choice else _os.path.join("data", "candidate_source_batch_spec.json")
     try:
         with open(_spec_default_path, encoding="utf-8") as _f:
             _spec_default = _f.read()
     except Exception:
-        _spec_default = json.dumps({
-            "name": "my batch", "settings": {"mute_strength": 0.6, "boost_strength": 0.5, "top_n": 120},
-            "modes": ["all", "last"], "repeats": 1,
-            "prompts": [{"prompt": "This is Sophia, she is a", "target": "woman"}],
-        }, indent=2)
+        _spec_default = json.dumps({"name": "my batch", "settings": {"top_n": 120}, "modes": ["all"], "repeats": 1,
+                                    "prompts": [{"prompt": "This is Sophia, she is a", "target": "woman"}]}, indent=2)
 
     with st.expander("Spec format and allowed settings", expanded=False):
         st.code(
-            '{\n  "name": "my batch",\n  "settings": {"mute_strength": 0.6, "boost_strength": 0.5, "top_n": 120,\n'
-            '               "cumulative_sweep": true, "pool_refill": true, "max_refill_rounds": 0,\n'
-            '               "safety_filter": true, "stop_on_rank1": true, "use_batched": true},\n'
-            '  "modes": ["all", "last"],          // "all" = all prompt positions, "last" = last token only\n'
+            '{\n  "name": "my study",\n  "settings": {"mute_strength": 0.6, "boost_strength": 0.5, "top_n": 120, "max_steps": 250},\n'
+            '  "modes": ["all", "last"],           // "all" = all prompt positions, "last" = last token only\n'
             '  "repeats": 1,\n'
+            '  "arms": [                              // optional: filter variants compared on identical prompts\n'
+            '    {"label": "strict",  "settings": {"safety_mode": "strict"}},\n'
+            '    {"label": "graded5", "settings": {"safety_mode": "graded", "tolerance": 0.05}}\n  ],\n'
             '  "prompts": [ {"prompt": "This is Sophia, she is a", "target": "woman"} ]   // target WITHOUT leading space\n}',
             language="json",
         )
-        st.caption("A bare list of {prompt, target} objects also works. Each prompt may carry its own \"settings\" overrides. "
-                   "The SAE layer comes from the sidebar.")
+        st.caption("safety_mode: strict | tolerance | graded (with `tolerance`, `rank_slack`, `rescued_order`); `safety_filter: false` switches the filter off. "
+                   "A bare list of {prompt, target} objects also works. The SAE layer comes from the sidebar.")
 
-    up_spec = st.file_uploader("Upload a batch spec JSON (optional — replaces the text box)", type=["json"], key="batch_spec_upload")
-    if up_spec is not None:
-        try:
-            _spec_text = up_spec.getvalue().decode("utf-8")
-        except Exception as e:
-            st.error(f"Could not read the uploaded file: {e}")
-            _spec_text = _spec_default
-    else:
-        _spec_text = st.text_area("Batch spec (JSON)", value=_spec_default, height=320, key="batch_spec_text")
-
+    _spec_text = st.text_area("Batch spec (JSON) — edit freely", value=_spec_default, height=260, key=f"batch_spec_text_{_spec_choice}")
     spec_ok = None
     try:
         spec_ok = parse_spec(json.loads(_spec_text))
@@ -1945,49 +1985,374 @@ with tab12:
         st.error(f"Spec problem: {e}")
 
     if spec_ok:
-        n_jobs = len(spec_ok["prompts"]) * len(spec_ok["modes"]) * spec_ok["repeats"]
-        st.info(f"**{spec_ok['name']}** — {len(spec_ok['prompts'])} prompts × {len(spec_ok['modes'])} mode(s) × {spec_ok['repeats']} repeat(s) = **{n_jobs} runs** "
-                f"on layer {layer} ({device.upper()}). Expect roughly 5–15 s per steerable run; runs where the target is already rank #1 take under a second.")
-        tok_rows = []
+        n_jobs = len(spec_ok["prompts"]) * len(spec_ok["modes"]) * spec_ok["repeats"] * len(spec_ok["arms"])
+        st.info(f"**{spec_ok['name']}** — {len(spec_ok['prompts'])} prompts × {len(spec_ok['arms'])} arm(s) "
+                f"[{', '.join(a_['label'] for a_ in spec_ok['arms'])}] × {len(spec_ok['modes'])} mode(s) × {spec_ok['repeats']} repeat(s) "
+                f"= **{n_jobs} runs** on layer {layer} ({device.upper()}).")
+        _tok_rows = []
         for p_ in spec_ok["prompts"]:
             n_tok = int(model.to_tokens(" " + p_["target"], prepend_bos=False).numel())
-            tok_rows.append({
-                "Prompt": p_["prompt"], "Target": p_["target"],
-                "Target tokens": n_tok, "Token used": model.to_string([get_target_token_id(model, " " + p_["target"])]),
-                "OK": "✅" if n_tok == 1 else "⚠️ multi-token (only the LAST piece would be scored)",
-            })
-        df_tok = pd.DataFrame(tok_rows)
-        with st.expander("Target token check (before you run)", expanded=any(r["Target tokens"] != 1 for r in tok_rows)):
-            st.dataframe(df_tok, use_container_width=True, hide_index=True)
-        if any(r["Target tokens"] != 1 for r in tok_rows):
-            st.warning("Some targets split into several GPT-2 tokens. Their results are recorded but excluded from the comparison; replace them with single-token words.")
+            _tok_rows.append({"Prompt": p_["prompt"], "Target": p_["target"], "Target tokens": n_tok,
+                              "OK": "✅" if n_tok == 1 else "⚠️ multi-token (only the LAST piece would be scored)"})
+        with st.expander("Target token check", expanded=any(r["Target tokens"] != 1 for r in _tok_rows)):
+            st.dataframe(pd.DataFrame(_tok_rows), use_container_width=True, hide_index=True)
+        if any(r["Target tokens"] != 1 for r in _tok_rows):
+            st.warning("Some targets split into several GPT-2 tokens; their results are recorded but excluded from the comparison.")
+
+    # ------------------------------------------------------------------ run controls
+    _stem = _os.path.splitext(_spec_choice or "custom")[0]
+    _default_out = _os.path.join(_OUT_DIR, f"{_stem}.json")
+    c_out, c_res = st.columns([3, 1])
+    with c_out:
+        _out_path = st.text_input("Result file", value=_default_out, key=f"batch_out_{_stem}",
+                                  help="Everything is saved here after every run. Use the same file name to continue an interrupted study.")
+    with c_res:
+        _resume = st.checkbox("Resume if it exists", value=True, key="batch_resume")
+
+    def _workers_of(act):
+        return (act or {}).get("workers") or []
+
+    _active = _read_json(_ACTIVE_FILE)
+    _bg_running = bool(_active and any(_pid_alive(w.get("pid")) for w in _workers_of(_active)))
+
+    try:
+        _free_gb = torch.cuda.mem_get_info()[0] / 1e9 if torch.cuda.is_available() else None
+    except Exception:
+        _free_gb = None
+    _max_safe = max(1, int((_free_gb or 2.0) // 1.4)) if _free_gb is not None else 1     # ~1.4 GB per worker (model + SAE + CUDA context)
+    w1, w2 = st.columns([1, 3])
+    with w1:
+        _n_workers = st.number_input("Parallel workers", min_value=1, max_value=6, value=1, step=1, key="batch_workers",
+                                     help="Each worker is a separate process with its own copy of the model on the GPU (about 1.4 GB). More workers finish sooner only if the GPU has room.")
+    with w2:
+        if _free_gb is not None:
+            st.caption(f"GPU memory free right now: **{_free_gb:.1f} GB** → about **{_max_safe}** extra worker(s) fit safely. "
+                       f"{'Close other GPU programs (or this page\'s other tabs) to fit more.' if _max_safe < 2 else ''} Results from all workers are merged automatically.")
+        else:
+            st.caption("No GPU detected; workers run on the CPU (slow). Results from all workers are merged automatically.")
+    if _free_gb is not None and int(_n_workers) > _max_safe:
+        st.warning(f"You asked for {int(_n_workers)} workers but only ~{_max_safe} fit in the free GPU memory; the extra ones would crash silently. "
+                   f"I will start {_max_safe} instead.")
+
+    b1, b2, b3 = st.columns([2, 2, 3])
+    with b1:
+        start_bg = st.button("🚀 Start background run (recommended)", key="btn_bg_batch", type="primary", disabled=(spec_ok is None or _bg_running))
+    with b2:
+        go = st.button("▶ Run inside this page (small studies)", key="btn_run_batch", disabled=(spec_ok is None or _bg_running))
+    with b3:
+        st.caption("Results are auto-saved after every run, so a crash or refresh never loses finished runs. "
+                   "A background run keeps going if you close this page.")
+
+    if start_bg and spec_ok:
+        try:
+            _spec_path = _out_path + ".spec.json"
+            with open(_spec_path, "w", encoding="utf-8") as _f:
+                _f.write(_spec_text)
+            _n = min(int(_n_workers), _max_safe) if _free_gb is not None else int(_n_workers)
+            _workers = []
+            for _k in range(_n):
+                _wout = _out_path if _n == 1 else f"{_out_path}.shard{_k}of{_n}.json"
+                _log_path = _wout + ".log"
+                _logf = open(_log_path, "a", encoding="utf-8")
+                _flags = (0x00000008 | 0x00000200) if _os.name == "nt" else 0
+                _cmd = [_sys.executable, "run_batch.py", _spec_path, _wout, "--layer", str(layer)]
+                if _resume:
+                    _cmd.append("--resume")
+                if _n > 1:
+                    _cmd += ["--shard", f"{_k}/{_n}"]
+                _proc = _sp.Popen(_cmd, cwd=_PROJECT_ROOT, stdout=_logf, stderr=_sp.STDOUT, creationflags=_flags,
+                                  env={**_os.environ, "PYTHONIOENCODING": "utf-8"})
+                _workers.append({"pid": _proc.pid, "out": _wout, "progress": _wout + ".progress.json", "log": _log_path})
+            with open(_ACTIVE_FILE, "w", encoding="utf-8") as _f:
+                json.dump({"workers": _workers, "out": _out_path, "name": spec_ok["name"], "n": _n, "spec": _spec_path,
+                           "started": datetime.now().strftime("%Y-%m-%d %H:%M:%S")}, _f)
+            st.session_state.pop("batch_autoloaded", None)
+            st.success(f"Started {_n} background worker(s). Progress appears below; you can close this page.")
+            st.rerun()
+        except Exception as e:
+            st.error(f"Could not start the background run: {e}")
+
+    # ------------------------------------------------------------------ live progress (auto-refreshing)
+    @st.fragment(run_every=5)
+    def _progress_panel():
+        act = _read_json(_ACTIVE_FILE)
+        workers = _workers_of(act)
+        if not workers:
+            return
+        progs = [(_read_json(w["progress"]) or {}) for w in workers]
+        alive = [_pid_alive(w["pid"]) for w in workers]
+        total = sum((pg.get("total") or 0) for pg in progs)
+        done = sum((pg.get("done") or 0) for pg in progs)
+        finished_all = all(pg.get("finished") for pg in progs) and len(progs) == len(workers)
+        errors = [pg.get("error") for pg, al in zip(progs, alive) if pg.get("error") and not al and not pg.get("finished")]
+        elapsed = max([(pg.get("elapsed_s") or 0) for pg in progs] or [0])
+        etas = [pg.get("eta_s") for pg, al in zip(progs, alive) if al and pg.get("eta_s") is not None]
+        eta = max(etas) if etas else None
+        st.markdown("---")
+        st.subheader(f"Background run: {act.get('name')}  ({len(workers)} worker{'s' if len(workers) > 1 else ''})")
+        if errors:
+            st.error(f"A worker stopped with an error: {errors[0]}. Finished runs are saved; press Start again with 'Resume' ticked to continue.")
+        elif finished_all:
+            st.success(f"Finished — {done}/{total} runs in {_fmt_secs(elapsed)}.")
+        elif any(alive):
+            st.info("Running…")
+            _dead = [k + 1 for k, (pg, al) in enumerate(zip(progs, alive)) if not al and not pg.get("finished")]
+            if _dead:
+                st.warning(f"Worker(s) {_dead} exited early — most likely the GPU ran out of memory. The others continue; restart with 'Resume' and fewer workers to finish the rest.")
+        else:
+            st.warning("No worker is running. If the study did not finish, press Start again with 'Resume' ticked "
+                       "(if a worker died right at the start the GPU probably ran out of memory — use fewer workers).")
+        if total:
+            st.progress(min(1.0, done / total), text=f"{done}/{total} runs · elapsed {_fmt_secs(elapsed)} · estimated time left {_fmt_secs(eta) if not finished_all else '0'}")
+        if len(workers) > 1:
+            st.caption(" · ".join(f"worker {k + 1}: {(pg.get('done') or 0)}/{(pg.get('total') or 0)}{' ✅' if pg.get('finished') else (' ⏳' if al else ' ⛔')}"
+                                  for k, (pg, al) in enumerate(zip(progs, alive))))
+        lasts = [(pg.get("updated") or "", pg.get("last")) for pg in progs if pg.get("last")]
+        if lasts:
+            last = max(lasts, key=lambda t: t[0])[1]
+            st.caption(f"Latest run: [{last.get('arm')} | {last.get('mode')}] {last.get('prompt')} → {last.get('target')}: "
+                       f"rank {last.get('baseline_rank')} → {last.get('best_rank')} ({'reached #1' if last.get('success') else 'not #1'}, {last.get('steps')} steps, {last.get('time_s')} s)")
+        cA, cB = st.columns(2)
+        with cA:
+            if any(alive) and st.button("⏹ Stop the run", key="btn_stop_bg"):
+                for w, al in zip(workers, alive):
+                    try:
+                        if al:
+                            if _os.name == "nt":
+                                _sp.run(["taskkill", "/PID", str(w["pid"]), "/T", "/F"], capture_output=True, timeout=15)
+                            else:
+                                _os.kill(int(w["pid"]), 15)
+                    except Exception as e:
+                        st.error(f"Could not stop worker {w['pid']}: {e}")
+        with cB:
+            if finished_all and st.button("📊 Show the results below", key="btn_show_done"):
+                st.session_state["batch_result_file"] = act.get("out")
+                st.rerun(scope="app")
+        if finished_all and st.session_state.get("batch_autoloaded") != act.get("out"):
+            if len(workers) > 1:
+                with st.spinner("Merging the workers' results…"):
+                    from src.batch_runner import merge_results
+                    merge_results([w["out"] for w in workers], act.get("out"))
+            st.session_state["batch_autoloaded"] = act.get("out")
+            st.session_state["batch_result_file"] = act.get("out")
+            st.rerun(scope="app")
+
+    _progress_panel()
+
+    # ------------------------------------------------------------------ in-page run (small studies)
+    if go and spec_ok:
+        prog = st.progress(0.0, text="Starting…")
+        live = st.empty()
+        live_rows = []
+
+        def _cb(done, total, rec_):
+            best = (rec_.get("best_result") or {}).get("rank")
+            live_rows.append({"#": done, "Arm": rec_.get("arm"), "Mode": rec_.get("candidate_source"), "Prompt": rec_.get("prompt"),
+                              "Target": rec_.get("target"), "Baseline rank": rec_.get("baseline_rank"), "Final rank": best,
+                              "Success": rec_.get("success"), "Steps": len(rec_.get("hybrid_details") or []),
+                              "Time s": rec_.get("total_time_s"), "Error": rec_.get("error")})
+            prog.progress(min(1.0, done / total), text=f"{done}/{total} runs finished")
+            live.dataframe(pd.DataFrame(live_rows).tail(15), use_container_width=True, hide_index=True)
+
+        with st.spinner("Running batch…"):
+            run_batch(model, sae, hook_name, layer, device, spec_ok, progress_cb=_cb, save_path=_out_path, resume=_resume,
+                      progress_path=_out_path + ".progress.json")
+        prog.progress(1.0, text="Done")
+        st.session_state["batch_result_file"] = _out_path
+        st.success(f"Finished. Full result auto-saved to `{_out_path}`.")
+
+    # ------------------------------------------------------------------ results viewer
+    st.markdown("---")
+    st.subheader("Results")
+    _candidates = sorted({_os.path.normpath(p_) for pat in ("outputs/safety_batches/*.json", "outputs/batch_runs/*.json")
+                          for p_ in _glob.glob(pat) if not p_.endswith(".progress.json") and not p_.endswith(".spec.json") and ".shard" not in _os.path.basename(p_) and not _os.path.basename(p_).startswith(".")},
+                         key=lambda p_: -_os.path.getmtime(p_))
+    _cur = st.session_state.get("batch_result_file")
+    _cur = _os.path.normpath(_cur) if _cur else None
+    if _cur and _cur not in _candidates and _os.path.exists(_cur):
+        _candidates.insert(0, _cur)
+    if _cur and st.session_state.get("_batch_seen") != _cur and _cur in _candidates:
+        st.session_state["batch_result_pick"] = _cur          # a freshly finished run should be shown, not the previous selection
+        st.session_state["_batch_seen"] = _cur
+    if not _candidates:
+        st.info("No saved results yet. Start a study above (try the quick check first).")
+        _pick = None
+    else:
+        _idx = _candidates.index(_cur) if _cur in _candidates else 0
+        rc1, rc2 = st.columns([4, 1])
+        with rc1:
+            _pick = st.selectbox("Result file", _candidates, index=_idx, key="batch_result_pick",
+                                 format_func=lambda p_: f"{p_}  ({_os.path.getsize(p_) / 1e6:.1f} MB, {datetime.fromtimestamp(_os.path.getmtime(p_)).strftime('%Y-%m-%d %H:%M')})")
+        with rc2:
+            st.write("")
+            if st.button("🔄 Reload", key="btn_reload_result"):
+                st.session_state.pop("batch_loaded", None)
+
+    def _load_result(path):
+        mt = _os.path.getmtime(path)
+        cached = st.session_state.get("batch_loaded")
+        if cached and cached[0] == path and cached[1] == mt:
+            return cached[2]
+        with st.spinner(f"Loading {path} …"):
+            with open(path, encoding="utf-8") as _f:
+                res_ = json.load(_f)
+        st.session_state["batch_loaded"] = (path, mt, res_)
+        return res_
 
     def _flatten_pairs(res):
         rows = []
         for r in res["paired_summary"]:
             row = {"Prompt": r["prompt"], "Target": r["target"], "Repeat": r["repeat"], "Baseline rank": r["baseline_rank"],
-                   "Baseline prob %": None if r["baseline_prob_pct"] is None else round(r["baseline_prob_pct"], 2),
+                   "Baseline prob": None if r["baseline_prob_pct"] is None else fmt_prob_pct(r["baseline_prob_pct"]),
                    "Single token": r["target_single_token"], "Winner": r["winner"]}
             for key, lab in (("all", "All"), ("last", "Last")):
                 v = r.get(key) or {}
                 row[f"{lab}: final rank"] = v.get("final_rank")
                 row[f"{lab}: success"] = v.get("success")
-                row[f"{lab}: final prob %"] = None if v.get("final_prob_pct") is None else round(v["final_prob_pct"], 2)
+                row[f"{lab}: final prob"] = None if v.get("final_prob_pct") is None else fmt_prob_pct(v["final_prob_pct"])
                 row[f"{lab}: steps"] = v.get("steps")
-                row[f"{lab}: rounds"] = v.get("rounds")
                 row[f"{lab}: features used"] = v.get("features_at_best")
                 row[f"{lab}: round-0 candidates"] = v.get("round0_candidates_available")
-                row[f"{lab}: round-0 safe mute/boost"] = (f"{v.get('round0_safe_mute')}/{v.get('round0_safe_boost')}" if v.get("round0_safe_mute") is not None else None)
                 row[f"{lab}: time s"] = v.get("time_s")
                 row[f"{lab}: stop reason"] = v.get("stop_reason")
             rows.append(row)
         return pd.DataFrame(rows)
 
-    def render_batch_result(res, key_prefix):
+    def _render_arm_study(res, an, key_prefix):
+        arms, ref, modes = an["arms"], an["reference"], an["modes"]
+        df_arm = pd.DataFrame(an["arm_rows"])
+        df_vs = pd.DataFrame(an["vs_rows"])
+        df_bin = pd.DataFrame(an["bin_rows"])
+        meta = res["meta"]
+        st.caption(f"{meta.get('name')} — {len(res['runs'])} runs · layer {meta.get('layer')} · {_fmt_secs(meta.get('elapsed_s'))} · "
+                   f"{meta.get('errors', 0)} error(s) · reference arm: `{ref}`")
+
+        st.markdown("#### Headline")
+        for mode in modes:
+            sub = df_arm[df_arm["Mode"] == mode]
+            cols = st.columns(len(arms))
+            for c_, (_, row) in zip(cols, sub.iterrows()):
+                c_.metric(f"{row['Arm']} ({mode})", f"{int(row['Reached rank #1'])}/{int(row['Prompts'])} reach #1",
+                          delta=None if row["Arm"] == ref else f"{row['Reached rank #1'] - int(sub[sub['Arm'] == ref]['Reached rank #1'].iloc[0]):+d} vs {ref}")
+        st.dataframe(df_arm, use_container_width=True, hide_index=True)
+
+        st.markdown("#### Charts")
+        for mode in modes:
+            sub = df_arm[df_arm["Mode"] == mode]
+            st.markdown(f"**{mode.capitalize()} mode**")
+            c1, c2 = st.columns(2)
+            with c1:
+                st.altair_chart(alt.Chart(sub).mark_bar().encode(
+                    x=alt.X("Arm:N", sort=arms, title=None), y=alt.Y("Success rate %:Q", scale=alt.Scale(domain=[0, 100])),
+                    color=alt.Color("Arm:N", legend=None, sort=arms), tooltip=["Arm", "Reached rank #1", "Prompts", "Success rate %"]
+                ).properties(title="Prompts reaching rank #1 (%)", height=260), use_container_width=True)
+            with c2:
+                st.altair_chart(alt.Chart(sub).mark_bar().encode(
+                    x=alt.X("Arm:N", sort=arms, title=None), y=alt.Y("Features at best:Q", title="features edited (mean)"),
+                    color=alt.Color("Arm:N", legend=None, sort=arms), tooltip=["Arm", "Features at best", "Rescued in best"]
+                ).properties(title="Features edited at the best result", height=260), use_container_width=True)
+            c3, c4 = st.columns(2)
+            with c3:
+                if sub["Collateral KL (nats)"].notna().any():
+                    st.altair_chart(alt.Chart(sub).mark_bar().encode(
+                        x=alt.X("Arm:N", sort=arms, title=None), y=alt.Y("Collateral KL (nats):Q", title="mean KL, lower = safer"),
+                        color=alt.Color("Arm:N", legend=None, sort=arms), tooltip=["Arm", "Collateral KL (nats)", "Top-1 flips"]
+                    ).properties(title="Collateral damage on 20 unrelated prompts", height=260), use_container_width=True)
+            with c4:
+                st.altair_chart(alt.Chart(sub).mark_bar().encode(
+                    x=alt.X("Arm:N", sort=arms, title=None), y=alt.Y("Time s:Q", title="seconds (mean)"),
+                    color=alt.Color("Arm:N", legend=None, sort=arms), tooltip=["Arm", "Time s", "Steps"]
+                ).properties(title="Run time", height=260), use_container_width=True)
+
+            bsub = df_bin[df_bin["Mode"] == mode]
+            if not bsub.empty:
+                st.altair_chart(alt.Chart(bsub).mark_bar().encode(
+                    x=alt.X("Baseline rank:N", sort=[f"{lo}-{hi}" for lo, hi in [(2, 3), (4, 10), (11, 50), (51, 300), (301, 1000)]], title="how far down the target starts (baseline rank)"),
+                    y=alt.Y("Success rate %:Q", scale=alt.Scale(domain=[0, 100])), xOffset="Arm:N", color=alt.Color("Arm:N", sort=arms),
+                    tooltip=["Baseline rank", "Arm", "Prompts", "Success rate %", "Mean final rank"]
+                ).properties(title="Success rate by difficulty", height=300), use_container_width=True)
+
+            other = [a_ for a_ in arms if a_ != ref]
+            if other:
+                pick_arm = st.selectbox(f"Compare final rank against `{ref}` ({mode})", other, key=f"{key_prefix}_scatter_{mode}")
+                cells = [c_ for c_ in an["cells"] if c_["mode"] == mode]
+                sdf = pd.DataFrame([{"Prompt": c_["prompt"], "Target": c_["target"], "Baseline rank": c_["baseline_rank"],
+                                     f"{ref} final rank": c_[ref]["final_rank"], f"{pick_arm} final rank": c_[pick_arm]["final_rank"]} for c_ in cells])
+                lim = max(2, int(max(sdf[f"{ref} final rank"].max(), sdf[f"{pick_arm} final rank"].max())))
+                pts = alt.Chart(sdf).mark_circle(size=70, opacity=0.7).encode(
+                    x=alt.X(f"{ref} final rank:Q", scale=alt.Scale(type="symlog", domain=[1, lim])),
+                    y=alt.Y(f"{pick_arm} final rank:Q", scale=alt.Scale(type="symlog", domain=[1, lim])),
+                    tooltip=["Prompt", "Target", "Baseline rank", f"{ref} final rank", f"{pick_arm} final rank"])
+                diag = alt.Chart(pd.DataFrame({"x": [1, lim], "y": [1, lim]})).mark_line(strokeDash=[5, 4], color="#9ca3af").encode(x="x:Q", y="y:Q")
+                st.altair_chart((pts + diag).properties(title=f"Final rank, {pick_arm} vs {ref} — points BELOW the dashed line are better", height=380), use_container_width=True)
+
+        st.markdown("#### Statistics versus the reference arm")
+        if not df_vs.empty:
+            st.dataframe(df_vs, use_container_width=True, hide_index=True)
+            st.caption("Sign test: are more prompts better than worse (rank/success)? McNemar: do more prompts newly reach #1 than lose it? "
+                       "p < 0.05 would mean the difference is unlikely to be chance.")
+
+        st.markdown("#### Why does the strict filter reject features? (round 0)")
+        rs = an["reasons"]
+        rdf = pd.DataFrame([{"Verdict": "accepted", "Count": rs["ok"]}, {"Verdict": "rejected: harm rule only", "Count": rs["harm"]},
+                            {"Verdict": "rejected: rank rule only", "Count": rs["rank"]}, {"Verdict": "rejected: both rules", "Count": rs["both"]}])
+        cR1, cR2 = st.columns(2)
+        with cR1:
+            st.altair_chart(alt.Chart(rdf).mark_bar().encode(x=alt.X("Verdict:N", sort=None, title=None), y="Count:Q", color=alt.Color("Verdict:N", legend=None),
+                                                             tooltip=["Verdict", "Count"]).properties(height=260), use_container_width=True)
+        with cR2:
+            d_ = an["discard"]
+            st.metric("Features unusable on BOTH sides", f"{d_['unusable_on_both_sides']} of {d_['features_total']}", help="Most features are safe on one side (mute or boost) and used there.")
+            st.caption(f"That is {d_['share'] * 100:.1f}% of all candidate features at round 0 — the filter mostly sorts features into two groups rather than throwing them away.")
+
+        with st.expander("Per-prompt results (every arm)"):
+            wide = []
+            for c_ in an["cells"]:
+                row = {"Mode": c_["mode"], "Prompt": c_["prompt"], "Target": c_["target"], "Baseline rank": c_["baseline_rank"]}
+                for a_ in arms:
+                    row[f"{a_}: rank"] = c_[a_]["final_rank"]
+                    row[f"{a_}: #1"] = "✅" if c_[a_]["success"] else "❌"
+                wide.append(row)
+            st.dataframe(pd.DataFrame(wide), use_container_width=True, hide_index=True)
+
+        with st.expander("Figures (SVG) and summary text"):
+            for name_, svg_ in an["figures"].items():
+                st.caption(name_)
+                st.image(svg_)
+            st.markdown(an["markdown"])
+        cS1, cS2 = st.columns(2)
+        with cS1:
+            if st.button("💾 Save the figures + summary into docs/Research_Journal/images", key=f"{key_prefix}_save_figs"):
+                _dst = _os.path.join("docs", "Research_Journal", "images")
+                _os.makedirs(_dst, exist_ok=True)
+                for name_, svg_ in an["figures"].items():
+                    with open(_os.path.join(_dst, name_), "w", encoding="utf-8") as _f:
+                        _f.write(svg_)
+                with open(_os.path.join(_dst, "e21_summary.md"), "w", encoding="utf-8") as _f:
+                    _f.write(an["markdown"])
+                st.success(f"Saved {len(an['figures'])} figures and e21_summary.md to {_dst}")
+        with cS2:
+            st.download_button("📥 Summary tables (markdown)", an["markdown"].encode("utf-8"), file_name="safety_study_summary.md", mime="text/markdown", key=f"{key_prefix}_dl_md")
+
+        slim = {"meta": res["meta"], "spec": res["spec"], "arm_comparison": res.get("arm_comparison"), "per_arm": res.get("per_arm")}
+        cD1, cD2, cD3 = st.columns(3)
+        with cD1:
+            st.download_button("📥 Summary JSON (small)", json.dumps(slim, indent=1, default=str).encode("utf-8"), file_name="safety_study_summary.json",
+                               mime="application/json", key=f"{key_prefix}_dl_slim")
+        with cD2:
+            st.download_button("📥 Per-prompt table (CSV)", pd.DataFrame(wide).to_csv(index=False).encode("utf-8"), file_name="safety_study_per_prompt.csv",
+                               mime="text/csv", key=f"{key_prefix}_dl_csv")
+        with cD3:
+            _fp = st.session_state.get("batch_loaded", (None,))[0]
+            if _fp and _os.path.exists(_fp) and _os.path.getsize(_fp) < 60e6:
+                with open(_fp, "rb") as _f:
+                    st.download_button("📥 FULL result JSON (every detail)", _f.read(), file_name=_os.path.basename(_fp), mime="application/json", key=f"{key_prefix}_dl_full")
+            elif _fp:
+                st.info(f"The full result is large ({_os.path.getsize(_fp) / 1e6:.0f} MB). It is on disk at `{_fp}` — send me that file.")
+
+    def _render_single_arm(res, key_prefix):
         meta, agg = res["meta"], res.get("aggregate", {})
-        st.subheader("Result")
-        st.caption(f"{meta.get('name')} — {meta.get('total_runs')} runs, layer {meta.get('layer')}, {meta.get('elapsed_s')} s, "
-                   f"{meta.get('errors', 0)} error(s). Started {meta.get('started')}, finished {meta.get('finished')}.")
+        st.caption(f"{meta.get('name')} — {meta.get('total_runs')} runs, layer {meta.get('layer')}, {meta.get('elapsed_s')} s, {meta.get('errors', 0)} error(s).")
         if agg:
             m1, m2, m3, m4 = st.columns(4)
             wc = agg.get("winner_counts", {})
@@ -1996,129 +2361,66 @@ with tab12:
             sa, sl = agg.get("success_rate_all"), agg.get("success_rate_last")
             m3.metric("Reached rank #1 (all)", "n/a" if sa is None else f"{sa*100:.0f}%")
             m4.metric("Reached rank #1 (last)", "n/a" if sl is None else f"{sl*100:.0f}%")
-            with st.expander("Aggregate numbers"):
-                st.json(agg)
         df = _flatten_pairs(res)
         st.dataframe(df, use_container_width=True, hide_index=True)
-
         valid = df[(df["Baseline rank"] > 1) & (df["Single token"] != False)]
-        if not valid.empty:
+        if not valid.empty and "Last: final rank" in valid and valid["Last: final rank"].notna().any():
             long_rows = []
             for _, r_ in valid.iterrows():
                 long_rows += [{"Prompt": r_["Prompt"], "Series": "Baseline", "Rank": r_["Baseline rank"]},
                               {"Prompt": r_["Prompt"], "Series": "All positions (final)", "Rank": r_["All: final rank"]},
                               {"Prompt": r_["Prompt"], "Series": "Last token (final)", "Rank": r_["Last: final rank"]}]
-            chart = alt.Chart(pd.DataFrame(long_rows)).mark_bar().encode(
-                y=alt.Y("Prompt:N", sort=None, title=None),
-                x=alt.X("Rank:Q", scale=alt.Scale(type="symlog"), title="Target rank (lower is better, log scale)"),
+            st.altair_chart(alt.Chart(pd.DataFrame(long_rows)).mark_bar().encode(
+                y=alt.Y("Prompt:N", sort=None, title=None), x=alt.X("Rank:Q", scale=alt.Scale(type="symlog"), title="Target rank (lower is better, log scale)"),
                 yOffset="Series:N", color=alt.Color("Series:N", scale=alt.Scale(range=["#9ca3af", "#2563eb", "#ea580c"])),
-                tooltip=["Prompt", "Series", "Rank"],
-            ).properties(height=max(240, 34 * len(valid)))
-            st.altair_chart(chart, use_container_width=True)
+                tooltip=["Prompt", "Series", "Rank"]).properties(height=max(240, 34 * len(valid))), use_container_width=True)
+        st.download_button("📥 Paired summary (CSV)", df.to_csv(index=False).encode("utf-8"), file_name="batch_paired_summary.csv", mime="text/csv", key=f"{key_prefix}_dl_csv1")
+        _fp = st.session_state.get("batch_loaded", (None,))[0]
+        if _fp and _os.path.exists(_fp) and _os.path.getsize(_fp) < 60e6:
+            with open(_fp, "rb") as _f:
+                st.download_button("📥 FULL result JSON", _f.read(), file_name=_os.path.basename(_fp), mime="application/json", key=f"{key_prefix}_dl_full1")
 
-        d1, d2 = st.columns(2)
-        with d1:
-            st.download_button("📥 Download FULL batch result (JSON)", json.dumps(res, indent=2, default=str).encode("utf-8"),
-                               file_name=f"batch_result_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json", mime="application/json",
-                               key=f"{key_prefix}_dl_full")
-        with d2:
-            st.download_button("📥 Download paired summary (CSV)", df.to_csv(index=False).encode("utf-8"),
-                               file_name="batch_paired_summary.csv", mime="text/csv", key=f"{key_prefix}_dl_csv")
-
-        st.markdown("---")
-        st.subheader("Inspect one run")
-        runs = res["runs"]
-        labels = [f"#{r['batch_index']} · {r['candidate_source']} · {r['prompt'][:50]} → {r['target']} (repeat {r['repeat']})" for r in runs]
-        pick = st.selectbox("Run", range(len(runs)), format_func=lambda i: labels[i], key=f"{key_prefix}_pick")
-        rec = runs[pick]
-        if rec.get("error"):
-            st.error(rec["error"])
-            st.code(rec.get("traceback", ""))
-        else:
-            c1, c2, c3, c4 = st.columns(4)
-            c1.metric("Baseline rank", f"#{rec['baseline_rank']}", help=f"top-1 {rec['baseline_top1']} · target prob {rec['baseline_target_prob']}")
-            c2.metric("Best rank", f"#{rec['best_result']['rank']}", delta=f"{rec['baseline_rank'] - rec['best_result']['rank']:+d}")
-            c3.metric("Steps / rounds", f"{len(rec['hybrid_details'])} / {len(rec['rounds'])}")
-            c4.metric("Time", f"{rec['total_time_s']} s")
-            st.write(f"**Stop reason:** {rec['stop_reason']} · **Final top-1:** `{rec['final_top1']}` at {rec['final_target_prob']} · **Success:** {rec['success']}")
-            st.write("**Baseline top-5**")
-            st.table(rec["baseline_top5"])
-            for rd in rec.get("round_details", []):
-                with st.expander(f"Round {rd['round']} — pools and sweep ({len(rd['steps'])} steps)"):
-                    st.write(f"Blocking token: `{rd['blocking_token']['token']}` ({rd['blocking_token']['prob_pct']:.2f}%). "
-                             f"{rd['n_active_distinct']} distinct active features, {rd['available_unapplied']} unapplied; Top N {rd['top_n_requested']} → {rd['top_n_effective']} evaluated per side.")
-                    st.write("Active features per prompt token: " + " · ".join(f"`{t['token']}` **{t['n_active']}**" for t in rd["active_features_per_token"]))
-                    st.table(rd["pool_table"])
-                    if rd["overlap"]:
-                        st.write("Overlap assigned to one side")
-                        st.dataframe(pd.DataFrame(rd["overlap"]), use_container_width=True, hide_index=True)
-                    if rd["retested_features"]:
-                        st.write("Previously rejected, re-tested")
-                        st.dataframe(pd.DataFrame(rd["retested_features"]), use_container_width=True, hide_index=True)
-                    if rd["steps"]:
-                        st.write("Sweep steps")
-                        st.dataframe(pd.DataFrame([{
-                            "Step": s_["step"], "Mutes": s_["mute_batch_size"], "Boosts": s_["boost_batch_size"], "Target rank": s_["target_rank"],
-                            "Target prob %": round(s_["target_prob_pct"], 3), "Top-1": s_["new_top1"], "New best": s_["is_new_best"],
-                            "vs round baseline": s_["rank_change_vs_round_baseline"], "vs clean prompt": s_["rank_change_vs_clean_prompt"],
-                            "New blockers": len(s_["combination_safety_check"].get("new_blockers") or []), "Note": s_["note"],
-                        } for s_ in rd["steps"]]), use_container_width=True, hide_index=True)
-            if rec.get("rank_progression"):
-                st.write("Rank progression")
-                st.dataframe(pd.DataFrame(rec["rank_progression"]).set_index("Step"), use_container_width=True)
-            if rec.get("event_log"):
-                st.write("Event log")
-                for line in rec["event_log"]:
-                    st.markdown(f"- {line}")
-            st.write("Timing")
-            st.json(rec["timing"])
-            with st.expander("Raw JSON for this run"):
-                st.json(rec, expanded=False)
-
-    run_col, note_col = st.columns([1, 3])
-    with run_col:
-        go = st.button("▶ Run batch", key="btn_run_batch", disabled=spec_ok is None, type="primary")
-    with note_col:
-        st.caption("Results are auto-saved after every run to `outputs/batch_runs/`, so a refresh or crash won't lose finished runs. "
-                   "Keep this tab open until it finishes.")
-
-    if go and spec_ok:
-        out_path = _os.path.join("outputs", "batch_runs", f"batch_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json")
-        prog = st.progress(0.0, text="Starting…")
-        live = st.empty()
-        live_rows = []
-
-        def _cb(done, total, rec_):
-            best = (rec_.get("best_result") or {}).get("rank")
-            live_rows.append({
-                "#": done, "Mode": rec_.get("candidate_source"), "Prompt": rec_.get("prompt"), "Target": rec_.get("target"),
-                "Baseline rank": rec_.get("baseline_rank"), "Final rank": best,
-                "Success": rec_.get("success"), "Steps": len(rec_.get("hybrid_details") or []),
-                "Time s": rec_.get("total_time_s"), "Error": rec_.get("error"),
-            })
-            prog.progress(done / total, text=f"{done}/{total} runs finished")
-            live.dataframe(pd.DataFrame(live_rows), use_container_width=True, hide_index=True)
-
-        with st.spinner("Running batch…"):
-            batch_res = run_batch(model, sae, hook_name, layer, device, spec_ok, progress_cb=_cb, save_path=out_path)
-        prog.progress(1.0, text="Done")
-        st.session_state["batch_result"] = batch_res
-        st.session_state["batch_result_path"] = out_path
-        st.success(f"Batch finished. Full result auto-saved to `{out_path}`.")
-
-    if st.session_state.get("batch_result"):
-        st.markdown("---")
-        st.caption(f"Latest batch in this session (also on disk: `{st.session_state.get('batch_result_path')}`)")
-        render_batch_result(st.session_state["batch_result"], "cur")
-
-    st.markdown("---")
-    up_res = st.file_uploader("Or open a previously saved batch result JSON", type=["json"], key="batch_result_upload")
-    if up_res is not None:
+    if _pick:
         try:
-            _old = json.load(up_res)
-            if isinstance(_old, dict) and "runs" in _old:
-                render_batch_result(_old, "old")
+            _res = _load_result(_pick)
+            _an = analyze_batch(_res)
+            if _an["multi_arm"]:
+                _render_arm_study(_res, _an, "arm")
             else:
-                st.error("That file is not a batch result (no 'runs' list).")
+                _render_single_arm(_res, "single")
+
+            st.markdown("---")
+            st.subheader("Inspect one run")
+            _runs = _res["runs"]
+            _labels = [f"#{r['batch_index']} · {r.get('arm', 'default')} · {r['candidate_source']} · {r['prompt'][:50]} → {r['target']}" for r in _runs]
+            _ix = st.selectbox("Run", range(len(_runs)), format_func=lambda i: _labels[i], key="batch_inspect_pick")
+            _rec = _runs[_ix]
+            if _rec.get("error"):
+                st.error(_rec["error"])
+                st.code(_rec.get("traceback", ""))
+            else:
+                i1, i2, i3, i4 = st.columns(4)
+                i1.metric("Baseline rank", f"#{_rec['baseline_rank']}")
+                i2.metric("Best rank", f"#{_rec['best_result']['rank']}", delta=f"{_rec['baseline_rank'] - _rec['best_result']['rank']:+d}")
+                i3.metric("Steps / rounds", f"{len(_rec['hybrid_details'])} / {len(_rec['rounds'])}")
+                i4.metric("Time", f"{_rec['total_time_s']} s")
+                st.write(f"**Stop reason:** {_rec['stop_reason']} · **Final top-1:** `{_rec['final_top1']}` at {_rec['final_target_prob']} · **Success:** {_rec['success']}")
+                if _rec.get("collateral"):
+                    st.write(f"**Collateral damage:** mean KL {_rec['collateral']['mean_kl_nats']:.5f} nats · top-1 changed on {_rec['collateral']['top1_flip_rate'] * 100:.0f}% of unrelated prompts · "
+                             f"{_rec.get('rescued_features_in_best')} of {_rec.get('features_in_best')} edited features were 'rescued' by the relaxed filter")
+                for _rd in _rec.get("round_details", []):
+                    with st.expander(f"Round {_rd['round']} — pools and sweep ({len(_rd['steps'])} steps)"):
+                        st.table(_rd["pool_table"])
+                        _sa = _rd.get("safety_assessment")
+                        if _sa:
+                            st.write(f"Safety mode **{_sa['mode']}**, harm budget {_sa['harm_budget_abs']}")
+                            st.json(_sa["counts"])
+                        if _rd["steps"]:
+                            st.dataframe(pd.DataFrame([{
+                                "Step": s_["step"], "Mutes": s_["mute_batch_size"], "Boosts": s_["boost_batch_size"], "Target rank": s_["target_rank"],
+                                "Target prob": fmt_prob_pct(s_["target_prob_pct"]), "Top-1": s_["new_top1"], "New best": s_["is_new_best"]} for s_ in _rd["steps"]]),
+                                use_container_width=True, hide_index=True)
+                with st.expander("Raw JSON for this run"):
+                    st.json(_rec, expanded=False)
         except Exception as e:
-            st.error(f"Could not open that file: {e}")
+            st.error(f"Could not display that result: {e}")
