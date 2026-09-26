@@ -7,3 +7,6 @@ __pycache__/
 .env
 .streamlit/secrets.toml
 Plans/
+
+# Paper packs: the full result JSON copy is large; keep it local (the original lives in outputs/)
+docs/Research_Journal/packs/*/data/result_full.json

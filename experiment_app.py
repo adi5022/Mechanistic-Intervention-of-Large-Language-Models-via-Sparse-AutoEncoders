@@ -2015,10 +2015,56 @@ with tab12:
     _active = _read_json(_ACTIVE_FILE)
     _bg_running = bool(_active and any(_pid_alive(w.get("pid")) for w in _workers_of(_active)))
 
-    try:
-        _free_gb = torch.cuda.mem_get_info()[0] / 1e9 if torch.cuda.is_available() else None
-    except Exception:
-        _free_gb = None
+    def _gpu_mem():
+        """(free_gb, total_gb) read live from the driver, or (None, None) without a GPU."""
+        try:
+            if torch.cuda.is_available():
+                f_, t_ = torch.cuda.mem_get_info()
+                return f_ / 1e9, t_ / 1e9
+        except Exception:
+            pass
+        return None, None
+
+    # ---- GPU panel: live reading, free this app's cached memory, see what else is using the GPU ----
+    _free_gb, _total_gb = _gpu_mem()
+    if _free_gb is not None:
+        g1, g2, g3 = st.columns([1.3, 1.7, 3])
+        with g1:
+            st.button("🔄 Refresh GPU reading", key="btn_gpu_refresh", help="The page only re-reads the GPU when it reruns; this forces a re-read.")
+        with g2:
+            if st.button("🧹 Free cached GPU memory", key="btn_gpu_free",
+                         help="Releases memory this app has cached but is not using (PyTorch keeps it after big runs). It cannot free memory held by other programs."):
+                import gc as _gc
+                _before, _ = _gpu_mem()
+                _gc.collect()
+                torch.cuda.empty_cache()
+                try:
+                    torch.cuda.ipc_collect()
+                except Exception:
+                    pass
+                _after, _ = _gpu_mem()
+                st.session_state["gpu_free_msg"] = (f"Freed about {max(0.0, (_after - _before)) * 1000:.0f} MB "
+                                                    f"(free {_before:.2f} → {_after:.2f} GB).")
+                _free_gb, _total_gb = _after, _total_gb
+        with g3:
+            st.caption(f"**GPU:** {_free_gb:.2f} GB free of {_total_gb:.1f} GB (read {datetime.now().strftime('%H:%M:%S')})"
+                       + (f" · {st.session_state['gpu_free_msg']}" if st.session_state.get("gpu_free_msg") else ""))
+        with st.expander("What is using the GPU?"):
+            try:
+                _q = _sp.run(["nvidia-smi", "--query-compute-apps=pid,process_name,used_gpu_memory", "--format=csv,noheader"],
+                             capture_output=True, text=True, timeout=10)
+                _rows = [r_.strip().split(", ") for r_ in _q.stdout.strip().splitlines() if r_.strip()]
+                _mine = {str(_os.getpid())} | {str(w_.get("pid")) for w_ in _workers_of(_read_json(_ACTIVE_FILE))}
+                if _rows:
+                    st.dataframe(pd.DataFrame([{"PID": r_[0], "Program": r_[1], "GPU memory": r_[2] if len(r_) > 2 else "?",
+                                                "Is it this app / its workers?": "yes" if r_[0] in _mine else "no"} for r_ in _rows]),
+                                 use_container_width=True, hide_index=True)
+                else:
+                    st.caption("nvidia-smi lists no compute processes (on Windows it often hides games and desktop apps). "
+                               "Used memory = this app + anything else drawing on the GPU, such as a game or a browser.")
+            except Exception as e:
+                st.caption(f"Could not run nvidia-smi: {e}")
+            st.caption("Close programs you do not need (games, video, other notebooks) to free their memory; this app can only release its own cache.")
     _max_safe = max(1, int((_free_gb or 2.0) // 1.4)) if _free_gb is not None else 1     # ~1.4 GB per worker (model + SAE + CUDA context)
     w1, w2 = st.columns([1, 3])
     with w1:
@@ -2322,15 +2368,18 @@ with tab12:
             st.markdown(an["markdown"])
         cS1, cS2 = st.columns(2)
         with cS1:
-            if st.button("💾 Save the figures + summary into docs/Research_Journal/images", key=f"{key_prefix}_save_figs"):
-                _dst = _os.path.join("docs", "Research_Journal", "images")
-                _os.makedirs(_dst, exist_ok=True)
-                for name_, svg_ in an["figures"].items():
-                    with open(_os.path.join(_dst, name_), "w", encoding="utf-8") as _f:
-                        _f.write(svg_)
-                with open(_os.path.join(_dst, "e21_summary.md"), "w", encoding="utf-8") as _f:
-                    _f.write(an["markdown"])
-                st.success(f"Saved {len(an['figures'])} figures and e21_summary.md to {_dst}")
+            st.markdown("**📦 Paper pack** — figures, tables, exact settings, checksums and a draft journal entry, all labeled")
+            _pack_label = st.text_input("Pack name (optional)", value="", key=f"{key_prefix}_pack_label", help="Short name for the folder, e.g. pilot or final.")
+            if st.button("📦 Build paper pack", key=f"{key_prefix}_build_pack"):
+                from src.paper_pack import build_pack
+                _fp_ = st.session_state.get("batch_loaded", (None,))[0]
+                with st.spinner("Building the pack…"):
+                    st.session_state["paper_pack"] = build_pack(_fp_, res, an, entry="21", label=_pack_label or None)
+            _pk = st.session_state.get("paper_pack")
+            if _pk:
+                st.success(f"Pack saved in `{_pk['pack_dir']}` — status **{_pk['status']}**. "
+                           + ("Marked PRELIMINARY (too few comparable prompts or errors) — do not cite yet." if _pk["status"] != "FINAL" else "Ready to cite after you commit the code."))
+                st.download_button("⬇ Download the pack (ZIP)", _pk["zip_bytes"], file_name=f"{_pk['pack_id']}.zip", mime="application/zip", key=f"{key_prefix}_dl_pack")
         with cS2:
             st.download_button("📥 Summary tables (markdown)", an["markdown"].encode("utf-8"), file_name="safety_study_summary.md", mime="text/markdown", key=f"{key_prefix}_dl_md")
 

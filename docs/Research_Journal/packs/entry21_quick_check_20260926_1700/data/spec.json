@@ -1,0 +1,143 @@
+{
+ "name": "Safety filter study - QUICK CHECK (sanity test, a few minutes)",
+ "settings": {
+  "mute_strength": 0.6,
+  "boost_strength": 0.5,
+  "top_n": 120,
+  "cumulative_sweep": true,
+  "pool_refill": true,
+  "max_refill_rounds": 0,
+  "stop_on_rank1": true,
+  "use_batched": true,
+  "safety_filter": true,
+  "max_steps": 250,
+  "collateral": true,
+  "combination_check": false,
+  "record_detail": "compact"
+ },
+ "modes": [
+  "all",
+  "last"
+ ],
+ "repeats": 1,
+ "arms": [
+  {
+   "label": "strict",
+   "settings": {
+    "safety_mode": "strict"
+   }
+  },
+  {
+   "label": "off",
+   "settings": {
+    "safety_filter": false
+   }
+  },
+  {
+   "label": "tol5_after",
+   "settings": {
+    "safety_mode": "tolerance",
+    "tolerance": 0.05,
+    "rescued_order": "after"
+   }
+  },
+  {
+   "label": "graded5_after",
+   "settings": {
+    "safety_mode": "graded",
+    "tolerance": 0.05,
+    "rescued_order": "after"
+   }
+  },
+  {
+   "label": "graded5_inter",
+   "settings": {
+    "safety_mode": "graded",
+    "tolerance": 0.05,
+    "rescued_order": "interleaved"
+   }
+  }
+ ],
+ "prompts": [
+  {
+   "prompt": "This is Sophia, she is a",
+   "target": "woman",
+   "settings": {},
+   "meta": {
+    "source": "study17",
+    "baseline_rank": 6,
+    "baseline_prob": 0.014421815052628517
+   }
+  },
+  {
+   "prompt": "The doctor said that",
+   "target": "she",
+   "settings": {},
+   "meta": {
+    "source": "study17",
+    "baseline_rank": 3,
+    "baseline_prob": 0.045825231820344925
+   }
+  },
+  {
+   "prompt": "Mount Everest is located in",
+   "target": "Nepal",
+   "settings": {},
+   "meta": {
+    "source": "study17",
+    "baseline_rank": 3,
+    "baseline_prob": 0.04710322618484497
+   }
+  },
+  {
+   "prompt": "Albert Einstein was born in",
+   "target": "Germany",
+   "settings": {},
+   "meta": {
+    "source": "study17",
+    "baseline_rank": 8,
+    "baseline_prob": 0.019729619845747948
+   }
+  },
+  {
+   "prompt": "Ferrari is a car company from",
+   "target": "Italy",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 3,
+    "baseline_prob": 0.05568965896964073
+   }
+  },
+  {
+   "prompt": "Diwali is celebrated in",
+   "target": "India",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 3,
+    "baseline_prob": 0.08162015676498413
+   }
+  },
+  {
+   "prompt": "Vichy France's capital,",
+   "target": "Paris",
+   "settings": {},
+   "meta": {
+    "source": "rome22_a",
+    "baseline_rank": 1,
+    "baseline_prob": 0.35721108317375183
+   }
+  },
+  {
+   "prompt": "Water is made of hydrogen and",
+   "target": "oxygen",
+   "settings": {},
+   "meta": {
+    "source": "study17",
+    "baseline_rank": 1,
+    "baseline_prob": 0.4838130474090576
+   }
+  }
+ ]
+}
