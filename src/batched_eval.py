@@ -5,7 +5,7 @@ changing what is scientifically being evaluated.
 """
 
 import torch
-from src.hooks import make_per_row_scale_hook, make_per_row_scale_hook_with_base
+from src.hooks import make_per_row_scale_hook, make_per_row_scale_hook_with_base, make_per_row_scales_hook_with_base
 
 MAX_EVAL_BATCH = 32
 
@@ -101,6 +101,40 @@ def batched_ablation_probs_and_ranks(
 
             ranks = (all_probs > target_probs.unsqueeze(-1)).sum(dim=-1) + 1
 
+            prob_chunks.append(target_probs)
+            rank_chunks.append(ranks)
+
+    return torch.cat(prob_chunks, dim=0), torch.cat(rank_chunks, dim=0)
+
+
+def batched_probs_and_ranks_per_row_scales(
+    model, sae, tokens, feature_ids: list[int], scales: list[float],
+    target_token_id: int, hook_name: str, max_eval_batch: int = MAX_EVAL_BATCH,
+    base_scale_map: dict | None = None
+) -> tuple[torch.Tensor, torch.Tensor]:
+    """
+    Like batched_ablation_probs_and_ranks, but candidate i is scaled by scales[i] instead of one shared scale.
+    Used by the graded safety filter to test each feature at its own proposed strength in one batched pass.
+    """
+    if not feature_ids:
+        return (
+            torch.empty((0,), device=tokens.device),
+            torch.empty((0,), dtype=torch.long, device=tokens.device),
+        )
+    assert len(feature_ids) == len(scales)
+
+    prob_chunks, rank_chunks = [], []
+    for start_idx in range(0, len(feature_ids), max_eval_batch):
+        chunk_fids = feature_ids[start_idx : start_idx + max_eval_batch]
+        chunk_scales = scales[start_idx : start_idx + max_eval_batch]
+        batch_tokens = tokens.repeat(len(chunk_fids), 1)
+        hook_fn = make_per_row_scales_hook_with_base(chunk_fids, sae, chunk_scales, base_scale_map)
+
+        with torch.no_grad():
+            logits = model.run_with_hooks(batch_tokens, fwd_hooks=[(hook_name, hook_fn)])
+            all_probs = torch.softmax(logits[:, -1, :], dim=-1)
+            target_probs = all_probs[:, target_token_id]
+            ranks = (all_probs > target_probs.unsqueeze(-1)).sum(dim=-1) + 1
             prob_chunks.append(target_probs)
             rank_chunks.append(ranks)
 

@@ -549,10 +549,12 @@ def check_combination_safe(
     model, sae, prompt: str,
     mute_feature_ids: list[int], mute_strength: float,
     boost_feature_ids: list[int], boost_strength: float,
-    target_token_id: int, top_k: int = 10
+    target_token_id: int, top_k: int = 10, scale_map: dict | None = None
 ) -> dict:
     """
     Evaluates the joint effect of all muted and boosted features applied together.
+    If `scale_map` (fid -> scale) is given it is used directly (per-feature strengths) and the
+    mute/boost id + strength arguments are ignored.
     Detects any 'new blockers' (tokens ranked below target or absent in clean top-k,
     but ranked above target in the new list).
     """
@@ -601,7 +603,11 @@ def check_combination_safe(
 # 2. Apply ALL mute features AND all boost features TOGETHER, in one real pass
     from src.hooks import make_mute_and_boost_hook
     model.reset_hooks()
-    combined_fn = make_mute_and_boost_hook(mute_feature_ids, mute_strength, boost_feature_ids, boost_strength, sae)
+    if scale_map is not None:
+        from src.hooks import make_scale_map_hook
+        combined_fn = make_scale_map_hook(scale_map, sae)
+    else:
+        combined_fn = make_mute_and_boost_hook(mute_feature_ids, mute_strength, boost_feature_ids, boost_strength, sae)
     model.add_hook(hook_name, combined_fn)
         
     with torch.no_grad():

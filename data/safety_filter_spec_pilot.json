@@ -1,0 +1,512 @@
+{
+ "name": "Safety filter study - PILOT (all prompt positions)",
+ "settings": {
+  "mute_strength": 0.6,
+  "boost_strength": 0.5,
+  "top_n": 120,
+  "cumulative_sweep": true,
+  "pool_refill": true,
+  "max_refill_rounds": 0,
+  "stop_on_rank1": true,
+  "use_batched": true,
+  "safety_filter": true,
+  "max_steps": 250,
+  "collateral": true,
+  "combination_check": false,
+  "record_detail": "compact"
+ },
+ "modes": [
+  "all"
+ ],
+ "repeats": 1,
+ "arms": [
+  {
+   "label": "strict",
+   "settings": {
+    "safety_mode": "strict"
+   }
+  },
+  {
+   "label": "off",
+   "settings": {
+    "safety_filter": false
+   }
+  },
+  {
+   "label": "tol5_after",
+   "settings": {
+    "safety_mode": "tolerance",
+    "tolerance": 0.05,
+    "rescued_order": "after"
+   }
+  },
+  {
+   "label": "graded5_after",
+   "settings": {
+    "safety_mode": "graded",
+    "tolerance": 0.05,
+    "rescued_order": "after"
+   }
+  },
+  {
+   "label": "graded5_inter",
+   "settings": {
+    "safety_mode": "graded",
+    "tolerance": 0.05,
+    "rescued_order": "interleaved"
+   }
+  }
+ ],
+ "prompts": [
+  {
+   "prompt": "Francesco Castellacci was born in",
+   "target": "Rome",
+   "meta": {
+    "source": "rome22_a",
+    "baseline_rank": 2,
+    "baseline_prob": 0.05411798506975174
+   }
+  },
+  {
+   "prompt": "The Nile flows through",
+   "target": "Egypt",
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 3,
+    "baseline_prob": 0.017265815287828445
+   }
+  },
+  {
+   "prompt": "Ferrari is a car company from",
+   "target": "Italy",
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 3,
+    "baseline_prob": 0.05568965896964073
+   }
+  },
+  {
+   "prompt": "Diwali is celebrated in",
+   "target": "India",
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 3,
+    "baseline_prob": 0.08162015676498413
+   }
+  },
+  {
+   "prompt": "Coco Chanel passed away in",
+   "target": "Paris",
+   "meta": {
+    "source": "rome22_a",
+    "baseline_rank": 2,
+    "baseline_prob": 0.03432286158204079
+   }
+  },
+  {
+   "prompt": "Seiyu Group's headquarters are in",
+   "target": "Tokyo",
+   "meta": {
+    "source": "study17",
+    "baseline_rank": 2,
+    "baseline_prob": 0.10004504770040512
+   }
+  },
+  {
+   "prompt": "The location of Galatasaray University is in the heart of",
+   "target": "Istanbul",
+   "meta": {
+    "source": "rome22_a",
+    "baseline_rank": 2,
+    "baseline_prob": 0.140717551112175
+   }
+  },
+  {
+   "prompt": "My mother told me that",
+   "target": "she",
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 2,
+    "baseline_prob": 0.1336839199066162
+   }
+  },
+  {
+   "prompt": "The official language of Brazil is",
+   "target": "Portuguese",
+   "meta": {
+    "source": "language",
+    "baseline_rank": 2,
+    "baseline_prob": 0.07856661081314087
+   }
+  },
+  {
+   "prompt": "Barack Obama was born in",
+   "target": "Hawaii",
+   "meta": {
+    "source": "study17",
+    "baseline_rank": 3,
+    "baseline_prob": 0.05186700448393822
+   }
+  },
+  {
+   "prompt": "The Super Bowl is a championship in",
+   "target": "football",
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 5,
+    "baseline_prob": 0.042777158319950104
+   }
+  },
+  {
+   "prompt": "Cows give us",
+   "target": "milk",
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 9,
+    "baseline_prob": 0.013768640346825123
+   }
+  },
+  {
+   "prompt": "Kimchi is a traditional food from",
+   "target": "Korea",
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 4,
+    "baseline_prob": 0.03547176718711853
+   }
+  },
+  {
+   "prompt": "The headquarter of Zillow is in downtown",
+   "target": "Seattle",
+   "meta": {
+    "source": "rome22_a",
+    "baseline_rank": 8,
+    "baseline_prob": 0.04124438017606735
+   }
+  },
+  {
+   "prompt": "Eavan Boland was born in",
+   "target": "Dublin",
+   "meta": {
+    "source": "rome22_a",
+    "baseline_rank": 4,
+    "baseline_prob": 0.018463347107172012
+   }
+  },
+  {
+   "prompt": "The color of the sky is",
+   "target": "blue",
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 4,
+    "baseline_prob": 0.026206685230135918
+   }
+  },
+  {
+   "prompt": "The largest animal in the ocean is the",
+   "target": "whale",
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 4,
+    "baseline_prob": 0.012197857722640038
+   }
+  },
+  {
+   "prompt": "Bratwurst is a traditional food from",
+   "target": "Germany",
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 5,
+    "baseline_prob": 0.022704724222421646
+   }
+  },
+  {
+   "prompt": "The official language of Iran is",
+   "target": "Persian",
+   "meta": {
+    "source": "language",
+    "baseline_rank": 6,
+    "baseline_prob": 0.03673938661813736
+   }
+  },
+  {
+   "prompt": "A baby dog is called a",
+   "target": "puppy",
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 5,
+    "baseline_prob": 0.01753908209502697
+   }
+  },
+  {
+   "prompt": "The Amazon rainforest is mostly in",
+   "target": "Brazil",
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 27,
+    "baseline_prob": 0.004378989804536104
+   }
+  },
+  {
+   "prompt": "The currency of Brazil is the",
+   "target": "real",
+   "meta": {
+    "source": "currency",
+    "baseline_rank": 14,
+    "baseline_prob": 0.007772696204483509
+   }
+  },
+  {
+   "prompt": "Knud, Hereditary Prince of Denmark passed away in",
+   "target": "Copenhagen",
+   "meta": {
+    "source": "rome22_a",
+    "baseline_rank": 45,
+    "baseline_prob": 0.005005862098187208
+   }
+  },
+  {
+   "prompt": "The programming language created by Guido van Rossum is",
+   "target": "Python",
+   "meta": {
+    "source": "study17",
+    "baseline_rank": 44,
+    "baseline_prob": 0.003030109219253063
+   }
+  },
+  {
+   "prompt": "IKEA is a company from",
+   "target": "Sweden",
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 16,
+    "baseline_prob": 0.01106417179107666
+   }
+  },
+  {
+   "prompt": "Machu Picchu is in",
+   "target": "Peru",
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 24,
+    "baseline_prob": 0.00362014421261847
+   }
+  },
+  {
+   "prompt": "The opposite of day is",
+   "target": "night",
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 11,
+    "baseline_prob": 0.01406041719019413
+   }
+  },
+  {
+   "prompt": "The capital of Portugal is",
+   "target": "Lisbon",
+   "meta": {
+    "source": "capital",
+    "baseline_rank": 40,
+    "baseline_prob": 0.0030184367205947638
+   }
+  },
+  {
+   "prompt": "Boeing is headquartered in",
+   "target": "Chicago",
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 20,
+    "baseline_prob": 0.007973464205861092
+   }
+  },
+  {
+   "prompt": "The Sydney Opera House is in",
+   "target": "Australia",
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 35,
+    "baseline_prob": 0.002960468176752329
+   }
+  },
+  {
+   "prompt": "The capital city of Poland is",
+   "target": "Warsaw",
+   "meta": {
+    "source": "capital",
+    "baseline_rank": 200,
+    "baseline_prob": 0.0006051210220903158
+   }
+  },
+  {
+   "prompt": "Greece's capital city is",
+   "target": "Athens",
+   "meta": {
+    "source": "capital",
+    "baseline_rank": 74,
+    "baseline_prob": 0.0021839141845703125
+   }
+  },
+  {
+   "prompt": "The Alps are in",
+   "target": "Europe",
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 55,
+    "baseline_prob": 0.002166116377338767
+   }
+  },
+  {
+   "prompt": "She opened the door and saw a",
+   "target": "cat",
+   "meta": {
+    "source": "study17",
+    "baseline_rank": 152,
+    "baseline_prob": 0.0006884256727062166
+   }
+  },
+  {
+   "prompt": "The Sahara desert is in",
+   "target": "Africa",
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 121,
+    "baseline_prob": 0.0006118781748227775
+   }
+  },
+  {
+   "prompt": "The capital city of Ukraine is",
+   "target": "Kiev",
+   "meta": {
+    "source": "capital",
+    "baseline_rank": 160,
+    "baseline_prob": 0.0007715710089541972
+   }
+  },
+  {
+   "prompt": "The capital of India is",
+   "target": "Delhi",
+   "meta": {
+    "source": "capital",
+    "baseline_rank": 95,
+    "baseline_prob": 0.001429291907697916
+   }
+  },
+  {
+   "prompt": "The Acropolis is in",
+   "target": "Athens",
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 133,
+    "baseline_prob": 0.0006369911134243011
+   }
+  },
+  {
+   "prompt": "The capital of Denmark is",
+   "target": "Copenhagen",
+   "meta": {
+    "source": "capital",
+    "baseline_rank": 106,
+    "baseline_prob": 0.0012637774925678968
+   }
+  },
+  {
+   "prompt": "The capital of Cuba is",
+   "target": "Havana",
+   "meta": {
+    "source": "capital",
+    "baseline_rank": 165,
+    "baseline_prob": 0.000714107183739543
+   }
+  },
+  {
+   "prompt": "Lebanon's capital city is",
+   "target": "Beirut",
+   "meta": {
+    "source": "capital",
+    "baseline_rank": 690,
+    "baseline_prob": 0.0001069604477379471
+   }
+  },
+  {
+   "prompt": "The chemical symbol for gold is",
+   "target": "Au",
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 699,
+    "baseline_prob": 0.00012580271868500859
+   }
+  },
+  {
+   "prompt": "Thailand's capital city is",
+   "target": "Bangkok",
+   "meta": {
+    "source": "capital",
+    "baseline_rank": 507,
+    "baseline_prob": 0.0001727564085740596
+   }
+  },
+  {
+   "prompt": "Mount Kilimanjaro is in",
+   "target": "Tanzania",
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 357,
+    "baseline_prob": 0.00024568819208070636
+   }
+  },
+  {
+   "prompt": "The capital city of People's Republic of Poland is",
+   "target": "Warsaw",
+   "meta": {
+    "source": "rome22_b",
+    "baseline_rank": 368,
+    "baseline_prob": 0.00024994980776682496
+   }
+  },
+  {
+   "prompt": "Neil Armstrong was the first man on the",
+   "target": "moon",
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 1,
+    "baseline_prob": 0.7851107716560364
+   }
+  },
+  {
+   "prompt": "The main language spoken in France is",
+   "target": "French",
+   "meta": {
+    "source": "language",
+    "baseline_rank": 1,
+    "baseline_prob": 0.4975202977657318
+   }
+  },
+  {
+   "prompt": "Wolfgang Mozart was a famous",
+   "target": "composer",
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 1,
+    "baseline_prob": 0.11619863659143448
+   }
+  },
+  {
+   "prompt": "Samsung is headquartered in",
+   "target": "Seoul",
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 1,
+    "baseline_prob": 0.14908549189567566
+   }
+  },
+  {
+   "prompt": "Vichy France's capital,",
+   "target": "Paris",
+   "meta": {
+    "source": "rome22_a",
+    "baseline_rank": 1,
+    "baseline_prob": 0.35721108317375183
+   }
+  }
+ ]
+}

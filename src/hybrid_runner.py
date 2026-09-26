@@ -11,6 +11,8 @@ rank progression, stopwatch, ledger, rejections) plus the per-candidate scores b
 The record keeps the same top-level keys as the Session History records, so a batch result can be uploaded
 into the Session History tab as well.
 """
+import contextlib
+import io
 import time
 from datetime import datetime
 
@@ -29,8 +31,9 @@ from src.editing import (
     build_clean_context,
     build_steered_context,
 )
-from src.hooks import make_mute_and_boost_hook, build_scale_map
-from src.batched_eval import MAX_EVAL_BATCH
+from src.hooks import make_mute_and_boost_hook, build_scale_map_graded, make_scale_map_hook
+from src.batched_eval import MAX_EVAL_BATCH, batched_ablation_probs_and_ranks, batched_probs_and_ranks_per_row_scales
+from src.format_utils import fmt_prob
 
 SOURCE_LABELS = {"all": "All prompt positions", "last": "Last token only"}
 
@@ -46,7 +49,27 @@ DEFAULT_CFG = {
     "safety_filter": True,
     "stop_on_rank1": True,
     "use_batched": True,
+    # --- dynamic safety filtering ---
+    "safety_mode": "strict",        # "strict" (original) | "tolerance" (accept small harm) | "graded" (per-feature strength)
+    "tolerance": 0.01,              # harm budget per feature = max(1e-6, tolerance * current target probability)
+    "rank_slack": 0,                # a candidate may worsen the target's rank by up to this many places
+    "alpha_min": 0.05,              # graded: give up on a feature below this fraction of the configured strength
+    "max_backoff": 4,               # graded: at most this many halvings after the first computed strength
+    "rescued_order": "after",       # "after": budget-accepted features follow the strictly-safe ones; "interleaved": keep rank order
+    "max_steps": 0,                 # 0 = unlimited sweep steps
+    "collateral": True,             # measure damage on unrelated prompts for the best result
+    "combination_check": True,      # per-step new-blocker check (2 extra forward passes); False = same ranks, ~3x faster sweeps
+    "record_detail": "full",        # "full" | "compact": compact drops per-step feature lists / top-5 tables / later-round candidate tables (~20x smaller)
+    "multi_token": "last_piece",    # "last_piece" (legacy behaviour) | "first_piece" (score the first token of the word)
 }
+
+NEUTRAL_PROMPTS = [
+    "The weather today is", "I went to the store to buy some", "She smiled and said", "In the beginning of the",
+    "My favorite food is", "The meeting will start at", "He picked up the phone and", "According to the report,",
+    "Once upon a time, there was a", "The best way to learn is to", "After the game, everyone went", "The new law will",
+    "Yesterday I saw a", "The company announced that", "It was a dark and", "You should always remember to",
+    "The children were playing in the", "Scientists have discovered that", "The old man walked slowly to the", "We need to talk about",
+]
 
 
 def _sync(device):
@@ -59,12 +82,44 @@ def _fmt_rank_change(new, old):
     return f"{d:+d} ranks ({'better' if d > 0 else 'worse' if d < 0 else 'no change'})"
 
 
+def _collateral(model, sae, hook_name, scale_map, prompts):
+    """
+    Collateral-damage guardrail: apply the FINAL edit (the best result's per-feature scale map) to unrelated
+    prompts and measure how far the next-token distribution moves: KL(clean || edited) in nats and whether the
+    top-1 word changes. Features that are not active on a prompt cannot change it, so this measures real
+    interference only where the edited features actually fire.
+    """
+    kls, flips = [], 0
+    for pr in prompts:
+        toks = model.to_tokens(pr)
+        model.reset_hooks()
+        with torch.no_grad():
+            clean = torch.log_softmax(model(toks)[0, -1], dim=-1)
+            model.add_hook(hook_name, make_scale_map_hook(scale_map, sae))
+            edited = torch.log_softmax(model(toks)[0, -1], dim=-1)
+        model.reset_hooks()
+        kls.append(float(torch.sum(clean.exp() * (clean - edited)).item()))
+        flips += int(clean.argmax().item() != edited.argmax().item())
+    n = max(1, len(prompts))
+    return {"n_prompts": len(prompts), "mean_kl_nats": sum(kls) / n, "max_kl_nats": max(kls) if kls else 0.0,
+            "top1_flip_rate": flips / n, "per_prompt_kl": [round(k, 8) for k in kls]}
+
+
+_STEP_KEEP = ("round", "step", "mute_batch_size", "boost_batch_size", "mute_strength", "boost_strength", "new_top1", "target_prob",
+              "target_rank", "target_prob_pct", "is_new_best", "note", "carried_over", "added_this_round",
+              "rank_change_vs_round_baseline", "rank_change_vs_clean_prompt")
+
+
+def _compact_steps(steps):
+    return [{k: s_[k] for k in _STEP_KEEP if k in s_} for s_ in steps]
+
+
 def _top_tokens(model, probs, k=5, target_id=None):
     vals, idx = torch.topk(probs, k=k)
     rows = []
     for r, (p, i) in enumerate(zip(vals, idx), start=1):
         rows.append({
-            "Rank": r, "Token": model.to_string([i.item()]), "Probability": f"{p.item()*100:.2f}%",
+            "Rank": r, "Token": model.to_string([i.item()]), "Probability": f"{fmt_prob(p.item())}",
             "Is Target": "Yes (TARGET)" if i.item() == target_id else "No",
         })
     return rows
@@ -89,12 +144,30 @@ def run_hybrid_sweep(model, sae, hook_name, layer, device, prompt, target, cfg=N
     stop_on_rank1 = bool(c["stop_on_rank1"])
     mute_sizes = [int(x) for x in c["mute_sizes"]]
     boost_sizes = [int(x) for x in c["boost_sizes"]]
+    safety_mode = c["safety_mode"]
+    if safety_mode not in ("strict", "tolerance", "graded"):
+        raise ValueError(f"safety_mode must be strict/tolerance/graded, got {safety_mode!r}")
+    if safety_mode != "strict" and not use_batched:
+        raise ValueError("tolerance/graded safety modes need use_batched=True")
+    tau = float(c["tolerance"])
+    rank_slack = int(c["rank_slack"])
+    alpha_min = float(c["alpha_min"])
+    max_backoff = int(c["max_backoff"])
+    rescued_after = c["rescued_order"] == "after"
+    max_steps = int(c["max_steps"])
+    graded = safety_mode == "graded"
+    combination_check = bool(c["combination_check"])
+    compact = c["record_detail"] == "compact"
 
     prompt = prompt.strip()
     target = target.strip()
     target_str = " " + target
-    n_target_tokens = int(model.to_tokens(target_str, prepend_bos=False).numel())
-    target_token_id = get_target_token_id(model, target_str)
+    _tgt_ids = model.to_tokens(target_str, prepend_bos=False).squeeze(0).reshape(-1)
+    n_target_tokens = int(_tgt_ids.numel())
+    if c["multi_token"] == "first_piece" and n_target_tokens > 1:
+        target_token_id = int(_tgt_ids[0].item())
+    else:
+        target_token_id = get_target_token_id(model, target_str)
     target_token_str = model.to_string([target_token_id])
 
     screen = []                       # ordered list of the messages the tab would print
@@ -114,10 +187,74 @@ def run_hybrid_sweep(model, sae, hook_name, layer, device, prompt, target, cfg=N
     baseline_target_prob = clean_ctx.clean_target_prob
     t_baseline_done = time.perf_counter()
     baseline_top5 = _top_tokens(model, probs, 5, target_token_id)
-    say(f"Baseline Top-1: `{current_top1_str}` | Target '{target_str}' Prob: `{baseline_target_prob*100:.2f}%` | rank #{clean_ctx.clean_rank}")
+    say(f"Baseline Top-1: `{current_top1_str}` | Target '{target_str}' Prob: `{fmt_prob(baseline_target_prob)}` | rank #{clean_ctx.clean_rank}")
 
     def _chunks(n):
         return (-(-n // MAX_EVAL_BATCH) if use_batched else n) if n else 0
+
+    def assess_side(side, fids, ctx, base_map):
+        """
+        Safety-test every candidate of one side against the current baseline `ctx`.
+
+        strict:    accept if rank does not worsen and target prob drops by <= 1e-6 (the original rule).
+        tolerance: also accept if the drop is within a budget = max(1e-6, tolerance * current target prob)
+                   and the rank slips by at most `rank_slack`.
+        graded:    like tolerance, but a candidate that fails at full strength is retried at a smaller
+                   strength (first a proportional guess budget/harm, then repeated halving) and accepted at
+                   the largest fraction `alpha` of the configured strength that fits the budget.
+        Returns ({fid: assessment dict}, number_of_batched_passes).
+        """
+        strength = sm if side == "mute" else sb
+        sign = -1.0 if side == "mute" else 1.0
+        full_scale = 1.0 + sign * strength
+        clean_p, clean_r = ctx.clean_target_prob, ctx.clean_rank
+        thr = 1e-6 if safety_mode == "strict" else max(1e-6, tau * clean_p)
+        info = {}
+        if not fids:
+            return info, 0
+        probs_t, ranks_t = batched_ablation_probs_and_ranks(
+            model, sae, ctx.tokens, fids, full_scale, target_token_id, hook_name, base_scale_map=base_map)
+        passes = _chunks(len(fids))
+        for fid, pr, rk in zip(fids, probs_t.tolist(), ranks_t.tolist()):
+            delta = pr - clean_p
+            harm_fail = delta < -1e-6
+            rank_fail = rk > clean_r
+            strict_ok = (not harm_fail) and (not rank_fail)
+            reason = "ok" if strict_ok else ("both" if harm_fail and rank_fail else "harm" if harm_fail else "rank")
+            accepted = strict_ok or (safety_mode != "strict" and delta >= -thr and rk <= clean_r + rank_slack)
+            info[fid] = {"delta_full": delta, "rank_full": rk, "strict_ok": strict_ok, "reason": reason,
+                         "accepted": accepted, "alpha": 1.0 if accepted else None, "delta": delta, "rank": rk,
+                         "threshold": thr}
+        if graded:
+            pending = {}
+            for fid, a in info.items():
+                if a["accepted"]:
+                    continue
+                d = a["delta_full"]
+                if d < -thr:                                   # harm ~ proportional to strength: first guess budget/harm
+                    guess = 0.95 * thr / abs(d)
+                    if guess >= alpha_min:
+                        pending[fid] = guess
+                else:                                          # harm fine, only the rank slipped: try half strength
+                    pending[fid] = 0.5
+            for _ in range(max_backoff + 1):
+                if not pending:
+                    break
+                ids = list(pending)
+                alphas = [pending[f] for f in ids]
+                scales = [1.0 + sign * strength * al for al in alphas]
+                pt, rt = batched_probs_and_ranks_per_row_scales(
+                    model, sae, ctx.tokens, ids, scales, target_token_id, hook_name, base_scale_map=base_map)
+                passes += _chunks(len(ids))
+                nxt = {}
+                for fid, al, pr, rk in zip(ids, alphas, pt.tolist(), rt.tolist()):
+                    delta = pr - clean_p
+                    if delta >= -thr and rk <= clean_r + rank_slack:
+                        info[fid].update(accepted=True, alpha=al, delta=delta, rank=rk)
+                    elif al * 0.5 >= alpha_min:
+                        nxt[fid] = al * 0.5
+                pending = nxt
+        return info, passes
 
     def build_pools(ctx, base_map, exclude_ids):
         blocker_id = int(torch.argmax(ctx.clean_probs).item())
@@ -149,16 +286,33 @@ def run_hybrid_sweep(model, sae, hook_name, layer, device, prompt, target, cfg=N
 
         comp_ok, comp_rej, comp_delta = [], [], {}
         tgt_ok, tgt_rej, tgt_delta = [], [], {}
+        comp_alpha = {f: 1.0 for f in comp_fids}
+        tgt_alpha = {f: 1.0 for f in tgt_fids}
+        assessments = {"mute": {}, "boost": {}}
         if use_safety:
             if use_batched:
-                res = check_target_safe_batch(model, sae, ctx, comp_fids, target_token_id, strength=sm, base_scale_map=base_map)
-                for fid, (ok, d) in zip(comp_fids, res):
-                    (comp_ok if ok else comp_rej).append(fid if ok else (fid, d))
-                    comp_delta[fid] = d
-                res = check_boost_safe_batch(model, sae, ctx, tgt_fids, target_token_id, strength=sb, base_scale_map=base_map)
-                for fid, (ok, d, _r) in zip(tgt_fids, res):
-                    (tgt_ok if ok else tgt_rej).append(fid if ok else (fid, d))
-                    tgt_delta[fid] = d
+                for side, fids in (("mute", comp_fids), ("boost", tgt_fids)):
+                    info, side_passes = assess_side(side, fids, ctx, base_map)
+                    assessments[side] = info
+                    n_passes += side_passes
+                    strict_list, rescued_list, rej_list, dmap, amap = [], [], [], {}, {}
+                    for fid in fids:
+                        a = info[fid]
+                        if a["accepted"]:
+                            (strict_list if a["strict_ok"] else rescued_list).append(fid)
+                            dmap[fid] = a["delta"]
+                            amap[fid] = a["alpha"]
+                        else:
+                            rej_list.append((fid, a["delta_full"]))
+                            dmap[fid] = a["delta_full"]
+                    if rescued_after:
+                        ok_list = strict_list + rescued_list
+                    else:
+                        ok_list = [f for f in fids if info[f]["accepted"]]
+                    if side == "mute":
+                        comp_ok, comp_rej, comp_delta, comp_alpha = ok_list, rej_list, dmap, amap
+                    else:
+                        tgt_ok, tgt_rej, tgt_delta, tgt_alpha = ok_list, rej_list, dmap, amap
             else:
                 for fid in comp_fids:
                     ok, d = check_target_safe(model, sae, prompt, fid, target_token_id, strength=sm,
@@ -172,7 +326,7 @@ def run_hybrid_sweep(model, sae, hook_name, layer, device, prompt, target, cfg=N
                                                  base_scale_map=base_map)
                     (tgt_ok if ok else tgt_rej).append(fid if ok else (fid, d))
                     tgt_delta[fid] = d
-            n_passes += _chunks(len(comp_fids)) + _chunks(len(tgt_fids))
+                n_passes += _chunks(len(comp_fids)) + _chunks(len(tgt_fids))
         else:
             comp_ok, tgt_ok = list(comp_fids), list(tgt_fids)
 
@@ -199,6 +353,7 @@ def run_hybrid_sweep(model, sae, hook_name, layer, device, prompt, target, cfg=N
             "comp_ok": comp_ok, "tgt_ok": tgt_ok, "comp_rej": comp_rej, "tgt_rej": tgt_rej,
             "comp_delta": comp_delta, "tgt_delta": tgt_delta,
             "comp_effect": comp_effect, "tgt_effect": tgt_effect, "passes": n_passes,
+            "comp_alpha": comp_alpha, "tgt_alpha": tgt_alpha, "assessments": assessments,
         }
 
     hybrid_details = []
@@ -208,14 +363,17 @@ def run_hybrid_sweep(model, sae, hook_name, layer, device, prompt, target, cfg=N
     }
     rank_progression = [{
         "Step": 0, "Label": "Baseline", "Round": 0,
-        "Target Rank": clean_ctx.clean_rank, "Target Prob (%)": baseline_target_prob * 100,
+        "Target Rank": clean_ctx.clean_rank, "Target Prob (%)": baseline_target_prob * 100, "Target Prob": fmt_prob(baseline_target_prob),
     }]
     refill_markers = []
     is_any_success = False
     step_counter = 0
     stop_sweep = False
+    hit_step_cap = False
     stop_reason = None
     applied_mutes, applied_boosts = [], []
+    rescued_set = {"mute": set(), "boost": set()}     # features accepted ONLY because of tolerance / graded strength
+    applied_mute_str, applied_boost_str = {}, {}       # fid -> actual strength applied (configured strength x alpha)
     ledger = []
     rejected_history = {"mute": {}, "boost": {}}
     all_rejections = []
@@ -232,7 +390,7 @@ def run_hybrid_sweep(model, sae, hook_name, layer, device, prompt, target, cfg=N
 
     while True:
         round_t0 = time.perf_counter()
-        base_map = build_scale_map(applied_mutes, sm, applied_boosts, sb)
+        base_map = build_scale_map_graded(applied_mute_str, applied_boost_str)
         round_top1_id = int(torch.argmax(ctx.clean_probs).item())
         round_top1_str = model.to_string([round_top1_id])
         round_top1_prob = ctx.clean_probs[round_top1_id].item()
@@ -262,13 +420,17 @@ def run_hybrid_sweep(model, sae, hook_name, layer, device, prompt, target, cfg=N
             }
             if prev_ctx.clean_rank == ctx.clean_rank:
                 say(f"Round {round_idx - 1} did not improve the target's rank (#{prev_ctx.clean_rank} → #{ctx.clean_rank}).")
-        say(f"Round {round_idx}: target rank #{ctx.clean_rank} ({ctx.clean_target_prob*100:.2f}%), blocker `{round_top1_str}` at {round_top1_prob*100:.2f}%")
+        say(f"Round {round_idx}: target rank #{ctx.clean_rank} ({fmt_prob(ctx.clean_target_prob)}), blocker `{round_top1_str}` at {fmt_prob(round_top1_prob)}")
 
         tf0 = time.perf_counter()
         pools = build_pools(ctx, base_map, set(applied_mutes) | set(applied_boosts))
         filter_time += time.perf_counter() - tf0
         total_passes["ranking+safety"] += pools["passes"]
         comp_ids, target_ids = pools["comp_ok"], pools["tgt_ok"]
+        for _side in ("mute", "boost"):
+            for _fid, _a in pools["assessments"][_side].items():
+                if _a["accepted"] and not _a["strict_ok"]:
+                    rescued_set[_side].add(_fid)
 
         for fid, d in pools["comp_rej"]:
             rejected_history["mute"].setdefault(fid, []).append(round_idx)
@@ -310,6 +472,12 @@ def run_hybrid_sweep(model, sae, hook_name, layer, device, prompt, target, cfg=N
                          "moved to mute side" if f in {o["Feature"] for o in pools["overlap"] if o["Kept on"] == "mute"} else "rejected")}
             for f in pools["tgt_fids"]]
 
+        _mv = {c_["feature"]: c_["verdict"] for c_ in round_screen["mute_candidates"]}
+        _bv = {c_["feature"]: c_["verdict"] for c_ in round_screen["boost_candidates"]}
+        _allf = set(_mv) | set(_bv)
+        round_screen["candidate_features_total"] = len(_allf)
+        round_screen["unusable_on_both_sides"] = sum(1 for f_ in _allf if _mv.get(f_, "rejected") == "rejected" and _bv.get(f_, "rejected") == "rejected")
+
         retested = []
         for side, fids, rej, ok in (("mute", pools["comp_fids"], pools["comp_rej"], pools["comp_ok"]),
                                    ("boost", pools["tgt_fids"], pools["tgt_rej"], pools["tgt_ok"])):
@@ -323,6 +491,37 @@ def run_hybrid_sweep(model, sae, hook_name, layer, device, prompt, target, cfg=N
                     })
         round_screen["retested_features"] = retested
 
+        _sa_rows, _sa_counts = {}, {}
+        for _side in ("mute", "boost"):
+            _rows = []
+            for _fid, _a in pools["assessments"][_side].items():
+                _rows.append({
+                    "feature": _fid, "reason_strict": _a["reason"], "delta_full_pp": _a["delta_full"] * 100, "rank_full": _a["rank_full"],
+                    "accepted": _a["accepted"], "rescued": bool(_a["accepted"] and not _a["strict_ok"]), "alpha": _a["alpha"],
+                    "delta_at_alpha_pp": _a["delta"] * 100, "rank_at_alpha": _a["rank"],
+                })
+            _sa_rows[_side] = _rows
+            _sa_counts[_side] = {
+                "candidates": len(_rows),
+                "strict_ok": sum(1 for r_ in _rows if r_["reason_strict"] == "ok"),
+                "rescued": sum(1 for r_ in _rows if r_["rescued"]),
+                "rejected": sum(1 for r_ in _rows if not r_["accepted"]),
+                "strict_fail_harm_only": sum(1 for r_ in _rows if r_["reason_strict"] == "harm"),
+                "strict_fail_rank_only": sum(1 for r_ in _rows if r_["reason_strict"] == "rank"),
+                "strict_fail_both": sum(1 for r_ in _rows if r_["reason_strict"] == "both"),
+                "mean_alpha_rescued": (sum(r_["alpha"] for r_ in _rows if r_["rescued"]) / max(1, sum(1 for r_ in _rows if r_["rescued"]))),
+            }
+        _any = next((v for v in pools["assessments"]["mute"].values()), None) or next((v for v in pools["assessments"]["boost"].values()), None)
+        round_screen["safety_assessment"] = {
+            "mode": safety_mode, "tolerance": tau if safety_mode != "strict" else None, "rank_slack": rank_slack,
+            "harm_budget_abs": _any["threshold"] if _any else None, "counts": _sa_counts, "candidates": _sa_rows,
+        }
+        pool_extra = {
+            "rescued_mutes": _sa_counts["mute"]["rescued"], "rescued_boosts": _sa_counts["boost"]["rescued"],
+            "mute_alpha_partial": {int(f): a for f, a in pools["comp_alpha"].items() if f in pools["comp_ok"] and a < 1.0},
+            "boost_alpha_partial": {int(f): a for f, a in pools["tgt_alpha"].items() if f in pools["tgt_ok"] and a < 1.0},
+        }
+
         M, B = len(comp_ids), len(target_ids)
         round_screen["safe_mute_ids"] = list(comp_ids)
         round_screen["safe_boost_ids"] = list(target_ids)
@@ -335,6 +534,7 @@ def run_hybrid_sweep(model, sae, hook_name, layer, device, prompt, target, cfg=N
         )
 
         pool_ids = {
+            **pool_extra,
             "safe_mute_ids": list(comp_ids), "safe_boost_ids": list(target_ids),
             "rejected_mute_ids": [f for f, _ in pools["comp_rej"]], "rejected_boost_ids": [f for f, _ in pools["tgt_rej"]],
             "overlap": pools["overlap"],
@@ -371,9 +571,17 @@ def run_hybrid_sweep(model, sae, hook_name, layer, device, prompt, target, cfg=N
             boost_batch = target_ids[:b_n]
             full_mutes = applied_mutes + mute_batch
             full_boosts = applied_boosts + boost_batch
+            m_str = dict(applied_mute_str)
+            m_str.update({f: sm * pools["comp_alpha"].get(f, 1.0) for f in mute_batch})
+            b_str = dict(applied_boost_str)
+            b_str.update({f: sb * pools["tgt_alpha"].get(f, 1.0) for f in boost_batch})
+            step_scale_map = build_scale_map_graded(m_str, b_str) if graded else None
 
             model.reset_hooks()
-            combined_fn = make_mute_and_boost_hook(full_mutes, sm, full_boosts, sb, sae)
+            if graded:
+                combined_fn = make_scale_map_hook(step_scale_map, sae)
+            else:
+                combined_fn = make_mute_and_boost_hook(full_mutes, sm, full_boosts, sb, sae)
             model.add_hook(hook_name, combined_fn)
             with torch.no_grad():
                 logits = model(tokens)
@@ -391,17 +599,25 @@ def run_hybrid_sweep(model, sae, hook_name, layer, device, prompt, target, cfg=N
             for rank_idx, (p, idx) in enumerate(zip(top5_probs, top5_indices), start=1):
                 table_data.append({
                     "Rank": rank_idx, "Token": model.to_string([idx.item()]),
-                    "Probability": f"{p.item()*100:.2f}%",
+                    "Probability": f"{fmt_prob(p.item())}",
                     "Is Target": "Yes (TARGET)" if idx.item() == target_token_id else "No",
                 })
 
-            safety_res = check_combination_safe(
-                model, sae, prompt,
-                mute_feature_ids=full_mutes, mute_strength=sm,
-                boost_feature_ids=full_boosts, boost_strength=sb,
-                target_token_id=target_token_id, top_k=10
-            )
-            total_passes["sweep"] += 2
+            if combination_check:
+                with contextlib.redirect_stdout(io.StringIO()):        # check_combination_safe prints debug tables
+                    safety_res = check_combination_safe(
+                        model, sae, prompt,
+                        mute_feature_ids=full_mutes, mute_strength=sm,
+                        boost_feature_ids=full_boosts, boost_strength=sb,
+                        target_token_id=target_token_id, top_k=10, scale_map=step_scale_map
+                    )
+                total_passes["sweep"] += 2
+            else:
+                # Same steered forward pass we already have: the rank is computed directly, no extra passes.
+                _rank_now = int((step_probs > step_probs[target_token_id]).sum().item()) + 1
+                safety_res = {"is_safe": None, "target_clean_rank": clean_ctx.clean_rank, "target_new_rank": _rank_now,
+                              "target_clean_prob": baseline_target_prob, "target_new_prob": target_prob, "new_blockers": [],
+                              "note": "combination_check disabled (rank computed from the step's own forward pass)"}
 
             step_counter += 1
             combo_rank = safety_res["target_new_rank"]
@@ -409,7 +625,7 @@ def run_hybrid_sweep(model, sae, hook_name, layer, device, prompt, target, cfg=N
             round_best_rank = min(round_best_rank, combo_rank)
             rank_progression.append({
                 "Step": step_counter, "Label": f"R{round_idx} M{len(full_mutes)}/B{len(full_boosts)}",
-                "Round": round_idx, "Target Rank": combo_rank, "Target Prob (%)": target_prob * 100,
+                "Round": round_idx, "Target Rank": combo_rank, "Target Prob (%)": target_prob * 100, "Target Prob": fmt_prob(target_prob),
             })
             is_new_best = (
                 combo_rank < best_so_far["rank"]
@@ -421,6 +637,7 @@ def run_hybrid_sweep(model, sae, hook_name, layer, device, prompt, target, cfg=N
                     "rank": combo_rank, "prob": target_prob, "top1": new_top1_str,
                     "mute_size": len(full_mutes), "boost_size": len(full_boosts),
                     "mute_features": list(full_mutes), "boost_features": list(full_boosts),
+                    "mute_strengths": {int(f): v for f, v in m_str.items()}, "boost_strengths": {int(f): v for f, v in b_str.items()},
                     "step": step_counter,
                 }
                 note = f"New best so far — target rank {combo_rank}"
@@ -432,7 +649,7 @@ def run_hybrid_sweep(model, sae, hook_name, layer, device, prompt, target, cfg=N
                 "round": round_idx,
                 "mute_batch_size": len(full_mutes), "mute_features": list(full_mutes), "mute_strength": sm,
                 "boost_batch_size": len(full_boosts), "boost_features": list(full_boosts), "boost_strength": sb,
-                "new_top1": new_top1_str, "target_prob": f"{target_prob*100:.2f}%", "top5": table_data,
+                "new_top1": new_top1_str, "target_prob": f"{fmt_prob(target_prob)}", "top5": table_data,
                 "combination_safety_check": safety_res,
             }
             hybrid_details.append(step_rec)
@@ -447,6 +664,9 @@ def run_hybrid_sweep(model, sae, hook_name, layer, device, prompt, target, cfg=N
                 "is_new_best": is_new_best, "note": note,
             })
 
+            if max_steps and step_counter >= max_steps:
+                stop_sweep = True
+                hit_step_cap = True
             if stop_on_rank1 and new_top1_id == target_token_id:
                 say(f"Target token '{target_str}' reached Rank #1 in Round {round_idx} with {len(full_mutes)} mutes & {len(full_boosts)} boosts! Stopping.")
                 stop_sweep = True
@@ -466,7 +686,8 @@ def run_hybrid_sweep(model, sae, hook_name, layer, device, prompt, target, cfg=N
         regressed = round_end_rank > ctx.clean_rank
 
         if stop_sweep:
-            stop_reason = f"Target reached Rank #1 in Round {round_idx}."
+            stop_reason = (f"Reached the max_steps limit ({max_steps})." if hit_step_cap and not is_any_success
+                           else f"Target reached Rank #1 in Round {round_idx}.")
             break
         if not refill_on:
             stop_reason = ("Candidate pool exhausted (pool refill is off)." if cumulative_sweep
@@ -483,13 +704,15 @@ def run_hybrid_sweep(model, sae, hook_name, layer, device, prompt, target, cfg=N
                            "Effect on target if fully ablated (%)": pools["tgt_effect"].get(fid, 0.0) * 100})
         applied_mutes = applied_mutes + comp_ids
         applied_boosts = applied_boosts + target_ids
+        applied_mute_str.update({f: sm * pools["comp_alpha"].get(f, 1.0) for f in comp_ids})
+        applied_boost_str.update({f: sb * pools["tgt_alpha"].get(f, 1.0) for f in target_ids})
 
         if max_rounds and round_idx >= max_rounds:
             stop_reason = f"Reached the Max Refill Rounds limit ({max_rounds})."
             break
 
         tf0 = time.perf_counter()
-        new_ctx = build_steered_context(model, sae, clean_ctx, build_scale_map(applied_mutes, sm, applied_boosts, sb), target_token_id)
+        new_ctx = build_steered_context(model, sae, clean_ctx, build_scale_map_graded(applied_mute_str, applied_boost_str), target_token_id)
         filter_time += time.perf_counter() - tf0
         total_passes["steered baseline"] += 1
 
@@ -515,6 +738,23 @@ def run_hybrid_sweep(model, sae, hook_name, layer, device, prompt, target, cfg=N
 
     best_final_top1 = best_so_far["top1"]
     best_final_target_prob = best_so_far["prob"]
+
+    collateral = None
+    if c["collateral"] and best_so_far["step"] > 0:
+        collateral = _collateral(model, sae, hook_name,
+                                 build_scale_map_graded(best_so_far.get("mute_strengths", {}), best_so_far.get("boost_strengths", {})),
+                                 NEUTRAL_PROMPTS)
+    n_rescued_in_best = (sum(1 for f in best_so_far["mute_features"] if f in rescued_set["mute"])
+                         + sum(1 for f in best_so_far["boost_features"] if f in rescued_set["boost"]))
+
+    if compact:
+        hybrid_details = _compact_steps(hybrid_details)
+        for _rs in round_screens:
+            _rs["steps"] = _compact_steps(_rs["steps"])
+            _rs.pop("mute_candidates", None)                       # redundant with safety_assessment / the counts kept above
+            _rs.pop("boost_candidates", None)
+            if _rs["round"] > 0 and _rs.get("safety_assessment"):  # per-candidate rows are only kept for round 0
+                _rs["safety_assessment"].pop("candidates", None)
 
     return {
         "run_id": None,
@@ -543,9 +783,11 @@ def run_hybrid_sweep(model, sae, hook_name, layer, device, prompt, target, cfg=N
         "use_batched": use_batched,
         "total_time_s": round(t_end - t_start, 3),
         "baseline_top1": current_top1_str,
-        "baseline_target_prob": f"{baseline_target_prob*100:.2f}%",
+        "baseline_target_prob": f"{fmt_prob(baseline_target_prob)}",
+        "baseline_target_prob_pct": baseline_target_prob * 100,
         "final_top1": best_final_top1,
-        "final_target_prob": f"{best_final_target_prob*100:.2f}%",
+        "final_target_prob": f"{fmt_prob(best_final_target_prob)}",
+        "final_target_prob_pct": best_final_target_prob * 100,
         "success": is_any_success,
         "hybrid_details": hybrid_details,
         "settings": {
@@ -553,7 +795,15 @@ def run_hybrid_sweep(model, sae, hook_name, layer, device, prompt, target, cfg=N
             "mute_strength": sm, "boost_strength": sb, "top_n": top_n, "candidate_source": source_label,
             "cumulative_sweep": cumulative_sweep, "pool_refill": refill_on, "max_refill_rounds": max_rounds,
             "gpu_batched": use_batched, "sae_layer": layer, "hook_name": hook_name, "device": device,
+            "safety_mode": safety_mode, "tolerance": tau, "rank_slack": rank_slack, "alpha_min": alpha_min,
+            "max_backoff": max_backoff, "rescued_order": c["rescued_order"], "max_steps": max_steps,
+            "multi_token": c["multi_token"], "combination_check": combination_check, "record_detail": c["record_detail"],
         },
+        "safety_mode": safety_mode,
+        "collateral": collateral,
+        "features_in_best": len(best_so_far["mute_features"]) + len(best_so_far["boost_features"]),
+        "rescued_features_in_best": n_rescued_in_best,
+        "target_scored_token": target_token_str,
         "baseline_rank": clean_ctx.clean_rank,
         "baseline_top5": baseline_top5,
         "best_result": best_so_far,
