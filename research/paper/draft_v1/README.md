@@ -4,7 +4,7 @@ Reference draft of the paper. Accuracy and traceability were prioritized over po
 
 | File | Purpose |
 |---|---|
-| `main.tex` | The paper (IEEEtran conference class, inline bibliography, no BibTeX run needed) |
+| `main.tex` | The paper (v2: organized around the current application; development history in its own section; IEEEtran conference class, inline bibliography) |
 | `figures/` | PDF/PNG figures generated from repo data by `tools/make_paper_figures.py` |
 | `RECONSTRUCTION.md` | Research-state summary, implemented vs tested vs open, discrepancies, deliberate omissions |
 | `EVIDENCE_AUDIT.md` | Claim by claim: evidence source, type, status |

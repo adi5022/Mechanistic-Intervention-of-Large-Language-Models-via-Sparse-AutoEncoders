@@ -100,6 +100,7 @@ def main(path):
     # tabular column counts
     for m in re.finditer(r"\\begin\{tabular\}\{((?:[^{}]|\{[^{}]*\})*)\}(.*?)\\end\{tabular\}", s, flags=re.S):
         spec = re.sub(r"@\{[^}]*\}", "", m.group(1))
+        spec = re.sub(r"[pmb]\{[^}]*\}", "p", spec)
         ncols = len(re.findall(r"[lcrp]", spec))
         body = m.group(2)
         for row in re.split(r"\\\\", body):
