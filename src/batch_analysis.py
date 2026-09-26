@@ -16,6 +16,17 @@ FONT = "font-family='Segoe UI, Helvetica, Arial, sans-serif'"
 BINS = [(2, 3), (4, 10), (11, 50), (51, 300), (301, 1000)]
 
 
+class Svg(str):
+    """An SVG document (a plain str) that also remembers the data spec it was drawn from, for the matplotlib export."""
+    spec = None
+
+
+def _with_spec(svg_text, spec):
+    o = Svg(svg_text)
+    o.spec = spec
+    return o
+
+
 def _esc(s):
     return str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
@@ -64,7 +75,41 @@ def bar_svg(title, labels, values, fmt_fn=lambda v: f"{v:.1f}", ymax=None, note=
         b.append(_text(14, T + ph / 2, ylabel, 11, MUTED, "middle"))
     if note:
         b.append(_text(L, H - 12, note, 11, MUTED))
-    return _svg(W, H, "".join(b), title)
+    return _with_spec(_svg(W, H, "".join(b), title),
+                      {"kind": "bar", "title": title, "labels": list(labels), "values": list(values), "ymax": ymax,
+                       "ylabel": ylabel, "note": note, "fmt_fn": fmt_fn})
+
+
+def grouped_bar_svg(title, groups, series, values, fmt_fn=lambda v: f"{v:.0f}%", ymax=100, ylabel=None, note=None):
+    """values[series][group] -> number; one cluster of bars per group."""
+    W, H = 860, 400
+    L, R, T, B = 70, 30, 60, 110
+    pw, ph = W - L - R, H - T - B
+    b = [_text(W / 2, 28, title, 15, weight="bold", anchor="middle")]
+    for k in range(5):
+        v = ymax * k / 4
+        y = T + ph * (1 - v / ymax)
+        b.append(f"<line x1='{L}' y1='{y:.1f}' x2='{W - R}' y2='{y:.1f}' stroke='{GRID}'/>" + _text(L - 8, y + 4, fmt_fn(v), 11, MUTED, "end"))
+    gw = pw / max(1, len(groups))
+    bw = gw * 0.8 / max(1, len(series))
+    for gi, g in enumerate(groups):
+        for si, sname in enumerate(series):
+            v = values.get(sname, {}).get(g, 0) or 0
+            h = ph * (v / ymax)
+            x = L + gi * gw + gw * 0.1 + si * bw
+            b.append(f"<rect x='{x:.1f}' y='{T + ph - h:.1f}' width='{bw * 0.92:.1f}' height='{h:.1f}' fill='{PALETTE[(si + 2) % len(PALETTE)]}'/>")
+        b.append(_text(L + gi * gw + gw / 2, T + ph + 18, g, 11, MUTED, "middle"))
+    lx = L
+    for si, sname in enumerate(series):
+        b.append(f"<rect x='{lx}' y='{H - 52}' width='12' height='12' fill='{PALETTE[(si + 2) % len(PALETTE)]}'/>" + _text(lx + 18, H - 42, sname, 11))
+        lx += 140
+    if ylabel:
+        b.append(_text(14, T + ph / 2, ylabel, 11, MUTED, "middle"))
+    if note:
+        b.append(_text(L, H - 14, note, 11, MUTED))
+    return _with_spec(_svg(W, H, "".join(b), title),
+                      {"kind": "grouped", "title": title, "groups": list(groups), "series": list(series), "values": values,
+                       "ymax": ymax, "ylabel": ylabel, "note": note})
 
 
 def scatter_svg(title, xs, ys, xlabel, ylabel):
@@ -88,7 +133,8 @@ def scatter_svg(title, xs, ys, xlabel, ylabel):
     b.append(_text(L + pw / 2, H - 28, xlabel + "  (lower = better)", 12, MUTED, "middle"))
     b.append(_text(16, T + ph / 2, ylabel, 12, MUTED, "middle"))
     b.append(_text(L, H - 10, "green = better than the reference, red = worse, blue = same", 10, MUTED))
-    return _svg(W, H, "".join(b), title)
+    return _with_spec(_svg(W, H, "".join(b), title),
+                      {"kind": "scatter", "title": title, "xs": list(xs), "ys": list(ys), "xlabel": xlabel, "ylabel": ylabel})
 
 
 def analyze(res, tag="e21"):
@@ -99,7 +145,7 @@ def analyze(res, tag="e21"):
     """
     finalize_result(res)
     ac = res.get("arm_comparison")
-    out = {"multi_arm": bool(ac), "meta": res["meta"], "figures": {}, "markdown": ""}
+    out = {"multi_arm": bool(ac), "meta": res["meta"], "figures": {}, "figure_meta": {}, "markdown": ""}
     if not ac:
         return out
     arms, ref, pam = ac["arms"], ac["reference"], ac["per_arm_mode"]
@@ -150,6 +196,25 @@ def analyze(res, tag="e21"):
 
         # figures
         prefix = f"{tag}_{mode}"
+        n_ = pam[f"{ref} | {mode}"]["n_prompts"]
+        modelabel = {"all": "all-prompt-positions candidate source", "last": "last-token-only candidate source"}.get(mode, mode)
+        out["figure_meta"][f"{prefix}_success.svg"] = {
+            "title": f"Prompts reaching rank #1 by safety-filter variant ({mode})", "table": f"arms_{mode}.csv",
+            "caption": f"Share of prompts whose target token reached rank #1, per safety-filter variant, {modelabel} (n = {n_} prompts whose target did not start at rank #1)."}
+        out["figure_meta"][f"{prefix}_features.svg"] = {
+            "title": f"Features edited at the best result ({mode})", "table": f"arms_{mode}.csv",
+            "caption": f"Mean number of SAE features muted or boosted at the best result found, per variant, {modelabel} (n = {n_})."}
+        out["figure_meta"][f"{prefix}_collateral.svg"] = {
+            "title": f"Collateral damage on unrelated prompts ({mode})", "table": f"arms_{mode}.csv",
+            "caption": f"Mean KL divergence (nats) between the clean and edited next-token distributions on 20 unrelated prompts, per variant, {modelabel}. Lower means less collateral change."}
+        out["figure_meta"][f"{prefix}_time.svg"] = {
+            "title": f"Mean run time ({mode})", "table": f"arms_{mode}.csv",
+            "caption": f"Mean model-compute time per run in seconds, per variant, {modelabel} (n = {n_})."}
+        for arm_ in arms:
+            if arm_ != ref:
+                out["figure_meta"][f"{prefix}_scatter_{arm_}.svg"] = {
+                    "title": f"Final rank: {arm_} vs {ref} ({mode})", "table": "per_prompt.csv",
+                    "caption": f"Final target rank per prompt under '{arm_}' against the reference '{ref}', {modelabel}, log scale. Points below the dashed diagonal are better than the reference; each dot is one prompt (n = {n_})."}
         out["figures"][f"{prefix}_success.svg"] = bar_svg(
             f"Prompts reaching rank #1 by safety filter ({mode})", arms, [(pam[f"{a} | {mode}"]["success_rate"] or 0) * 100 for a in arms],
             lambda v: f"{v:.0f}%", ymax=100, ylabel="% of prompts", note=f"n = {pam[f'{ref} | {mode}']['n_prompts']} prompts with baseline rank > 1")
@@ -167,6 +232,20 @@ def analyze(res, tag="e21"):
             out["figures"][f"{prefix}_scatter_{arm}.svg"] = scatter_svg(
                 f"Final target rank: {arm} vs {ref} ({mode})", [c[ref]["final_rank"] for c in sub], [c[arm]["final_rank"] for c in sub],
                 f"{ref} final rank", f"{arm} final rank")
+
+    for mode in modes:
+        bmode = [r_ for r_ in bin_rows if r_["Mode"] == mode]
+        if bmode:
+            groups = [f"{lo}-{hi}" for lo, hi in BINS if any(r_["Baseline rank"] == f"{lo}-{hi}" for r_ in bmode)]
+            vals = {a_: {r_["Baseline rank"]: r_["Success rate %"] for r_ in bmode if r_["Arm"] == a_} for a_ in arms}
+            counts = {r_["Baseline rank"]: r_["Prompts"] for r_ in bmode}
+            out["figures"][f"{tag}_{mode}_difficulty.svg"] = grouped_bar_svg(
+                f"Success rate by starting difficulty ({mode})", [f"{g} (n={counts[g]})" for g in groups], arms,
+                {a_: {f"{g} (n={counts[g]})": vals[a_].get(g, 0) for g in groups} for a_ in arms}, ylabel="% reaching rank #1",
+                note="x-axis: the target's rank before any editing")
+            out["figure_meta"][f"{tag}_{mode}_difficulty.svg"] = {
+                "title": f"Success rate by starting difficulty ({mode})", "table": "difficulty_bins.csv",
+                "caption": f"Share of prompts reaching rank #1 per safety-filter variant, grouped by how far down the target started (baseline rank bins), {mode} mode."}
 
     # Step 0 diagnostic on the reference arm (round 0)
     reasons = {"ok": 0, "harm": 0, "rank": 0, "both": 0}
@@ -193,6 +272,13 @@ def analyze(res, tag="e21"):
     n_all = max(1, sum(reasons.values()))
     out["reasons"] = reasons
     out["discard"] = {"features_total": tot, "unusable_on_both_sides": disc, "share": disc / max(1, tot)}
+    out["figures"][f"{tag}_strict_filter_reasons.svg"] = bar_svg(
+        "Why the strict filter rejects a candidate feature (round 0)", ["accepted", "harm rule only", "rank rule only", "both rules"],
+        [reasons["ok"], reasons["harm"], reasons["rank"], reasons["both"]], lambda v: f"{v:.0f}", ylabel="candidate features",
+        note=f"Features unusable on BOTH sides: {disc} of {tot} ({disc / max(1, tot) * 100:.1f}%)")
+    out["figure_meta"][f"{tag}_strict_filter_reasons.svg"] = {
+        "title": "Why the strict filter rejects a candidate feature", "table": "strict_filter_reasons.csv",
+        "caption": f"Verdicts of the strict safety filter on every round-0 candidate feature (mute and boost sides pooled) in the reference arm. Only {disc} of {tot} features ({disc / max(1, tot) * 100:.1f}%) were unusable on both sides."}
     md.append("### Why the strict filter rejects (round 0, reference arm)\n\n" + md_table(
         ["Verdict on a candidate", "Count", "Share"],
         [["accepted", reasons["ok"], f"{reasons['ok'] / n_all * 100:.1f}%"], ["rejected: harm rule only", reasons["harm"], f"{reasons['harm'] / n_all * 100:.1f}%"],

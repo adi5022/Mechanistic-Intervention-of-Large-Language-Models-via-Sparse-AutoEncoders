@@ -1,0 +1,6 @@
+Arm,Prompts,Reached rank #1,Success rate %,Mean rank gain,Median final rank,Mean final prob %,Features at best,Rescued in best,Steps,Time s,Collateral KL (nats),Top-1 flips
+strict,45,29,64.4,89.5778,1,8.5598,120.4222,0.0,68.0222,6.508,0.0055,0.0522
+off,45,19,42.2,82.6,3,5.6166,132.4889,0.0,89.5556,7.1019,0.0069,0.0545
+tol5_after,45,27,60.0,89.5778,1,8.4406,123.2667,1.1778,74.1333,7.0435,0.0056,0.0544
+graded5_after,45,29,64.4,89.3111,1,8.2999,125.8667,2.5333,70.8,6.5756,0.0054,0.0511
+graded5_inter,45,29,64.4,89.3111,1,8.3879,125.9333,2.9778,70.8444,6.637,0.0054,0.0511

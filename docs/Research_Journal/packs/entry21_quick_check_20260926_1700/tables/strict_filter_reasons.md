@@ -1,0 +1,10 @@
+**Why the strict filter rejects candidates (round 0, reference arm)**
+
+| Verdict | Count |
+|---|---|
+| accepted | 1065 |
+| rejected: harm rule only | 1047 |
+| rejected: rank rule only | 0 |
+| rejected: both rules | 10 |
+| features unusable on both sides | 11 |
+| candidate features in total | 1061 |

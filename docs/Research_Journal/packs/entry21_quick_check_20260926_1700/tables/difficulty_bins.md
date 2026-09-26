@@ -1,0 +1,24 @@
+**Success rate by starting difficulty (baseline rank bins)**
+
+| Mode | Baseline rank | Arm | Prompts | Success rate % | Mean final rank |
+|---|---|---|---|---|---|
+| all | 2-3 | strict | 4 | 75.0 | 1.25 |
+| all | 2-3 | off | 4 | 75.0 | 1.5 |
+| all | 2-3 | tol5_after | 4 | 75.0 | 1.25 |
+| all | 2-3 | graded5_after | 4 | 75.0 | 1.25 |
+| all | 2-3 | graded5_inter | 4 | 75.0 | 1.25 |
+| all | 4-10 | strict | 2 | 100.0 | 1.0 |
+| all | 4-10 | off | 2 | 50.0 | 2.0 |
+| all | 4-10 | tol5_after | 2 | 100.0 | 1.0 |
+| all | 4-10 | graded5_after | 2 | 100.0 | 1.0 |
+| all | 4-10 | graded5_inter | 2 | 100.0 | 1.0 |
+| last | 2-3 | strict | 4 | 50.0 | 1.75 |
+| last | 2-3 | off | 4 | 25.0 | 2.0 |
+| last | 2-3 | tol5_after | 4 | 50.0 | 1.75 |
+| last | 2-3 | graded5_after | 4 | 50.0 | 1.75 |
+| last | 2-3 | graded5_inter | 4 | 50.0 | 1.75 |
+| last | 4-10 | strict | 2 | 0.0 | 2.5 |
+| last | 4-10 | off | 2 | 0.0 | 2.5 |
+| last | 4-10 | tol5_after | 2 | 0.0 | 2.5 |
+| last | 4-10 | graded5_after | 2 | 0.0 | 2.5 |
+| last | 4-10 | graded5_inter | 2 | 0.0 | 2.5 |
