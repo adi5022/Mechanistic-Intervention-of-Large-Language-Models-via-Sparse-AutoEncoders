@@ -1,0 +1,232 @@
+{
+ "pack_id": "entry21_full_last_20260926_1840",
+ "created": "2026-09-26 18:40:26",
+ "status": "FINAL",
+ "journal_entry": "docs/Research_Journal/21.md (draft in journal_entry_draft.md)",
+ "study": {
+  "name": "Safety filter study - FULL (last token only)",
+  "layer": 8,
+  "hook": "blocks.8.hook_resid_pre",
+  "device": "cuda",
+  "runs": 780,
+  "errors": 0,
+  "elapsed_s": 1445.8,
+  "arms": [
+   {
+    "label": "strict",
+    "settings": {
+     "safety_mode": "strict"
+    }
+   },
+   {
+    "label": "off",
+    "settings": {
+     "safety_filter": false
+    }
+   },
+   {
+    "label": "tol5_after",
+    "settings": {
+     "safety_mode": "tolerance",
+     "tolerance": 0.05,
+     "rescued_order": "after"
+    }
+   },
+   {
+    "label": "graded5_after",
+    "settings": {
+     "safety_mode": "graded",
+     "tolerance": 0.05,
+     "rescued_order": "after"
+    }
+   },
+   {
+    "label": "graded5_inter",
+    "settings": {
+     "safety_mode": "graded",
+     "tolerance": 0.05,
+     "rescued_order": "interleaved"
+    }
+   }
+  ],
+  "modes": [
+   "last"
+  ],
+  "default_settings": {
+   "mute_strength": 0.6,
+   "boost_strength": 0.5,
+   "top_n": 120,
+   "cumulative_sweep": true,
+   "pool_refill": true,
+   "max_refill_rounds": 0,
+   "stop_on_rank1": true,
+   "use_batched": true,
+   "safety_filter": true,
+   "max_steps": 250,
+   "collateral": true,
+   "combination_check": false,
+   "record_detail": "compact"
+  },
+  "prompts": 156,
+  "comparable_prompts_per_arm_mode": 131
+ },
+ "source_result": {
+  "path": "outputs/safety_batches/safety_filter_spec_full_last.json",
+  "sha256": "43efeeb8464f06405e7124079f5d15d28800b097fa5c8ab9bb4106c46c617bae",
+  "size_mb": 68.1,
+  "copied_into_pack": false
+ },
+ "code": {
+  "git_commit": "3f9b18a",
+  "uncommitted_changes_to_tracked_files": false
+ },
+ "environment": {
+  "python": "3.13.7",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "torch": "2.6.0+cu124",
+  "transformer-lens": "3.5.1",
+  "sae-lens": "6.45.3",
+  "streamlit": "1.59.1",
+  "pandas": "3.0.3",
+  "numpy": "2.4.4",
+  "gpu": "NVIDIA GeForce GTX 1660 Ti"
+ },
+ "figures": [
+  {
+   "id": "Fig01",
+   "file": "figures/Fig01_last_success.svg",
+   "other_formats": [
+    "figures/Fig01_last_success.png",
+    "figures/Fig01_last_success.pdf"
+   ],
+   "title": "Prompts reaching rank #1 by safety-filter variant (last)",
+   "caption": "Share of prompts whose target token reached rank #1, per safety-filter variant, last-token-only candidate source (n = 131 prompts whose target did not start at rank #1).",
+   "data": "arms_last.csv"
+  },
+  {
+   "id": "Fig02",
+   "file": "figures/Fig02_last_features.svg",
+   "other_formats": [
+    "figures/Fig02_last_features.png",
+    "figures/Fig02_last_features.pdf"
+   ],
+   "title": "Features edited at the best result (last)",
+   "caption": "Mean number of SAE features muted or boosted at the best result found, per variant, last-token-only candidate source (n = 131).",
+   "data": "arms_last.csv"
+  },
+  {
+   "id": "Fig03",
+   "file": "figures/Fig03_last_collateral.svg",
+   "other_formats": [
+    "figures/Fig03_last_collateral.png",
+    "figures/Fig03_last_collateral.pdf"
+   ],
+   "title": "Collateral damage on unrelated prompts (last)",
+   "caption": "Mean KL divergence (nats) between the clean and edited next-token distributions on 20 unrelated prompts, per variant, last-token-only candidate source. Lower means less collateral change.",
+   "data": "arms_last.csv"
+  },
+  {
+   "id": "Fig04",
+   "file": "figures/Fig04_last_time.svg",
+   "other_formats": [
+    "figures/Fig04_last_time.png",
+    "figures/Fig04_last_time.pdf"
+   ],
+   "title": "Mean run time (last)",
+   "caption": "Mean model-compute time per run in seconds, per variant, last-token-only candidate source (n = 131).",
+   "data": "arms_last.csv"
+  },
+  {
+   "id": "Fig05",
+   "file": "figures/Fig05_last_difficulty.svg",
+   "other_formats": [
+    "figures/Fig05_last_difficulty.png",
+    "figures/Fig05_last_difficulty.pdf"
+   ],
+   "title": "Success rate by starting difficulty (last)",
+   "caption": "Share of prompts reaching rank #1 per safety-filter variant, grouped by how far down the target started (baseline rank bins), last mode.",
+   "data": "difficulty_bins.csv"
+  },
+  {
+   "id": "Fig06",
+   "file": "figures/Fig06_last_scatter_graded5_after.svg",
+   "other_formats": [
+    "figures/Fig06_last_scatter_graded5_after.png",
+    "figures/Fig06_last_scatter_graded5_after.pdf"
+   ],
+   "title": "Final rank: graded5_after vs strict (last)",
+   "caption": "Final target rank per prompt under 'graded5_after' against the reference 'strict', last-token-only candidate source, log scale. Points below the dashed diagonal are better than the reference; each dot is one prompt (n = 131).",
+   "data": "per_prompt.csv"
+  },
+  {
+   "id": "Fig07",
+   "file": "figures/Fig07_last_scatter_graded5_inter.svg",
+   "other_formats": [
+    "figures/Fig07_last_scatter_graded5_inter.png",
+    "figures/Fig07_last_scatter_graded5_inter.pdf"
+   ],
+   "title": "Final rank: graded5_inter vs strict (last)",
+   "caption": "Final target rank per prompt under 'graded5_inter' against the reference 'strict', last-token-only candidate source, log scale. Points below the dashed diagonal are better than the reference; each dot is one prompt (n = 131).",
+   "data": "per_prompt.csv"
+  },
+  {
+   "id": "Fig08",
+   "file": "figures/Fig08_last_scatter_off.svg",
+   "other_formats": [
+    "figures/Fig08_last_scatter_off.png",
+    "figures/Fig08_last_scatter_off.pdf"
+   ],
+   "title": "Final rank: off vs strict (last)",
+   "caption": "Final target rank per prompt under 'off' against the reference 'strict', last-token-only candidate source, log scale. Points below the dashed diagonal are better than the reference; each dot is one prompt (n = 131).",
+   "data": "per_prompt.csv"
+  },
+  {
+   "id": "Fig09",
+   "file": "figures/Fig09_last_scatter_tol5_after.svg",
+   "other_formats": [
+    "figures/Fig09_last_scatter_tol5_after.png",
+    "figures/Fig09_last_scatter_tol5_after.pdf"
+   ],
+   "title": "Final rank: tol5_after vs strict (last)",
+   "caption": "Final target rank per prompt under 'tol5_after' against the reference 'strict', last-token-only candidate source, log scale. Points below the dashed diagonal are better than the reference; each dot is one prompt (n = 131).",
+   "data": "per_prompt.csv"
+  },
+  {
+   "id": "Fig10",
+   "file": "figures/Fig10_strict_filter_reasons.svg",
+   "other_formats": [
+    "figures/Fig10_strict_filter_reasons.png",
+    "figures/Fig10_strict_filter_reasons.pdf"
+   ],
+   "title": "Why the strict filter rejects a candidate feature",
+   "caption": "Verdicts of the strict safety filter on every round-0 candidate feature (mute and boost sides pooled) in the reference arm. Only 195 of 7691 features (2.5%) were unusable on both sides.",
+   "data": "strict_filter_reasons.csv"
+  }
+ ],
+ "tables": [
+  {
+   "file": "tables/arms_last.csv",
+   "title": "Per-arm results, last mode"
+  },
+  {
+   "file": "tables/vs_reference_last.csv",
+   "title": "Each arm versus the reference 'strict', last mode"
+  },
+  {
+   "file": "tables/difficulty_bins.csv",
+   "title": "Success rate by starting difficulty (baseline rank bins)"
+  },
+  {
+   "file": "tables/strict_filter_reasons.csv",
+   "title": "Why the strict filter rejects candidates (round 0, reference arm)"
+  },
+  {
+   "file": "tables/per_prompt.csv",
+   "title": "Per-prompt results for every arm"
+  }
+ ],
+ "regenerate": {
+  "tab": "Batch: Last vs All Tokens -> Results -> Build paper pack",
+  "cli": "python tools/make_paper_pack.py outputs/safety_batches/safety_filter_spec_full_last.json --entry 21"
+ }
+}
