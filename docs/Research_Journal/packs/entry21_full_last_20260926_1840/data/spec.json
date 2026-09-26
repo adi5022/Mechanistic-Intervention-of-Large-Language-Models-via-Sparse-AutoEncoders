@@ -1,0 +1,1622 @@
+{
+ "name": "Safety filter study - FULL (last token only)",
+ "settings": {
+  "mute_strength": 0.6,
+  "boost_strength": 0.5,
+  "top_n": 120,
+  "cumulative_sweep": true,
+  "pool_refill": true,
+  "max_refill_rounds": 0,
+  "stop_on_rank1": true,
+  "use_batched": true,
+  "safety_filter": true,
+  "max_steps": 250,
+  "collateral": true,
+  "combination_check": false,
+  "record_detail": "compact"
+ },
+ "modes": [
+  "last"
+ ],
+ "repeats": 1,
+ "arms": [
+  {
+   "label": "strict",
+   "settings": {
+    "safety_mode": "strict"
+   }
+  },
+  {
+   "label": "off",
+   "settings": {
+    "safety_filter": false
+   }
+  },
+  {
+   "label": "tol5_after",
+   "settings": {
+    "safety_mode": "tolerance",
+    "tolerance": 0.05,
+    "rescued_order": "after"
+   }
+  },
+  {
+   "label": "graded5_after",
+   "settings": {
+    "safety_mode": "graded",
+    "tolerance": 0.05,
+    "rescued_order": "after"
+   }
+  },
+  {
+   "label": "graded5_inter",
+   "settings": {
+    "safety_mode": "graded",
+    "tolerance": 0.05,
+    "rescued_order": "interleaved"
+   }
+  }
+ ],
+ "prompts": [
+  {
+   "prompt": "This is Sophia, she is a",
+   "target": "woman",
+   "settings": {},
+   "meta": {
+    "source": "study17",
+    "baseline_rank": 6,
+    "baseline_prob": 0.014421815052628517
+   }
+  },
+  {
+   "prompt": "Seiyu Group's headquarters are in",
+   "target": "Tokyo",
+   "settings": {},
+   "meta": {
+    "source": "study17",
+    "baseline_rank": 2,
+    "baseline_prob": 0.10004504770040512
+   }
+  },
+  {
+   "prompt": "The Eiffel Tower is in the city of",
+   "target": "Paris",
+   "settings": {},
+   "meta": {
+    "source": "study17",
+    "baseline_rank": 2,
+    "baseline_prob": 0.06873096525669098
+   }
+  },
+  {
+   "prompt": "Marie Curie won the Nobel Prize in",
+   "target": "Physics",
+   "settings": {},
+   "meta": {
+    "source": "study17",
+    "baseline_rank": 5,
+    "baseline_prob": 0.0633593425154686
+   }
+  },
+  {
+   "prompt": "The Colosseum is located in",
+   "target": "Rome",
+   "settings": {},
+   "meta": {
+    "source": "study17",
+    "baseline_rank": 7,
+    "baseline_prob": 0.00833933986723423
+   }
+  },
+  {
+   "prompt": "Barack Obama was born in",
+   "target": "Hawaii",
+   "settings": {},
+   "meta": {
+    "source": "study17",
+    "baseline_rank": 3,
+    "baseline_prob": 0.05186700448393822
+   }
+  },
+  {
+   "prompt": "She opened the door and saw a",
+   "target": "cat",
+   "settings": {},
+   "meta": {
+    "source": "study17",
+    "baseline_rank": 152,
+    "baseline_prob": 0.0006884256727062166
+   }
+  },
+  {
+   "prompt": "The programming language created by Guido van Rossum is",
+   "target": "Python",
+   "settings": {},
+   "meta": {
+    "source": "study17",
+    "baseline_rank": 44,
+    "baseline_prob": 0.003030109219253063
+   }
+  },
+  {
+   "prompt": "The doctor said that",
+   "target": "she",
+   "settings": {},
+   "meta": {
+    "source": "study17",
+    "baseline_rank": 3,
+    "baseline_prob": 0.045825231820344925
+   }
+  },
+  {
+   "prompt": "Mount Everest is located in",
+   "target": "Nepal",
+   "settings": {},
+   "meta": {
+    "source": "study17",
+    "baseline_rank": 3,
+    "baseline_prob": 0.04710322618484497
+   }
+  },
+  {
+   "prompt": "The CEO of Tesla is",
+   "target": "Elon",
+   "settings": {},
+   "meta": {
+    "source": "study17",
+    "baseline_rank": 335,
+    "baseline_prob": 0.00040692760376259685
+   }
+  },
+  {
+   "prompt": "Albert Einstein was born in",
+   "target": "Germany",
+   "settings": {},
+   "meta": {
+    "source": "study17",
+    "baseline_rank": 8,
+    "baseline_prob": 0.019729619845747948
+   }
+  },
+  {
+   "prompt": "The largest planet in our solar system is",
+   "target": "Jupiter",
+   "settings": {},
+   "meta": {
+    "source": "study17",
+    "baseline_rank": 30,
+    "baseline_prob": 0.00608708243817091
+   }
+  },
+  {
+   "prompt": "Eavan Boland was born in",
+   "target": "Dublin",
+   "settings": {},
+   "meta": {
+    "source": "rome22_a",
+    "baseline_rank": 4,
+    "baseline_prob": 0.018463347107172012
+   }
+  },
+  {
+   "prompt": "The location of Massachusetts Institute of Technology is in",
+   "target": "Cambridge",
+   "settings": {},
+   "meta": {
+    "source": "rome22_a",
+    "baseline_rank": 8,
+    "baseline_prob": 0.01152519416064024
+   }
+  },
+  {
+   "prompt": "Knud, Hereditary Prince of Denmark passed away in",
+   "target": "Copenhagen",
+   "settings": {},
+   "meta": {
+    "source": "rome22_a",
+    "baseline_rank": 45,
+    "baseline_prob": 0.005005862098187208
+   }
+  },
+  {
+   "prompt": "The location of Galatasaray University is in the heart of",
+   "target": "Istanbul",
+   "settings": {},
+   "meta": {
+    "source": "rome22_a",
+    "baseline_rank": 2,
+    "baseline_prob": 0.140717551112175
+   }
+  },
+  {
+   "prompt": "John Pym died in the city of",
+   "target": "London",
+   "settings": {},
+   "meta": {
+    "source": "rome22_a",
+    "baseline_rank": 10,
+    "baseline_prob": 0.00873198639601469
+   }
+  },
+  {
+   "prompt": "Emilia Rydberg was born in",
+   "target": "Stockholm",
+   "settings": {},
+   "meta": {
+    "source": "rome22_a",
+    "baseline_rank": 16,
+    "baseline_prob": 0.006970948074012995
+   }
+  },
+  {
+   "prompt": "Joseph Goebbels worked in the city of",
+   "target": "Berlin",
+   "settings": {},
+   "meta": {
+    "source": "rome22_a",
+    "baseline_rank": 2,
+    "baseline_prob": 0.048236917704343796
+   }
+  },
+  {
+   "prompt": "Francesco Castellacci was born in",
+   "target": "Rome",
+   "settings": {},
+   "meta": {
+    "source": "rome22_a",
+    "baseline_rank": 2,
+    "baseline_prob": 0.05411798506975174
+   }
+  },
+  {
+   "prompt": "2005 Australian Open is located in",
+   "target": "Melbourne",
+   "settings": {},
+   "meta": {
+    "source": "rome22_a",
+    "baseline_rank": 2,
+    "baseline_prob": 0.10271836072206497
+   }
+  },
+  {
+   "prompt": "Giulio Romano originates from the city of",
+   "target": "Rome",
+   "settings": {},
+   "meta": {
+    "source": "rome22_a",
+    "baseline_rank": 2,
+    "baseline_prob": 0.025179671123623848
+   }
+  },
+  {
+   "prompt": "Coco Chanel passed away in",
+   "target": "Paris",
+   "settings": {},
+   "meta": {
+    "source": "rome22_a",
+    "baseline_rank": 2,
+    "baseline_prob": 0.03432286158204079
+   }
+  },
+  {
+   "prompt": "The headquarter of Zillow is in downtown",
+   "target": "Seattle",
+   "settings": {},
+   "meta": {
+    "source": "rome22_a",
+    "baseline_rank": 8,
+    "baseline_prob": 0.04124438017606735
+   }
+  },
+  {
+   "prompt": "The headquarter of Army of the Guardians of the Islamic Revolution is in",
+   "target": "Tehran",
+   "settings": {},
+   "meta": {
+    "source": "rome22_a",
+    "baseline_rank": 84,
+    "baseline_prob": 0.001677180640399456
+   }
+  },
+  {
+   "prompt": "The headquarter of Lokalbahn AG is in the city of",
+   "target": "Munich",
+   "settings": {},
+   "meta": {
+    "source": "rome22_b",
+    "baseline_rank": 407,
+    "baseline_prob": 0.0003640570503193885
+   }
+  },
+  {
+   "prompt": "The capital city of People's Republic of Poland is",
+   "target": "Warsaw",
+   "settings": {},
+   "meta": {
+    "source": "rome22_b",
+    "baseline_rank": 368,
+    "baseline_prob": 0.00024994980776682496
+   }
+  },
+  {
+   "prompt": "The capital of France is",
+   "target": "Paris",
+   "settings": {},
+   "meta": {
+    "source": "capital",
+    "baseline_rank": 93,
+    "baseline_prob": 0.00162902707234025
+   }
+  },
+  {
+   "prompt": "Germany's capital city is",
+   "target": "Berlin",
+   "settings": {},
+   "meta": {
+    "source": "capital",
+    "baseline_rank": 276,
+    "baseline_prob": 0.0004124678671360016
+   }
+  },
+  {
+   "prompt": "The capital city of Italy is",
+   "target": "Rome",
+   "settings": {},
+   "meta": {
+    "source": "capital",
+    "baseline_rank": 120,
+    "baseline_prob": 0.0012155910953879356
+   }
+  },
+  {
+   "prompt": "The capital of Portugal is",
+   "target": "Lisbon",
+   "settings": {},
+   "meta": {
+    "source": "capital",
+    "baseline_rank": 40,
+    "baseline_prob": 0.0030184367205947638
+   }
+  },
+  {
+   "prompt": "Greece's capital city is",
+   "target": "Athens",
+   "settings": {},
+   "meta": {
+    "source": "capital",
+    "baseline_rank": 74,
+    "baseline_prob": 0.0021839141845703125
+   }
+  },
+  {
+   "prompt": "The capital of Denmark is",
+   "target": "Copenhagen",
+   "settings": {},
+   "meta": {
+    "source": "capital",
+    "baseline_rank": 106,
+    "baseline_prob": 0.0012637774925678968
+   }
+  },
+  {
+   "prompt": "The capital city of Poland is",
+   "target": "Warsaw",
+   "settings": {},
+   "meta": {
+    "source": "capital",
+    "baseline_rank": 200,
+    "baseline_prob": 0.0006051210220903158
+   }
+  },
+  {
+   "prompt": "The capital of Hungary is",
+   "target": "Budapest",
+   "settings": {},
+   "meta": {
+    "source": "capital",
+    "baseline_rank": 28,
+    "baseline_prob": 0.005402824375778437
+   }
+  },
+  {
+   "prompt": "Ireland's capital city is",
+   "target": "Dublin",
+   "settings": {},
+   "meta": {
+    "source": "capital",
+    "baseline_rank": 491,
+    "baseline_prob": 0.0001895595050882548
+   }
+  },
+  {
+   "prompt": "The capital city of Russia is",
+   "target": "Moscow",
+   "settings": {},
+   "meta": {
+    "source": "capital",
+    "baseline_rank": 186,
+    "baseline_prob": 0.0007241362472996116
+   }
+  },
+  {
+   "prompt": "The government of Turkey is based in",
+   "target": "Ankara",
+   "settings": {},
+   "meta": {
+    "source": "capital",
+    "baseline_rank": 2,
+    "baseline_prob": 0.1619870364665985
+   }
+  },
+  {
+   "prompt": "The capital of Egypt is",
+   "target": "Cairo",
+   "settings": {},
+   "meta": {
+    "source": "capital",
+    "baseline_rank": 28,
+    "baseline_prob": 0.004441419616341591
+   }
+  },
+  {
+   "prompt": "The capital of Cuba is",
+   "target": "Havana",
+   "settings": {},
+   "meta": {
+    "source": "capital",
+    "baseline_rank": 165,
+    "baseline_prob": 0.000714107183739543
+   }
+  },
+  {
+   "prompt": "Thailand's capital city is",
+   "target": "Bangkok",
+   "settings": {},
+   "meta": {
+    "source": "capital",
+    "baseline_rank": 507,
+    "baseline_prob": 0.0001727564085740596
+   }
+  },
+  {
+   "prompt": "The capital city of Japan is",
+   "target": "Tokyo",
+   "settings": {},
+   "meta": {
+    "source": "capital",
+    "baseline_rank": 165,
+    "baseline_prob": 0.0007610374013893306
+   }
+  },
+  {
+   "prompt": "The capital of India is",
+   "target": "Delhi",
+   "settings": {},
+   "meta": {
+    "source": "capital",
+    "baseline_rank": 95,
+    "baseline_prob": 0.001429291907697916
+   }
+  },
+  {
+   "prompt": "Iran's capital city is",
+   "target": "Tehran",
+   "settings": {},
+   "meta": {
+    "source": "capital",
+    "baseline_rank": 114,
+    "baseline_prob": 0.001098211738280952
+   }
+  },
+  {
+   "prompt": "The capital city of Iraq is",
+   "target": "Baghdad",
+   "settings": {},
+   "meta": {
+    "source": "capital",
+    "baseline_rank": 626,
+    "baseline_prob": 0.00012705102562904358
+   }
+  },
+  {
+   "prompt": "The capital of Australia is",
+   "target": "Canberra",
+   "settings": {},
+   "meta": {
+    "source": "capital",
+    "baseline_rank": 151,
+    "baseline_prob": 0.0008950191549956799
+   }
+  },
+  {
+   "prompt": "The capital city of Ukraine is",
+   "target": "Kiev",
+   "settings": {},
+   "meta": {
+    "source": "capital",
+    "baseline_rank": 160,
+    "baseline_prob": 0.0007715710089541972
+   }
+  },
+  {
+   "prompt": "The government of Israel is based in",
+   "target": "Jerusalem",
+   "settings": {},
+   "meta": {
+    "source": "capital",
+    "baseline_rank": 3,
+    "baseline_prob": 0.10951785743236542
+   }
+  },
+  {
+   "prompt": "The capital of Syria is",
+   "target": "Damascus",
+   "settings": {},
+   "meta": {
+    "source": "capital",
+    "baseline_rank": 148,
+    "baseline_prob": 0.0007279860437847674
+   }
+  },
+  {
+   "prompt": "Lebanon's capital city is",
+   "target": "Beirut",
+   "settings": {},
+   "meta": {
+    "source": "capital",
+    "baseline_rank": 690,
+    "baseline_prob": 0.0001069604477379471
+   }
+  },
+  {
+   "prompt": "The official language of Brazil is",
+   "target": "Portuguese",
+   "settings": {},
+   "meta": {
+    "source": "language",
+    "baseline_rank": 2,
+    "baseline_prob": 0.07856661081314087
+   }
+  },
+  {
+   "prompt": "The official language of China is",
+   "target": "Chinese",
+   "settings": {},
+   "meta": {
+    "source": "language",
+    "baseline_rank": 5,
+    "baseline_prob": 0.045750703662633896
+   }
+  },
+  {
+   "prompt": "People in Sweden mostly speak",
+   "target": "Swedish",
+   "settings": {},
+   "meta": {
+    "source": "language",
+    "baseline_rank": 2,
+    "baseline_prob": 0.2294091284275055
+   }
+  },
+  {
+   "prompt": "The official language of Iran is",
+   "target": "Persian",
+   "settings": {},
+   "meta": {
+    "source": "language",
+    "baseline_rank": 6,
+    "baseline_prob": 0.03673938661813736
+   }
+  },
+  {
+   "prompt": "The official language of Vietnam is",
+   "target": "Vietnamese",
+   "settings": {},
+   "meta": {
+    "source": "language",
+    "baseline_rank": 2,
+    "baseline_prob": 0.07527758181095123
+   }
+  },
+  {
+   "prompt": "People in Thailand mostly speak",
+   "target": "Thai",
+   "settings": {},
+   "meta": {
+    "source": "language",
+    "baseline_rank": 2,
+    "baseline_prob": 0.12729085981845856
+   }
+  },
+  {
+   "prompt": "The official language of Mexico is",
+   "target": "Spanish",
+   "settings": {},
+   "meta": {
+    "source": "language",
+    "baseline_rank": 7,
+    "baseline_prob": 0.025538813322782516
+   }
+  },
+  {
+   "prompt": "The currency of Switzerland is the",
+   "target": "franc",
+   "settings": {},
+   "meta": {
+    "source": "currency",
+    "baseline_rank": 2,
+    "baseline_prob": 0.08714504539966583
+   }
+  },
+  {
+   "prompt": "The currency of Brazil is the",
+   "target": "real",
+   "settings": {},
+   "meta": {
+    "source": "currency",
+    "baseline_rank": 14,
+    "baseline_prob": 0.007772696204483509
+   }
+  },
+  {
+   "prompt": "Mount Fuji is in",
+   "target": "Japan",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 4,
+    "baseline_prob": 0.024218833073973656
+   }
+  },
+  {
+   "prompt": "The Great Wall is in",
+   "target": "China",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 65,
+    "baseline_prob": 0.001406312920153141
+   }
+  },
+  {
+   "prompt": "The Amazon rainforest is mostly in",
+   "target": "Brazil",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 27,
+    "baseline_prob": 0.004378989804536104
+   }
+  },
+  {
+   "prompt": "The Sahara desert is in",
+   "target": "Africa",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 121,
+    "baseline_prob": 0.0006118781748227775
+   }
+  },
+  {
+   "prompt": "The Alps are in",
+   "target": "Europe",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 55,
+    "baseline_prob": 0.002166116377338767
+   }
+  },
+  {
+   "prompt": "The Taj Mahal is in",
+   "target": "India",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 18,
+    "baseline_prob": 0.004586267285048962
+   }
+  },
+  {
+   "prompt": "Big Ben is in",
+   "target": "London",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 23,
+    "baseline_prob": 0.003698041196912527
+   }
+  },
+  {
+   "prompt": "Machu Picchu is in",
+   "target": "Peru",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 24,
+    "baseline_prob": 0.00362014421261847
+   }
+  },
+  {
+   "prompt": "The Pyramids of Giza are in",
+   "target": "Egypt",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 2,
+    "baseline_prob": 0.14331838488578796
+   }
+  },
+  {
+   "prompt": "The Kremlin is in",
+   "target": "Moscow",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 13,
+    "baseline_prob": 0.011512626893818378
+   }
+  },
+  {
+   "prompt": "The Sydney Opera House is in",
+   "target": "Australia",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 35,
+    "baseline_prob": 0.002960468176752329
+   }
+  },
+  {
+   "prompt": "The Louvre is in",
+   "target": "Paris",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 2,
+    "baseline_prob": 0.10821732878684998
+   }
+  },
+  {
+   "prompt": "The Acropolis is in",
+   "target": "Athens",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 133,
+    "baseline_prob": 0.0006369911134243011
+   }
+  },
+  {
+   "prompt": "The Brandenburg Gate is in",
+   "target": "Berlin",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 5,
+    "baseline_prob": 0.04184918850660324
+   }
+  },
+  {
+   "prompt": "Angkor Wat is in",
+   "target": "Cambodia",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 308,
+    "baseline_prob": 0.0002953610091935843
+   }
+  },
+  {
+   "prompt": "Mount Kilimanjaro is in",
+   "target": "Tanzania",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 357,
+    "baseline_prob": 0.00024568819208070636
+   }
+  },
+  {
+   "prompt": "The Nile flows through",
+   "target": "Egypt",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 3,
+    "baseline_prob": 0.017265815287828445
+   }
+  },
+  {
+   "prompt": "The Eiffel Tower is in",
+   "target": "Paris",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 9,
+    "baseline_prob": 0.008607693947851658
+   }
+  },
+  {
+   "prompt": "Stonehenge is in",
+   "target": "England",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 24,
+    "baseline_prob": 0.0031260687392205
+   }
+  },
+  {
+   "prompt": "The Vatican is in",
+   "target": "Rome",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 17,
+    "baseline_prob": 0.0067116511054337025
+   }
+  },
+  {
+   "prompt": "Serena Williams plays",
+   "target": "tennis",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 37,
+    "baseline_prob": 0.001632358063943684
+   }
+  },
+  {
+   "prompt": "Michael Jordan played",
+   "target": "basketball",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 13,
+    "baseline_prob": 0.010616282932460308
+   }
+  },
+  {
+   "prompt": "Tiger Woods plays",
+   "target": "golf",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 5,
+    "baseline_prob": 0.061003606766462326
+   }
+  },
+  {
+   "prompt": "Marie Curie was a famous",
+   "target": "scientist",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 7,
+    "baseline_prob": 0.016142724081873894
+   }
+  },
+  {
+   "prompt": "Vincent van Gogh was a famous",
+   "target": "painter",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 4,
+    "baseline_prob": 0.016825545579195023
+   }
+  },
+  {
+   "prompt": "Amelia Earhart was a famous",
+   "target": "pilot",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 107,
+    "baseline_prob": 0.0013778220163658261
+   }
+  },
+  {
+   "prompt": "The 2018 World Cup was held in",
+   "target": "Russia",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 7,
+    "baseline_prob": 0.019472554326057434
+   }
+  },
+  {
+   "prompt": "The 2012 Olympic Games were held in",
+   "target": "London",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 2,
+    "baseline_prob": 0.08817411214113235
+   }
+  },
+  {
+   "prompt": "The Super Bowl is a championship in",
+   "target": "football",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 5,
+    "baseline_prob": 0.042777158319950104
+   }
+  },
+  {
+   "prompt": "Hamlet was written by",
+   "target": "Shakespeare",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 30,
+    "baseline_prob": 0.004013614729046822
+   }
+  },
+  {
+   "prompt": "Nokia is headquartered in",
+   "target": "Finland",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 7,
+    "baseline_prob": 0.019464120268821716
+   }
+  },
+  {
+   "prompt": "Ferrari is a car company from",
+   "target": "Italy",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 3,
+    "baseline_prob": 0.05568965896964073
+   }
+  },
+  {
+   "prompt": "IKEA is a company from",
+   "target": "Sweden",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 16,
+    "baseline_prob": 0.01106417179107666
+   }
+  },
+  {
+   "prompt": "Nestle is a company from",
+   "target": "Switzerland",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 49,
+    "baseline_prob": 0.004527313634753227
+   }
+  },
+  {
+   "prompt": "Google is headquartered in",
+   "target": "California",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 6,
+    "baseline_prob": 0.02879883348941803
+   }
+  },
+  {
+   "prompt": "Boeing is headquartered in",
+   "target": "Chicago",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 20,
+    "baseline_prob": 0.007973464205861092
+   }
+  },
+  {
+   "prompt": "Diwali is celebrated in",
+   "target": "India",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 3,
+    "baseline_prob": 0.08162015676498413
+   }
+  },
+  {
+   "prompt": "Pizza is a traditional food from",
+   "target": "Italy",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 2,
+    "baseline_prob": 0.1586453914642334
+   }
+  },
+  {
+   "prompt": "Paella is a traditional dish from",
+   "target": "Spain",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 3,
+    "baseline_prob": 0.024932928383350372
+   }
+  },
+  {
+   "prompt": "Tacos are a traditional food from",
+   "target": "Mexico",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 2,
+    "baseline_prob": 0.17629294097423553
+   }
+  },
+  {
+   "prompt": "Kimchi is a traditional food from",
+   "target": "Korea",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 4,
+    "baseline_prob": 0.03547176718711853
+   }
+  },
+  {
+   "prompt": "Baguettes are a traditional bread from",
+   "target": "France",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 9,
+    "baseline_prob": 0.009386055171489716
+   }
+  },
+  {
+   "prompt": "Bratwurst is a traditional food from",
+   "target": "Germany",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 5,
+    "baseline_prob": 0.022704724222421646
+   }
+  },
+  {
+   "prompt": "The color of the sky is",
+   "target": "blue",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 4,
+    "baseline_prob": 0.026206685230135918
+   }
+  },
+  {
+   "prompt": "The color of grass is",
+   "target": "green",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 12,
+    "baseline_prob": 0.013157423585653305
+   }
+  },
+  {
+   "prompt": "The color of snow is",
+   "target": "white",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 91,
+    "baseline_prob": 0.0017017620848491788
+   }
+  },
+  {
+   "prompt": "The color of a banana is",
+   "target": "yellow",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 40,
+    "baseline_prob": 0.003813252318650484
+   }
+  },
+  {
+   "prompt": "The color of coal is",
+   "target": "black",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 35,
+    "baseline_prob": 0.004238626919686794
+   }
+  },
+  {
+   "prompt": "A baby dog is called a",
+   "target": "puppy",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 5,
+    "baseline_prob": 0.01753908209502697
+   }
+  },
+  {
+   "prompt": "A baby cat is called a",
+   "target": "kitten",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 4,
+    "baseline_prob": 0.04898343235254288
+   }
+  },
+  {
+   "prompt": "A baby cow is called a",
+   "target": "calf",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 4,
+    "baseline_prob": 0.04150281846523285
+   }
+  },
+  {
+   "prompt": "The largest animal in the ocean is the",
+   "target": "whale",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 4,
+    "baseline_prob": 0.012197857722640038
+   }
+  },
+  {
+   "prompt": "The animal that gives us wool is the",
+   "target": "sheep",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 2,
+    "baseline_prob": 0.019793400540947914
+   }
+  },
+  {
+   "prompt": "Bees make",
+   "target": "honey",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 7,
+    "baseline_prob": 0.012631944380700588
+   }
+  },
+  {
+   "prompt": "Cows give us",
+   "target": "milk",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 9,
+    "baseline_prob": 0.013768640346825123
+   }
+  },
+  {
+   "prompt": "Water freezes into",
+   "target": "ice",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 2,
+    "baseline_prob": 0.056526340544223785
+   }
+  },
+  {
+   "prompt": "The opposite of big is",
+   "target": "small",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 32,
+    "baseline_prob": 0.005076101049780846
+   }
+  },
+  {
+   "prompt": "The opposite of happy is",
+   "target": "sad",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 5,
+    "baseline_prob": 0.024144921451807022
+   }
+  },
+  {
+   "prompt": "The opposite of day is",
+   "target": "night",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 11,
+    "baseline_prob": 0.01406041719019413
+   }
+  },
+  {
+   "prompt": "The engineer said that",
+   "target": "he",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 2,
+    "baseline_prob": 0.10155612230300903
+   }
+  },
+  {
+   "prompt": "My mother told me that",
+   "target": "she",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 2,
+    "baseline_prob": 0.1336839199066162
+   }
+  },
+  {
+   "prompt": "This is Emily, she is a",
+   "target": "woman",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 6,
+    "baseline_prob": 0.009951247833669186
+   }
+  },
+  {
+   "prompt": "This is Olivia, she is a",
+   "target": "girl",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 3,
+    "baseline_prob": 0.021267231553792953
+   }
+  },
+  {
+   "prompt": "This is Daniel, he is a",
+   "target": "boy",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 59,
+    "baseline_prob": 0.0018529602093622088
+   }
+  },
+  {
+   "prompt": "The closest planet to the sun is",
+   "target": "Mercury",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 12,
+    "baseline_prob": 0.011800059117376804
+   }
+  },
+  {
+   "prompt": "The planet known as the red planet is",
+   "target": "Mars",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 742,
+    "baseline_prob": 8.765691018197685e-05
+   }
+  },
+  {
+   "prompt": "The force that pulls objects to the earth is",
+   "target": "gravity",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 18,
+    "baseline_prob": 0.003978859167546034
+   }
+  },
+  {
+   "prompt": "Humans breathe",
+   "target": "oxygen",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 10,
+    "baseline_prob": 0.028419988229870796
+   }
+  },
+  {
+   "prompt": "The Moon orbits the",
+   "target": "Earth",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 3,
+    "baseline_prob": 0.1474415510892868
+   }
+  },
+  {
+   "prompt": "The chemical symbol for gold is",
+   "target": "Au",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 699,
+    "baseline_prob": 0.00012580271868500859
+   }
+  },
+  {
+   "prompt": "The chemical element with symbol O is",
+   "target": "oxygen",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 131,
+    "baseline_prob": 0.001001484808512032
+   }
+  },
+  {
+   "prompt": "2005 Southeast Asian Games is in full swing in the",
+   "target": "Philippines",
+   "settings": {},
+   "meta": {
+    "source": "rome22_b",
+    "baseline_rank": 1,
+    "baseline_prob": 0.11529438197612762
+   }
+  },
+  {
+   "prompt": "The government of Canada is based in",
+   "target": "Ottawa",
+   "settings": {},
+   "meta": {
+    "source": "capital",
+    "baseline_rank": 1,
+    "baseline_prob": 0.11405400186777115
+   }
+  },
+  {
+   "prompt": "The main language spoken in Turkey is",
+   "target": "Turkish",
+   "settings": {},
+   "meta": {
+    "source": "language",
+    "baseline_rank": 1,
+    "baseline_prob": 0.22293193638324738
+   }
+  },
+  {
+   "prompt": "Philippines's capital,",
+   "target": "Manila",
+   "settings": {},
+   "meta": {
+    "source": "rome22_a",
+    "baseline_rank": 1,
+    "baseline_prob": 0.917332649230957
+   }
+  },
+  {
+   "prompt": "My father told me that",
+   "target": "he",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 1,
+    "baseline_prob": 0.15386590361595154
+   }
+  },
+  {
+   "prompt": "Nicolas Gigault was born in",
+   "target": "Paris",
+   "settings": {},
+   "meta": {
+    "source": "rome22_a",
+    "baseline_rank": 1,
+    "baseline_prob": 0.039430685341358185
+   }
+  },
+  {
+   "prompt": "The capital of Roman Republic is",
+   "target": "Rome",
+   "settings": {},
+   "meta": {
+    "source": "rome22_a",
+    "baseline_rank": 1,
+    "baseline_prob": 0.09520447254180908
+   }
+  },
+  {
+   "prompt": "The government of Austria is based in",
+   "target": "Vienna",
+   "settings": {},
+   "meta": {
+    "source": "capital",
+    "baseline_rank": 1,
+    "baseline_prob": 0.38806530833244324
+   }
+  },
+  {
+   "prompt": "The main language spoken in Japan is",
+   "target": "Japanese",
+   "settings": {},
+   "meta": {
+    "source": "language",
+    "baseline_rank": 1,
+    "baseline_prob": 0.1077723577618599
+   }
+  },
+  {
+   "prompt": "The waitress said that",
+   "target": "she",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 1,
+    "baseline_prob": 0.2597874402999878
+   }
+  },
+  {
+   "prompt": "Apple was founded by Steve",
+   "target": "Jobs",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 1,
+    "baseline_prob": 0.9794644713401794
+   }
+  },
+  {
+   "prompt": "The location of Hungarian Ladies Open is in the heart of",
+   "target": "Budapest",
+   "settings": {},
+   "meta": {
+    "source": "rome22_a",
+    "baseline_rank": 1,
+    "baseline_prob": 0.41309142112731934
+   }
+  },
+  {
+   "prompt": "Neil Armstrong was the first man on the",
+   "target": "moon",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 1,
+    "baseline_prob": 0.7851107716560364
+   }
+  },
+  {
+   "prompt": "Romeo and Juliet was written by William",
+   "target": "Shakespeare",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 1,
+    "baseline_prob": 0.1366339921951294
+   }
+  },
+  {
+   "prompt": "Vichy France's capital,",
+   "target": "Paris",
+   "settings": {},
+   "meta": {
+    "source": "rome22_a",
+    "baseline_rank": 1,
+    "baseline_prob": 0.35721108317375183
+   }
+  },
+  {
+   "prompt": "Water is made of hydrogen and",
+   "target": "oxygen",
+   "settings": {},
+   "meta": {
+    "source": "study17",
+    "baseline_rank": 1,
+    "baseline_prob": 0.4838130474090576
+   }
+  },
+  {
+   "prompt": "The currency of Japan is the",
+   "target": "yen",
+   "settings": {},
+   "meta": {
+    "source": "currency",
+    "baseline_rank": 1,
+    "baseline_prob": 0.5425161719322205
+   }
+  },
+  {
+   "prompt": "The opposite of hot is",
+   "target": "cold",
+   "settings": {},
+   "meta": {
+    "source": "study17",
+    "baseline_rank": 1,
+    "baseline_prob": 0.09963744133710861
+   }
+  },
+  {
+   "prompt": "The Earth orbits the",
+   "target": "Sun",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 1,
+    "baseline_prob": 0.5187186598777771
+   }
+  },
+  {
+   "prompt": "Red, green,",
+   "target": "blue",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 1,
+    "baseline_prob": 0.3107423484325409
+   }
+  },
+  {
+   "prompt": "Ludwig van Beethoven was a famous",
+   "target": "composer",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 1,
+    "baseline_prob": 0.5181964635848999
+   }
+  },
+  {
+   "prompt": "Monday, Tuesday,",
+   "target": "Wednesday",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 1,
+    "baseline_prob": 0.6819861531257629
+   }
+  },
+  {
+   "prompt": "The main language spoken in Netherlands is",
+   "target": "Dutch",
+   "settings": {},
+   "meta": {
+    "source": "language",
+    "baseline_rank": 1,
+    "baseline_prob": 0.37717339396476746
+   }
+  },
+  {
+   "prompt": "The government of Spain is based in",
+   "target": "Madrid",
+   "settings": {},
+   "meta": {
+    "source": "capital",
+    "baseline_rank": 1,
+    "baseline_prob": 0.39411863684654236
+   }
+  },
+  {
+   "prompt": "Muhammad Ali was a famous",
+   "target": "boxer",
+   "settings": {},
+   "meta": {
+    "source": "handwritten",
+    "baseline_rank": 1,
+    "baseline_prob": 0.18287190794944763
+   }
+  }
+ ]
+}
