@@ -1,109 +1,75 @@
-# Project Handoff: Transient Steering & Layer Intervention Benchmark
+# Handoff (written 2026-09-30): repair and SAE-limit diagnostics session
 
-**Date:** September 24, 2026  
-**Git Branch:** `pool-refill-implementation` (from `stable-batched-workflow`)  
-**Repository:** `Mechanistic-Intervention-of-Large-Language-Models-via-Sparse-AutoEncoders`
+Read this first when resuming on another machine. Branch: `pool-refill-implementation`. Repo: `Mechanistic-Intervention-of-Large-Language-Models-via-Sparse-AutoEncoders` (folder name FeatureScalpel).
 
----
+Older handoffs, for background: `research/paper/draft_v1/HANDOFF.md` (2026-09-26/27, paper draft and Batch tab, has the working-style lessons) and `docs/handoff_2026-09-24.md` (the previous root handoff, moved here).
 
-## 0a. Latest Session (2026-09-25/26): cleanup, Session History rewrite, Batch tab, first paired benchmark
+## The project in one paragraph
 
-* **Tabs:** removed the older single-trace / compound / boost / safety-filtered / weighted / Towards-Monosemanticity tabs. Kept: Hybrid Mute & Boost, Monosemanticity Analysis, Session History, Sequential vs Batched Proof. **Added: "Batch: Last vs All Tokens".**
-* **Session History rewritten** and **auto-saved to `outputs/session_history/`** (refresh no longer loses runs). Each Hybrid run stores settings, per-round pools, every step, rejections, ledger, rank progression, timings, explanations.
-* **New engine:** `src/hybrid_runner.py` (headless port of the Hybrid tab, validated to reproduce it exactly), `src/batch_runner.py` (spec parsing, batch loop, paired summary), `run_batch.py` (CLI). Spec: `data/candidate_source_batch_spec.json`.
-* **Benchmark (Entry 20, `docs/Research_Journal/20.md`):** 17 prompts x {all positions, last token} = 34 runs, ~5 min, 0 errors, identical when re-run (UI vs CLI).
-  * 13 valid pairs: **all positions 10/13 reached rank #1 vs last token 4/13**; 9 wins / 4 ties / 0 losses (sign test p ~ 0.004).
-  * Mechanism: last-token pool ~56 features vs ~281; all 9 last-token failures ended because features ran out.
-  * Cost: ~94 vs ~42 features edited, ~12 s vs ~5 s. When both succeed, last-token is as cheap or cheaper.
-  * 3 controls already at rank 1 -> no edits. Multi-token target (" chopsticks") is silently scored on its last token -> excluded; both tabs now warn.
-* **Known issues / next:** stale blocker inside a round; AI mechanistic explanation uses an overwritten `probs` for baseline rank; side effects of 100+ feature edits unmeasured; only GPT-2 small layer 8. Full list in Entry 20 Section 9.
-* Uncommitted on `pool-refill-implementation`.
+Transient activation steering in GPT-2 small: edit SAE features (`gpt2-small-res-jb`, mostly `blocks.8.hook_resid_pre`) during one forward pass to raise a suppressed target token to rank 1. The edit applies only the *delta* of the SAE reconstruction (`x' = x + sum (s_i - 1) f_i w_i`), so the SAE reconstruction error is never injected. The main app is `experiment_app.py` (Streamlit); headless engine in `src/hybrid_runner.py`, `src/batch_runner.py`.
 
-## 0. Latest Session (2026-09-24): Tab 4 Pool Refill
+## The question that started this session
 
-**Why:** Tab 4's Cumulative Sweep stopped early (e.g. `black`, rank 10 -> 5) because its length was `min(safe mute pool, safe boost pool)`, built once against the clean model. Full write-up: `docs/Research_Journal/19.md`.
+The user asked what the "actual issue" is, weighing three worries:
+1. Editing only layer 8 may let later layers bring the ablated fact back ("cross-layer superposition").
+2. Using SAEs at all for this is like driving a Lamborghini to buy groceries.
+3. SAE reconstruction error is passed down and never corrected.
 
-**What changed (uncommitted on `pool-refill-implementation`):**
-* `src/hooks.py`: `build_scale_map`, `with_extra_scale`, `make_scale_map_hook`, `make_per_row_scale_hook_with_base`.
-* `src/batched_eval.py`: `base_scale_map` param on both batched primitives (empty = original behaviour).
-* `src/editing.py`: `build_steered_context`; `exclude_ids` / `base_scale_map` on candidate ranking and the four safety checks.
-* `experiment_app.py` (Tab 4): round loop with pool refill against a steered baseline; independent mute/boost growth inside a round; retries of earlier-rejected features; track-only regressions; optional Max Refill Rounds (0 = unlimited); live status, baseline cards, pool tables, refill log, ledger, per-round timeline, refill markers on the chart, extended run-history record.
-* `scratch/validate_pool_refill.py`: validation (steered baseline, batched vs sequential parity, empty-base identity) - all pass.
+After reading the docs and code: #3's premise is wrong (delta patching already avoids injecting the error; Journal 1, 12, 18, `main.tex`), but the error is left *unedited*, which is a reachability limit. #1 and #2 were untested, so we built diagnostics and ran them.
 
-* Later the same day: overlap fix (each feature used on one side only), clearer baseline cards, top-of-page live tracker, **candidate source = all prompt positions**, and Top N auto-capped to the number of active features (see Journal Entry 19, sections 8-10).
+## What was done this session
 
-**Key finding:** candidates are limited to SAE features active at the final token (67 for the test prompt at layer 8); multiplicative steering cannot activate inactive features, so refill cannot exceed that ceiling. Any further gain needs a different mechanism (the proposed architectural change).
+1. **`src/repair_diagnostics.py`** (new). For one prompt and layer: runs the normal Hybrid sweep, converts the best edit into a residual delta, then
+   - **traces** the delta through every later block (persistence = `<diff,d>/<d,d>`, plus a logit lens, clean vs edited),
+   - runs a **held edit** control (re-adds whatever fraction of the push later blocks removed),
+   - computes an **SAE-free bound**: gradient-optimised residual delta with the same L2 norm as the SAE edit, and a scan at 2, 5, 10, 20, 40% of the residual norm, for last-token-only and all-non-BOS positions,
+   - records SAE reconstruction error relative to the activation norm.
+2. **`tools/run_repair_diagnostics.py`** (new): headless driver. Args `--layers`, `--n-prompts`, `--steps`, `--out`. Prompts: Colosseum to Rome, door to cat, doctor to she, MIT to Cambridge.
+3. **`experiment_app.py`**: new 6th tab **"🔬 Repair & SAE limit"** (`tab13`, appended at the end of the file). Verdict cards in plain language, summary table, rank-by-layer chart, persistence curves, logit-lens view for a chosen edit layer, push-size heatmap, clean-model lens bars, and a "Run a new diagnostic" panel. It reads every `outputs/repair_diagnostics/*.json`. Checked in the preview with layer-8 data (no console errors); not reopened with the merged file.
+4. **Ran the diagnostics** (on the user's GTX 1660 Ti, about 2.5 to 3 min per prompt-layer): layer 8 for 4 prompts (60 optimiser steps), layers 5, 6, 7, 9, 10, 11 for the 3 failing prompts (40 steps). Layer 4 was not run.
+5. **Docs updated:** Journal Entry 22, `research/hypothesis_log.md` (H13, H14), `research/experiment_index.md` (EXP-012), `research/timeline.md` (2026-09-30), this handoff.
 
-**Not done:** Tab 11 still uses the old single-pool sweep. Changes are not committed or pushed.
+## Findings (details and full tables in `docs/Research_Journal/22.md`)
 
----
+- **Repair (#1): not supported.** Held edit == plain edit in 21 of 21 layer/prompt cells. Push persisted at 0.79 to 1.29 of injected size at the output. Caveat: this tests the pushed direction, not regeneration along other directions.
+- **SAE limit (#2): supported.** A gradient-searched residual edit of the same L2 size reached rank 1 in 21 of 21 cells; the SAE edit in 1 of 21 (Colosseum at layer 7). SAE-free needed about 5 to 20% of residual norm; stalled SAE edits pushed 8 to 28% using up to 2,294 features. Caveat: the SAE-free edit is an upper bound, its side effects are unmeasured.
+- **Reconstruction error (#3):** 12 to 26% of activation norm, left unedited; not sufficient alone to explain failures, but it bounds what feature scaling can reach.
+- MIT to Cambridge at layer 8 reached rank 1 with 22 features here (Entry 10 had rank 3 with older settings; not compared).
 
-## 1. Executive Summary & Session Context
+## Where the results are (all committed to git)
 
-This session implemented **Step 3 — GPU Batched Candidate Evaluation** (Sub-steps 3A, 3B, and 3C) of the Layer Intervention Benchmark optimization plan. By stacking candidate evaluations into PyTorch batch dimensions (`batch_tokens = tokens.repeat(N, 1)`), we reduced the total model forward calls per prompt×layer evaluation from **126 down to 6** ($21\times$ reduction in forward call dispatch overhead) while maintaining **100% bit-exact equivalence** on selected features and safety decisions.
+| What | Path |
+|---|---|
+| Journal entry with tables, methods, limits | `docs/Research_Journal/22.md` |
+| Full result data (7 layers x 3 prompts + MIT at layer 8; traces, held, SAE-free scans) | `docs/Research_Journal/packs/repair_diagnostics/merged_all_layers.json` |
+| Run log | `docs/Research_Journal/packs/repair_diagnostics/other_layers.log` |
+| Pack notes | `docs/Research_Journal/packs/repair_diagnostics/README.md` |
+| Code | `src/repair_diagnostics.py`, `tools/run_repair_diagnostics.py` |
+| App tab | `experiment_app.py` (search `TAB 13`) |
+| Hypotheses / index / timeline | `research/hypothesis_log.md` (H13, H14), `research/experiment_index.md` (EXP-012), `research/timeline.md` |
 
----
+The raw originals lived in `outputs/repair_diagnostics/` (not committed; `outputs/` stays local). To view the result on a new machine: `mkdir outputs\repair_diagnostics`, copy `merged_all_layers.json` into it, run `streamlit run experiment_app.py`, open the last tab.
 
-## 2. Key Architecture & Optimization Changes
+## State of the working tree when this was written
 
-### A. Pre-Batching Cleanup (Step 3A)
-* **`src/editing.py`**:
-  - Removed duplicated file header block.
-  - Added `@dataclass CleanContext` and `build_clean_context()` to cache unablated forward pass outputs (`tokens`, `clean_probs`, `resid_last`, `clean_target_prob`, `clean_rank`).
-  - Added optional `clean_ctx` parameter to `get_top_active_features`, `get_top_competitor_features`, and `get_top_target_features`.
-* **`src/hooks.py`**:
-  - Fixed double SAE encode bug in `make_ablation_hook` (encodes `resid` once, snapshots baseline reconstruction, and clones before mutating).
-* **`src/benchmark/layer_benchmark_runner.py`**:
-  - Integrated `build_clean_context` to reuse clean pass outputs across candidate screening and ranking.
-* **Forward Calls Reduction:** **126 $\rightarrow$ 122 calls**.
+- Committed by this session: the files listed above plus the moved `docs/handoff_2026-09-24.md`.
+- **Not committed on purpose:** `research/paper/draft_v1/main.tex` (modified before this session started; someone else's in-progress edit, review it before committing) and everything under `outputs/`.
 
-### B. Batched Causal Candidate Ranking (Step 3B)
-* **`src/hooks.py`**: Added `make_per_row_scale_hook(feature_ids, sae, scale)` for row-wise feature scaling across batch rows.
-* **`src/batched_eval.py` (NEW)**: Created module containing GPU primitives `batched_ablation_probs` and `batched_ablation_probs_and_ranks` with configurable `MAX_EVAL_BATCH = 32` chunking.
-* **`src/editing.py`**: Added `use_batched: bool = False` kwarg to `get_top_competitor_features` and `get_top_target_features`.
-* **Verification**: Verified ordered feature-ID lists match element-by-element with 0 misorderings across 6 ROME prompts.
+## Open items, in priority order
 
-### C. Batched Safety Filter Checking (Step 3C)
-* **`src/editing.py`**: Added `check_target_safe_batch` (`scale = 1 - strength`) and `check_boost_safe_batch` (`scale = 1 + strength`).
-* **`src/benchmark/layer_benchmark_runner.py`**: Wired `check_target_safe_batch` and `check_boost_safe_batch` into Stage 4 safety filtering when `use_batched_ranking` is enabled.
-* **Validation**: **60 / 60 (100%) safety boolean agreement** on canonical test case (`Layer 8`, MIT $\rightarrow$ Cambridge).
-* **Forward Calls Reduction:** **122 $\rightarrow$ 6 calls**.
+1. **Side effects of the SAE-free edit.** Measure KL on `NEUTRAL_PROMPTS` (in `src/hybrid_runner.py`) for the optimised delta. Without it, "SAE-free wins" is only an upper bound.
+2. **Non-SAE baseline** on the 131-prompt set (contrastive steering vector or ROME-style edit at layers 7 to 8). The paper draft says no baseline comparison has been done.
+3. **Does the ceiling come from the error term?** Check whether the SAE-free direction lies outside the span of the SAE decoder.
+4. **Only then** revisit a multi-layer intervention. Repair was not observed, so it is no longer motivated by repair.
+5. **Paper:** add this study to `research/paper/draft_v1/main.tex` and `EVIDENCE_AUDIT.md` (not done; Entry 22 is the source). Older open items (compile in Overleaf, the questions in `RECONSTRUCTION.md` section 8, missing sources, Entry 21 for the filter study) are in `research/paper/draft_v1/HANDOFF.md`.
+6. **Known weak spots to fix in code** (unchanged from the older handoff): blocker fixed per round, Groq explanation overwritten `probs`, multi-token targets scored on the last piece, `iterative_ablate` and `check_specificity` hard-code layer 8, no automated tests for editing or safety code. New: `src/repair_diagnostics.py` has no tests, and its `optimal_delta` uses a fixed step count (sensitivity untested).
 
----
+## How to work here (from the user; still applies)
 
-## 3. End-to-End Execution Trace Summary
-
-| Stage | Sequential Forward Calls | Batched Forward Calls (Post-Step 3C) |
-|---|:---:|:---:|
-| **Clean Baseline** | 1 | 1 |
-| **Candidate Screening** | 0 | 0 |
-| **Competitor Ranking** | 30 | **1** |
-| **Target Ranking** | 30 | **1** |
-| **Competitor Safety Filter** | 30 | **1** |
-| **Target Safety Filter** | 30 | **1** |
-| **Final Intervention Pass** | 1 | 1 |
-| **Total Model Forward Calls** | **122** | **6** |
-
----
-
-## 4. Documentation & Validation Deliverables
-
-* **`docs/Research_Journal/14.md`**: Created Research Journal Entry 14 detailing Step 3A/3B/3C implementation, tolerance standards, and forward call accounting.
-* **`scratch/validate_step3a.py`**: Step 3A validation script ($1\text{e-}9$ precision).
-* **`scratch/validate_step3b.py`**: Step 3B validation script (element-by-element list ordering, chunking, and multi-prompt margin checks).
-* **`scratch/validate_step3c.py`**: Step 3C validation script ($60/60$ safety boolean agreement table).
-
----
-
-## 5. Instructions to Commit & Push to GitHub
-
-```powershell
-# 1. Stage all modified core files, new batched primitives, scripts, and documentation
-git add .gitignore src/hooks.py src/batched_eval.py src/editing.py src/benchmark/layer_benchmark_runner.py docs/Research_Journal/14.md handoff.md scratch/validate_step3a.py scratch/validate_step3b.py scratch/validate_step3c.py
-
-# 2. Commit changes
-git commit -m "Step 3 (3A-3C): Implement GPU Batched Candidate Evaluation and Safety Filters (126 -> 6 forward calls)"
-
-# 3. Push to remote branch
-git push origin layer_benchmark_runner
-```
+- **The user runs long experiments themselves** when they can; this session they asked directly for runs, so we ran them. Disclose anything you launch.
+- **Plain language first**, explain where numbers come from, report null results honestly, no unsupported claims. Paper style: no em dashes, no hype, no novelty claims.
+- Ask before commit and push. Never commit `outputs/`.
+- Python: `.venv\Scripts\python.exe` (torch 2.6.0+cu124). The default `python` has no torch. GPU is a GTX 1660 Ti (6 GB), shared.
+- Shell gotchas on Windows: bash heredocs and regex backslashes get mangled (write files with a file tool or a script file); files are CRLF, read with `newline=''` and `encoding='utf8'` (the app source has emoji, and a default-cp1252 read fails).
+- TransformerLens: hooks must accept the keyword `hook` (`lambda r, hook: ...`), and `run_with_cache` does not take `fwd_hooks` (use `with model.hooks(fwd_hooks=[...]):`).
+- The Streamlit preview needs about 60 to 90 s to load the model before tabs render.

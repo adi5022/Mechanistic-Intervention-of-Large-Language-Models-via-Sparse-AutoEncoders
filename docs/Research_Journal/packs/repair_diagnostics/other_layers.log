@@ -1,0 +1,39 @@
+Note: Environment variable`HF_TOKEN` is set and is the current active token independently from the token you've just configured.
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|##########| 148/148 [00:00<00:00, 3578.28it/s]
+Loaded pretrained model gpt2 into HookedTransformer
+  [1/6] layer 5
+D:\Work\PROJECTS\FeatureScalpel\.venv\Lib\site-packages\sae_lens\saes\sae.py:253: UserWarning: 
+This SAE has non-empty model_from_pretrained_kwargs. 
+For optimal performance, load the model like so:
+model = HookedSAETransformer.from_pretrained_no_processing(..., **cfg.model_from_pretrained_kwargs)
+  warnings.warn(
+  [2/6] layer 6
+  [3/6] layer 7
+  [4/6] layer 9
+  [5/6] layer 10
+  [6/6] layer 11
+'The Colosseum is located in': 1986s
+   SAE edit reaches rank 1 at layers: [7].
+   A norm-matched SAE-free edit reaches rank 1 at layers: [5, 6, 7, 9, 10, 11].
+   Fraction of the injected direction still present at the last block: L5: 0.81, L6: 0.83, L7: 0.96, L9: 1.13, L10: 1.15, L11: 0.98.
+  [1/6] layer 5
+  [2/6] layer 6
+  [3/6] layer 7
+  [4/6] layer 9
+  [5/6] layer 10
+  [6/6] layer 11
+'She opened the door and saw a': 1742s
+   SAE edit reaches rank 1 at layers: none.
+   A norm-matched SAE-free edit reaches rank 1 at layers: [5, 6, 7, 9, 10, 11].
+   Fraction of the injected direction still present at the last block: L5: 0.88, L6: 1.16, L7: 1.15, L9: 1.09, L10: 1.15, L11: 1.03.
+  [1/6] layer 5
+  [2/6] layer 6
+  [3/6] layer 7
+  [4/6] layer 9
+  [5/6] layer 10
+  [6/6] layer 11
+'The doctor said that': 1231s
+   SAE edit reaches rank 1 at layers: none.
+   A norm-matched SAE-free edit reaches rank 1 at layers: [5, 6, 7, 9, 10, 11].
+   Fraction of the injected direction still present at the last block: L5: 0.92, L6: 0.93, L7: 0.93, L9: 1.12, L10: 1.21, L11: 1.29.
+saved outputs/repair_diagnostics/other_layers_3prompts.json

@@ -1,0 +1,6272 @@
+{
+ "layers": [
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11
+ ],
+ "cfg": {
+  "record_detail": "compact",
+  "collateral": false,
+  "combination_check": false
+ },
+ "prompts": [
+  {
+   "prompt": "The Colosseum is located in",
+   "target": "Rome",
+   "target_token": " Rome",
+   "baseline_rank": 7,
+   "baseline_prob": 0.00833933986723423,
+   "baseline_top1": " the",
+   "clean_lens": [
+    {
+     "layer": 0,
+     "rank": 32626,
+     "prob": 1.9048043830630204e-17,
+     "margin": -37.835307121276855
+    },
+    {
+     "layer": 1,
+     "rank": 1557,
+     "prob": 5.9381350183684845e-06,
+     "margin": -11.51657485961914
+    },
+    {
+     "layer": 2,
+     "rank": 1292,
+     "prob": 3.08293988382502e-06,
+     "margin": -12.102248191833496
+    },
+    {
+     "layer": 3,
+     "rank": 734,
+     "prob": 5.409170626080595e-06,
+     "margin": -11.539456367492676
+    },
+    {
+     "layer": 4,
+     "rank": 718,
+     "prob": 1.5240591892506927e-05,
+     "margin": -10.2078275680542
+    },
+    {
+     "layer": 5,
+     "rank": 448,
+     "prob": 4.696567702922039e-05,
+     "margin": -9.13127613067627
+    },
+    {
+     "layer": 6,
+     "rank": 481,
+     "prob": 3.90189525205642e-05,
+     "margin": -9.128350257873535
+    },
+    {
+     "layer": 7,
+     "rank": 92,
+     "prob": 0.0002973886439576745,
+     "margin": -7.070021629333496
+    },
+    {
+     "layer": 8,
+     "rank": 121,
+     "prob": 8.244847413152456e-05,
+     "margin": -7.872530937194824
+    },
+    {
+     "layer": 9,
+     "rank": 34,
+     "prob": 0.0007212787750177085,
+     "margin": -5.747306823730469
+    },
+    {
+     "layer": 10,
+     "rank": 11,
+     "prob": 0.021234773099422455,
+     "margin": -2.496978759765625
+    },
+    {
+     "layer": 11,
+     "rank": 6,
+     "prob": 0.02243398129940033,
+     "margin": -3.1683969497680664
+    }
+   ],
+   "layers": [
+    {
+     "layer": 5,
+     "sae": {
+      "rank_before": 7,
+      "rank_after": 2,
+      "prob_before": 0.00833933986723423,
+      "prob_after": 0.06999951601028442,
+      "success": false,
+      "features_used": 2294,
+      "stop_reason": "No unapplied active features remain at this position.",
+      "final_top1": " the",
+      "delta_norm": 1740.7918701171875,
+      "delta_norm_last": 8.610610961914062,
+      "resid_norm_last": 68.72461700439453,
+      "relative_push": 0.12529150888339566,
+      "recon_error_rel": 0.17624983191490173
+     },
+     "trace": {
+      "rows": [
+       {
+        "point": "L0",
+        "layer": 0,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 32626,
+        "lens_rank_edit": 32626,
+        "lens_prob_clean": 1.9048043830630204e-17,
+        "lens_prob_edit": 1.9048043830630204e-17,
+        "margin_clean": -37.835307121276855,
+        "margin_edit": -37.835307121276855
+       },
+       {
+        "point": "L1",
+        "layer": 1,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1557,
+        "lens_rank_edit": 1557,
+        "lens_prob_clean": 5.9381350183684845e-06,
+        "lens_prob_edit": 5.9381350183684845e-06,
+        "margin_clean": -11.51657485961914,
+        "margin_edit": -11.51657485961914
+       },
+       {
+        "point": "L2",
+        "layer": 2,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1292,
+        "lens_rank_edit": 1292,
+        "lens_prob_clean": 3.08293988382502e-06,
+        "lens_prob_edit": 3.08293988382502e-06,
+        "margin_clean": -12.102248191833496,
+        "margin_edit": -12.102248191833496
+       },
+       {
+        "point": "L3",
+        "layer": 3,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 734,
+        "lens_rank_edit": 734,
+        "lens_prob_clean": 5.409170626080595e-06,
+        "lens_prob_edit": 5.409170626080595e-06,
+        "margin_clean": -11.539456367492676,
+        "margin_edit": -11.539456367492676
+       },
+       {
+        "point": "L4",
+        "layer": 4,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 718,
+        "lens_rank_edit": 718,
+        "lens_prob_clean": 1.5240591892506927e-05,
+        "lens_prob_edit": 1.5240591892506927e-05,
+        "margin_clean": -10.2078275680542,
+        "margin_edit": -10.2078275680542
+       },
+       {
+        "point": "L5",
+        "layer": 5,
+        "downstream": true,
+        "delta_norm": 1740.7918701171875,
+        "persistence": 1.0,
+        "cosine": 1.0,
+        "lens_rank_clean": 448,
+        "lens_rank_edit": 433,
+        "lens_prob_clean": 4.696567702922039e-05,
+        "lens_prob_edit": 4.76363165944349e-05,
+        "margin_clean": -9.13127613067627,
+        "margin_edit": -9.174667358398438
+       },
+       {
+        "point": "L6",
+        "layer": 6,
+        "downstream": true,
+        "delta_norm": 1748.7427978515625,
+        "persistence": 1.004104055083948,
+        "cosine": 0.9995387482211061,
+        "lens_rank_clean": 481,
+        "lens_rank_edit": 695,
+        "lens_prob_clean": 3.90189525205642e-05,
+        "lens_prob_edit": 4.0933373384177685e-05,
+        "margin_clean": -9.128350257873535,
+        "margin_edit": -9.038603782653809
+       },
+       {
+        "point": "L7",
+        "layer": 7,
+        "downstream": true,
+        "delta_norm": 1761.084716796875,
+        "persistence": 1.0108637383093375,
+        "cosine": 0.9992156393336089,
+        "lens_rank_clean": 92,
+        "lens_rank_edit": 164,
+        "lens_prob_clean": 0.0002973886439576745,
+        "lens_prob_edit": 0.00031092079007066786,
+        "margin_clean": -7.070021629333496,
+        "margin_edit": -6.41529655456543
+       },
+       {
+        "point": "L8",
+        "layer": 8,
+        "downstream": true,
+        "delta_norm": 1771.000244140625,
+        "persistence": 1.0160520717611938,
+        "cosine": 0.9987210744197241,
+        "lens_rank_clean": 121,
+        "lens_rank_edit": 122,
+        "lens_prob_clean": 8.244847413152456e-05,
+        "lens_prob_edit": 0.00038831355050206184,
+        "margin_clean": -7.872530937194824,
+        "margin_edit": -5.924548149108887
+       },
+       {
+        "point": "L9",
+        "layer": 9,
+        "downstream": true,
+        "delta_norm": 1779.2401123046875,
+        "persistence": 1.0204007350290305,
+        "cosine": 0.9983505742432466,
+        "lens_rank_clean": 34,
+        "lens_rank_edit": 7,
+        "lens_prob_clean": 0.0007212787750177085,
+        "lens_prob_edit": 0.05423528701066971,
+        "margin_clean": -5.747306823730469,
+        "margin_edit": -0.6095466613769531
+       },
+       {
+        "point": "L10",
+        "layer": 10,
+        "downstream": true,
+        "delta_norm": 1786.1514892578125,
+        "persistence": 1.0236868170461133,
+        "cosine": 0.9976901666474551,
+        "lens_rank_clean": 11,
+        "lens_rank_edit": 1,
+        "lens_prob_clean": 0.021234773099422455,
+        "lens_prob_edit": 0.45851150155067444,
+        "margin_clean": -2.496978759765625,
+        "margin_edit": 0.4397430419921875
+       },
+       {
+        "point": "L11",
+        "layer": 11,
+        "downstream": true,
+        "delta_norm": 1795.9783935546875,
+        "persistence": 1.0276629993863757,
+        "cosine": 0.9960851529081488,
+        "lens_rank_clean": 6,
+        "lens_rank_edit": 1,
+        "lens_prob_clean": 0.02243398129940033,
+        "lens_prob_edit": 0.4043658375740051,
+        "margin_clean": -3.1683969497680664,
+        "margin_edit": 1.21282958984375
+       },
+       {
+        "point": "final",
+        "layer": 12,
+        "downstream": true,
+        "delta_norm": 1441.52783203125,
+        "persistence": 0.8085710377640386,
+        "cosine": 0.9764320138464954,
+        "lens_rank_clean": 7,
+        "lens_rank_edit": 2,
+        "lens_prob_clean": 0.008339332416653633,
+        "lens_prob_edit": 0.06999944150447845,
+        "margin_clean": -3.7303905487060547,
+        "margin_edit": -1.3234748840332031
+       }
+      ],
+      "rank": 2,
+      "prob": 0.06999951601028442
+     },
+     "held": {
+      "rank": 2,
+      "prob": 0.06999951601028442
+     },
+     "optimal": {
+      "matched": {
+       "last": {
+        "rank": 1,
+        "prob": 0.9998894929885864
+       },
+       "all": {
+        "rank": 1,
+        "prob": 0.9999644756317139
+       }
+      },
+      "scan": {
+       "last": {
+        "0.02": {
+         "rank": 4,
+         "prob": 0.013958149589598179
+        },
+        "0.05": {
+         "rank": 3,
+         "prob": 0.02923467941582203
+        },
+        "0.1": {
+         "rank": 2,
+         "prob": 0.09307323396205902
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.9997983574867249
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9999899864196777
+        }
+       },
+       "all": {
+        "0.02": {
+         "rank": 2,
+         "prob": 0.06072470173239708
+        },
+        "0.05": {
+         "rank": 1,
+         "prob": 0.9997076392173767
+        },
+        "0.1": {
+         "rank": 1,
+         "prob": 0.9999905824661255
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.9999934434890747
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9999970197677612
+        }
+       }
+      }
+     },
+     "seconds": 783.52
+    },
+    {
+     "layer": 6,
+     "sae": {
+      "rank_before": 7,
+      "rank_after": 2,
+      "prob_before": 0.00833933986723423,
+      "prob_after": 0.13253264129161835,
+      "success": false,
+      "features_used": 1099,
+      "stop_reason": "No unapplied active features remain at this position.",
+      "final_top1": " the",
+      "delta_norm": 1795.1585693359375,
+      "delta_norm_last": 11.782437324523926,
+      "resid_norm_last": 74.04529571533203,
+      "relative_push": 0.15912472508478645,
+      "recon_error_rel": 0.200100839138031
+     },
+     "trace": {
+      "rows": [
+       {
+        "point": "L0",
+        "layer": 0,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 32626,
+        "lens_rank_edit": 32626,
+        "lens_prob_clean": 1.9048043830630204e-17,
+        "lens_prob_edit": 1.9048043830630204e-17,
+        "margin_clean": -37.835307121276855,
+        "margin_edit": -37.835307121276855
+       },
+       {
+        "point": "L1",
+        "layer": 1,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1557,
+        "lens_rank_edit": 1557,
+        "lens_prob_clean": 5.9381350183684845e-06,
+        "lens_prob_edit": 5.9381350183684845e-06,
+        "margin_clean": -11.51657485961914,
+        "margin_edit": -11.51657485961914
+       },
+       {
+        "point": "L2",
+        "layer": 2,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1292,
+        "lens_rank_edit": 1292,
+        "lens_prob_clean": 3.08293988382502e-06,
+        "lens_prob_edit": 3.08293988382502e-06,
+        "margin_clean": -12.102248191833496,
+        "margin_edit": -12.102248191833496
+       },
+       {
+        "point": "L3",
+        "layer": 3,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 734,
+        "lens_rank_edit": 734,
+        "lens_prob_clean": 5.409170626080595e-06,
+        "lens_prob_edit": 5.409170626080595e-06,
+        "margin_clean": -11.539456367492676,
+        "margin_edit": -11.539456367492676
+       },
+       {
+        "point": "L4",
+        "layer": 4,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 718,
+        "lens_rank_edit": 718,
+        "lens_prob_clean": 1.5240591892506927e-05,
+        "lens_prob_edit": 1.5240591892506927e-05,
+        "margin_clean": -10.2078275680542,
+        "margin_edit": -10.2078275680542
+       },
+       {
+        "point": "L5",
+        "layer": 5,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 448,
+        "lens_rank_edit": 448,
+        "lens_prob_clean": 4.696567702922039e-05,
+        "lens_prob_edit": 4.696567702922039e-05,
+        "margin_clean": -9.13127613067627,
+        "margin_edit": -9.13127613067627
+       },
+       {
+        "point": "L6",
+        "layer": 6,
+        "downstream": true,
+        "delta_norm": 1795.1585693359375,
+        "persistence": 1.0,
+        "cosine": 1.0000000000000002,
+        "lens_rank_clean": 481,
+        "lens_rank_edit": 280,
+        "lens_prob_clean": 3.90189525205642e-05,
+        "lens_prob_edit": 2.866900285880547e-05,
+        "margin_clean": -9.128350257873535,
+        "margin_edit": -9.663201332092285
+       },
+       {
+        "point": "L7",
+        "layer": 7,
+        "downstream": true,
+        "delta_norm": 1801.0714111328125,
+        "persistence": 1.0030616635136689,
+        "cosine": 0.9997686835318611,
+        "lens_rank_clean": 92,
+        "lens_rank_edit": 25,
+        "lens_prob_clean": 0.0002973886439576745,
+        "lens_prob_edit": 0.00301187951117754,
+        "margin_clean": -7.070021629333496,
+        "margin_edit": -4.065502166748047
+       },
+       {
+        "point": "L8",
+        "layer": 8,
+        "downstream": true,
+        "delta_norm": 1807.8624267578125,
+        "persistence": 1.0064320844586558,
+        "cosine": 0.9993599226402679,
+        "lens_rank_clean": 121,
+        "lens_rank_edit": 44,
+        "lens_prob_clean": 8.244847413152456e-05,
+        "lens_prob_edit": 0.0018896403489634395,
+        "margin_clean": -7.872530937194824,
+        "margin_edit": -4.584095001220703
+       },
+       {
+        "point": "L9",
+        "layer": 9,
+        "downstream": true,
+        "delta_norm": 1814.0723876953125,
+        "persistence": 1.0095279595369508,
+        "cosine": 0.9990025063722204,
+        "lens_rank_clean": 34,
+        "lens_rank_edit": 1,
+        "lens_prob_clean": 0.0007212787750177085,
+        "lens_prob_edit": 0.15546131134033203,
+        "margin_clean": -5.747306823730469,
+        "margin_edit": 0.1345367431640625
+       },
+       {
+        "point": "L10",
+        "layer": 10,
+        "downstream": true,
+        "delta_norm": 1819.69287109375,
+        "persistence": 1.0118939879032252,
+        "cosine": 0.9982510190335419,
+        "lens_rank_clean": 11,
+        "lens_rank_edit": 1,
+        "lens_prob_clean": 0.021234773099422455,
+        "lens_prob_edit": 0.5809333324432373,
+        "margin_clean": -2.496978759765625,
+        "margin_edit": 1.302988052368164
+       },
+       {
+        "point": "L11",
+        "layer": 11,
+        "downstream": true,
+        "delta_norm": 1827.791748046875,
+        "persistence": 1.0146995689342857,
+        "cosine": 0.9965832635908858,
+        "lens_rank_clean": 6,
+        "lens_rank_edit": 1,
+        "lens_prob_clean": 0.02243398129940033,
+        "lens_prob_edit": 0.6203915476799011,
+        "margin_clean": -3.1683969497680664,
+        "margin_edit": 1.9652099609375
+       },
+       {
+        "point": "final",
+        "layer": 12,
+        "downstream": true,
+        "delta_norm": 1522.32470703125,
+        "persistence": 0.831286483608161,
+        "cosine": 0.9802712266054434,
+        "lens_rank_clean": 7,
+        "lens_rank_edit": 2,
+        "lens_prob_clean": 0.008339332416653633,
+        "lens_prob_edit": 0.13253286480903625,
+        "margin_clean": -3.7303905487060547,
+        "margin_edit": -0.2974071502685547
+       }
+      ],
+      "rank": 2,
+      "prob": 0.13253264129161835
+     },
+     "held": {
+      "rank": 2,
+      "prob": 0.13253264129161835
+     },
+     "optimal": {
+      "matched": {
+       "last": {
+        "rank": 1,
+        "prob": 0.9999667406082153
+       },
+       "all": {
+        "rank": 1,
+        "prob": 0.9999892711639404
+       }
+      },
+      "scan": {
+       "last": {
+        "0.02": {
+         "rank": 4,
+         "prob": 0.014437676407396793
+        },
+        "0.05": {
+         "rank": 3,
+         "prob": 0.03177559748291969
+        },
+        "0.1": {
+         "rank": 2,
+         "prob": 0.11114639788866043
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.8353936672210693
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9999880790710449
+        }
+       },
+       "all": {
+        "0.02": {
+         "rank": 2,
+         "prob": 0.057148899883031845
+        },
+        "0.05": {
+         "rank": 1,
+         "prob": 0.9038825631141663
+        },
+        "0.1": {
+         "rank": 1,
+         "prob": 0.99998939037323
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.9999951124191284
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9999969005584717
+        }
+       }
+      }
+     },
+     "seconds": 390.97
+    },
+    {
+     "layer": 7,
+     "sae": {
+      "rank_before": 7,
+      "rank_after": 1,
+      "prob_before": 0.00833933986723423,
+      "prob_after": 0.15378285944461823,
+      "success": true,
+      "features_used": 369,
+      "stop_reason": "Target reached Rank #1 in Round 3.",
+      "final_top1": " Rome",
+      "delta_norm": 72.3641586303711,
+      "delta_norm_last": 14.00036334991455,
+      "resid_norm_last": 82.9372787475586,
+      "relative_push": 0.1688066399251938,
+      "recon_error_rel": 0.2106413096189499
+     },
+     "trace": {
+      "rows": [
+       {
+        "point": "L0",
+        "layer": 0,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 32626,
+        "lens_rank_edit": 32626,
+        "lens_prob_clean": 1.9048043830630204e-17,
+        "lens_prob_edit": 1.9048043830630204e-17,
+        "margin_clean": -37.835307121276855,
+        "margin_edit": -37.835307121276855
+       },
+       {
+        "point": "L1",
+        "layer": 1,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1557,
+        "lens_rank_edit": 1557,
+        "lens_prob_clean": 5.9381350183684845e-06,
+        "lens_prob_edit": 5.9381350183684845e-06,
+        "margin_clean": -11.51657485961914,
+        "margin_edit": -11.51657485961914
+       },
+       {
+        "point": "L2",
+        "layer": 2,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1292,
+        "lens_rank_edit": 1292,
+        "lens_prob_clean": 3.08293988382502e-06,
+        "lens_prob_edit": 3.08293988382502e-06,
+        "margin_clean": -12.102248191833496,
+        "margin_edit": -12.102248191833496
+       },
+       {
+        "point": "L3",
+        "layer": 3,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 734,
+        "lens_rank_edit": 734,
+        "lens_prob_clean": 5.409170626080595e-06,
+        "lens_prob_edit": 5.409170626080595e-06,
+        "margin_clean": -11.539456367492676,
+        "margin_edit": -11.539456367492676
+       },
+       {
+        "point": "L4",
+        "layer": 4,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 718,
+        "lens_rank_edit": 718,
+        "lens_prob_clean": 1.5240591892506927e-05,
+        "lens_prob_edit": 1.5240591892506927e-05,
+        "margin_clean": -10.2078275680542,
+        "margin_edit": -10.2078275680542
+       },
+       {
+        "point": "L5",
+        "layer": 5,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 448,
+        "lens_rank_edit": 448,
+        "lens_prob_clean": 4.696567702922039e-05,
+        "lens_prob_edit": 4.696567702922039e-05,
+        "margin_clean": -9.13127613067627,
+        "margin_edit": -9.13127613067627
+       },
+       {
+        "point": "L6",
+        "layer": 6,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 481,
+        "lens_rank_edit": 481,
+        "lens_prob_clean": 3.90189525205642e-05,
+        "lens_prob_edit": 3.90189525205642e-05,
+        "margin_clean": -9.128350257873535,
+        "margin_edit": -9.128350257873535
+       },
+       {
+        "point": "L7",
+        "layer": 7,
+        "downstream": true,
+        "delta_norm": 72.3641586303711,
+        "persistence": 1.0,
+        "cosine": 1.0,
+        "lens_rank_clean": 92,
+        "lens_rank_edit": 53,
+        "lens_prob_clean": 0.0002973886439576745,
+        "lens_prob_edit": 0.0011196847772225738,
+        "margin_clean": -7.070021629333496,
+        "margin_edit": -5.585075378417969
+       },
+       {
+        "point": "L8",
+        "layer": 8,
+        "downstream": true,
+        "delta_norm": 90.24180603027344,
+        "persistence": 1.0738596808913574,
+        "cosine": 0.8611192206906066,
+        "lens_rank_clean": 121,
+        "lens_rank_edit": 42,
+        "lens_prob_clean": 8.244847413152456e-05,
+        "lens_prob_edit": 0.0021058637648820877,
+        "margin_clean": -7.872530937194824,
+        "margin_edit": -4.742959976196289
+       },
+       {
+        "point": "L9",
+        "layer": 9,
+        "downstream": true,
+        "delta_norm": 103.48580169677734,
+        "persistence": 1.102636971912345,
+        "cosine": 0.7710371513532431,
+        "lens_rank_clean": 34,
+        "lens_rank_edit": 1,
+        "lens_prob_clean": 0.0007212787750177085,
+        "lens_prob_edit": 0.30402570962905884,
+        "margin_clean": -5.747306823730469,
+        "margin_edit": 0.8889446258544922
+       },
+       {
+        "point": "L10",
+        "layer": 10,
+        "downstream": true,
+        "delta_norm": 122.6147232055664,
+        "persistence": 1.0859010836684384,
+        "cosine": 0.640871794034803,
+        "lens_rank_clean": 11,
+        "lens_rank_edit": 1,
+        "lens_prob_clean": 0.021234773099422455,
+        "lens_prob_edit": 0.6938038468360901,
+        "margin_clean": -2.496978759765625,
+        "margin_edit": 1.7074508666992188
+       },
+       {
+        "point": "L11",
+        "layer": 11,
+        "downstream": true,
+        "delta_norm": 153.4324951171875,
+        "persistence": 1.075090880710687,
+        "cosine": 0.5070506388067975,
+        "lens_rank_clean": 6,
+        "lens_rank_edit": 1,
+        "lens_prob_clean": 0.02243398129940033,
+        "lens_prob_edit": 0.7392813563346863,
+        "margin_clean": -3.1683969497680664,
+        "margin_edit": 2.431621551513672
+       },
+       {
+        "point": "final",
+        "layer": 12,
+        "downstream": true,
+        "delta_norm": 239.7385711669922,
+        "persistence": 0.9636488346587412,
+        "cosine": 0.2908736529690884,
+        "lens_rank_clean": 7,
+        "lens_rank_edit": 1,
+        "lens_prob_clean": 0.008339332416653633,
+        "lens_prob_edit": 0.1537829488515854,
+        "margin_clean": -3.7303905487060547,
+        "margin_edit": 0.018019676208496094
+       }
+      ],
+      "rank": 1,
+      "prob": 0.15378285944461823
+     },
+     "held": {
+      "rank": 1,
+      "prob": 0.15378285944461823
+     },
+     "optimal": {
+      "matched": {
+       "last": {
+        "rank": 1,
+        "prob": 0.9999871253967285
+       },
+       "all": {
+        "rank": 1,
+        "prob": 0.9999986886978149
+       }
+      },
+      "scan": {
+       "last": {
+        "0.02": {
+         "rank": 4,
+         "prob": 0.01485150121152401
+        },
+        "0.05": {
+         "rank": 3,
+         "prob": 0.034178026020526886
+        },
+        "0.1": {
+         "rank": 2,
+         "prob": 0.12910978496074677
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.8689530491828918
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9999433755874634
+        }
+       },
+       "all": {
+        "0.02": {
+         "rank": 3,
+         "prob": 0.03982146829366684
+        },
+        "0.05": {
+         "rank": 1,
+         "prob": 0.33406195044517517
+        },
+        "0.1": {
+         "rank": 1,
+         "prob": 0.9999935626983643
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.9999983310699463
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.999998927116394
+        }
+       }
+      }
+     },
+     "seconds": 215.61
+    },
+    {
+     "layer": 8,
+     "sae": {
+      "rank_before": 7,
+      "rank_after": 2,
+      "prob_before": 0.00833933986723423,
+      "prob_after": 0.12739866971969604,
+      "success": false,
+      "features_used": 358,
+      "stop_reason": "No unapplied active features remain at this position.",
+      "final_top1": " the",
+      "delta_norm": 755.64013671875,
+      "delta_norm_last": 14.928766250610352,
+      "resid_norm_last": 103.41666412353516,
+      "relative_push": 0.1443555192689001,
+      "recon_error_rel": 0.19019575417041779
+     },
+     "trace": {
+      "rows": [
+       {
+        "point": "L0",
+        "layer": 0,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 32626,
+        "lens_rank_edit": 32626,
+        "lens_prob_clean": 1.9048043830630204e-17,
+        "lens_prob_edit": 1.9048043830630204e-17,
+        "margin_clean": -37.835307121276855,
+        "margin_edit": -37.835307121276855
+       },
+       {
+        "point": "L1",
+        "layer": 1,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1557,
+        "lens_rank_edit": 1557,
+        "lens_prob_clean": 5.9381350183684845e-06,
+        "lens_prob_edit": 5.9381350183684845e-06,
+        "margin_clean": -11.51657485961914,
+        "margin_edit": -11.51657485961914
+       },
+       {
+        "point": "L2",
+        "layer": 2,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1292,
+        "lens_rank_edit": 1292,
+        "lens_prob_clean": 3.08293988382502e-06,
+        "lens_prob_edit": 3.08293988382502e-06,
+        "margin_clean": -12.102248191833496,
+        "margin_edit": -12.102248191833496
+       },
+       {
+        "point": "L3",
+        "layer": 3,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 734,
+        "lens_rank_edit": 734,
+        "lens_prob_clean": 5.409170626080595e-06,
+        "lens_prob_edit": 5.409170626080595e-06,
+        "margin_clean": -11.539456367492676,
+        "margin_edit": -11.539456367492676
+       },
+       {
+        "point": "L4",
+        "layer": 4,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 718,
+        "lens_rank_edit": 718,
+        "lens_prob_clean": 1.5240591892506927e-05,
+        "lens_prob_edit": 1.5240591892506927e-05,
+        "margin_clean": -10.2078275680542,
+        "margin_edit": -10.2078275680542
+       },
+       {
+        "point": "L5",
+        "layer": 5,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 448,
+        "lens_rank_edit": 448,
+        "lens_prob_clean": 4.696567702922039e-05,
+        "lens_prob_edit": 4.696567702922039e-05,
+        "margin_clean": -9.13127613067627,
+        "margin_edit": -9.13127613067627
+       },
+       {
+        "point": "L6",
+        "layer": 6,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 481,
+        "lens_rank_edit": 481,
+        "lens_prob_clean": 3.90189525205642e-05,
+        "lens_prob_edit": 3.90189525205642e-05,
+        "margin_clean": -9.128350257873535,
+        "margin_edit": -9.128350257873535
+       },
+       {
+        "point": "L7",
+        "layer": 7,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 92,
+        "lens_rank_edit": 92,
+        "lens_prob_clean": 0.0002973886439576745,
+        "lens_prob_edit": 0.0002973886439576745,
+        "margin_clean": -7.070021629333496,
+        "margin_edit": -7.070021629333496
+       },
+       {
+        "point": "L8",
+        "layer": 8,
+        "downstream": true,
+        "delta_norm": 755.64013671875,
+        "persistence": 1.0,
+        "cosine": 1.0,
+        "lens_rank_clean": 121,
+        "lens_rank_edit": 60,
+        "lens_prob_clean": 8.244847413152456e-05,
+        "lens_prob_edit": 0.0008407094283029437,
+        "margin_clean": -7.872530937194824,
+        "margin_edit": -6.345651626586914
+       },
+       {
+        "point": "L9",
+        "layer": 9,
+        "downstream": true,
+        "delta_norm": 758.751953125,
+        "persistence": 1.0019316163799143,
+        "cosine": 0.9978224728811947,
+        "lens_rank_clean": 34,
+        "lens_rank_edit": 2,
+        "lens_prob_clean": 0.0007212787750177085,
+        "lens_prob_edit": 0.19773198664188385,
+        "margin_clean": -5.747306823730469,
+        "margin_edit": -0.4255352020263672
+       },
+       {
+        "point": "L10",
+        "layer": 10,
+        "downstream": true,
+        "delta_norm": 762.1144409179688,
+        "persistence": 1.0028193258399418,
+        "cosine": 0.9943002140854086,
+        "lens_rank_clean": 11,
+        "lens_rank_edit": 1,
+        "lens_prob_clean": 0.021234773099422455,
+        "lens_prob_edit": 0.7625200152397156,
+        "margin_clean": -2.496978759765625,
+        "margin_edit": 2.356403350830078
+       },
+       {
+        "point": "L11",
+        "layer": 11,
+        "downstream": true,
+        "delta_norm": 768.203857421875,
+        "persistence": 1.0040000560428166,
+        "cosine": 0.9875799347361465,
+        "lens_rank_clean": 6,
+        "lens_rank_edit": 1,
+        "lens_prob_clean": 0.02243398129940033,
+        "lens_prob_edit": 0.7227831482887268,
+        "margin_clean": -3.1683969497680664,
+        "margin_edit": 2.622173309326172
+       },
+       {
+        "point": "final",
+        "layer": 12,
+        "downstream": true,
+        "delta_norm": 667.1985473632812,
+        "persistence": 0.794174710416258,
+        "cosine": 0.8994478142578497,
+        "lens_rank_clean": 7,
+        "lens_rank_edit": 2,
+        "lens_prob_clean": 0.008339332416653633,
+        "lens_prob_edit": 0.1273982971906662,
+        "margin_clean": -3.7303905487060547,
+        "margin_edit": -0.3547697067260742
+       }
+      ],
+      "rank": 2,
+      "prob": 0.12739866971969604
+     },
+     "held": {
+      "rank": 2,
+      "prob": 0.12739866971969604
+     },
+     "optimal": {
+      "matched": {
+       "last": {
+        "rank": 1,
+        "prob": 0.9999988079071045
+       },
+       "all": {
+        "rank": 1,
+        "prob": 0.9999990463256836
+       }
+      },
+      "scan": {
+       "last": {
+        "0.02": {
+         "rank": 4,
+         "prob": 0.01606106571853161
+        },
+        "0.05": {
+         "rank": 2,
+         "prob": 0.04205486923456192
+        },
+        "0.1": {
+         "rank": 2,
+         "prob": 0.1964278221130371
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.9739592671394348
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9999942779541016
+        }
+       },
+       "all": {
+        "0.02": {
+         "rank": 3,
+         "prob": 0.040197137743234634
+        },
+        "0.05": {
+         "rank": 1,
+         "prob": 0.348463237285614
+        },
+        "0.1": {
+         "rank": 1,
+         "prob": 0.9956434965133667
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.9999997615814209
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9999996423721313
+        }
+       }
+      }
+     },
+     "seconds": 145.61
+    },
+    {
+     "layer": 9,
+     "sae": {
+      "rank_before": 7,
+      "rank_after": 2,
+      "prob_before": 0.00833933986723423,
+      "prob_after": 0.049103785306215286,
+      "success": false,
+      "features_used": 310,
+      "stop_reason": "No unapplied active features remain at this position.",
+      "final_top1": " the",
+      "delta_norm": 90.1796646118164,
+      "delta_norm_last": 15.753698348999023,
+      "resid_norm_last": 120.43815612792969,
+      "relative_push": 0.13080321764695077,
+      "recon_error_rel": 0.22578412294387817
+     },
+     "trace": {
+      "rows": [
+       {
+        "point": "L0",
+        "layer": 0,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 32626,
+        "lens_rank_edit": 32626,
+        "lens_prob_clean": 1.9048043830630204e-17,
+        "lens_prob_edit": 1.9048043830630204e-17,
+        "margin_clean": -37.835307121276855,
+        "margin_edit": -37.835307121276855
+       },
+       {
+        "point": "L1",
+        "layer": 1,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1557,
+        "lens_rank_edit": 1557,
+        "lens_prob_clean": 5.9381350183684845e-06,
+        "lens_prob_edit": 5.9381350183684845e-06,
+        "margin_clean": -11.51657485961914,
+        "margin_edit": -11.51657485961914
+       },
+       {
+        "point": "L2",
+        "layer": 2,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1292,
+        "lens_rank_edit": 1292,
+        "lens_prob_clean": 3.08293988382502e-06,
+        "lens_prob_edit": 3.08293988382502e-06,
+        "margin_clean": -12.102248191833496,
+        "margin_edit": -12.102248191833496
+       },
+       {
+        "point": "L3",
+        "layer": 3,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 734,
+        "lens_rank_edit": 734,
+        "lens_prob_clean": 5.409170626080595e-06,
+        "lens_prob_edit": 5.409170626080595e-06,
+        "margin_clean": -11.539456367492676,
+        "margin_edit": -11.539456367492676
+       },
+       {
+        "point": "L4",
+        "layer": 4,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 718,
+        "lens_rank_edit": 718,
+        "lens_prob_clean": 1.5240591892506927e-05,
+        "lens_prob_edit": 1.5240591892506927e-05,
+        "margin_clean": -10.2078275680542,
+        "margin_edit": -10.2078275680542
+       },
+       {
+        "point": "L5",
+        "layer": 5,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 448,
+        "lens_rank_edit": 448,
+        "lens_prob_clean": 4.696567702922039e-05,
+        "lens_prob_edit": 4.696567702922039e-05,
+        "margin_clean": -9.13127613067627,
+        "margin_edit": -9.13127613067627
+       },
+       {
+        "point": "L6",
+        "layer": 6,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 481,
+        "lens_rank_edit": 481,
+        "lens_prob_clean": 3.90189525205642e-05,
+        "lens_prob_edit": 3.90189525205642e-05,
+        "margin_clean": -9.128350257873535,
+        "margin_edit": -9.128350257873535
+       },
+       {
+        "point": "L7",
+        "layer": 7,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 92,
+        "lens_rank_edit": 92,
+        "lens_prob_clean": 0.0002973886439576745,
+        "lens_prob_edit": 0.0002973886439576745,
+        "margin_clean": -7.070021629333496,
+        "margin_edit": -7.070021629333496
+       },
+       {
+        "point": "L8",
+        "layer": 8,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 121,
+        "lens_rank_edit": 121,
+        "lens_prob_clean": 8.244847413152456e-05,
+        "lens_prob_edit": 8.244847413152456e-05,
+        "margin_clean": -7.872530937194824,
+        "margin_edit": -7.872530937194824
+       },
+       {
+        "point": "L9",
+        "layer": 9,
+        "downstream": true,
+        "delta_norm": 90.1796646118164,
+        "persistence": 1.0,
+        "cosine": 0.9999999999999999,
+        "lens_rank_clean": 34,
+        "lens_rank_edit": 16,
+        "lens_prob_clean": 0.0007212787750177085,
+        "lens_prob_edit": 0.009186827577650547,
+        "margin_clean": -5.747306823730469,
+        "margin_edit": -3.334970474243164
+       },
+       {
+        "point": "L10",
+        "layer": 10,
+        "downstream": true,
+        "delta_norm": 115.99981689453125,
+        "persistence": 1.1162353342961215,
+        "cosine": 0.8677749065515277,
+        "lens_rank_clean": 11,
+        "lens_rank_edit": 1,
+        "lens_prob_clean": 0.021234773099422455,
+        "lens_prob_edit": 0.42022740840911865,
+        "margin_clean": -2.496978759765625,
+        "margin_edit": 1.01611328125
+       },
+       {
+        "point": "L11",
+        "layer": 11,
+        "downstream": true,
+        "delta_norm": 141.0426483154297,
+        "persistence": 1.1589930507167805,
+        "cosine": 0.7410355196515576,
+        "lens_rank_clean": 6,
+        "lens_rank_edit": 1,
+        "lens_prob_clean": 0.02243398129940033,
+        "lens_prob_edit": 0.3330511748790741,
+        "margin_clean": -3.1683969497680664,
+        "margin_edit": 1.4240913391113281
+       },
+       {
+        "point": "final",
+        "layer": 12,
+        "downstream": true,
+        "delta_norm": 247.4373779296875,
+        "persistence": 1.1335302179830933,
+        "cosine": 0.4131202198546697,
+        "lens_rank_clean": 7,
+        "lens_rank_edit": 2,
+        "lens_prob_clean": 0.008339332416653633,
+        "lens_prob_edit": 0.0491037592291832,
+        "margin_clean": -3.7303905487060547,
+        "margin_edit": -1.4088363647460938
+       }
+      ],
+      "rank": 2,
+      "prob": 0.049103785306215286
+     },
+     "held": {
+      "rank": 2,
+      "prob": 0.049103785306215286
+     },
+     "optimal": {
+      "matched": {
+       "last": {
+        "rank": 1,
+        "prob": 0.9999735355377197
+       },
+       "all": {
+        "rank": 1,
+        "prob": 0.9999873638153076
+       }
+      },
+      "scan": {
+       "last": {
+        "0.02": {
+         "rank": 4,
+         "prob": 0.015743818134069443
+        },
+        "0.05": {
+         "rank": 3,
+         "prob": 0.039989545941352844
+        },
+        "0.1": {
+         "rank": 2,
+         "prob": 0.1792008876800537
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.9289612174034119
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9999128580093384
+        }
+       },
+       "all": {
+        "0.02": {
+         "rank": 3,
+         "prob": 0.0309294480830431
+        },
+        "0.05": {
+         "rank": 2,
+         "prob": 0.20698276162147522
+        },
+        "0.1": {
+         "rank": 1,
+         "prob": 0.9073340892791748
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.9999364614486694
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9999954700469971
+        }
+       }
+      }
+     },
+     "seconds": 205.22
+    },
+    {
+     "layer": 10,
+     "sae": {
+      "rank_before": 7,
+      "rank_after": 3,
+      "prob_before": 0.00833933986723423,
+      "prob_after": 0.023554835468530655,
+      "success": false,
+      "features_used": 212,
+      "stop_reason": "No unapplied active features remain at this position.",
+      "final_top1": " the",
+      "delta_norm": 95.79188537597656,
+      "delta_norm_last": 21.490100860595703,
+      "resid_norm_last": 161.4432830810547,
+      "relative_push": 0.13311238752377402,
+      "recon_error_rel": 0.22262707352638245
+     },
+     "trace": {
+      "rows": [
+       {
+        "point": "L0",
+        "layer": 0,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 32626,
+        "lens_rank_edit": 32626,
+        "lens_prob_clean": 1.9048043830630204e-17,
+        "lens_prob_edit": 1.9048043830630204e-17,
+        "margin_clean": -37.835307121276855,
+        "margin_edit": -37.835307121276855
+       },
+       {
+        "point": "L1",
+        "layer": 1,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1557,
+        "lens_rank_edit": 1557,
+        "lens_prob_clean": 5.9381350183684845e-06,
+        "lens_prob_edit": 5.9381350183684845e-06,
+        "margin_clean": -11.51657485961914,
+        "margin_edit": -11.51657485961914
+       },
+       {
+        "point": "L2",
+        "layer": 2,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1292,
+        "lens_rank_edit": 1292,
+        "lens_prob_clean": 3.08293988382502e-06,
+        "lens_prob_edit": 3.08293988382502e-06,
+        "margin_clean": -12.102248191833496,
+        "margin_edit": -12.102248191833496
+       },
+       {
+        "point": "L3",
+        "layer": 3,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 734,
+        "lens_rank_edit": 734,
+        "lens_prob_clean": 5.409170626080595e-06,
+        "lens_prob_edit": 5.409170626080595e-06,
+        "margin_clean": -11.539456367492676,
+        "margin_edit": -11.539456367492676
+       },
+       {
+        "point": "L4",
+        "layer": 4,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 718,
+        "lens_rank_edit": 718,
+        "lens_prob_clean": 1.5240591892506927e-05,
+        "lens_prob_edit": 1.5240591892506927e-05,
+        "margin_clean": -10.2078275680542,
+        "margin_edit": -10.2078275680542
+       },
+       {
+        "point": "L5",
+        "layer": 5,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 448,
+        "lens_rank_edit": 448,
+        "lens_prob_clean": 4.696567702922039e-05,
+        "lens_prob_edit": 4.696567702922039e-05,
+        "margin_clean": -9.13127613067627,
+        "margin_edit": -9.13127613067627
+       },
+       {
+        "point": "L6",
+        "layer": 6,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 481,
+        "lens_rank_edit": 481,
+        "lens_prob_clean": 3.90189525205642e-05,
+        "lens_prob_edit": 3.90189525205642e-05,
+        "margin_clean": -9.128350257873535,
+        "margin_edit": -9.128350257873535
+       },
+       {
+        "point": "L7",
+        "layer": 7,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 92,
+        "lens_rank_edit": 92,
+        "lens_prob_clean": 0.0002973886439576745,
+        "lens_prob_edit": 0.0002973886439576745,
+        "margin_clean": -7.070021629333496,
+        "margin_edit": -7.070021629333496
+       },
+       {
+        "point": "L8",
+        "layer": 8,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 121,
+        "lens_rank_edit": 121,
+        "lens_prob_clean": 8.244847413152456e-05,
+        "lens_prob_edit": 8.244847413152456e-05,
+        "margin_clean": -7.872530937194824,
+        "margin_edit": -7.872530937194824
+       },
+       {
+        "point": "L9",
+        "layer": 9,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 34,
+        "lens_rank_edit": 34,
+        "lens_prob_clean": 0.0007212787750177085,
+        "lens_prob_edit": 0.0007212787750177085,
+        "margin_clean": -5.747306823730469,
+        "margin_edit": -5.747306823730469
+       },
+       {
+        "point": "L10",
+        "layer": 10,
+        "downstream": true,
+        "delta_norm": 95.79188537597656,
+        "persistence": 1.0,
+        "cosine": 1.0,
+        "lens_rank_clean": 11,
+        "lens_rank_edit": 2,
+        "lens_prob_clean": 0.021234773099422455,
+        "lens_prob_edit": 0.1309356838464737,
+        "margin_clean": -2.496978759765625,
+        "margin_edit": -0.5599174499511719
+       },
+       {
+        "point": "L11",
+        "layer": 11,
+        "downstream": true,
+        "delta_norm": 135.40975952148438,
+        "persistence": 1.1314185960852083,
+        "cosine": 0.8003907086239666,
+        "lens_rank_clean": 6,
+        "lens_rank_edit": 2,
+        "lens_prob_clean": 0.02243398129940033,
+        "lens_prob_edit": 0.10536511242389679,
+        "margin_clean": -3.1683969497680664,
+        "margin_edit": -1.1802253723144531
+       },
+       {
+        "point": "final",
+        "layer": 12,
+        "downstream": true,
+        "delta_norm": 256.1067199707031,
+        "persistence": 1.1511702837422049,
+        "cosine": 0.4305735235178311,
+        "lens_rank_clean": 7,
+        "lens_rank_edit": 3,
+        "lens_prob_clean": 0.008339332416653633,
+        "lens_prob_edit": 0.023554852232336998,
+        "margin_clean": -3.7303905487060547,
+        "margin_edit": -2.3716650009155273
+       }
+      ],
+      "rank": 3,
+      "prob": 0.023554835468530655
+     },
+     "held": {
+      "rank": 3,
+      "prob": 0.023554835468530655
+     },
+     "optimal": {
+      "matched": {
+       "last": {
+        "rank": 1,
+        "prob": 0.999948263168335
+       },
+       "all": {
+        "rank": 1,
+        "prob": 0.9994747042655945
+       }
+      },
+      "scan": {
+       "last": {
+        "0.02": {
+         "rank": 4,
+         "prob": 0.01616046577692032
+        },
+        "0.05": {
+         "rank": 3,
+         "prob": 0.043851811438798904
+        },
+        "0.1": {
+         "rank": 1,
+         "prob": 0.22173182666301727
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.9569244980812073
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9992464780807495
+        }
+       },
+       "all": {
+        "0.02": {
+         "rank": 3,
+         "prob": 0.022857656702399254
+        },
+        "0.05": {
+         "rank": 2,
+         "prob": 0.1257406324148178
+        },
+        "0.1": {
+         "rank": 1,
+         "prob": 0.8679080009460449
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.9992263317108154
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9999866485595703
+        }
+       }
+      }
+     },
+     "seconds": 193.49
+    },
+    {
+     "layer": 11,
+     "sae": {
+      "rank_before": 7,
+      "rank_after": 6,
+      "prob_before": 0.00833933986723423,
+      "prob_after": 0.009518557228147984,
+      "success": false,
+      "features_used": 115,
+      "stop_reason": "Dead end: Round 1 produced no safe mute or boost candidates.",
+      "final_top1": " the",
+      "delta_norm": 73.52144622802734,
+      "delta_norm_last": 2.8071377277374268,
+      "resid_norm_last": 277.3918762207031,
+      "relative_push": 0.010119754644523062,
+      "recon_error_rel": 0.16148105263710022
+     },
+     "trace": {
+      "rows": [
+       {
+        "point": "L0",
+        "layer": 0,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 32626,
+        "lens_rank_edit": 32626,
+        "lens_prob_clean": 1.9048043830630204e-17,
+        "lens_prob_edit": 1.9048043830630204e-17,
+        "margin_clean": -37.835307121276855,
+        "margin_edit": -37.835307121276855
+       },
+       {
+        "point": "L1",
+        "layer": 1,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1557,
+        "lens_rank_edit": 1557,
+        "lens_prob_clean": 5.9381350183684845e-06,
+        "lens_prob_edit": 5.9381350183684845e-06,
+        "margin_clean": -11.51657485961914,
+        "margin_edit": -11.51657485961914
+       },
+       {
+        "point": "L2",
+        "layer": 2,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1292,
+        "lens_rank_edit": 1292,
+        "lens_prob_clean": 3.08293988382502e-06,
+        "lens_prob_edit": 3.08293988382502e-06,
+        "margin_clean": -12.102248191833496,
+        "margin_edit": -12.102248191833496
+       },
+       {
+        "point": "L3",
+        "layer": 3,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 734,
+        "lens_rank_edit": 734,
+        "lens_prob_clean": 5.409170626080595e-06,
+        "lens_prob_edit": 5.409170626080595e-06,
+        "margin_clean": -11.539456367492676,
+        "margin_edit": -11.539456367492676
+       },
+       {
+        "point": "L4",
+        "layer": 4,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 718,
+        "lens_rank_edit": 718,
+        "lens_prob_clean": 1.5240591892506927e-05,
+        "lens_prob_edit": 1.5240591892506927e-05,
+        "margin_clean": -10.2078275680542,
+        "margin_edit": -10.2078275680542
+       },
+       {
+        "point": "L5",
+        "layer": 5,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 448,
+        "lens_rank_edit": 448,
+        "lens_prob_clean": 4.696567702922039e-05,
+        "lens_prob_edit": 4.696567702922039e-05,
+        "margin_clean": -9.13127613067627,
+        "margin_edit": -9.13127613067627
+       },
+       {
+        "point": "L6",
+        "layer": 6,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 481,
+        "lens_rank_edit": 481,
+        "lens_prob_clean": 3.90189525205642e-05,
+        "lens_prob_edit": 3.90189525205642e-05,
+        "margin_clean": -9.128350257873535,
+        "margin_edit": -9.128350257873535
+       },
+       {
+        "point": "L7",
+        "layer": 7,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 92,
+        "lens_rank_edit": 92,
+        "lens_prob_clean": 0.0002973886439576745,
+        "lens_prob_edit": 0.0002973886439576745,
+        "margin_clean": -7.070021629333496,
+        "margin_edit": -7.070021629333496
+       },
+       {
+        "point": "L8",
+        "layer": 8,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 121,
+        "lens_rank_edit": 121,
+        "lens_prob_clean": 8.244847413152456e-05,
+        "lens_prob_edit": 8.244847413152456e-05,
+        "margin_clean": -7.872530937194824,
+        "margin_edit": -7.872530937194824
+       },
+       {
+        "point": "L9",
+        "layer": 9,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 34,
+        "lens_rank_edit": 34,
+        "lens_prob_clean": 0.0007212787750177085,
+        "lens_prob_edit": 0.0007212787750177085,
+        "margin_clean": -5.747306823730469,
+        "margin_edit": -5.747306823730469
+       },
+       {
+        "point": "L10",
+        "layer": 10,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 11,
+        "lens_rank_edit": 11,
+        "lens_prob_clean": 0.021234773099422455,
+        "lens_prob_edit": 0.021234773099422455,
+        "margin_clean": -2.496978759765625,
+        "margin_edit": -2.496978759765625
+       },
+       {
+        "point": "L11",
+        "layer": 11,
+        "downstream": true,
+        "delta_norm": 73.52144622802734,
+        "persistence": 1.0,
+        "cosine": 0.9999999999999998,
+        "lens_rank_clean": 6,
+        "lens_rank_edit": 6,
+        "lens_prob_clean": 0.02243398129940033,
+        "lens_prob_edit": 0.023243796080350876,
+        "margin_clean": -3.1683969497680664,
+        "margin_edit": -3.1184682846069336
+       },
+       {
+        "point": "final",
+        "layer": 12,
+        "downstream": true,
+        "delta_norm": 127.91727447509766,
+        "persistence": 0.979913219790744,
+        "cosine": 0.5632127417840419,
+        "lens_rank_clean": 7,
+        "lens_rank_edit": 6,
+        "lens_prob_clean": 0.008339332416653633,
+        "lens_prob_edit": 0.009518575854599476,
+        "margin_clean": -3.7303905487060547,
+        "margin_edit": -3.5881872177124023
+       }
+      ],
+      "rank": 6,
+      "prob": 0.009518557228147984
+     },
+     "held": {
+      "rank": 6,
+      "prob": 0.009518557228147984
+     },
+     "optimal": {
+      "matched": {
+       "last": {
+        "rank": 1,
+        "prob": 0.9996548891067505
+       },
+       "all": {
+        "rank": 1,
+        "prob": 0.9933366775512695
+       }
+      },
+      "scan": {
+       "last": {
+        "0.02": {
+         "rank": 3,
+         "prob": 0.023419899865984917
+        },
+        "0.05": {
+         "rank": 2,
+         "prob": 0.11031721532344818
+        },
+        "0.1": {
+         "rank": 1,
+         "prob": 0.742995023727417
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.9956539869308472
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9999910593032837
+        }
+       },
+       "all": {
+        "0.02": {
+         "rank": 3,
+         "prob": 0.03276336193084717
+        },
+        "0.05": {
+         "rank": 1,
+         "prob": 0.3266054093837738
+        },
+        "0.1": {
+         "rank": 1,
+         "prob": 0.9919861555099487
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.9999049305915833
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 1.0
+        }
+       }
+      }
+     },
+     "seconds": 180.26
+    }
+   ]
+  },
+  {
+   "prompt": "She opened the door and saw a",
+   "target": "cat",
+   "target_token": " cat",
+   "baseline_rank": 152,
+   "baseline_prob": 0.0006884256727062166,
+   "baseline_top1": " man",
+   "clean_lens": [
+    {
+     "layer": 0,
+     "rank": 19818,
+     "prob": 1.7358268422697242e-15,
+     "margin": -33.152403831481934
+    },
+    {
+     "layer": 1,
+     "rank": 1254,
+     "prob": 1.7648613720666617e-05,
+     "margin": -9.301162719726562
+    },
+    {
+     "layer": 2,
+     "rank": 805,
+     "prob": 1.912500010803342e-05,
+     "margin": -9.054506301879883
+    },
+    {
+     "layer": 3,
+     "rank": 1089,
+     "prob": 7.204874236776959e-06,
+     "margin": -10.67255973815918
+    },
+    {
+     "layer": 4,
+     "rank": 1256,
+     "prob": 3.1979993764252868e-06,
+     "margin": -11.550958633422852
+    },
+    {
+     "layer": 5,
+     "rank": 1186,
+     "prob": 2.675879159141914e-06,
+     "margin": -11.777956008911133
+    },
+    {
+     "layer": 6,
+     "rank": 1622,
+     "prob": 1.3921619483880932e-06,
+     "margin": -12.425106048583984
+    },
+    {
+     "layer": 7,
+     "rank": 891,
+     "prob": 3.12669794766407e-06,
+     "margin": -11.372846603393555
+    },
+    {
+     "layer": 8,
+     "rank": 613,
+     "prob": 1.2355861144897062e-05,
+     "margin": -9.834973335266113
+    },
+    {
+     "layer": 9,
+     "rank": 977,
+     "prob": 4.054419150634203e-06,
+     "margin": -10.486076354980469
+    },
+    {
+     "layer": 10,
+     "rank": 462,
+     "prob": 1.7626129192649387e-05,
+     "margin": -9.88197135925293
+    },
+    {
+     "layer": 11,
+     "rank": 271,
+     "prob": 5.03166374983266e-05,
+     "margin": -9.099747657775879
+    }
+   ],
+   "layers": [
+    {
+     "layer": 5,
+     "sae": {
+      "rank_before": 152,
+      "rank_after": 63,
+      "prob_before": 0.0006884256727062166,
+      "prob_after": 0.0019308546325191855,
+      "success": false,
+      "features_used": 1115,
+      "stop_reason": "No unapplied active features remain at this position.",
+      "final_top1": " man",
+      "delta_norm": 456.64471435546875,
+      "delta_norm_last": 16.26180648803711,
+      "resid_norm_last": 67.97732543945312,
+      "relative_push": 0.23922398215742358,
+      "recon_error_rel": 0.1980379968881607
+     },
+     "trace": {
+      "rows": [
+       {
+        "point": "L0",
+        "layer": 0,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 19818,
+        "lens_rank_edit": 19818,
+        "lens_prob_clean": 1.7358268422697242e-15,
+        "lens_prob_edit": 1.7358268422697242e-15,
+        "margin_clean": -33.152403831481934,
+        "margin_edit": -33.152403831481934
+       },
+       {
+        "point": "L1",
+        "layer": 1,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1254,
+        "lens_rank_edit": 1254,
+        "lens_prob_clean": 1.7648613720666617e-05,
+        "lens_prob_edit": 1.7648613720666617e-05,
+        "margin_clean": -9.301162719726562,
+        "margin_edit": -9.301162719726562
+       },
+       {
+        "point": "L2",
+        "layer": 2,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 805,
+        "lens_rank_edit": 805,
+        "lens_prob_clean": 1.912500010803342e-05,
+        "lens_prob_edit": 1.912500010803342e-05,
+        "margin_clean": -9.054506301879883,
+        "margin_edit": -9.054506301879883
+       },
+       {
+        "point": "L3",
+        "layer": 3,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1089,
+        "lens_rank_edit": 1089,
+        "lens_prob_clean": 7.204874236776959e-06,
+        "lens_prob_edit": 7.204874236776959e-06,
+        "margin_clean": -10.67255973815918,
+        "margin_edit": -10.67255973815918
+       },
+       {
+        "point": "L4",
+        "layer": 4,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1256,
+        "lens_rank_edit": 1256,
+        "lens_prob_clean": 3.1979993764252868e-06,
+        "lens_prob_edit": 3.1979993764252868e-06,
+        "margin_clean": -11.550958633422852,
+        "margin_edit": -11.550958633422852
+       },
+       {
+        "point": "L5",
+        "layer": 5,
+        "downstream": true,
+        "delta_norm": 456.64471435546875,
+        "persistence": 1.0,
+        "cosine": 1.0000000000000002,
+        "lens_rank_clean": 1186,
+        "lens_rank_edit": 1240,
+        "lens_prob_clean": 2.675879159141914e-06,
+        "lens_prob_edit": 2.6869935027207248e-05,
+        "margin_clean": -11.777956008911133,
+        "margin_edit": -9.204924583435059
+       },
+       {
+        "point": "L6",
+        "layer": 6,
+        "downstream": true,
+        "delta_norm": 460.1014099121094,
+        "persistence": 1.0021644650232389,
+        "cosine": 0.9946352815610464,
+        "lens_rank_clean": 1622,
+        "lens_rank_edit": 1805,
+        "lens_prob_clean": 1.3921619483880932e-06,
+        "lens_prob_edit": 1.0131936505786143e-05,
+        "margin_clean": -12.425106048583984,
+        "margin_edit": -10.09580945968628
+       },
+       {
+        "point": "L7",
+        "layer": 7,
+        "downstream": true,
+        "delta_norm": 462.2464294433594,
+        "persistence": 1.0048291712877413,
+        "cosine": 0.9926521684127015,
+        "lens_rank_clean": 891,
+        "lens_rank_edit": 716,
+        "lens_prob_clean": 3.12669794766407e-06,
+        "lens_prob_edit": 3.531707625370473e-05,
+        "margin_clean": -11.372846603393555,
+        "margin_edit": -8.165653228759766
+       },
+       {
+        "point": "L8",
+        "layer": 8,
+        "downstream": true,
+        "delta_norm": 464.29815673828125,
+        "persistence": 1.0072317679264289,
+        "cosine": 0.9906286830260571,
+        "lens_rank_clean": 613,
+        "lens_rank_edit": 431,
+        "lens_prob_clean": 1.2355861144897062e-05,
+        "lens_prob_edit": 9.360945114167407e-05,
+        "margin_clean": -9.834973335266113,
+        "margin_edit": -7.181587219238281
+       },
+       {
+        "point": "L9",
+        "layer": 9,
+        "downstream": true,
+        "delta_norm": 466.6123046875,
+        "persistence": 1.008996924145789,
+        "cosine": 0.9874431050459253,
+        "lens_rank_clean": 977,
+        "lens_rank_edit": 634,
+        "lens_prob_clean": 4.054419150634203e-06,
+        "lens_prob_edit": 3.4410299122100696e-05,
+        "margin_clean": -10.486076354980469,
+        "margin_edit": -8.4472074508667
+       },
+       {
+        "point": "L10",
+        "layer": 10,
+        "downstream": true,
+        "delta_norm": 469.3479309082031,
+        "persistence": 1.010193501794342,
+        "cosine": 0.9828519520963558,
+        "lens_rank_clean": 462,
+        "lens_rank_edit": 269,
+        "lens_prob_clean": 1.7626129192649387e-05,
+        "lens_prob_edit": 7.421005284413695e-05,
+        "margin_clean": -9.88197135925293,
+        "margin_edit": -8.543407440185547
+       },
+       {
+        "point": "L11",
+        "layer": 11,
+        "downstream": true,
+        "delta_norm": 473.5507507324219,
+        "persistence": 1.012299820142443,
+        "cosine": 0.9761601212380607,
+        "lens_rank_clean": 271,
+        "lens_rank_edit": 120,
+        "lens_prob_clean": 5.03166374983266e-05,
+        "lens_prob_edit": 0.00034625385887920856,
+        "margin_clean": -9.099747657775879,
+        "margin_edit": -7.080680847167969
+       },
+       {
+        "point": "final",
+        "layer": 12,
+        "downstream": true,
+        "delta_norm": 432.2664794921875,
+        "persistence": 0.8760479982819755,
+        "cosine": 0.9254538557658744,
+        "lens_rank_clean": 152,
+        "lens_rank_edit": 63,
+        "lens_prob_clean": 0.0006884237518534064,
+        "lens_prob_edit": 0.0019308526534587145,
+        "margin_clean": -5.554232597351074,
+        "margin_edit": -3.901205062866211
+       }
+      ],
+      "rank": 63,
+      "prob": 0.0019308546325191855
+     },
+     "held": {
+      "rank": 63,
+      "prob": 0.0019308546325191855
+     },
+     "optimal": {
+      "matched": {
+       "last": {
+        "rank": 1,
+        "prob": 0.9999747276306152
+       },
+       "all": {
+        "rank": 1,
+        "prob": 0.9999967813491821
+       }
+      },
+      "scan": {
+       "last": {
+        "0.02": {
+         "rank": 115,
+         "prob": 0.0008845536503940821
+        },
+        "0.05": {
+         "rank": 73,
+         "prob": 0.0013270683120936155
+        },
+        "0.1": {
+         "rank": 38,
+         "prob": 0.0029982321429997683
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.21823446452617645
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9999809265136719
+        }
+       },
+       "all": {
+        "0.02": {
+         "rank": 70,
+         "prob": 0.001467021880671382
+        },
+        "0.05": {
+         "rank": 20,
+         "prob": 0.005717935971915722
+        },
+        "0.1": {
+         "rank": 1,
+         "prob": 0.9998489618301392
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.9999887943267822
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9999970197677612
+        }
+       }
+      }
+     },
+     "seconds": 906.24
+    },
+    {
+     "layer": 6,
+     "sae": {
+      "rank_before": 152,
+      "rank_after": 95,
+      "prob_before": 0.0006884256727062166,
+      "prob_after": 0.0013276482932269573,
+      "success": false,
+      "features_used": 119,
+      "stop_reason": "Dead end: Round 1 produced no safe mute or boost candidates.",
+      "final_top1": " man",
+      "delta_norm": 58.33584213256836,
+      "delta_norm_last": 12.635700225830078,
+      "resid_norm_last": 72.80401611328125,
+      "relative_push": 0.17355773624039147,
+      "recon_error_rel": 0.20752191543579102
+     },
+     "trace": {
+      "rows": [
+       {
+        "point": "L0",
+        "layer": 0,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 19818,
+        "lens_rank_edit": 19818,
+        "lens_prob_clean": 1.7358268422697242e-15,
+        "lens_prob_edit": 1.7358268422697242e-15,
+        "margin_clean": -33.152403831481934,
+        "margin_edit": -33.152403831481934
+       },
+       {
+        "point": "L1",
+        "layer": 1,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1254,
+        "lens_rank_edit": 1254,
+        "lens_prob_clean": 1.7648613720666617e-05,
+        "lens_prob_edit": 1.7648613720666617e-05,
+        "margin_clean": -9.301162719726562,
+        "margin_edit": -9.301162719726562
+       },
+       {
+        "point": "L2",
+        "layer": 2,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 805,
+        "lens_rank_edit": 805,
+        "lens_prob_clean": 1.912500010803342e-05,
+        "lens_prob_edit": 1.912500010803342e-05,
+        "margin_clean": -9.054506301879883,
+        "margin_edit": -9.054506301879883
+       },
+       {
+        "point": "L3",
+        "layer": 3,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1089,
+        "lens_rank_edit": 1089,
+        "lens_prob_clean": 7.204874236776959e-06,
+        "lens_prob_edit": 7.204874236776959e-06,
+        "margin_clean": -10.67255973815918,
+        "margin_edit": -10.67255973815918
+       },
+       {
+        "point": "L4",
+        "layer": 4,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1256,
+        "lens_rank_edit": 1256,
+        "lens_prob_clean": 3.1979993764252868e-06,
+        "lens_prob_edit": 3.1979993764252868e-06,
+        "margin_clean": -11.550958633422852,
+        "margin_edit": -11.550958633422852
+       },
+       {
+        "point": "L5",
+        "layer": 5,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1186,
+        "lens_rank_edit": 1186,
+        "lens_prob_clean": 2.675879159141914e-06,
+        "lens_prob_edit": 2.675879159141914e-06,
+        "margin_clean": -11.777956008911133,
+        "margin_edit": -11.777956008911133
+       },
+       {
+        "point": "L6",
+        "layer": 6,
+        "downstream": true,
+        "delta_norm": 58.33584213256836,
+        "persistence": 0.9999999282587289,
+        "cosine": 0.9999999641293638,
+        "lens_rank_clean": 1622,
+        "lens_rank_edit": 1488,
+        "lens_prob_clean": 1.3921619483880932e-06,
+        "lens_prob_edit": 2.789081236187485e-06,
+        "margin_clean": -12.425106048583984,
+        "margin_edit": -11.81810188293457
+       },
+       {
+        "point": "L7",
+        "layer": 7,
+        "downstream": true,
+        "delta_norm": 79.8448486328125,
+        "persistence": 1.1173930398627503,
+        "cosine": 0.8163841054058751,
+        "lens_rank_clean": 891,
+        "lens_rank_edit": 829,
+        "lens_prob_clean": 3.12669794766407e-06,
+        "lens_prob_edit": 5.824947947985493e-06,
+        "margin_clean": -11.372846603393555,
+        "margin_edit": -10.598506927490234
+       },
+       {
+        "point": "L8",
+        "layer": 8,
+        "downstream": true,
+        "delta_norm": 98.6788330078125,
+        "persistence": 1.2161667806635466,
+        "cosine": 0.7189598403498297,
+        "lens_rank_clean": 613,
+        "lens_rank_edit": 451,
+        "lens_prob_clean": 1.2355861144897062e-05,
+        "lens_prob_edit": 3.295813439763151e-05,
+        "margin_clean": -9.834973335266113,
+        "margin_edit": -9.157270431518555
+       },
+       {
+        "point": "L9",
+        "layer": 9,
+        "downstream": true,
+        "delta_norm": 114.11798858642578,
+        "persistence": 1.2491803918479534,
+        "cosine": 0.638567111838672,
+        "lens_rank_clean": 977,
+        "lens_rank_edit": 659,
+        "lens_prob_clean": 4.054419150634203e-06,
+        "lens_prob_edit": 1.3653226233145688e-05,
+        "margin_clean": -10.486076354980469,
+        "margin_edit": -10.203752517700195
+       },
+       {
+        "point": "L10",
+        "layer": 10,
+        "downstream": true,
+        "delta_norm": 129.50466918945312,
+        "persistence": 1.2295254357959386,
+        "cosine": 0.5538441690381443,
+        "lens_rank_clean": 462,
+        "lens_rank_edit": 435,
+        "lens_prob_clean": 1.7626129192649387e-05,
+        "lens_prob_edit": 5.905523357796483e-05,
+        "margin_clean": -9.88197135925293,
+        "margin_edit": -7.912837982177734
+       },
+       {
+        "point": "L11",
+        "layer": 11,
+        "downstream": true,
+        "delta_norm": 151.93475341796875,
+        "persistence": 1.226158474459175,
+        "cosine": 0.4707875653362535,
+        "lens_rank_clean": 271,
+        "lens_rank_edit": 207,
+        "lens_prob_clean": 5.03166374983266e-05,
+        "lens_prob_edit": 0.0003185360983479768,
+        "margin_clean": -9.099747657775879,
+        "margin_edit": -6.32984733581543
+       },
+       {
+        "point": "final",
+        "layer": 12,
+        "downstream": true,
+        "delta_norm": 207.4921112060547,
+        "persistence": 1.1568948598670576,
+        "cosine": 0.32525785414296593,
+        "lens_rank_clean": 152,
+        "lens_rank_edit": 95,
+        "lens_prob_clean": 0.0006884237518534064,
+        "lens_prob_edit": 0.001327649806626141,
+        "margin_clean": -5.554232597351074,
+        "margin_edit": -4.22833251953125
+       }
+      ],
+      "rank": 95,
+      "prob": 0.0013276482932269573
+     },
+     "held": {
+      "rank": 95,
+      "prob": 0.0013276482932269573
+     },
+     "optimal": {
+      "matched": {
+       "last": {
+        "rank": 1,
+        "prob": 0.9999861717224121
+       },
+       "all": {
+        "rank": 1,
+        "prob": 0.9999954700469971
+       }
+      },
+      "scan": {
+       "last": {
+        "0.02": {
+         "rank": 107,
+         "prob": 0.0009257726487703621
+        },
+        "0.05": {
+         "rank": 67,
+         "prob": 0.0014753080904483795
+        },
+        "0.1": {
+         "rank": 32,
+         "prob": 0.003559865988790989
+        },
+        "0.2": {
+         "rank": 2,
+         "prob": 0.037821464240550995
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9999573230743408
+        }
+       },
+       "all": {
+        "0.02": {
+         "rank": 67,
+         "prob": 0.0015484675532206893
+        },
+        "0.05": {
+         "rank": 18,
+         "prob": 0.005969706457108259
+        },
+        "0.1": {
+         "rank": 1,
+         "prob": 0.9977184534072876
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.9999890327453613
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9999969005584717
+        }
+       }
+      }
+     },
+     "seconds": 163.57
+    },
+    {
+     "layer": 7,
+     "sae": {
+      "rank_before": 152,
+      "rank_after": 76,
+      "prob_before": 0.0006884256727062166,
+      "prob_after": 0.001545868581160903,
+      "success": false,
+      "features_used": 119,
+      "stop_reason": "Dead end: Round 1 produced no safe mute or boost candidates.",
+      "final_top1": " man",
+      "delta_norm": 65.29417419433594,
+      "delta_norm_last": 12.09529972076416,
+      "resid_norm_last": 85.02410125732422,
+      "relative_push": 0.14225730753869317,
+      "recon_error_rel": 0.21951350569725037
+     },
+     "trace": {
+      "rows": [
+       {
+        "point": "L0",
+        "layer": 0,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 19818,
+        "lens_rank_edit": 19818,
+        "lens_prob_clean": 1.7358268422697242e-15,
+        "lens_prob_edit": 1.7358268422697242e-15,
+        "margin_clean": -33.152403831481934,
+        "margin_edit": -33.152403831481934
+       },
+       {
+        "point": "L1",
+        "layer": 1,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1254,
+        "lens_rank_edit": 1254,
+        "lens_prob_clean": 1.7648613720666617e-05,
+        "lens_prob_edit": 1.7648613720666617e-05,
+        "margin_clean": -9.301162719726562,
+        "margin_edit": -9.301162719726562
+       },
+       {
+        "point": "L2",
+        "layer": 2,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 805,
+        "lens_rank_edit": 805,
+        "lens_prob_clean": 1.912500010803342e-05,
+        "lens_prob_edit": 1.912500010803342e-05,
+        "margin_clean": -9.054506301879883,
+        "margin_edit": -9.054506301879883
+       },
+       {
+        "point": "L3",
+        "layer": 3,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1089,
+        "lens_rank_edit": 1089,
+        "lens_prob_clean": 7.204874236776959e-06,
+        "lens_prob_edit": 7.204874236776959e-06,
+        "margin_clean": -10.67255973815918,
+        "margin_edit": -10.67255973815918
+       },
+       {
+        "point": "L4",
+        "layer": 4,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1256,
+        "lens_rank_edit": 1256,
+        "lens_prob_clean": 3.1979993764252868e-06,
+        "lens_prob_edit": 3.1979993764252868e-06,
+        "margin_clean": -11.550958633422852,
+        "margin_edit": -11.550958633422852
+       },
+       {
+        "point": "L5",
+        "layer": 5,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1186,
+        "lens_rank_edit": 1186,
+        "lens_prob_clean": 2.675879159141914e-06,
+        "lens_prob_edit": 2.675879159141914e-06,
+        "margin_clean": -11.777956008911133,
+        "margin_edit": -11.777956008911133
+       },
+       {
+        "point": "L6",
+        "layer": 6,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1622,
+        "lens_rank_edit": 1622,
+        "lens_prob_clean": 1.3921619483880932e-06,
+        "lens_prob_edit": 1.3921619483880932e-06,
+        "margin_clean": -12.425106048583984,
+        "margin_edit": -12.425106048583984
+       },
+       {
+        "point": "L7",
+        "layer": 7,
+        "downstream": true,
+        "delta_norm": 65.29417419433594,
+        "persistence": 1.0,
+        "cosine": 1.0000000000000002,
+        "lens_rank_clean": 891,
+        "lens_rank_edit": 795,
+        "lens_prob_clean": 3.12669794766407e-06,
+        "lens_prob_edit": 2.152393335563829e-06,
+        "margin_clean": -11.372846603393555,
+        "margin_edit": -11.601813316345215
+       },
+       {
+        "point": "L8",
+        "layer": 8,
+        "downstream": true,
+        "delta_norm": 89.72979736328125,
+        "persistence": 1.1421063626507766,
+        "cosine": 0.8310827987697305,
+        "lens_rank_clean": 613,
+        "lens_rank_edit": 676,
+        "lens_prob_clean": 1.2355861144897062e-05,
+        "lens_prob_edit": 5.969279754935997e-06,
+        "margin_clean": -9.834973335266113,
+        "margin_edit": -10.68626594543457
+       },
+       {
+        "point": "L9",
+        "layer": 9,
+        "downstream": true,
+        "delta_norm": 106.80599975585938,
+        "persistence": 1.1885095434836837,
+        "cosine": 0.7265766493473272,
+        "lens_rank_clean": 977,
+        "lens_rank_edit": 723,
+        "lens_prob_clean": 4.054419150634203e-06,
+        "lens_prob_edit": 1.6135747500811704e-05,
+        "margin_clean": -10.486076354980469,
+        "margin_edit": -9.105716705322266
+       },
+       {
+        "point": "L10",
+        "layer": 10,
+        "downstream": true,
+        "delta_norm": 122.73377227783203,
+        "persistence": 1.1700110338691911,
+        "cosine": 0.6224440425677951,
+        "lens_rank_clean": 462,
+        "lens_rank_edit": 325,
+        "lens_prob_clean": 1.7626129192649387e-05,
+        "lens_prob_edit": 0.00010433865827508271,
+        "margin_clean": -9.88197135925293,
+        "margin_edit": -6.9897003173828125
+       },
+       {
+        "point": "L11",
+        "layer": 11,
+        "downstream": true,
+        "delta_norm": 145.5443572998047,
+        "persistence": 1.183830170496987,
+        "cosine": 0.5310904333938462,
+        "lens_rank_clean": 271,
+        "lens_rank_edit": 141,
+        "lens_prob_clean": 5.03166374983266e-05,
+        "lens_prob_edit": 0.0004371611576061696,
+        "margin_clean": -9.099747657775879,
+        "margin_edit": -6.250662803649902
+       },
+       {
+        "point": "final",
+        "layer": 12,
+        "downstream": true,
+        "delta_norm": 214.05764770507812,
+        "persistence": 1.150143082964297,
+        "cosine": 0.3508290421321718,
+        "lens_rank_clean": 152,
+        "lens_rank_edit": 76,
+        "lens_prob_clean": 0.0006884237518534064,
+        "lens_prob_edit": 0.0015458636917173862,
+        "margin_clean": -5.554232597351074,
+        "margin_edit": -4.328361511230469
+       }
+      ],
+      "rank": 76,
+      "prob": 0.001545868581160903
+     },
+     "held": {
+      "rank": 76,
+      "prob": 0.001545868581160903
+     },
+     "optimal": {
+      "matched": {
+       "last": {
+        "rank": 1,
+        "prob": 0.9999885559082031
+       },
+       "all": {
+        "rank": 1,
+        "prob": 0.9999969005584717
+       }
+      },
+      "scan": {
+       "last": {
+        "0.02": {
+         "rank": 103,
+         "prob": 0.0009775800863280892
+        },
+        "0.05": {
+         "rank": 64,
+         "prob": 0.0016803487669676542
+        },
+        "0.1": {
+         "rank": 27,
+         "prob": 0.004390945192426443
+        },
+        "0.2": {
+         "rank": 2,
+         "prob": 0.05691123753786087
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9999631643295288
+        }
+       },
+       "all": {
+        "0.02": {
+         "rank": 71,
+         "prob": 0.0014512226916849613
+        },
+        "0.05": {
+         "rank": 25,
+         "prob": 0.004818926565349102
+        },
+        "0.1": {
+         "rank": 1,
+         "prob": 0.09969747811555862
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.9999902248382568
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9999954700469971
+        }
+       }
+      }
+     },
+     "seconds": 168.61
+    },
+    {
+     "layer": 8,
+     "sae": {
+      "rank_before": 152,
+      "rank_after": 34,
+      "prob_before": 0.0006884256727062166,
+      "prob_after": 0.003043470671400428,
+      "success": false,
+      "features_used": 243,
+      "stop_reason": "Dead end: Round 3 produced no safe mute or boost candidates.",
+      "final_top1": " man",
+      "delta_norm": 263.74041748046875,
+      "delta_norm_last": 21.125377655029297,
+      "resid_norm_last": 104.62743377685547,
+      "relative_push": 0.20191050179138026,
+      "recon_error_rel": 0.2310377061367035
+     },
+     "trace": {
+      "rows": [
+       {
+        "point": "L0",
+        "layer": 0,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 19818,
+        "lens_rank_edit": 19818,
+        "lens_prob_clean": 1.7358268422697242e-15,
+        "lens_prob_edit": 1.7358268422697242e-15,
+        "margin_clean": -33.152403831481934,
+        "margin_edit": -33.152403831481934
+       },
+       {
+        "point": "L1",
+        "layer": 1,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1254,
+        "lens_rank_edit": 1254,
+        "lens_prob_clean": 1.7648613720666617e-05,
+        "lens_prob_edit": 1.7648613720666617e-05,
+        "margin_clean": -9.301162719726562,
+        "margin_edit": -9.301162719726562
+       },
+       {
+        "point": "L2",
+        "layer": 2,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 805,
+        "lens_rank_edit": 805,
+        "lens_prob_clean": 1.912500010803342e-05,
+        "lens_prob_edit": 1.912500010803342e-05,
+        "margin_clean": -9.054506301879883,
+        "margin_edit": -9.054506301879883
+       },
+       {
+        "point": "L3",
+        "layer": 3,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1089,
+        "lens_rank_edit": 1089,
+        "lens_prob_clean": 7.204874236776959e-06,
+        "lens_prob_edit": 7.204874236776959e-06,
+        "margin_clean": -10.67255973815918,
+        "margin_edit": -10.67255973815918
+       },
+       {
+        "point": "L4",
+        "layer": 4,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1256,
+        "lens_rank_edit": 1256,
+        "lens_prob_clean": 3.1979993764252868e-06,
+        "lens_prob_edit": 3.1979993764252868e-06,
+        "margin_clean": -11.550958633422852,
+        "margin_edit": -11.550958633422852
+       },
+       {
+        "point": "L5",
+        "layer": 5,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1186,
+        "lens_rank_edit": 1186,
+        "lens_prob_clean": 2.675879159141914e-06,
+        "lens_prob_edit": 2.675879159141914e-06,
+        "margin_clean": -11.777956008911133,
+        "margin_edit": -11.777956008911133
+       },
+       {
+        "point": "L6",
+        "layer": 6,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1622,
+        "lens_rank_edit": 1622,
+        "lens_prob_clean": 1.3921619483880932e-06,
+        "lens_prob_edit": 1.3921619483880932e-06,
+        "margin_clean": -12.425106048583984,
+        "margin_edit": -12.425106048583984
+       },
+       {
+        "point": "L7",
+        "layer": 7,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 891,
+        "lens_rank_edit": 891,
+        "lens_prob_clean": 3.12669794766407e-06,
+        "lens_prob_edit": 3.12669794766407e-06,
+        "margin_clean": -11.372846603393555,
+        "margin_edit": -11.372846603393555
+       },
+       {
+        "point": "L8",
+        "layer": 8,
+        "downstream": true,
+        "delta_norm": 263.74041748046875,
+        "persistence": 1.0,
+        "cosine": 0.9999999999999998,
+        "lens_rank_clean": 613,
+        "lens_rank_edit": 361,
+        "lens_prob_clean": 1.2355861144897062e-05,
+        "lens_prob_edit": 0.00010921061766566709,
+        "margin_clean": -9.834973335266113,
+        "margin_edit": -7.015588760375977
+       },
+       {
+        "point": "L9",
+        "layer": 9,
+        "downstream": true,
+        "delta_norm": 274.3717346191406,
+        "persistence": 1.0146905381828424,
+        "cosine": 0.9753735400431598,
+        "lens_rank_clean": 977,
+        "lens_rank_edit": 547,
+        "lens_prob_clean": 4.054419150634203e-06,
+        "lens_prob_edit": 3.6160199670121074e-05,
+        "margin_clean": -10.486076354980469,
+        "margin_edit": -9.22177505493164
+       },
+       {
+        "point": "L10",
+        "layer": 10,
+        "downstream": true,
+        "delta_norm": 282.54638671875,
+        "persistence": 1.0158610819904053,
+        "cosine": 0.9482465177748272,
+        "lens_rank_clean": 462,
+        "lens_rank_edit": 196,
+        "lens_prob_clean": 1.7626129192649387e-05,
+        "lens_prob_edit": 0.00012414745287969708,
+        "margin_clean": -9.88197135925293,
+        "margin_edit": -8.463106155395508
+       },
+       {
+        "point": "L11",
+        "layer": 11,
+        "downstream": true,
+        "delta_norm": 296.34771728515625,
+        "persistence": 1.0204103889300835,
+        "cosine": 0.9081340555812433,
+        "lens_rank_clean": 271,
+        "lens_rank_edit": 62,
+        "lens_prob_clean": 5.03166374983266e-05,
+        "lens_prob_edit": 0.0009125364595092833,
+        "margin_clean": -9.099747657775879,
+        "margin_edit": -6.262105941772461
+       },
+       {
+        "point": "final",
+        "layer": 12,
+        "downstream": true,
+        "delta_norm": 323.1631164550781,
+        "persistence": 0.9074685232436396,
+        "cosine": 0.7406047597252402,
+        "lens_rank_clean": 152,
+        "lens_rank_edit": 34,
+        "lens_prob_clean": 0.0006884237518534064,
+        "lens_prob_edit": 0.003043461823835969,
+        "margin_clean": -5.554232597351074,
+        "margin_edit": -3.4057083129882812
+       }
+      ],
+      "rank": 34,
+      "prob": 0.003043470671400428
+     },
+     "held": {
+      "rank": 34,
+      "prob": 0.003043470671400428
+     },
+     "optimal": {
+      "matched": {
+       "last": {
+        "rank": 1,
+        "prob": 0.9999961853027344
+       },
+       "all": {
+        "rank": 1,
+        "prob": 0.9999998807907104
+       }
+      },
+      "scan": {
+       "last": {
+        "0.02": {
+         "rank": 94,
+         "prob": 0.00105405249632895
+        },
+        "0.05": {
+         "rank": 54,
+         "prob": 0.0020339174661785364
+        },
+        "0.1": {
+         "rank": 14,
+         "prob": 0.006416469346731901
+        },
+        "0.2": {
+         "rank": 2,
+         "prob": 0.09649047255516052
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9999833106994629
+        }
+       },
+       "all": {
+        "0.02": {
+         "rank": 67,
+         "prob": 0.001534057897515595
+        },
+        "0.05": {
+         "rank": 21,
+         "prob": 0.005653532687574625
+        },
+        "0.1": {
+         "rank": 1,
+         "prob": 0.09567023813724518
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.9999974966049194
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9999992847442627
+        }
+       }
+      }
+     },
+     "seconds": 167.65
+    },
+    {
+     "layer": 9,
+     "sae": {
+      "rank_before": 152,
+      "rank_after": 82,
+      "prob_before": 0.0006884256727062166,
+      "prob_after": 0.0012312851613387465,
+      "success": false,
+      "features_used": 129,
+      "stop_reason": "No unapplied active features remain at this position.",
+      "final_top1": " man",
+      "delta_norm": 79.81338500976562,
+      "delta_norm_last": 17.743974685668945,
+      "resid_norm_last": 126.52549743652344,
+      "relative_push": 0.14024030764685133,
+      "recon_error_rel": 0.23013606667518616
+     },
+     "trace": {
+      "rows": [
+       {
+        "point": "L0",
+        "layer": 0,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 19818,
+        "lens_rank_edit": 19818,
+        "lens_prob_clean": 1.7358268422697242e-15,
+        "lens_prob_edit": 1.7358268422697242e-15,
+        "margin_clean": -33.152403831481934,
+        "margin_edit": -33.152403831481934
+       },
+       {
+        "point": "L1",
+        "layer": 1,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1254,
+        "lens_rank_edit": 1254,
+        "lens_prob_clean": 1.7648613720666617e-05,
+        "lens_prob_edit": 1.7648613720666617e-05,
+        "margin_clean": -9.301162719726562,
+        "margin_edit": -9.301162719726562
+       },
+       {
+        "point": "L2",
+        "layer": 2,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 805,
+        "lens_rank_edit": 805,
+        "lens_prob_clean": 1.912500010803342e-05,
+        "lens_prob_edit": 1.912500010803342e-05,
+        "margin_clean": -9.054506301879883,
+        "margin_edit": -9.054506301879883
+       },
+       {
+        "point": "L3",
+        "layer": 3,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1089,
+        "lens_rank_edit": 1089,
+        "lens_prob_clean": 7.204874236776959e-06,
+        "lens_prob_edit": 7.204874236776959e-06,
+        "margin_clean": -10.67255973815918,
+        "margin_edit": -10.67255973815918
+       },
+       {
+        "point": "L4",
+        "layer": 4,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1256,
+        "lens_rank_edit": 1256,
+        "lens_prob_clean": 3.1979993764252868e-06,
+        "lens_prob_edit": 3.1979993764252868e-06,
+        "margin_clean": -11.550958633422852,
+        "margin_edit": -11.550958633422852
+       },
+       {
+        "point": "L5",
+        "layer": 5,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1186,
+        "lens_rank_edit": 1186,
+        "lens_prob_clean": 2.675879159141914e-06,
+        "lens_prob_edit": 2.675879159141914e-06,
+        "margin_clean": -11.777956008911133,
+        "margin_edit": -11.777956008911133
+       },
+       {
+        "point": "L6",
+        "layer": 6,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1622,
+        "lens_rank_edit": 1622,
+        "lens_prob_clean": 1.3921619483880932e-06,
+        "lens_prob_edit": 1.3921619483880932e-06,
+        "margin_clean": -12.425106048583984,
+        "margin_edit": -12.425106048583984
+       },
+       {
+        "point": "L7",
+        "layer": 7,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 891,
+        "lens_rank_edit": 891,
+        "lens_prob_clean": 3.12669794766407e-06,
+        "lens_prob_edit": 3.12669794766407e-06,
+        "margin_clean": -11.372846603393555,
+        "margin_edit": -11.372846603393555
+       },
+       {
+        "point": "L8",
+        "layer": 8,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 613,
+        "lens_rank_edit": 613,
+        "lens_prob_clean": 1.2355861144897062e-05,
+        "lens_prob_edit": 1.2355861144897062e-05,
+        "margin_clean": -9.834973335266113,
+        "margin_edit": -9.834973335266113
+       },
+       {
+        "point": "L9",
+        "layer": 9,
+        "downstream": true,
+        "delta_norm": 79.81338500976562,
+        "persistence": 1.0,
+        "cosine": 0.999999961674434,
+        "lens_rank_clean": 977,
+        "lens_rank_edit": 789,
+        "lens_prob_clean": 4.054419150634203e-06,
+        "lens_prob_edit": 9.53237758949399e-06,
+        "margin_clean": -10.486076354980469,
+        "margin_edit": -9.774364471435547
+       },
+       {
+        "point": "L10",
+        "layer": 10,
+        "downstream": true,
+        "delta_norm": 100.698974609375,
+        "persistence": 1.0721889671267038,
+        "cosine": 0.8498103512185579,
+        "lens_rank_clean": 462,
+        "lens_rank_edit": 390,
+        "lens_prob_clean": 1.7626129192649387e-05,
+        "lens_prob_edit": 2.578611019998789e-05,
+        "margin_clean": -9.88197135925293,
+        "margin_edit": -9.841886520385742
+       },
+       {
+        "point": "L11",
+        "layer": 11,
+        "downstream": true,
+        "delta_norm": 128.293701171875,
+        "persistence": 1.1679793557027411,
+        "cosine": 0.7266169685800944,
+        "lens_rank_clean": 271,
+        "lens_rank_edit": 187,
+        "lens_prob_clean": 5.03166374983266e-05,
+        "lens_prob_edit": 0.0001094163817469962,
+        "margin_clean": -9.099747657775879,
+        "margin_edit": -8.384437561035156
+       },
+       {
+        "point": "final",
+        "layer": 12,
+        "downstream": true,
+        "delta_norm": 166.18972778320312,
+        "persistence": 1.0939734500392875,
+        "cosine": 0.5253858207528677,
+        "lens_rank_clean": 152,
+        "lens_rank_edit": 82,
+        "lens_prob_clean": 0.0006884237518534064,
+        "lens_prob_edit": 0.0012312836479395628,
+        "margin_clean": -5.554232597351074,
+        "margin_edit": -4.6747846603393555
+       }
+      ],
+      "rank": 82,
+      "prob": 0.0012312851613387465
+     },
+     "held": {
+      "rank": 82,
+      "prob": 0.0012312851613387465
+     },
+     "optimal": {
+      "matched": {
+       "last": {
+        "rank": 1,
+        "prob": 0.9999618530273438
+       },
+       "all": {
+        "rank": 1,
+        "prob": 0.9999779462814331
+       }
+      },
+      "scan": {
+       "last": {
+        "0.02": {
+         "rank": 89,
+         "prob": 0.0011368942214176059
+        },
+        "0.05": {
+         "rank": 46,
+         "prob": 0.0024048283230513334
+        },
+        "0.1": {
+         "rank": 12,
+         "prob": 0.008592992089688778
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.15385007858276367
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9999082088470459
+        }
+       },
+       "all": {
+        "0.02": {
+         "rank": 68,
+         "prob": 0.001465478097088635
+        },
+        "0.05": {
+         "rank": 27,
+         "prob": 0.005053434055298567
+        },
+        "0.1": {
+         "rank": 1,
+         "prob": 0.1285175085067749
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.9999222755432129
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9999961853027344
+        }
+       }
+      }
+     },
+     "seconds": 167.43
+    },
+    {
+     "layer": 10,
+     "sae": {
+      "rank_before": 152,
+      "rank_after": 90,
+      "prob_before": 0.0006884256727062166,
+      "prob_after": 0.0011391870211809874,
+      "success": false,
+      "features_used": 107,
+      "stop_reason": "No unapplied active features remain at this position.",
+      "final_top1": " man",
+      "delta_norm": 97.89022827148438,
+      "delta_norm_last": 23.93203353881836,
+      "resid_norm_last": 168.1886444091797,
+      "relative_push": 0.14229280236420144,
+      "recon_error_rel": 0.2318776696920395
+     },
+     "trace": {
+      "rows": [
+       {
+        "point": "L0",
+        "layer": 0,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 19818,
+        "lens_rank_edit": 19818,
+        "lens_prob_clean": 1.7358268422697242e-15,
+        "lens_prob_edit": 1.7358268422697242e-15,
+        "margin_clean": -33.152403831481934,
+        "margin_edit": -33.152403831481934
+       },
+       {
+        "point": "L1",
+        "layer": 1,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1254,
+        "lens_rank_edit": 1254,
+        "lens_prob_clean": 1.7648613720666617e-05,
+        "lens_prob_edit": 1.7648613720666617e-05,
+        "margin_clean": -9.301162719726562,
+        "margin_edit": -9.301162719726562
+       },
+       {
+        "point": "L2",
+        "layer": 2,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 805,
+        "lens_rank_edit": 805,
+        "lens_prob_clean": 1.912500010803342e-05,
+        "lens_prob_edit": 1.912500010803342e-05,
+        "margin_clean": -9.054506301879883,
+        "margin_edit": -9.054506301879883
+       },
+       {
+        "point": "L3",
+        "layer": 3,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1089,
+        "lens_rank_edit": 1089,
+        "lens_prob_clean": 7.204874236776959e-06,
+        "lens_prob_edit": 7.204874236776959e-06,
+        "margin_clean": -10.67255973815918,
+        "margin_edit": -10.67255973815918
+       },
+       {
+        "point": "L4",
+        "layer": 4,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1256,
+        "lens_rank_edit": 1256,
+        "lens_prob_clean": 3.1979993764252868e-06,
+        "lens_prob_edit": 3.1979993764252868e-06,
+        "margin_clean": -11.550958633422852,
+        "margin_edit": -11.550958633422852
+       },
+       {
+        "point": "L5",
+        "layer": 5,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1186,
+        "lens_rank_edit": 1186,
+        "lens_prob_clean": 2.675879159141914e-06,
+        "lens_prob_edit": 2.675879159141914e-06,
+        "margin_clean": -11.777956008911133,
+        "margin_edit": -11.777956008911133
+       },
+       {
+        "point": "L6",
+        "layer": 6,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1622,
+        "lens_rank_edit": 1622,
+        "lens_prob_clean": 1.3921619483880932e-06,
+        "lens_prob_edit": 1.3921619483880932e-06,
+        "margin_clean": -12.425106048583984,
+        "margin_edit": -12.425106048583984
+       },
+       {
+        "point": "L7",
+        "layer": 7,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 891,
+        "lens_rank_edit": 891,
+        "lens_prob_clean": 3.12669794766407e-06,
+        "lens_prob_edit": 3.12669794766407e-06,
+        "margin_clean": -11.372846603393555,
+        "margin_edit": -11.372846603393555
+       },
+       {
+        "point": "L8",
+        "layer": 8,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 613,
+        "lens_rank_edit": 613,
+        "lens_prob_clean": 1.2355861144897062e-05,
+        "lens_prob_edit": 1.2355861144897062e-05,
+        "margin_clean": -9.834973335266113,
+        "margin_edit": -9.834973335266113
+       },
+       {
+        "point": "L9",
+        "layer": 9,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 977,
+        "lens_rank_edit": 977,
+        "lens_prob_clean": 4.054419150634203e-06,
+        "lens_prob_edit": 4.054419150634203e-06,
+        "margin_clean": -10.486076354980469,
+        "margin_edit": -10.486076354980469
+       },
+       {
+        "point": "L10",
+        "layer": 10,
+        "downstream": true,
+        "delta_norm": 97.89022827148438,
+        "persistence": 1.0,
+        "cosine": 1.0,
+        "lens_rank_clean": 462,
+        "lens_rank_edit": 398,
+        "lens_prob_clean": 1.7626129192649387e-05,
+        "lens_prob_edit": 3.4563821827759966e-05,
+        "margin_clean": -9.88197135925293,
+        "margin_edit": -9.067621231079102
+       },
+       {
+        "point": "L11",
+        "layer": 11,
+        "downstream": true,
+        "delta_norm": 135.59312438964844,
+        "persistence": 1.1464978869757236,
+        "cosine": 0.8277037650599434,
+        "lens_rank_clean": 271,
+        "lens_rank_edit": 216,
+        "lens_prob_clean": 5.03166374983266e-05,
+        "lens_prob_edit": 0.00011962675489485264,
+        "margin_clean": -9.099747657775879,
+        "margin_edit": -8.169692993164062
+       },
+       {
+        "point": "final",
+        "layer": 12,
+        "downstream": true,
+        "delta_norm": 207.21368408203125,
+        "persistence": 1.154831257676452,
+        "cosine": 0.5455561040794846,
+        "lens_rank_clean": 152,
+        "lens_rank_edit": 90,
+        "lens_prob_clean": 0.0006884237518534064,
+        "lens_prob_edit": 0.0011391865555197,
+        "margin_clean": -5.554232597351074,
+        "margin_edit": -4.773110389709473
+       }
+      ],
+      "rank": 90,
+      "prob": 0.0011391870211809874
+     },
+     "held": {
+      "rank": 90,
+      "prob": 0.0011391870211809874
+     },
+     "optimal": {
+      "matched": {
+       "last": {
+        "rank": 1,
+        "prob": 0.999970555305481
+       },
+       "all": {
+        "rank": 1,
+        "prob": 0.9999704360961914
+       }
+      },
+      "scan": {
+       "last": {
+        "0.02": {
+         "rank": 77,
+         "prob": 0.0012418002588674426
+        },
+        "0.05": {
+         "rank": 37,
+         "prob": 0.0030391442123800516
+        },
+        "0.1": {
+         "rank": 8,
+         "prob": 0.014053557999432087
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.3189135789871216
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9998685121536255
+        }
+       },
+       "all": {
+        "0.02": {
+         "rank": 66,
+         "prob": 0.0015208233380690217
+        },
+        "0.05": {
+         "rank": 22,
+         "prob": 0.005593070760369301
+        },
+        "0.1": {
+         "rank": 2,
+         "prob": 0.08110295236110687
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.9998974800109863
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9999961853027344
+        }
+       }
+      }
+     },
+     "seconds": 166.96
+    },
+    {
+     "layer": 11,
+     "sae": {
+      "rank_before": 152,
+      "rank_after": 111,
+      "prob_before": 0.0006884256727062166,
+      "prob_after": 0.0009157691965810955,
+      "success": false,
+      "features_used": 120,
+      "stop_reason": "Dead end: Round 1 produced no safe mute or boost candidates.",
+      "final_top1": " man",
+      "delta_norm": 88.6607666015625,
+      "delta_norm_last": 34.328311920166016,
+      "resid_norm_last": 276.2291259765625,
+      "relative_push": 0.12427477297625271,
+      "recon_error_rel": 0.16431552171707153
+     },
+     "trace": {
+      "rows": [
+       {
+        "point": "L0",
+        "layer": 0,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 19818,
+        "lens_rank_edit": 19818,
+        "lens_prob_clean": 1.7358268422697242e-15,
+        "lens_prob_edit": 1.7358268422697242e-15,
+        "margin_clean": -33.152403831481934,
+        "margin_edit": -33.152403831481934
+       },
+       {
+        "point": "L1",
+        "layer": 1,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1254,
+        "lens_rank_edit": 1254,
+        "lens_prob_clean": 1.7648613720666617e-05,
+        "lens_prob_edit": 1.7648613720666617e-05,
+        "margin_clean": -9.301162719726562,
+        "margin_edit": -9.301162719726562
+       },
+       {
+        "point": "L2",
+        "layer": 2,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 805,
+        "lens_rank_edit": 805,
+        "lens_prob_clean": 1.912500010803342e-05,
+        "lens_prob_edit": 1.912500010803342e-05,
+        "margin_clean": -9.054506301879883,
+        "margin_edit": -9.054506301879883
+       },
+       {
+        "point": "L3",
+        "layer": 3,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1089,
+        "lens_rank_edit": 1089,
+        "lens_prob_clean": 7.204874236776959e-06,
+        "lens_prob_edit": 7.204874236776959e-06,
+        "margin_clean": -10.67255973815918,
+        "margin_edit": -10.67255973815918
+       },
+       {
+        "point": "L4",
+        "layer": 4,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1256,
+        "lens_rank_edit": 1256,
+        "lens_prob_clean": 3.1979993764252868e-06,
+        "lens_prob_edit": 3.1979993764252868e-06,
+        "margin_clean": -11.550958633422852,
+        "margin_edit": -11.550958633422852
+       },
+       {
+        "point": "L5",
+        "layer": 5,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1186,
+        "lens_rank_edit": 1186,
+        "lens_prob_clean": 2.675879159141914e-06,
+        "lens_prob_edit": 2.675879159141914e-06,
+        "margin_clean": -11.777956008911133,
+        "margin_edit": -11.777956008911133
+       },
+       {
+        "point": "L6",
+        "layer": 6,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1622,
+        "lens_rank_edit": 1622,
+        "lens_prob_clean": 1.3921619483880932e-06,
+        "lens_prob_edit": 1.3921619483880932e-06,
+        "margin_clean": -12.425106048583984,
+        "margin_edit": -12.425106048583984
+       },
+       {
+        "point": "L7",
+        "layer": 7,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 891,
+        "lens_rank_edit": 891,
+        "lens_prob_clean": 3.12669794766407e-06,
+        "lens_prob_edit": 3.12669794766407e-06,
+        "margin_clean": -11.372846603393555,
+        "margin_edit": -11.372846603393555
+       },
+       {
+        "point": "L8",
+        "layer": 8,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 613,
+        "lens_rank_edit": 613,
+        "lens_prob_clean": 1.2355861144897062e-05,
+        "lens_prob_edit": 1.2355861144897062e-05,
+        "margin_clean": -9.834973335266113,
+        "margin_edit": -9.834973335266113
+       },
+       {
+        "point": "L9",
+        "layer": 9,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 977,
+        "lens_rank_edit": 977,
+        "lens_prob_clean": 4.054419150634203e-06,
+        "lens_prob_edit": 4.054419150634203e-06,
+        "margin_clean": -10.486076354980469,
+        "margin_edit": -10.486076354980469
+       },
+       {
+        "point": "L10",
+        "layer": 10,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 462,
+        "lens_rank_edit": 462,
+        "lens_prob_clean": 1.7626129192649387e-05,
+        "lens_prob_edit": 1.7626129192649387e-05,
+        "margin_clean": -9.88197135925293,
+        "margin_edit": -9.88197135925293
+       },
+       {
+        "point": "L11",
+        "layer": 11,
+        "downstream": true,
+        "delta_norm": 88.6607666015625,
+        "persistence": 1.0,
+        "cosine": 1.0000000000000002,
+        "lens_rank_clean": 271,
+        "lens_rank_edit": 226,
+        "lens_prob_clean": 5.03166374983266e-05,
+        "lens_prob_edit": 0.0001707111077848822,
+        "margin_clean": -9.099747657775879,
+        "margin_edit": -7.456098556518555
+       },
+       {
+        "point": "final",
+        "layer": 12,
+        "downstream": true,
+        "delta_norm": 137.9691925048828,
+        "persistence": 1.0273292154641045,
+        "cosine": 0.6601748684760663,
+        "lens_rank_clean": 152,
+        "lens_rank_edit": 111,
+        "lens_prob_clean": 0.0006884237518534064,
+        "lens_prob_edit": 0.0009157704771496356,
+        "margin_clean": -5.554232597351074,
+        "margin_edit": -5.155553817749023
+       }
+      ],
+      "rank": 111,
+      "prob": 0.0009157691965810955
+     },
+     "held": {
+      "rank": 111,
+      "prob": 0.0009157691965810955
+     },
+     "optimal": {
+      "matched": {
+       "last": {
+        "rank": 1,
+        "prob": 0.9985155463218689
+       },
+       "all": {
+        "rank": 1,
+        "prob": 0.9751182198524475
+       }
+      },
+      "scan": {
+       "last": {
+        "0.02": {
+         "rank": 61,
+         "prob": 0.0017226152122020721
+        },
+        "0.05": {
+         "rank": 14,
+         "prob": 0.006951713003218174
+        },
+        "0.1": {
+         "rank": 2,
+         "prob": 0.07581662386655807
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.9677219986915588
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9996726512908936
+        }
+       },
+       "all": {
+        "0.02": {
+         "rank": 50,
+         "prob": 0.0022307035978883505
+        },
+        "0.05": {
+         "rank": 8,
+         "prob": 0.01582982763648033
+        },
+        "0.1": {
+         "rank": 1,
+         "prob": 0.7589958906173706
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.9996792674064636
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9999957084655762
+        }
+       }
+      }
+     },
+     "seconds": 169.38
+    }
+   ]
+  },
+  {
+   "prompt": "The doctor said that",
+   "target": "she",
+   "target_token": " she",
+   "baseline_rank": 3,
+   "baseline_prob": 0.045825231820344925,
+   "baseline_top1": " he",
+   "clean_lens": [
+    {
+     "layer": 0,
+     "rank": 10283,
+     "prob": 8.110404166837559e-14,
+     "margin": -29.79506754875183
+    },
+    {
+     "layer": 1,
+     "rank": 21,
+     "prob": 0.005487460643053055,
+     "margin": -2.961872100830078
+    },
+    {
+     "layer": 2,
+     "rank": 10,
+     "prob": 0.015435096807777882,
+     "margin": -2.778883934020996
+    },
+    {
+     "layer": 3,
+     "rank": 10,
+     "prob": 0.015346124768257141,
+     "margin": -2.697760581970215
+    },
+    {
+     "layer": 4,
+     "rank": 15,
+     "prob": 0.00830147322267294,
+     "margin": -2.9586658477783203
+    },
+    {
+     "layer": 5,
+     "rank": 15,
+     "prob": 0.006513270549476147,
+     "margin": -3.6900081634521484
+    },
+    {
+     "layer": 6,
+     "rank": 14,
+     "prob": 0.004463570192456245,
+     "margin": -4.829557418823242
+    },
+    {
+     "layer": 7,
+     "rank": 9,
+     "prob": 0.009960811585187912,
+     "margin": -4.2253570556640625
+    },
+    {
+     "layer": 8,
+     "rank": 14,
+     "prob": 0.0030954398680478334,
+     "margin": -5.554994583129883
+    },
+    {
+     "layer": 9,
+     "rank": 14,
+     "prob": 0.0020607206970453262,
+     "margin": -5.924962997436523
+    },
+    {
+     "layer": 10,
+     "rank": 13,
+     "prob": 0.007999909110367298,
+     "margin": -4.232702255249023
+    },
+    {
+     "layer": 11,
+     "rank": 8,
+     "prob": 0.028194012120366096,
+     "margin": -2.0425243377685547
+    }
+   ],
+   "layers": [
+    {
+     "layer": 5,
+     "sae": {
+      "rank_before": 3,
+      "rank_after": 2,
+      "prob_before": 0.045825231820344925,
+      "prob_after": 0.1460086554288864,
+      "success": false,
+      "features_used": 837,
+      "stop_reason": "Target is already Rank #1 in the steered model (stop-on-rank-1 was off).",
+      "final_top1": " he",
+      "delta_norm": 1218.3487548828125,
+      "delta_norm_last": 19.39982795715332,
+      "resid_norm_last": 70.26010131835938,
+      "relative_push": 0.2761144318487345,
+      "recon_error_rel": 0.17427019774913788
+     },
+     "trace": {
+      "rows": [
+       {
+        "point": "L0",
+        "layer": 0,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 10283,
+        "lens_rank_edit": 10283,
+        "lens_prob_clean": 8.110404166837559e-14,
+        "lens_prob_edit": 8.110404166837559e-14,
+        "margin_clean": -29.79506754875183,
+        "margin_edit": -29.79506754875183
+       },
+       {
+        "point": "L1",
+        "layer": 1,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 21,
+        "lens_rank_edit": 21,
+        "lens_prob_clean": 0.005487460643053055,
+        "lens_prob_edit": 0.005487460643053055,
+        "margin_clean": -2.961872100830078,
+        "margin_edit": -2.961872100830078
+       },
+       {
+        "point": "L2",
+        "layer": 2,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 10,
+        "lens_rank_edit": 10,
+        "lens_prob_clean": 0.015435096807777882,
+        "lens_prob_edit": 0.015435096807777882,
+        "margin_clean": -2.778883934020996,
+        "margin_edit": -2.778883934020996
+       },
+       {
+        "point": "L3",
+        "layer": 3,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 10,
+        "lens_rank_edit": 10,
+        "lens_prob_clean": 0.015346124768257141,
+        "lens_prob_edit": 0.015346124768257141,
+        "margin_clean": -2.697760581970215,
+        "margin_edit": -2.697760581970215
+       },
+       {
+        "point": "L4",
+        "layer": 4,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 15,
+        "lens_rank_edit": 15,
+        "lens_prob_clean": 0.00830147322267294,
+        "lens_prob_edit": 0.00830147322267294,
+        "margin_clean": -2.9586658477783203,
+        "margin_edit": -2.9586658477783203
+       },
+       {
+        "point": "L5",
+        "layer": 5,
+        "downstream": true,
+        "delta_norm": 1218.3487548828125,
+        "persistence": 1.0,
+        "cosine": 1.0000000000000002,
+        "lens_rank_clean": 15,
+        "lens_rank_edit": 31,
+        "lens_prob_clean": 0.006513270549476147,
+        "lens_prob_edit": 0.004702325910329819,
+        "margin_clean": -3.6900081634521484,
+        "margin_edit": -3.697821617126465
+       },
+       {
+        "point": "L6",
+        "layer": 6,
+        "downstream": true,
+        "delta_norm": 1220.1112060546875,
+        "persistence": 1.0011998326903713,
+        "cosine": 0.9997535290587337,
+        "lens_rank_clean": 14,
+        "lens_rank_edit": 23,
+        "lens_prob_clean": 0.004463570192456245,
+        "lens_prob_edit": 0.006522065959870815,
+        "margin_clean": -4.829557418823242,
+        "margin_edit": -3.4364194869995117
+       },
+       {
+        "point": "L7",
+        "layer": 7,
+        "downstream": true,
+        "delta_norm": 1222.9163818359375,
+        "persistence": 1.0033914978784402,
+        "cosine": 0.9996437734286763,
+        "lens_rank_clean": 9,
+        "lens_rank_edit": 10,
+        "lens_prob_clean": 0.009960811585187912,
+        "lens_prob_edit": 0.023584894835948944,
+        "margin_clean": -4.2253570556640625,
+        "margin_edit": -1.9019584655761719
+       },
+       {
+        "point": "L8",
+        "layer": 8,
+        "downstream": true,
+        "delta_norm": 1225.309326171875,
+        "persistence": 1.0052732680426062,
+        "cosine": 0.9995626496432803,
+        "lens_rank_clean": 14,
+        "lens_rank_edit": 18,
+        "lens_prob_clean": 0.0030954398680478334,
+        "lens_prob_edit": 0.006857794709503651,
+        "margin_clean": -5.554994583129883,
+        "margin_edit": -3.485391616821289
+       },
+       {
+        "point": "L9",
+        "layer": 9,
+        "downstream": true,
+        "delta_norm": 1227.7423095703125,
+        "persistence": 1.007016932815685,
+        "cosine": 0.9993121620745418,
+        "lens_rank_clean": 14,
+        "lens_rank_edit": 12,
+        "lens_prob_clean": 0.0020607206970453262,
+        "lens_prob_edit": 0.015782026574015617,
+        "margin_clean": -5.924962997436523,
+        "margin_edit": -2.359365463256836
+       },
+       {
+        "point": "L10",
+        "layer": 10,
+        "downstream": true,
+        "delta_norm": 1229.891357421875,
+        "persistence": 1.008441439398386,
+        "cosine": 0.9989771363054908,
+        "lens_rank_clean": 13,
+        "lens_rank_edit": 5,
+        "lens_prob_clean": 0.007999909110367298,
+        "lens_prob_edit": 0.06265588849782944,
+        "margin_clean": -4.232702255249023,
+        "margin_edit": -1.775726318359375
+       },
+       {
+        "point": "L11",
+        "layer": 11,
+        "downstream": true,
+        "delta_norm": 1233.4464111328125,
+        "persistence": 1.010273441095398,
+        "cosine": 0.997907425011867,
+        "lens_rank_clean": 8,
+        "lens_rank_edit": 2,
+        "lens_prob_clean": 0.028194012120366096,
+        "lens_prob_edit": 0.15348252654075623,
+        "margin_clean": -2.0425243377685547,
+        "margin_edit": -1.0116424560546875
+       },
+       {
+        "point": "final",
+        "layer": 12,
+        "downstream": true,
+        "delta_norm": 1128.756591796875,
+        "persistence": 0.9152681320378486,
+        "cosine": 0.9879152009233761,
+        "lens_rank_clean": 3,
+        "lens_rank_edit": 2,
+        "lens_prob_clean": 0.045825228095054626,
+        "lens_prob_edit": 0.14600883424282074,
+        "margin_clean": -1.1484432220458984,
+        "margin_edit": -0.3644123077392578
+       }
+      ],
+      "rank": 2,
+      "prob": 0.1460086554288864
+     },
+     "held": {
+      "rank": 2,
+      "prob": 0.1460086554288864
+     },
+     "optimal": {
+      "matched": {
+       "last": {
+        "rank": 1,
+        "prob": 0.9999767541885376
+       },
+       "all": {
+        "rank": 1,
+        "prob": 0.9999821186065674
+       }
+      },
+      "scan": {
+       "last": {
+        "0.02": {
+         "rank": 3,
+         "prob": 0.060574375092983246
+        },
+        "0.05": {
+         "rank": 3,
+         "prob": 0.08964275568723679
+        },
+        "0.1": {
+         "rank": 1,
+         "prob": 0.2066463828086853
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.9998847246170044
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9999876022338867
+        }
+       },
+       "all": {
+        "0.02": {
+         "rank": 3,
+         "prob": 0.0979185402393341
+        },
+        "0.05": {
+         "rank": 1,
+         "prob": 0.25987508893013
+        },
+        "0.1": {
+         "rank": 1,
+         "prob": 0.9998886585235596
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.9999901056289673
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.999990701675415
+        }
+       }
+      }
+     },
+     "seconds": 295.71
+    },
+    {
+     "layer": 6,
+     "sae": {
+      "rank_before": 3,
+      "rank_after": 2,
+      "prob_before": 0.045825231820344925,
+      "prob_after": 0.13590671122074127,
+      "success": false,
+      "features_used": 490,
+      "stop_reason": "No unapplied active features remain at this position.",
+      "final_top1": " he",
+      "delta_norm": 1495.6839599609375,
+      "delta_norm_last": 21.568599700927734,
+      "resid_norm_last": 76.56815338134766,
+      "relative_push": 0.2816915224989864,
+      "recon_error_rel": 0.16820916533470154
+     },
+     "trace": {
+      "rows": [
+       {
+        "point": "L0",
+        "layer": 0,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 10283,
+        "lens_rank_edit": 10283,
+        "lens_prob_clean": 8.110404166837559e-14,
+        "lens_prob_edit": 8.110404166837559e-14,
+        "margin_clean": -29.79506754875183,
+        "margin_edit": -29.79506754875183
+       },
+       {
+        "point": "L1",
+        "layer": 1,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 21,
+        "lens_rank_edit": 21,
+        "lens_prob_clean": 0.005487460643053055,
+        "lens_prob_edit": 0.005487460643053055,
+        "margin_clean": -2.961872100830078,
+        "margin_edit": -2.961872100830078
+       },
+       {
+        "point": "L2",
+        "layer": 2,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 10,
+        "lens_rank_edit": 10,
+        "lens_prob_clean": 0.015435096807777882,
+        "lens_prob_edit": 0.015435096807777882,
+        "margin_clean": -2.778883934020996,
+        "margin_edit": -2.778883934020996
+       },
+       {
+        "point": "L3",
+        "layer": 3,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 10,
+        "lens_rank_edit": 10,
+        "lens_prob_clean": 0.015346124768257141,
+        "lens_prob_edit": 0.015346124768257141,
+        "margin_clean": -2.697760581970215,
+        "margin_edit": -2.697760581970215
+       },
+       {
+        "point": "L4",
+        "layer": 4,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 15,
+        "lens_rank_edit": 15,
+        "lens_prob_clean": 0.00830147322267294,
+        "lens_prob_edit": 0.00830147322267294,
+        "margin_clean": -2.9586658477783203,
+        "margin_edit": -2.9586658477783203
+       },
+       {
+        "point": "L5",
+        "layer": 5,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 15,
+        "lens_rank_edit": 15,
+        "lens_prob_clean": 0.006513270549476147,
+        "lens_prob_edit": 0.006513270549476147,
+        "margin_clean": -3.6900081634521484,
+        "margin_edit": -3.6900081634521484
+       },
+       {
+        "point": "L6",
+        "layer": 6,
+        "downstream": true,
+        "delta_norm": 1495.6839599609375,
+        "persistence": 1.0,
+        "cosine": 1.0,
+        "lens_rank_clean": 14,
+        "lens_rank_edit": 17,
+        "lens_prob_clean": 0.004463570192456245,
+        "lens_prob_edit": 0.010863225907087326,
+        "margin_clean": -4.829557418823242,
+        "margin_edit": -2.838362693786621
+       },
+       {
+        "point": "L7",
+        "layer": 7,
+        "downstream": true,
+        "delta_norm": 1497.339111328125,
+        "persistence": 1.0009135831883706,
+        "cosine": 0.9998072130144723,
+        "lens_rank_clean": 9,
+        "lens_rank_edit": 4,
+        "lens_prob_clean": 0.009960811585187912,
+        "lens_prob_edit": 0.04538661614060402,
+        "margin_clean": -4.2253570556640625,
+        "margin_edit": -1.3468189239501953
+       },
+       {
+        "point": "L8",
+        "layer": 8,
+        "downstream": true,
+        "delta_norm": 1499.1527099609375,
+        "persistence": 1.0019631701370162,
+        "cosine": 0.9996447851047378,
+        "lens_rank_clean": 14,
+        "lens_rank_edit": 10,
+        "lens_prob_clean": 0.0030954398680478334,
+        "lens_prob_edit": 0.017334535717964172,
+        "margin_clean": -5.554994583129883,
+        "margin_edit": -2.34720516204834
+       },
+       {
+        "point": "L9",
+        "layer": 9,
+        "downstream": true,
+        "delta_norm": 1501.10546875,
+        "persistence": 1.003012868838957,
+        "cosine": 0.9993903365152434,
+        "lens_rank_clean": 14,
+        "lens_rank_edit": 8,
+        "lens_prob_clean": 0.0020607206970453262,
+        "lens_prob_edit": 0.035126157104969025,
+        "margin_clean": -5.924962997436523,
+        "margin_edit": -1.7377433776855469
+       },
+       {
+        "point": "L10",
+        "layer": 10,
+        "downstream": true,
+        "delta_norm": 1503.0677490234375,
+        "persistence": 1.0038825329823087,
+        "cosine": 0.9989509588030118,
+        "lens_rank_clean": 13,
+        "lens_rank_edit": 3,
+        "lens_prob_clean": 0.007999909110367298,
+        "lens_prob_edit": 0.08896743506193161,
+        "margin_clean": -4.232702255249023,
+        "margin_edit": -1.457223892211914
+       },
+       {
+        "point": "L11",
+        "layer": 11,
+        "downstream": true,
+        "delta_norm": 1506.4239501953125,
+        "persistence": 1.005062312519878,
+        "cosine": 0.9978967294524095,
+        "lens_rank_clean": 8,
+        "lens_rank_edit": 2,
+        "lens_prob_clean": 0.028194012120366096,
+        "lens_prob_edit": 0.16847965121269226,
+        "margin_clean": -2.0425243377685547,
+        "margin_edit": -0.8204803466796875
+       },
+       {
+        "point": "final",
+        "layer": 12,
+        "downstream": true,
+        "delta_norm": 1414.391357421875,
+        "persistence": 0.9343120835932529,
+        "cosine": 0.9880119813201697,
+        "lens_rank_clean": 3,
+        "lens_rank_edit": 2,
+        "lens_prob_clean": 0.045825228095054626,
+        "lens_prob_edit": 0.13590672612190247,
+        "margin_clean": -1.1484432220458984,
+        "margin_edit": -0.3538627624511719
+       }
+      ],
+      "rank": 2,
+      "prob": 0.13590671122074127
+     },
+     "held": {
+      "rank": 2,
+      "prob": 0.13590671122074127
+     },
+     "optimal": {
+      "matched": {
+       "last": {
+        "rank": 1,
+        "prob": 0.9999111890792847
+       },
+       "all": {
+        "rank": 1,
+        "prob": 0.9999202489852905
+       }
+      },
+      "scan": {
+       "last": {
+        "0.02": {
+         "rank": 3,
+         "prob": 0.06247808411717415
+        },
+        "0.05": {
+         "rank": 2,
+         "prob": 0.09670542180538177
+        },
+        "0.1": {
+         "rank": 1,
+         "prob": 0.19895963370800018
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.9999266862869263
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9999898672103882
+        }
+       },
+       "all": {
+        "0.02": {
+         "rank": 2,
+         "prob": 0.10749530792236328
+        },
+        "0.05": {
+         "rank": 1,
+         "prob": 0.30039486289024353
+        },
+        "0.1": {
+         "rank": 1,
+         "prob": 0.9991307854652405
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.999993085861206
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9999903440475464
+        }
+       }
+      }
+     },
+     "seconds": 233.92
+    },
+    {
+     "layer": 7,
+     "sae": {
+      "rank_before": 3,
+      "rank_after": 3,
+      "prob_before": 0.045825231820344925,
+      "prob_after": 0.08617368340492249,
+      "success": false,
+      "features_used": 293,
+      "stop_reason": "No unapplied active features remain at this position.",
+      "final_top1": " he",
+      "delta_norm": 1152.8897705078125,
+      "delta_norm_last": 19.677865982055664,
+      "resid_norm_last": 83.84264373779297,
+      "relative_push": 0.2346999701440194,
+      "recon_error_rel": 0.18411991000175476
+     },
+     "trace": {
+      "rows": [
+       {
+        "point": "L0",
+        "layer": 0,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 10283,
+        "lens_rank_edit": 10283,
+        "lens_prob_clean": 8.110404166837559e-14,
+        "lens_prob_edit": 8.110404166837559e-14,
+        "margin_clean": -29.79506754875183,
+        "margin_edit": -29.79506754875183
+       },
+       {
+        "point": "L1",
+        "layer": 1,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 21,
+        "lens_rank_edit": 21,
+        "lens_prob_clean": 0.005487460643053055,
+        "lens_prob_edit": 0.005487460643053055,
+        "margin_clean": -2.961872100830078,
+        "margin_edit": -2.961872100830078
+       },
+       {
+        "point": "L2",
+        "layer": 2,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 10,
+        "lens_rank_edit": 10,
+        "lens_prob_clean": 0.015435096807777882,
+        "lens_prob_edit": 0.015435096807777882,
+        "margin_clean": -2.778883934020996,
+        "margin_edit": -2.778883934020996
+       },
+       {
+        "point": "L3",
+        "layer": 3,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 10,
+        "lens_rank_edit": 10,
+        "lens_prob_clean": 0.015346124768257141,
+        "lens_prob_edit": 0.015346124768257141,
+        "margin_clean": -2.697760581970215,
+        "margin_edit": -2.697760581970215
+       },
+       {
+        "point": "L4",
+        "layer": 4,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 15,
+        "lens_rank_edit": 15,
+        "lens_prob_clean": 0.00830147322267294,
+        "lens_prob_edit": 0.00830147322267294,
+        "margin_clean": -2.9586658477783203,
+        "margin_edit": -2.9586658477783203
+       },
+       {
+        "point": "L5",
+        "layer": 5,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 15,
+        "lens_rank_edit": 15,
+        "lens_prob_clean": 0.006513270549476147,
+        "lens_prob_edit": 0.006513270549476147,
+        "margin_clean": -3.6900081634521484,
+        "margin_edit": -3.6900081634521484
+       },
+       {
+        "point": "L6",
+        "layer": 6,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 14,
+        "lens_rank_edit": 14,
+        "lens_prob_clean": 0.004463570192456245,
+        "lens_prob_edit": 0.004463570192456245,
+        "margin_clean": -4.829557418823242,
+        "margin_edit": -4.829557418823242
+       },
+       {
+        "point": "L7",
+        "layer": 7,
+        "downstream": true,
+        "delta_norm": 1152.8897705078125,
+        "persistence": 1.0,
+        "cosine": 1.0,
+        "lens_rank_clean": 9,
+        "lens_rank_edit": 5,
+        "lens_prob_clean": 0.009960811585187912,
+        "lens_prob_edit": 0.05693824589252472,
+        "margin_clean": -4.2253570556640625,
+        "margin_edit": -1.2248573303222656
+       },
+       {
+        "point": "L8",
+        "layer": 8,
+        "downstream": true,
+        "delta_norm": 1154.437255859375,
+        "persistence": 1.0008665280635562,
+        "cosine": 0.9995248729639546,
+        "lens_rank_clean": 14,
+        "lens_rank_edit": 7,
+        "lens_prob_clean": 0.0030954398680478334,
+        "lens_prob_edit": 0.025139013305306435,
+        "margin_clean": -5.554994583129883,
+        "margin_edit": -2.095290184020996
+       },
+       {
+        "point": "L9",
+        "layer": 9,
+        "downstream": true,
+        "delta_norm": 1155.8594970703125,
+        "persistence": 1.0015698885353748,
+        "cosine": 0.9989965674202754,
+        "lens_rank_clean": 14,
+        "lens_rank_edit": 5,
+        "lens_prob_clean": 0.0020607206970453262,
+        "lens_prob_edit": 0.05446889251470566,
+        "margin_clean": -5.924962997436523,
+        "margin_edit": -1.5232734680175781
+       },
+       {
+        "point": "L10",
+        "layer": 10,
+        "downstream": true,
+        "delta_norm": 1157.397705078125,
+        "persistence": 1.0021313355225063,
+        "cosine": 0.998228146159709,
+        "lens_rank_clean": 13,
+        "lens_rank_edit": 3,
+        "lens_prob_clean": 0.007999909110367298,
+        "lens_prob_edit": 0.10838668048381805,
+        "margin_clean": -4.232702255249023,
+        "margin_edit": -1.0546379089355469
+       },
+       {
+        "point": "L11",
+        "layer": 11,
+        "downstream": true,
+        "delta_norm": 1160.9576416015625,
+        "persistence": 1.0031062031051874,
+        "cosine": 0.9961353199585766,
+        "lens_rank_clean": 8,
+        "lens_rank_edit": 3,
+        "lens_prob_clean": 0.028194012120366096,
+        "lens_prob_edit": 0.12186772376298904,
+        "margin_clean": -2.0425243377685547,
+        "margin_edit": -0.7142047882080078
+       },
+       {
+        "point": "final",
+        "layer": 12,
+        "downstream": true,
+        "delta_norm": 1092.818603515625,
+        "persistence": 0.9329748912819509,
+        "cosine": 0.9842596255123442,
+        "lens_rank_clean": 3,
+        "lens_rank_edit": 3,
+        "lens_prob_clean": 0.045825228095054626,
+        "lens_prob_edit": 0.08617368340492249,
+        "margin_clean": -1.1484432220458984,
+        "margin_edit": -0.34863853454589844
+       }
+      ],
+      "rank": 3,
+      "prob": 0.08617368340492249
+     },
+     "held": {
+      "rank": 3,
+      "prob": 0.08617368340492249
+     },
+     "optimal": {
+      "matched": {
+       "last": {
+        "rank": 1,
+        "prob": 0.9999260902404785
+       },
+       "all": {
+        "rank": 1,
+        "prob": 0.9999680519104004
+       }
+      },
+      "scan": {
+       "last": {
+        "0.02": {
+         "rank": 3,
+         "prob": 0.06327877938747406
+        },
+        "0.05": {
+         "rank": 2,
+         "prob": 0.10134677588939667
+        },
+        "0.1": {
+         "rank": 1,
+         "prob": 0.21980150043964386
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.8143820762634277
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9999892711639404
+        }
+       },
+       "all": {
+        "0.02": {
+         "rank": 2,
+         "prob": 0.10415931046009064
+        },
+        "0.05": {
+         "rank": 1,
+         "prob": 0.2795608937740326
+        },
+        "0.1": {
+         "rank": 1,
+         "prob": 0.8209296464920044
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.9999899864196777
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9999932050704956
+        }
+       }
+      }
+     },
+     "seconds": 191.16
+    },
+    {
+     "layer": 8,
+     "sae": {
+      "rank_before": 3,
+      "rank_after": 2,
+      "prob_before": 0.045825231820344925,
+      "prob_after": 0.12775316834449768,
+      "success": false,
+      "features_used": 106,
+      "stop_reason": "Dead end: Round 2 produced no safe mute or boost candidates.",
+      "final_top1": " he",
+      "delta_norm": 210.61328125,
+      "delta_norm_last": 23.08014678955078,
+      "resid_norm_last": 99.30706024169922,
+      "relative_push": 0.23241194264916307,
+      "recon_error_rel": 0.18534426391124725
+     },
+     "trace": {
+      "rows": [
+       {
+        "point": "L0",
+        "layer": 0,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 10283,
+        "lens_rank_edit": 10283,
+        "lens_prob_clean": 8.110404166837559e-14,
+        "lens_prob_edit": 8.110404166837559e-14,
+        "margin_clean": -29.79506754875183,
+        "margin_edit": -29.79506754875183
+       },
+       {
+        "point": "L1",
+        "layer": 1,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 21,
+        "lens_rank_edit": 21,
+        "lens_prob_clean": 0.005487460643053055,
+        "lens_prob_edit": 0.005487460643053055,
+        "margin_clean": -2.961872100830078,
+        "margin_edit": -2.961872100830078
+       },
+       {
+        "point": "L2",
+        "layer": 2,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 10,
+        "lens_rank_edit": 10,
+        "lens_prob_clean": 0.015435096807777882,
+        "lens_prob_edit": 0.015435096807777882,
+        "margin_clean": -2.778883934020996,
+        "margin_edit": -2.778883934020996
+       },
+       {
+        "point": "L3",
+        "layer": 3,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 10,
+        "lens_rank_edit": 10,
+        "lens_prob_clean": 0.015346124768257141,
+        "lens_prob_edit": 0.015346124768257141,
+        "margin_clean": -2.697760581970215,
+        "margin_edit": -2.697760581970215
+       },
+       {
+        "point": "L4",
+        "layer": 4,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 15,
+        "lens_rank_edit": 15,
+        "lens_prob_clean": 0.00830147322267294,
+        "lens_prob_edit": 0.00830147322267294,
+        "margin_clean": -2.9586658477783203,
+        "margin_edit": -2.9586658477783203
+       },
+       {
+        "point": "L5",
+        "layer": 5,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 15,
+        "lens_rank_edit": 15,
+        "lens_prob_clean": 0.006513270549476147,
+        "lens_prob_edit": 0.006513270549476147,
+        "margin_clean": -3.6900081634521484,
+        "margin_edit": -3.6900081634521484
+       },
+       {
+        "point": "L6",
+        "layer": 6,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 14,
+        "lens_rank_edit": 14,
+        "lens_prob_clean": 0.004463570192456245,
+        "lens_prob_edit": 0.004463570192456245,
+        "margin_clean": -4.829557418823242,
+        "margin_edit": -4.829557418823242
+       },
+       {
+        "point": "L7",
+        "layer": 7,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 9,
+        "lens_rank_edit": 9,
+        "lens_prob_clean": 0.009960811585187912,
+        "lens_prob_edit": 0.009960811585187912,
+        "margin_clean": -4.2253570556640625,
+        "margin_edit": -4.2253570556640625
+       },
+       {
+        "point": "L8",
+        "layer": 8,
+        "downstream": true,
+        "delta_norm": 210.61328125,
+        "persistence": 1.0,
+        "cosine": 1.0,
+        "lens_rank_clean": 14,
+        "lens_rank_edit": 6,
+        "lens_prob_clean": 0.0030954398680478334,
+        "lens_prob_edit": 0.04328730329871178,
+        "margin_clean": -5.554994583129883,
+        "margin_edit": -1.4611778259277344
+       },
+       {
+        "point": "L9",
+        "layer": 9,
+        "downstream": true,
+        "delta_norm": 214.0603790283203,
+        "persistence": 1.0064812744542644,
+        "cosine": 0.9902735679854828,
+        "lens_rank_clean": 14,
+        "lens_rank_edit": 3,
+        "lens_prob_clean": 0.0020607206970453262,
+        "lens_prob_edit": 0.08873216062784195,
+        "margin_clean": -5.924962997436523,
+        "margin_edit": -1.3527355194091797
+       },
+       {
+        "point": "L10",
+        "layer": 10,
+        "downstream": true,
+        "delta_norm": 216.629150390625,
+        "persistence": 1.008249559227721,
+        "cosine": 0.9802501520576624,
+        "lens_rank_clean": 13,
+        "lens_rank_edit": 2,
+        "lens_prob_clean": 0.007999909110367298,
+        "lens_prob_edit": 0.16391396522521973,
+        "margin_clean": -4.232702255249023,
+        "margin_edit": -0.9892120361328125
+       },
+       {
+        "point": "L11",
+        "layer": 11,
+        "downstream": true,
+        "delta_norm": 221.86953735351562,
+        "persistence": 1.0123731500047068,
+        "cosine": 0.9610117911710383,
+        "lens_rank_clean": 8,
+        "lens_rank_edit": 2,
+        "lens_prob_clean": 0.028194012120366096,
+        "lens_prob_edit": 0.1550508737564087,
+        "margin_clean": -2.0425243377685547,
+        "margin_edit": -0.8915233612060547
+       },
+       {
+        "point": "final",
+        "layer": 12,
+        "downstream": true,
+        "delta_norm": 232.7158966064453,
+        "persistence": 0.8955451816573566,
+        "cosine": 0.8104891831758092,
+        "lens_rank_clean": 3,
+        "lens_rank_edit": 2,
+        "lens_prob_clean": 0.045825228095054626,
+        "lens_prob_edit": 0.12775316834449768,
+        "margin_clean": -1.1484432220458984,
+        "margin_edit": -0.48538970947265625
+       }
+      ],
+      "rank": 2,
+      "prob": 0.12775316834449768
+     },
+     "held": {
+      "rank": 2,
+      "prob": 0.12775316834449768
+     },
+     "optimal": {
+      "matched": {
+       "last": {
+        "rank": 1,
+        "prob": 0.999994158744812
+       },
+       "all": {
+        "rank": 1,
+        "prob": 0.999997615814209
+       }
+      },
+      "scan": {
+       "last": {
+        "0.02": {
+         "rank": 3,
+         "prob": 0.0661284327507019
+        },
+        "0.05": {
+         "rank": 2,
+         "prob": 0.10818307846784592
+        },
+        "0.1": {
+         "rank": 1,
+         "prob": 0.2266068309545517
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.7415632009506226
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9999853372573853
+        }
+       },
+       "all": {
+        "0.02": {
+         "rank": 2,
+         "prob": 0.10201562941074371
+        },
+        "0.05": {
+         "rank": 1,
+         "prob": 0.25961872935295105
+        },
+        "0.1": {
+         "rank": 1,
+         "prob": 0.7310429215431213
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.9999973773956299
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9999985694885254
+        }
+       }
+      }
+     },
+     "seconds": 183.16
+    },
+    {
+     "layer": 9,
+     "sae": {
+      "rank_before": 3,
+      "rank_after": 2,
+      "prob_before": 0.045825231820344925,
+      "prob_after": 0.11482209712266922,
+      "success": false,
+      "features_used": 56,
+      "stop_reason": "No unapplied active features remain at this position.",
+      "final_top1": " he",
+      "delta_norm": 50.79704666137695,
+      "delta_norm_last": 19.62398910522461,
+      "resid_norm_last": 123.67774200439453,
+      "relative_push": 0.15867033782462917,
+      "recon_error_rel": 0.18909870088100433
+     },
+     "trace": {
+      "rows": [
+       {
+        "point": "L0",
+        "layer": 0,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 10283,
+        "lens_rank_edit": 10283,
+        "lens_prob_clean": 8.110404166837559e-14,
+        "lens_prob_edit": 8.110404166837559e-14,
+        "margin_clean": -29.79506754875183,
+        "margin_edit": -29.79506754875183
+       },
+       {
+        "point": "L1",
+        "layer": 1,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 21,
+        "lens_rank_edit": 21,
+        "lens_prob_clean": 0.005487460643053055,
+        "lens_prob_edit": 0.005487460643053055,
+        "margin_clean": -2.961872100830078,
+        "margin_edit": -2.961872100830078
+       },
+       {
+        "point": "L2",
+        "layer": 2,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 10,
+        "lens_rank_edit": 10,
+        "lens_prob_clean": 0.015435096807777882,
+        "lens_prob_edit": 0.015435096807777882,
+        "margin_clean": -2.778883934020996,
+        "margin_edit": -2.778883934020996
+       },
+       {
+        "point": "L3",
+        "layer": 3,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 10,
+        "lens_rank_edit": 10,
+        "lens_prob_clean": 0.015346124768257141,
+        "lens_prob_edit": 0.015346124768257141,
+        "margin_clean": -2.697760581970215,
+        "margin_edit": -2.697760581970215
+       },
+       {
+        "point": "L4",
+        "layer": 4,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 15,
+        "lens_rank_edit": 15,
+        "lens_prob_clean": 0.00830147322267294,
+        "lens_prob_edit": 0.00830147322267294,
+        "margin_clean": -2.9586658477783203,
+        "margin_edit": -2.9586658477783203
+       },
+       {
+        "point": "L5",
+        "layer": 5,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 15,
+        "lens_rank_edit": 15,
+        "lens_prob_clean": 0.006513270549476147,
+        "lens_prob_edit": 0.006513270549476147,
+        "margin_clean": -3.6900081634521484,
+        "margin_edit": -3.6900081634521484
+       },
+       {
+        "point": "L6",
+        "layer": 6,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 14,
+        "lens_rank_edit": 14,
+        "lens_prob_clean": 0.004463570192456245,
+        "lens_prob_edit": 0.004463570192456245,
+        "margin_clean": -4.829557418823242,
+        "margin_edit": -4.829557418823242
+       },
+       {
+        "point": "L7",
+        "layer": 7,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 9,
+        "lens_rank_edit": 9,
+        "lens_prob_clean": 0.009960811585187912,
+        "lens_prob_edit": 0.009960811585187912,
+        "margin_clean": -4.2253570556640625,
+        "margin_edit": -4.2253570556640625
+       },
+       {
+        "point": "L8",
+        "layer": 8,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 14,
+        "lens_rank_edit": 14,
+        "lens_prob_clean": 0.0030954398680478334,
+        "lens_prob_edit": 0.0030954398680478334,
+        "margin_clean": -5.554994583129883,
+        "margin_edit": -5.554994583129883
+       },
+       {
+        "point": "L9",
+        "layer": 9,
+        "downstream": true,
+        "delta_norm": 50.79704666137695,
+        "persistence": 1.0,
+        "cosine": 0.9999999999999998,
+        "lens_rank_clean": 14,
+        "lens_rank_edit": 8,
+        "lens_prob_clean": 0.0020607206970453262,
+        "lens_prob_edit": 0.03302117437124252,
+        "margin_clean": -5.924962997436523,
+        "margin_edit": -2.227956771850586
+       },
+       {
+        "point": "L10",
+        "layer": 10,
+        "downstream": true,
+        "delta_norm": 64.50128936767578,
+        "persistence": 1.0931143245121238,
+        "cosine": 0.8608661562409377,
+        "lens_rank_clean": 13,
+        "lens_rank_edit": 2,
+        "lens_prob_clean": 0.007999909110367298,
+        "lens_prob_edit": 0.11051756143569946,
+        "margin_clean": -4.232702255249023,
+        "margin_edit": -0.9615955352783203
+       },
+       {
+        "point": "L11",
+        "layer": 11,
+        "downstream": true,
+        "delta_norm": 79.22979736328125,
+        "persistence": 1.1363679800837765,
+        "cosine": 0.7285660201549076,
+        "lens_rank_clean": 8,
+        "lens_rank_edit": 2,
+        "lens_prob_clean": 0.028194012120366096,
+        "lens_prob_edit": 0.16418088972568512,
+        "margin_clean": -2.0425243377685547,
+        "margin_edit": -0.7009315490722656
+       },
+       {
+        "point": "final",
+        "layer": 12,
+        "downstream": true,
+        "delta_norm": 132.38253784179688,
+        "persistence": 1.122250657389788,
+        "cosine": 0.43062341383640823,
+        "lens_rank_clean": 3,
+        "lens_rank_edit": 2,
+        "lens_prob_clean": 0.045825228095054626,
+        "lens_prob_edit": 0.1148221343755722,
+        "margin_clean": -1.1484432220458984,
+        "margin_edit": -0.4437103271484375
+       }
+      ],
+      "rank": 2,
+      "prob": 0.11482209712266922
+     },
+     "held": {
+      "rank": 2,
+      "prob": 0.11482209712266922
+     },
+     "optimal": {
+      "matched": {
+       "last": {
+        "rank": 1,
+        "prob": 0.9994181394577026
+       },
+       "all": {
+        "rank": 1,
+        "prob": 0.9940692186355591
+       }
+      },
+      "scan": {
+       "last": {
+        "0.02": {
+         "rank": 3,
+         "prob": 0.07038737833499908
+        },
+        "0.05": {
+         "rank": 2,
+         "prob": 0.12311197072267532
+        },
+        "0.1": {
+         "rank": 1,
+         "prob": 0.2640842795372009
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.7087238430976868
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9992958307266235
+        }
+       },
+       "all": {
+        "0.02": {
+         "rank": 2,
+         "prob": 0.10772506147623062
+        },
+        "0.05": {
+         "rank": 1,
+         "prob": 0.28243380784988403
+        },
+        "0.1": {
+         "rank": 1,
+         "prob": 0.7394406795501709
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.9952661991119385
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9999399185180664
+        }
+       }
+      }
+     },
+     "seconds": 161.85
+    },
+    {
+     "layer": 10,
+     "sae": {
+      "rank_before": 3,
+      "rank_after": 3,
+      "prob_before": 0.045825231820344925,
+      "prob_after": 0.08317850530147552,
+      "success": false,
+      "features_used": 39,
+      "stop_reason": "No unapplied active features remain at this position.",
+      "final_top1": " he",
+      "delta_norm": 36.127464294433594,
+      "delta_norm_last": 20.2835750579834,
+      "resid_norm_last": 165.4041290283203,
+      "relative_push": 0.12263040334688663,
+      "recon_error_rel": 0.1731882095336914
+     },
+     "trace": {
+      "rows": [
+       {
+        "point": "L0",
+        "layer": 0,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 10283,
+        "lens_rank_edit": 10283,
+        "lens_prob_clean": 8.110404166837559e-14,
+        "lens_prob_edit": 8.110404166837559e-14,
+        "margin_clean": -29.79506754875183,
+        "margin_edit": -29.79506754875183
+       },
+       {
+        "point": "L1",
+        "layer": 1,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 21,
+        "lens_rank_edit": 21,
+        "lens_prob_clean": 0.005487460643053055,
+        "lens_prob_edit": 0.005487460643053055,
+        "margin_clean": -2.961872100830078,
+        "margin_edit": -2.961872100830078
+       },
+       {
+        "point": "L2",
+        "layer": 2,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 10,
+        "lens_rank_edit": 10,
+        "lens_prob_clean": 0.015435096807777882,
+        "lens_prob_edit": 0.015435096807777882,
+        "margin_clean": -2.778883934020996,
+        "margin_edit": -2.778883934020996
+       },
+       {
+        "point": "L3",
+        "layer": 3,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 10,
+        "lens_rank_edit": 10,
+        "lens_prob_clean": 0.015346124768257141,
+        "lens_prob_edit": 0.015346124768257141,
+        "margin_clean": -2.697760581970215,
+        "margin_edit": -2.697760581970215
+       },
+       {
+        "point": "L4",
+        "layer": 4,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 15,
+        "lens_rank_edit": 15,
+        "lens_prob_clean": 0.00830147322267294,
+        "lens_prob_edit": 0.00830147322267294,
+        "margin_clean": -2.9586658477783203,
+        "margin_edit": -2.9586658477783203
+       },
+       {
+        "point": "L5",
+        "layer": 5,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 15,
+        "lens_rank_edit": 15,
+        "lens_prob_clean": 0.006513270549476147,
+        "lens_prob_edit": 0.006513270549476147,
+        "margin_clean": -3.6900081634521484,
+        "margin_edit": -3.6900081634521484
+       },
+       {
+        "point": "L6",
+        "layer": 6,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 14,
+        "lens_rank_edit": 14,
+        "lens_prob_clean": 0.004463570192456245,
+        "lens_prob_edit": 0.004463570192456245,
+        "margin_clean": -4.829557418823242,
+        "margin_edit": -4.829557418823242
+       },
+       {
+        "point": "L7",
+        "layer": 7,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 9,
+        "lens_rank_edit": 9,
+        "lens_prob_clean": 0.009960811585187912,
+        "lens_prob_edit": 0.009960811585187912,
+        "margin_clean": -4.2253570556640625,
+        "margin_edit": -4.2253570556640625
+       },
+       {
+        "point": "L8",
+        "layer": 8,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 14,
+        "lens_rank_edit": 14,
+        "lens_prob_clean": 0.0030954398680478334,
+        "lens_prob_edit": 0.0030954398680478334,
+        "margin_clean": -5.554994583129883,
+        "margin_edit": -5.554994583129883
+       },
+       {
+        "point": "L9",
+        "layer": 9,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 14,
+        "lens_rank_edit": 14,
+        "lens_prob_clean": 0.0020607206970453262,
+        "lens_prob_edit": 0.0020607206970453262,
+        "margin_clean": -5.924962997436523,
+        "margin_edit": -5.924962997436523
+       },
+       {
+        "point": "L10",
+        "layer": 10,
+        "downstream": true,
+        "delta_norm": 36.127464294433594,
+        "persistence": 1.0,
+        "cosine": 1.0,
+        "lens_rank_clean": 13,
+        "lens_rank_edit": 4,
+        "lens_prob_clean": 0.007999909110367298,
+        "lens_prob_edit": 0.060831695795059204,
+        "margin_clean": -4.232702255249023,
+        "margin_edit": -1.7415008544921875
+       },
+       {
+        "point": "L11",
+        "layer": 11,
+        "downstream": true,
+        "delta_norm": 51.50520324707031,
+        "persistence": 1.1814903031168575,
+        "cosine": 0.8287366603830864,
+        "lens_rank_clean": 8,
+        "lens_rank_edit": 2,
+        "lens_prob_clean": 0.028194012120366096,
+        "lens_prob_edit": 0.09829619526863098,
+        "margin_clean": -2.0425243377685547,
+        "margin_edit": -1.471731185913086
+       },
+       {
+        "point": "final",
+        "layer": 12,
+        "downstream": true,
+        "delta_norm": 76.51927185058594,
+        "persistence": 1.207259215571952,
+        "cosine": 0.5699899257510341,
+        "lens_rank_clean": 3,
+        "lens_rank_edit": 3,
+        "lens_prob_clean": 0.045825228095054626,
+        "lens_prob_edit": 0.08317848294973373,
+        "margin_clean": -1.1484432220458984,
+        "margin_edit": -0.9287433624267578
+       }
+      ],
+      "rank": 3,
+      "prob": 0.08317850530147552
+     },
+     "held": {
+      "rank": 3,
+      "prob": 0.08317850530147552
+     },
+     "optimal": {
+      "matched": {
+       "last": {
+        "rank": 1,
+        "prob": 0.8446945548057556
+       },
+       "all": {
+        "rank": 1,
+        "prob": 0.6861084699630737
+       }
+      },
+      "scan": {
+       "last": {
+        "0.02": {
+         "rank": 3,
+         "prob": 0.07383453845977783
+        },
+        "0.05": {
+         "rank": 1,
+         "prob": 0.13675226271152496
+        },
+        "0.1": {
+         "rank": 1,
+         "prob": 0.3114115297794342
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.7805101871490479
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9997250437736511
+        }
+       },
+       "all": {
+        "0.02": {
+         "rank": 3,
+         "prob": 0.09830286353826523
+        },
+        "0.05": {
+         "rank": 1,
+         "prob": 0.24178624153137207
+        },
+        "0.1": {
+         "rank": 1,
+         "prob": 0.6302675008773804
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.9593313336372375
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9999231100082397
+        }
+       }
+      }
+     },
+     "seconds": 159.1
+    },
+    {
+     "layer": 11,
+     "sae": {
+      "rank_before": 3,
+      "rank_after": 3,
+      "prob_before": 0.045825231820344925,
+      "prob_after": 0.07119501382112503,
+      "success": false,
+      "features_used": 274,
+      "stop_reason": "No unapplied active features remain at this position.",
+      "final_top1": " he",
+      "delta_norm": 54.5283203125,
+      "delta_norm_last": 22.534025192260742,
+      "resid_norm_last": 286.19915771484375,
+      "relative_push": 0.07873546998594823,
+      "recon_error_rel": 0.12139756977558136
+     },
+     "trace": {
+      "rows": [
+       {
+        "point": "L0",
+        "layer": 0,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 10283,
+        "lens_rank_edit": 10283,
+        "lens_prob_clean": 8.110404166837559e-14,
+        "lens_prob_edit": 8.110404166837559e-14,
+        "margin_clean": -29.79506754875183,
+        "margin_edit": -29.79506754875183
+       },
+       {
+        "point": "L1",
+        "layer": 1,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 21,
+        "lens_rank_edit": 21,
+        "lens_prob_clean": 0.005487460643053055,
+        "lens_prob_edit": 0.005487460643053055,
+        "margin_clean": -2.961872100830078,
+        "margin_edit": -2.961872100830078
+       },
+       {
+        "point": "L2",
+        "layer": 2,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 10,
+        "lens_rank_edit": 10,
+        "lens_prob_clean": 0.015435096807777882,
+        "lens_prob_edit": 0.015435096807777882,
+        "margin_clean": -2.778883934020996,
+        "margin_edit": -2.778883934020996
+       },
+       {
+        "point": "L3",
+        "layer": 3,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 10,
+        "lens_rank_edit": 10,
+        "lens_prob_clean": 0.015346124768257141,
+        "lens_prob_edit": 0.015346124768257141,
+        "margin_clean": -2.697760581970215,
+        "margin_edit": -2.697760581970215
+       },
+       {
+        "point": "L4",
+        "layer": 4,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 15,
+        "lens_rank_edit": 15,
+        "lens_prob_clean": 0.00830147322267294,
+        "lens_prob_edit": 0.00830147322267294,
+        "margin_clean": -2.9586658477783203,
+        "margin_edit": -2.9586658477783203
+       },
+       {
+        "point": "L5",
+        "layer": 5,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 15,
+        "lens_rank_edit": 15,
+        "lens_prob_clean": 0.006513270549476147,
+        "lens_prob_edit": 0.006513270549476147,
+        "margin_clean": -3.6900081634521484,
+        "margin_edit": -3.6900081634521484
+       },
+       {
+        "point": "L6",
+        "layer": 6,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 14,
+        "lens_rank_edit": 14,
+        "lens_prob_clean": 0.004463570192456245,
+        "lens_prob_edit": 0.004463570192456245,
+        "margin_clean": -4.829557418823242,
+        "margin_edit": -4.829557418823242
+       },
+       {
+        "point": "L7",
+        "layer": 7,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 9,
+        "lens_rank_edit": 9,
+        "lens_prob_clean": 0.009960811585187912,
+        "lens_prob_edit": 0.009960811585187912,
+        "margin_clean": -4.2253570556640625,
+        "margin_edit": -4.2253570556640625
+       },
+       {
+        "point": "L8",
+        "layer": 8,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 14,
+        "lens_rank_edit": 14,
+        "lens_prob_clean": 0.0030954398680478334,
+        "lens_prob_edit": 0.0030954398680478334,
+        "margin_clean": -5.554994583129883,
+        "margin_edit": -5.554994583129883
+       },
+       {
+        "point": "L9",
+        "layer": 9,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 14,
+        "lens_rank_edit": 14,
+        "lens_prob_clean": 0.0020607206970453262,
+        "lens_prob_edit": 0.0020607206970453262,
+        "margin_clean": -5.924962997436523,
+        "margin_edit": -5.924962997436523
+       },
+       {
+        "point": "L10",
+        "layer": 10,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 13,
+        "lens_rank_edit": 13,
+        "lens_prob_clean": 0.007999909110367298,
+        "lens_prob_edit": 0.007999909110367298,
+        "margin_clean": -4.232702255249023,
+        "margin_edit": -4.232702255249023
+       },
+       {
+        "point": "L11",
+        "layer": 11,
+        "downstream": true,
+        "delta_norm": 54.5283203125,
+        "persistence": 1.0,
+        "cosine": 1.0,
+        "lens_rank_clean": 8,
+        "lens_rank_edit": 4,
+        "lens_prob_clean": 0.028194012120366096,
+        "lens_prob_edit": 0.06436822563409805,
+        "margin_clean": -2.0425243377685547,
+        "margin_edit": -1.5285167694091797
+       },
+       {
+        "point": "final",
+        "layer": 12,
+        "downstream": true,
+        "delta_norm": 123.66963195800781,
+        "persistence": 1.2943143535347639,
+        "cosine": 0.5706880987734464,
+        "lens_rank_clean": 3,
+        "lens_rank_edit": 3,
+        "lens_prob_clean": 0.045825228095054626,
+        "lens_prob_edit": 0.07119489461183548,
+        "margin_clean": -1.1484432220458984,
+        "margin_edit": -0.8998546600341797
+       }
+      ],
+      "rank": 3,
+      "prob": 0.07119501382112503
+     },
+     "held": {
+      "rank": 3,
+      "prob": 0.07119501382112503
+     },
+     "optimal": {
+      "matched": {
+       "last": {
+        "rank": 1,
+        "prob": 0.9824084639549255
+       },
+       "all": {
+        "rank": 1,
+        "prob": 0.7349755764007568
+       }
+      },
+      "scan": {
+       "last": {
+        "0.02": {
+         "rank": 3,
+         "prob": 0.09266902506351471
+        },
+        "0.05": {
+         "rank": 1,
+         "prob": 0.22423982620239258
+        },
+        "0.1": {
+         "rank": 1,
+         "prob": 0.596562385559082
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.9868565201759338
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9984403252601624
+        }
+       },
+       "all": {
+        "0.02": {
+         "rank": 2,
+         "prob": 0.10904638469219208
+        },
+        "0.05": {
+         "rank": 1,
+         "prob": 0.3028721809387207
+        },
+        "0.1": {
+         "rank": 1,
+         "prob": 0.7473527193069458
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.9939932227134705
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9999552965164185
+        }
+       }
+      }
+     },
+     "seconds": 189.24
+    }
+   ]
+  },
+  {
+   "prompt": "The location of Massachusetts Institute of Technology is in",
+   "target": "Cambridge",
+   "target_token": " Cambridge",
+   "baseline_rank": 8,
+   "baseline_prob": 0.01152519416064024,
+   "baseline_top1": " the",
+   "clean_lens": [
+    {
+     "layer": 0,
+     "rank": 24210,
+     "prob": 7.690240583134865e-17,
+     "margin": -36.46170926094055
+    },
+    {
+     "layer": 1,
+     "rank": 1165,
+     "prob": 1.4180430298438296e-05,
+     "margin": -10.44277811050415
+    },
+    {
+     "layer": 2,
+     "rank": 729,
+     "prob": 8.184945727407467e-06,
+     "margin": -11.176331520080566
+    },
+    {
+     "layer": 3,
+     "rank": 399,
+     "prob": 2.208714431617409e-05,
+     "margin": -10.030320167541504
+    },
+    {
+     "layer": 4,
+     "rank": 261,
+     "prob": 5.228510781307705e-05,
+     "margin": -8.78323745727539
+    },
+    {
+     "layer": 5,
+     "rank": 192,
+     "prob": 0.00014352603466250002,
+     "margin": -7.71110725402832
+    },
+    {
+     "layer": 6,
+     "rank": 89,
+     "prob": 0.00039921756251715124,
+     "margin": -7.139073371887207
+    },
+    {
+     "layer": 7,
+     "rank": 24,
+     "prob": 0.005395693238824606,
+     "margin": -4.438741683959961
+    },
+    {
+     "layer": 8,
+     "rank": 98,
+     "prob": 0.0004468905390240252,
+     "margin": -6.311428070068359
+    },
+    {
+     "layer": 9,
+     "rank": 54,
+     "prob": 0.0009492615936324,
+     "margin": -5.319572448730469
+    },
+    {
+     "layer": 10,
+     "rank": 17,
+     "prob": 0.012586014345288277,
+     "margin": -2.0494041442871094
+    },
+    {
+     "layer": 11,
+     "rank": 6,
+     "prob": 0.01792026124894619,
+     "margin": -2.1185131072998047
+    }
+   ],
+   "layers": [
+    {
+     "layer": 8,
+     "sae": {
+      "rank_before": 8,
+      "rank_after": 1,
+      "prob_before": 0.01152519416064024,
+      "prob_after": 0.1105441227555275,
+      "success": true,
+      "features_used": 22,
+      "stop_reason": "Target reached Rank #1 in Round 0.",
+      "final_top1": " Cambridge",
+      "delta_norm": 36.238826751708984,
+      "delta_norm_last": 13.870545387268066,
+      "resid_norm_last": 90.30577087402344,
+      "relative_push": 0.1535953378507502,
+      "recon_error_rel": 0.26517581939697266
+     },
+     "trace": {
+      "rows": [
+       {
+        "point": "L0",
+        "layer": 0,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 24210,
+        "lens_rank_edit": 24210,
+        "lens_prob_clean": 7.690240583134865e-17,
+        "lens_prob_edit": 7.690240583134865e-17,
+        "margin_clean": -36.46170926094055,
+        "margin_edit": -36.46170926094055
+       },
+       {
+        "point": "L1",
+        "layer": 1,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 1165,
+        "lens_rank_edit": 1165,
+        "lens_prob_clean": 1.4180430298438296e-05,
+        "lens_prob_edit": 1.4180430298438296e-05,
+        "margin_clean": -10.44277811050415,
+        "margin_edit": -10.44277811050415
+       },
+       {
+        "point": "L2",
+        "layer": 2,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 729,
+        "lens_rank_edit": 729,
+        "lens_prob_clean": 8.184945727407467e-06,
+        "lens_prob_edit": 8.184945727407467e-06,
+        "margin_clean": -11.176331520080566,
+        "margin_edit": -11.176331520080566
+       },
+       {
+        "point": "L3",
+        "layer": 3,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 399,
+        "lens_rank_edit": 399,
+        "lens_prob_clean": 2.208714431617409e-05,
+        "lens_prob_edit": 2.208714431617409e-05,
+        "margin_clean": -10.030320167541504,
+        "margin_edit": -10.030320167541504
+       },
+       {
+        "point": "L4",
+        "layer": 4,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 261,
+        "lens_rank_edit": 261,
+        "lens_prob_clean": 5.228510781307705e-05,
+        "lens_prob_edit": 5.228510781307705e-05,
+        "margin_clean": -8.78323745727539,
+        "margin_edit": -8.78323745727539
+       },
+       {
+        "point": "L5",
+        "layer": 5,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 192,
+        "lens_rank_edit": 192,
+        "lens_prob_clean": 0.00014352603466250002,
+        "lens_prob_edit": 0.00014352603466250002,
+        "margin_clean": -7.71110725402832,
+        "margin_edit": -7.71110725402832
+       },
+       {
+        "point": "L6",
+        "layer": 6,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 89,
+        "lens_rank_edit": 89,
+        "lens_prob_clean": 0.00039921756251715124,
+        "lens_prob_edit": 0.00039921756251715124,
+        "margin_clean": -7.139073371887207,
+        "margin_edit": -7.139073371887207
+       },
+       {
+        "point": "L7",
+        "layer": 7,
+        "downstream": false,
+        "delta_norm": 0.0,
+        "persistence": null,
+        "cosine": null,
+        "lens_rank_clean": 24,
+        "lens_rank_edit": 24,
+        "lens_prob_clean": 0.005395693238824606,
+        "lens_prob_edit": 0.005395693238824606,
+        "margin_clean": -4.438741683959961,
+        "margin_edit": -4.438741683959961
+       },
+       {
+        "point": "L8",
+        "layer": 8,
+        "downstream": true,
+        "delta_norm": 36.238826751708984,
+        "persistence": 1.0,
+        "cosine": 1.0000000000000002,
+        "lens_rank_clean": 98,
+        "lens_rank_edit": 39,
+        "lens_prob_clean": 0.0004468905390240252,
+        "lens_prob_edit": 0.0019918514881283045,
+        "margin_clean": -6.311428070068359,
+        "margin_edit": -5.028387069702148
+       },
+       {
+        "point": "L9",
+        "layer": 9,
+        "downstream": true,
+        "delta_norm": 49.06462097167969,
+        "persistence": 1.133737968671978,
+        "cosine": 0.8373718596118727,
+        "lens_rank_clean": 54,
+        "lens_rank_edit": 26,
+        "lens_prob_clean": 0.0009492615936324,
+        "lens_prob_edit": 0.002716946415603161,
+        "margin_clean": -5.319572448730469,
+        "margin_edit": -4.527772903442383
+       },
+       {
+        "point": "L10",
+        "layer": 10,
+        "downstream": true,
+        "delta_norm": 59.5691032409668,
+        "persistence": 1.1599495973476515,
+        "cosine": 0.7056545833909629,
+        "lens_rank_clean": 17,
+        "lens_rank_edit": 2,
+        "lens_prob_clean": 0.012586014345288277,
+        "lens_prob_edit": 0.08997392654418945,
+        "margin_clean": -2.0494041442871094,
+        "margin_edit": -0.12708473205566406
+       },
+       {
+        "point": "L11",
+        "layer": 11,
+        "downstream": true,
+        "delta_norm": 79.53367614746094,
+        "persistence": 1.2811980743182574,
+        "cosine": 0.5837667232270691,
+        "lens_rank_clean": 6,
+        "lens_rank_edit": 1,
+        "lens_prob_clean": 0.01792026124894619,
+        "lens_prob_edit": 0.29313910007476807,
+        "margin_clean": -2.1185131072998047,
+        "margin_edit": 1.18408203125
+       },
+       {
+        "point": "final",
+        "layer": 12,
+        "downstream": true,
+        "delta_norm": 128.98663330078125,
+        "persistence": 1.282471525810538,
+        "cosine": 0.3603106862725182,
+        "lens_rank_clean": 8,
+        "lens_rank_edit": 1,
+        "lens_prob_clean": 0.011525226756930351,
+        "lens_prob_edit": 0.11054407805204391,
+        "margin_clean": -2.745847702026367,
+        "margin_edit": 0.237579345703125
+       }
+      ],
+      "rank": 1,
+      "prob": 0.1105441227555275
+     },
+     "held": {
+      "rank": 1,
+      "prob": 0.1105441227555275
+     },
+     "optimal": {
+      "matched": {
+       "last": {
+        "rank": 1,
+        "prob": 0.999982476234436
+       },
+       "all": {
+        "rank": 1,
+        "prob": 0.9982415437698364
+       }
+      },
+      "scan": {
+       "last": {
+        "0.02": {
+         "rank": 4,
+         "prob": 0.031975243240594864
+        },
+        "0.05": {
+         "rank": 2,
+         "prob": 0.1063920259475708
+        },
+        "0.1": {
+         "rank": 1,
+         "prob": 0.4530826210975647
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.9983049631118774
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9999823570251465
+        }
+       },
+       "all": {
+        "0.02": {
+         "rank": 2,
+         "prob": 0.12497144937515259
+        },
+        "0.05": {
+         "rank": 1,
+         "prob": 0.8207065463066101
+        },
+        "0.1": {
+         "rank": 1,
+         "prob": 0.9965313076972961
+        },
+        "0.2": {
+         "rank": 1,
+         "prob": 0.9999953508377075
+        },
+        "0.4": {
+         "rank": 1,
+         "prob": 0.9999990463256836
+        }
+       }
+      }
+     },
+     "seconds": 160.72
+    }
+   ]
+  }
+ ]
+}

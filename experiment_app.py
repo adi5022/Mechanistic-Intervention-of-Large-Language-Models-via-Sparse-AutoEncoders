@@ -240,12 +240,13 @@ enable_xai = st.sidebar.checkbox("Enable AI Explanations (Groq)", value=bool(def
 groq_key_input = default_groq_key
 
 # Tabs setup
-tab4, tab6, tab7, tab11, tab12 = st.tabs([
+tab4, tab6, tab7, tab11, tab12, tab13 = st.tabs([
     "🔄 Hybrid mute and boost",
     "📚 Monosemanticity Analysis",
     "📊 Session history and benchmarks",
     "⏱️ Sequential vs Batched Proof",
-    "🧮 Batch: Last vs All Tokens"
+    "🧮 Batch: Last vs All Tokens",
+    "🔬 Repair & SAE limit"
 ])
 
 
@@ -2473,3 +2474,201 @@ with tab12:
                     st.json(_rec, expanded=False)
         except Exception as e:
             st.error(f"Could not display that result: {e}")
+
+
+# --- TAB 13: Repair & SAE-limit benchmark (visual) ---
+with tab13:
+    import glob as _glob13
+    from src.hybrid_runner import run_hybrid_sweep as _run_hybrid13
+    from src.repair_diagnostics import diagnose_prompt as _diagnose13, OPT_FRACTIONS as _FRACS13
+
+    st.header("Repair & SAE-limit benchmark")
+    st.markdown(
+        "Two questions, answered with pictures instead of logs.\n\n"
+        "1. **Is the edit being undone?** We push the residual stream at one layer, then watch how much of that push is still there "
+        "in every later block, and compare against a control that keeps the push at full strength to the end.\n"
+        "2. **Is the SAE the bottleneck?** We compare the SAE edit with an SAE-free edit found by gradient search directly in the "
+        "residual stream. If the SAE-free edit reaches rank 1 with a smaller push, the SAE feature set is the inefficient part; "
+        "if neither works at that layer, the layer itself is the limit."
+    )
+    with st.expander("How to read the charts"):
+        st.markdown(
+            "- **Rank** is the target's place in the model's next-token list (1 = top). Charts flip the axis so *higher is better*.\n"
+            "- **Persistence** is the fraction of the pushed direction still present at a later block. 1.0 means untouched, "
+            "below 1 means later blocks partly cancelled it, above 1 means they amplified it.\n"
+            "- **Held edit** re-adds whatever was lost at each later block. If it beats the plain edit, later layers were repairing.\n"
+            "- **SAE-free edit** is optimised with gradients to raise the target as far as it can. It is an upper bound for a push of "
+            "that size, not a practical method: it is free to be adversarial and its side effects are not measured here.\n"
+            "- **Push size** is measured against the residual norm of the last token (or all non-BOS tokens for the all-positions mode)."
+        )
+
+    _D13 = _os.path.join("outputs", "repair_diagnostics")
+    _os.makedirs(_D13, exist_ok=True)
+
+    with st.expander("Run a new diagnostic (takes a few minutes per layer)", expanded=False):
+        c1, c2 = st.columns(2)
+        _p13 = c1.text_input("Prompt", "The Colosseum is located in", key="rd_prompt")
+        _t13 = c2.text_input("Target word", "Rome", key="rd_target")
+        _l13 = st.multiselect("Layers to test", list(range(12)), default=[6, 8, 10], key="rd_layers")
+        _steps13 = st.slider("Optimiser steps for the SAE-free bound", 20, 150, 40, key="rd_steps")
+        if st.button("Run diagnostic", key="rd_run") and _p13.strip() and _t13.strip() and _l13:
+            _bar = st.progress(0.0, text="starting")
+            _res = _diagnose13(model, get_cached_sae, _p13, _t13, sorted(_l13),
+                               {"record_detail": "compact", "collateral": False, "combination_check": False},
+                               _run_hybrid13, device, opt_steps=_steps13,
+                               progress_cb=lambda i, n, m: _bar.progress(i / n, text=f"{m} ({i + 1}/{n})"))
+            _bar.progress(1.0, text="done")
+            _name = datetime.now().strftime("app_%Y%m%d_%H%M%S") + ".json"
+            with open(_os.path.join(_D13, _name), "w") as f:
+                json.dump({"layers": sorted(_l13), "prompts": [_res]}, f, indent=1)
+            st.success(f"Saved {_name}. Pick it in the list below.")
+
+    _files13 = sorted(_glob13.glob(_os.path.join(_D13, "*.json")), key=_os.path.getmtime, reverse=True)
+    if not _files13:
+        st.info("No diagnostic results yet. Run one above, or use `tools/run_repair_diagnostics.py`.")
+    else:
+        _f13 = st.selectbox("Saved result", _files13, format_func=_os.path.basename, key="rd_file")
+        _data13 = json.load(open(_f13))
+        _prompts13 = _data13["prompts"]
+        _pi = st.selectbox("Prompt", range(len(_prompts13)),
+                           format_func=lambda i: f"{_prompts13[i]['prompt']} → {_prompts13[i]['target']}", key="rd_pi")
+        R = _prompts13[_pi]
+        LY = sorted(R["layers"], key=lambda x: x["layer"])
+        _layer_ids = [x["layer"] for x in LY]
+
+        st.caption(f"Clean model: top-1 is `{R['baseline_top1']}`, target `{R['target_token']}` is rank #{R['baseline_rank']} "
+                   f"at {R['baseline_prob'] * 100:.2f}%.")
+
+        # ---------- summary table + plain-language verdict ----------
+        _sum = []
+        for L in LY:
+            row = L["trace"]["rows"][-1]
+            _sum.append({
+                "Layer": L["layer"],
+                "Rank before": L["sae"]["rank_before"],
+                "SAE edit rank": L["sae"]["rank_after"],
+                "Held SAE edit rank": L["held"]["rank"],
+                "SAE-free rank, last token": L["optimal"]["matched"]["last"]["rank"],
+                "SAE-free rank, all tokens": L["optimal"]["matched"]["all"]["rank"],
+                "Push at output": row["persistence"],
+                "SAE push (% of norm)": L["sae"]["relative_push"] * 100,
+                "SAE error (% of norm)": L["sae"]["recon_error_rel"] * 100,
+            })
+        _sdf = pd.DataFrame(_sum)
+        sae_ok = [int(x) for x in _sdf.loc[_sdf["SAE edit rank"] == 1, "Layer"]]
+        free_ok = [int(x) for x in _sdf.loc[(_sdf["SAE-free rank, last token"] == 1) | (_sdf["SAE-free rank, all tokens"] == 1), "Layer"]]
+        held_gain = _sdf[_sdf["Held SAE edit rank"] < _sdf["SAE edit rank"]]
+        m1, m2, m3 = st.columns(3)
+        m1.metric("SAE edit reaches rank 1", f"{len(sae_ok)} of {len(_sdf)} layers", help=f"Layers: {sae_ok or 'none'}")
+        m2.metric("SAE-free edit reaches rank 1", f"{len(free_ok)} of {len(_sdf)} layers", help=f"Layers: {free_ok or 'none'}")
+        m3.metric("Holding the push helps", f"{len(held_gain)} of {len(_sdf)} layers",
+                  help="Held edit ended at a better rank than the plain edit.")
+        _pmin = _sdf["Push at output"].min()
+        if len(held_gain) == 0 and _pmin >= 0.75:
+            _repair = "**No sign of repair.** The pushed direction survives to the output and re-adding it changes nothing."
+        elif len(held_gain) == 0:
+            _repair = "**Some fading, but it does not cost rank.** Keeping the push at full strength does not help."
+        else:
+            _repair = f"**Repair looks real at layers {[int(x) for x in held_gain['Layer']]}.** Keeping the push at full strength gives a better rank."
+        if len(free_ok) > len(sae_ok):
+            _lim = "The SAE-free edit succeeds where the SAE edit does not, so the **SAE feature set is a limiting factor** there."
+        elif not free_ok:
+            _lim = "Even the SAE-free edit of the same size fails, so the limit is the **layer or push size**, not the SAE."
+        else:
+            _lim = "The SAE edit does as well as the SAE-free edit, so the SAE is **not** the limit here."
+        st.markdown(f"**Repair (#1):** {_repair}\n\n**SAE limit (#2):** {_lim}")
+        st.dataframe(_sdf.style.format({"Push at output": "{:.2f}", "SAE push (% of norm)": "{:.1f}", "SAE error (% of norm)": "{:.1f}"}),
+                     use_container_width=True, hide_index=True)
+
+        # ---------- chart 1: rank by layer ----------
+        st.subheader("1. Where does each method get the target to?")
+        _rk = []
+        for L in LY:
+            _rk += [
+                {"Layer": L["layer"], "Method": "Unedited", "Rank": L["sae"]["rank_before"]},
+                {"Layer": L["layer"], "Method": "SAE edit", "Rank": L["sae"]["rank_after"]},
+                {"Layer": L["layer"], "Method": "SAE edit, held to the end", "Rank": L["held"]["rank"]},
+                {"Layer": L["layer"], "Method": "SAE-free, last token", "Rank": L["optimal"]["matched"]["last"]["rank"]},
+                {"Layer": L["layer"], "Method": "SAE-free, all tokens", "Rank": L["optimal"]["matched"]["all"]["rank"]},
+            ]
+        _rdf = pd.DataFrame(_rk)
+        st.altair_chart(alt.Chart(_rdf).mark_line(point=True).encode(
+            x=alt.X("Layer:O", title="Layer where the edit is applied"),
+            y=alt.Y("Rank:Q", scale=alt.Scale(type="log", reverse=True), title="Target rank (1 = top; higher on chart = better)"),
+            color="Method:N", strokeDash="Method:N", tooltip=["Layer", "Method", "Rank"]).properties(height=340),
+            use_container_width=True)
+        st.caption("SAE-free lines use the same push size (L2 norm) as the SAE edit at that layer.")
+
+        # ---------- chart 2: persistence ----------
+        st.subheader("2. Is the push still there in later blocks?")
+        _ps = []
+        for L in LY:
+            for r in L["trace"]["rows"]:
+                if r["downstream"] and r["persistence"] is not None:
+                    _ps.append({"Edit layer": f"L{L['layer']}", "Block": r["layer"], "Point": r["point"], "Persistence": r["persistence"]})
+        _pdf = pd.DataFrame(_ps)
+        _line = alt.Chart(_pdf).mark_line(point=True).encode(
+            x=alt.X("Block:Q", title="Block (12 = final output)", scale=alt.Scale(domain=[min(_layer_ids), 12])),
+            y=alt.Y("Persistence:Q", title="Fraction of pushed direction remaining"),
+            color="Edit layer:N", tooltip=["Edit layer", "Point", alt.Tooltip("Persistence:Q", format=".2f")])
+        _ref = alt.Chart(pd.DataFrame({"y": [1.0]})).mark_rule(strokeDash=[4, 4], color="gray").encode(y="y:Q")
+        st.altair_chart((_line + _ref).properties(height=320), use_container_width=True)
+        st.caption("Flat near 1.0 = later blocks leave the edit alone. A drop = later blocks cancel part of it. "
+                   "The last point is the residual after the final block.")
+
+        # ---------- chart 3: logit lens for one edit layer ----------
+        st.subheader("3. Following one edit through the network (logit lens)")
+        _sel = st.selectbox("Edit layer to inspect", _layer_ids, index=_layer_ids.index(8) if 8 in _layer_ids else 0, key="rd_lens_layer")
+        LL = next(L for L in LY if L["layer"] == _sel)
+        _lens = []
+        for r in LL["trace"]["rows"]:
+            _lens += [{"Point": r["point"], "Block": r["layer"], "Run": "Unedited", "Margin": r["margin_clean"], "Rank": r["lens_rank_clean"]},
+                      {"Point": r["point"], "Block": r["layer"], "Run": "Edited", "Margin": r["margin_edit"], "Rank": r["lens_rank_edit"]}]
+        _ldf = pd.DataFrame(_lens)
+        _lc = alt.Chart(_ldf).mark_line(point=True).encode(
+            x=alt.X("Block:Q", title="Block (12 = output)"),
+            y=alt.Y("Margin:Q", title="Target logit minus best other logit (above 0 = target leads)"),
+            color="Run:N", tooltip=["Point", "Run", alt.Tooltip("Margin:Q", format=".2f"), "Rank"])
+        _zero = alt.Chart(pd.DataFrame({"y": [0]})).mark_rule(color="gray").encode(y="y:Q")
+        _vline = alt.Chart(pd.DataFrame({"x": [_sel]})).mark_rule(strokeDash=[4, 4], color="orange").encode(x="x:Q")
+        st.altair_chart((_lc + _zero + _vline).properties(height=320), use_container_width=True)
+        st.caption("Orange line = where the edit is applied. If the edited line rises there and then falls back toward the unedited line, "
+                   "later blocks are pulling the model back. Readings from early blocks are rough because GPT-2 has not formed its answer yet.")
+        _s = LL["sae"]
+        st.markdown(
+            f"At layer {_sel} the SAE edit used **{_s['features_used']} features**, pushing the last token by "
+            f"**{_s['relative_push'] * 100:.1f}%** of its residual norm. The SAE's reconstruction error at that token is "
+            f"**{_s['recon_error_rel'] * 100:.0f}%** of the activation size, and the edit leaves it untouched. Stop reason: {_s['stop_reason']}"
+        )
+
+        # ---------- chart 4: push-size heatmap ----------
+        st.subheader("4. How big a push does the SAE-free edit need, per layer?")
+        _mode = st.radio("Positions edited", ["last", "all"], horizontal=True, key="rd_hm_mode",
+                         format_func=lambda x: "Last token only" if x == "last" else "All tokens")
+        _hm = []
+        for L in LY:
+            for fr in _FRACS13:
+                v = L["optimal"]["scan"][_mode][str(fr)]
+                _hm.append({"Layer": L["layer"], "Push": f"{fr * 100:g}%", "Rank": v["rank"], "Prob %": v["prob"] * 100})
+        _hdf = pd.DataFrame(_hm)
+        _order = [f"{fr * 100:g}%" for fr in _FRACS13]
+        _base = alt.Chart(_hdf).encode(x=alt.X("Push:O", sort=_order, title="Push size (% of residual norm)"), y=alt.Y("Layer:O"))
+        _rect = _base.mark_rect().encode(
+            color=alt.Color("Rank:Q", scale=alt.Scale(type="log", scheme="redyellowgreen", reverse=True), title="Rank"),
+            tooltip=["Layer", "Push", "Rank", alt.Tooltip("Prob %:Q", format=".1f")])
+        _txt = _base.mark_text(fontSize=12).encode(text="Rank:Q")
+        st.altair_chart((_rect + _txt).properties(height=300), use_container_width=True)
+        st.caption("Green = at or near rank 1. Reading across a row shows the push needed at that layer; comparing rows shows which "
+                   "layers are easiest to steer without any SAE. Compare with the SAE push in the table above.")
+
+        # ---------- chart 5: clean model lens ----------
+        st.subheader("5. Where does the clean model already know the answer?")
+        _cl = pd.DataFrame(R["clean_lens"])
+        st.altair_chart(alt.Chart(_cl).mark_bar().encode(
+            x=alt.X("layer:O", title="Block"), y=alt.Y("margin:Q", title="Target logit margin (unedited)"),
+            color=alt.condition(alt.datum.margin > 0, alt.value("#2a9d8f"), alt.value("#c0c0c0")),
+            tooltip=["layer", "rank", alt.Tooltip("prob:Q", format=".3f")]).properties(height=240), use_container_width=True)
+        st.caption("Teal bars: the target already leads at that depth in the unedited model.")
+
+        with st.expander("Raw JSON"):
+            st.json(R, expanded=False)
