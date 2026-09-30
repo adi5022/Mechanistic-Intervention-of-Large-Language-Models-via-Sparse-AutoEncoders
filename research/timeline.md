@@ -129,4 +129,9 @@ Chronological timeline of FeatureScalpel's design modifications, pivots, and mil
 * **Files involved**: `layer_benchmark.py`, `benchmark_test_prompts.json`, `test_gpu_benchmark.py`, `run_speed_analysis.py`, `docs/Research_Journal/12.md`
 * **Status**: Completed
 
-
+### 2026-09-30
+* **Title**: Repair and SAE-limit diagnostics; new visual app tab
+* **Motivation**: Test whether later layers undo the layer-8 edit, and whether the SAE (rather than the layer) limits factual correction.
+* **Summary**: Added `src/repair_diagnostics.py`, `tools/run_repair_diagnostics.py` and a 6th app tab (Repair & SAE limit). Ran 3 failing prompts x layers 5-11 plus MIT at layer 8. No repair seen (held edit == plain edit in 21/21 cells); SAE-free edit of equal size reached rank 1 in 21/21 cells vs 1/21 for the SAE edit.
+* **Files involved**: `src/repair_diagnostics.py`, `tools/run_repair_diagnostics.py`, `experiment_app.py`, `docs/Research_Journal/22.md`, `docs/Research_Journal/packs/repair_diagnostics/`
+* **Status**: Completed (side-effect comparison for the SAE-free edit still open)

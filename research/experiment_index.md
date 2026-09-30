@@ -15,6 +15,4 @@ Master index of all completed and planned experiments.
 | **EXP-009** | 2026-07-25 | Multi-Feature Representation Diagnostic | H11 | [exp_009.md](file:///d:/Work/PROJECTS/FeatureScalpel/research/notebook/exp_009.md) | Completed | Mapped decay profiles and feature overlaps, showing flat profiles (94% decay) |
 | **EXP-010** | 2026-08-05 | Layer Benchmark UI & Stage Profiling Infrastructure | - | [exp_010.md](file:///d:/Work/PROJECTS/FeatureScalpel/research/notebook/exp_010.md) | Completed | Decoupled caching & stage profiling (`docs/Research_Journal/11.md`) |
 | **EXP-011** | 2026-08-09 | Candidate Selection, Delta Patching, ROME Dataset & GPU Speed Analysis | - | `docs/Research_Journal/12.md` | Completed | CUDA 12.4 migration; 3.83x to 20.67x speedup on GTX 1660 Ti (`docs/Research_Journal/12.md`) |
-
-
-
+| **EXP-012** | 2026-09-30 | Repair and SAE-limit diagnostics (persistence trace, held edit, SAE-free bound) | H13, H14 | `docs/Research_Journal/22.md` | Completed | `docs/Research_Journal/packs/repair_diagnostics/merged_all_layers.json`; code `src/repair_diagnostics.py`, `tools/run_repair_diagnostics.py`; app tab "Repair & SAE limit" |
