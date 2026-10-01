@@ -133,43 +133,56 @@ def held_edit(model, tokens, layer, delta, target_id, clean_store):
     return {"rank": rank, "prob": prob}
 
 
-def optimal_delta(model, tokens, layer, target_id, budget, positions="last", steps=60):
+def optimal_deltas_batched(model, tokens, layer, target_id, specs, steps=60):
     """
-    SAE-free upper bound: gradient-optimise a residual push of Frobenius norm <= budget that raises the
-    target, at `layer`, on the last token only or on every non-BOS position.
+    SAE-free upper bound: for every (budget, positions) in `specs`, gradient-optimise a residual push of
+    Frobenius norm <= budget at `layer` that raises the target (positions = "last" or "all" non-BOS).
+    All specs run together as rows of one batch, so the cost is about one run, not len(specs) runs
+    (this model is launch-bound on tiny prompts, not compute-bound).
     """
     hook_name = f"blocks.{layer}.hook_resid_pre"
-    n_pos = tokens.shape[1]
-    d_model = model.cfg.d_model
-    mask = torch.zeros(1, n_pos, 1, device=tokens.device)
-    if positions == "last":
-        mask[:, -1] = 1.0
-    else:
-        mask[:, 1:] = 1.0
-    delta = torch.zeros(1, n_pos, d_model, device=tokens.device, requires_grad=True)
-    opt = torch.optim.Adam([delta], lr=max(budget * 0.15, 1e-4))
-    best = None
+    B, n_pos, dev = len(specs), tokens.shape[1], tokens.device
+    batch = tokens.expand(B, -1)
+    mask = torch.zeros(B, n_pos, 1, device=dev)
+    for b, (_, pos) in enumerate(specs):
+        if pos == "last":
+            mask[b, -1] = 1.0
+        else:
+            mask[b, 1:] = 1.0
+    budgets = torch.tensor([max(float(bud), 1e-6) for bud, _ in specs], device=dev).view(B, 1, 1)
+    u = torch.zeros(B, n_pos, model.cfg.d_model, device=dev, requires_grad=True)   # delta = budgets * u, |u| <= 1
+    opt = torch.optim.Adam([u], lr=0.15)
+    best_rank = torch.full((B,), 10 ** 9, device=dev)
+    best_prob = torch.zeros(B, device=dev)
+
+    def forward():
+        return model.run_with_hooks(batch, fwd_hooks=[(hook_name, lambda r, hook: r + budgets * u * mask)])
+
+    def track(logp):
+        tl = logp[:, target_id]
+        rank = (logp > tl.unsqueeze(1)).sum(-1) + 1
+        prob = tl.exp()
+        better = (rank < best_rank) | ((rank == best_rank) & (prob > best_prob))
+        best_rank.copy_(torch.where(better, rank, best_rank))
+        best_prob.copy_(torch.where(better, prob, best_prob))
+
     for _ in range(steps):
-        opt.zero_grad()
-        logits = model.run_with_hooks(tokens, fwd_hooks=[(hook_name, lambda r, hook: r + delta * mask)])
-        logp = F.log_softmax(logits[0, -1], dim=-1)
-        rank = int((logp > logp[target_id]).sum().item()) + 1
-        prob = float(logp[target_id].exp().item())
-        if best is None or (rank, -prob) < (best[0], -best[1]):
-            best = (rank, prob)
-        (-logp[target_id]).backward()
+        logp = F.log_softmax(forward()[:, -1], dim=-1)
+        track(logp.detach())
+        u.grad, = torch.autograd.grad(-logp[:, target_id].sum(), u)   # rows are independent; only the edit's gradient
         opt.step()
         with torch.no_grad():
-            delta.mul_(mask)
-            n = delta.norm()
-            if n > budget:
-                delta.mul_(budget / n)
+            u.mul_(mask)
+            n = u.flatten(1).norm(dim=1).view(B, 1, 1)
+            u.mul_(torch.clamp(1.0 / n.clamp_min(1e-12), max=1.0))
     with torch.no_grad():
-        logits = model.run_with_hooks(tokens, fwd_hooks=[(hook_name, lambda r, hook: r + delta * mask)])
-    rank, prob = _rank_prob(logits[0, -1], target_id)
-    if (rank, -prob) < (best[0], -best[1]):
-        best = (rank, prob)
-    return {"rank": best[0], "prob": best[1]}
+        track(F.log_softmax(forward()[:, -1], dim=-1))
+    return [{"rank": int(r), "prob": float(p)} for r, p in zip(best_rank.tolist(), best_prob.tolist())]
+
+
+def optimal_delta(model, tokens, layer, target_id, budget, positions="last", steps=60):
+    """Single-spec convenience wrapper around `optimal_deltas_batched`."""
+    return optimal_deltas_batched(model, tokens, layer, target_id, [(budget, positions)], steps)[0]
 
 
 def diagnose_layer(model, sae, layer, prompt, target, hybrid_cfg, target_id, tokens, clean_logits, clean_store,
@@ -190,13 +203,20 @@ def diagnose_layer(model, sae, layer, prompt, target, hybrid_cfg, target_id, tok
     d_norm = float(delta.norm().item())
     d_norm_last = float(delta[0, -1].norm().item())
 
-    opt = {"matched": {}, "scan": {}}
+    opt = {"matched": {}, "scan": {"last": {}, "all": {}}}
+    specs, keys = [], []
     for pos in ("last", "all"):
-        opt["matched"][pos] = optimal_delta(model, tokens, layer, target_id, max(d_norm, 1e-3), pos, opt_steps)
-        opt["scan"][pos] = {}
+        specs.append((max(d_norm, 1e-3), pos))
+        keys.append(("matched", pos, None))
         base = x_norm_last if pos == "last" else x_norm_all
         for fr in OPT_FRACTIONS:
-            opt["scan"][pos][str(fr)] = optimal_delta(model, tokens, layer, target_id, fr * base, pos, opt_steps)
+            specs.append((fr * base, pos))
+            keys.append(("scan", pos, str(fr)))
+    for (kind, pos, fr), res in zip(keys, optimal_deltas_batched(model, tokens, layer, target_id, specs, opt_steps)):
+        if kind == "matched":
+            opt["matched"][pos] = res
+        else:
+            opt["scan"][pos][fr] = res
 
     best = rec.get("best_result") or {}
     return {

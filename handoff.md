@@ -32,7 +32,7 @@ After reading the docs and code: #3's premise is wrong (delta patching already a
 ## Findings (details and full tables in `docs/Research_Journal/22.md`)
 
 - **Repair (#1): not supported.** Held edit == plain edit in 21 of 21 layer/prompt cells. Push persisted at 0.79 to 1.29 of injected size at the output. Caveat: this tests the pushed direction, not regeneration along other directions.
-- **SAE limit (#2): supported.** A gradient-searched residual edit of the same L2 size reached rank 1 in 21 of 21 cells; the SAE edit in 1 of 21 (Colosseum at layer 7). SAE-free needed about 5 to 20% of residual norm; stalled SAE edits pushed 8 to 28% using up to 2,294 features. Caveat: the SAE-free edit is an upper bound, its side effects are unmeasured.
+- **SAE limit (#2): suggestive only.** On 3 prompts that had already failed, a gradient-searched residual edit of the same L2 size reached rank 1 in 21 of 21 layer/prompt combinations and the SAE edit in 1 of 21. These are hand-picked failures, so this is not a success rate and is not comparable to the 41/131 (last token) or 29/45 (all positions, pilot) figures. No baseline has been run on the 131-prompt set. The user's own project setup (mute 0.6, boost 0.5 fixed, Top-N 200, all positions, cumulative sweep, safety filter on) has not been compared with other methods yet.
 - **Reconstruction error (#3):** 12 to 26% of activation norm, left unedited; not sufficient alone to explain failures, but it bounds what feature scaling can reach.
 - MIT to Cambridge at layer 8 reached rank 1 with 22 features here (Entry 10 had rank 3 with older settings; not compared).
 
