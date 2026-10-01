@@ -73,3 +73,13 @@ The raw originals lived in `outputs/repair_diagnostics/` (not committed; `output
 - Shell gotchas on Windows: bash heredocs and regex backslashes get mangled (write files with a file tool or a script file); files are CRLF, read with `newline=''` and `encoding='utf8'` (the app source has emoji, and a default-cp1252 read fails).
 - TransformerLens: hooks must accept the keyword `hook` (`lambda r, hook: ...`), and `run_with_cache` does not take `fwd_hooks` (use `with model.hooks(fwd_hooks=[...]):`).
 - The Streamlit preview needs about 60 to 90 s to load the model before tabs render.
+
+## UPDATE 2026-10-01 (read this part first)
+
+Decisions made by the user after the diagnostics (they take the decisions; Claude documents and executes):
+1. **Reference run** = the user's original system on the 131 prompts: strict safety filter, mute 0.6 / boost 0.5, Top-N 200, all positions, cumulative sweep, pool refill, 250-step cap, layer 8. Spec: `data/reference_strict_topn200_all.json`. Run it from the Batch tab or `run_batch.py`. NOT run yet. It can be run on another machine (needs the environment, not extra VRAM; speed is limited by Python/kernel launch, not GPU memory) and the result file copied back.
+2. **Fair comparison planned** on the same 131 prompts, each method timed: user system, IKE (in-context, few-shot demonstrations, since GPT-2 is not instruction tuned), ROME, DiffMean. Use EXISTING implementations (EasyEdit has ROME/MEMIT/IKE for GPT-2; AxBench has DiffMean/ReFT-r1), not code written from scratch. Columns: time, rank-1 count (of 131), interpretability/monosemanticity (a plain 'what can a person inspect' column plus the existing monosemanticity score for the SAE features). All results then go into one new comparison tab. Not started.
+3. **Learned mute/boost strengths** (per-prompt first, per-feature later) is a planned variant of the Hybrid system, trained by gradient through the model on the feature sets recorded in the reference run (no searched labels). Full plan and risks: `docs/Research_Journal/23.md` (H15, EXP-013). Not implemented.
+4. The Repair & SAE-limit tab is a diagnostic for failed prompts, not the benchmark. The wording in Entry 22 was corrected: its counts (1 of 21, 21 of 21) are on 3 hand-picked failed prompts and are not success rates.
+5. Earlier success figures for the 131-prompt study are last token only, Top-N 120 (41/131) and the 45-prompt all-positions pilot (29/45); neither equals the reference setup.
+
