@@ -83,3 +83,5 @@ Decisions made by the user after the diagnostics (they take the decisions; Claud
 4. The Repair & SAE-limit tab is a diagnostic for failed prompts, not the benchmark. The wording in Entry 22 was corrected: its counts (1 of 21, 21 of 21) are on 3 hand-picked failed prompts and are not success rates.
 5. Earlier success figures for the 131-prompt study are last token only, Top-N 120 (41/131) and the 45-prompt all-positions pilot (29/45); neither equals the reference setup.
 
+6. **FULL STUDY PLAN written:** `docs/Research_Journal/23.md` (data from CounterFact `datasets/counterfact.json`, 45 MB, downloaded, gitignored; per-prompt cache; strength-grid filter tables; PromptNet / learned fixed pair / oracle / FeatureNet; training losses; arms and metrics; time budget; risks; open decisions). Measured costs: `tools/measure_plan_costs.py` (cache build 0.56 to 1.17 s per prompt; training step about 50 ms from layer 8, the same for a batch of 32). Nothing in the plan is built yet; the next step is the yield report from `tools/build_counterfact_set.py` (not written).
+
