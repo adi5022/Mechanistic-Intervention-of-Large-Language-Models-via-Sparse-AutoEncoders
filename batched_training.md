@@ -149,3 +149,32 @@ Anything unexpected: <free text>
 ## 8. What comes next (not your job)
 
 After both halves are merged on system one: a headroom measurement and then the training code for the strength network (`docs/Research_Journal/23.md`, Section 13). Do not start any of that.
+
+---
+
+## 9. JOB 2 (strength tables) for system two
+
+Same rules as sections 4 and 6 above (do not edit code, do not commit `outputs/`, stop and report on any mismatch). This job needs the **full merged cache** of 1,450 files in `outputs\strength_cache` on system two (the user copies it over; check it with `tools/verify_strength_cache.py --expected 1450 --split-file data/counterfact_split.json`, expected `RESULT: OK`).
+
+1. `git pull` on the branch `pool-refill-implementation`. The file `tools/build_strength_tables.py` must be present.
+2. Smoke test (about 1 minute): 
+```powershell
+.venv\Scripts\python.exe tools/build_strength_tables.py --limit 3 --out-dir outputs\strength_tables_smoke
+```
+Required: the line `Sanity check: ... OK` (both differences about 1e-9 or smaller). If it says MISMATCH, stop and report. Then delete the smoke folder.
+3. Real run, **this machine takes slices 0 to 4 of 7** (it is the faster machine; the user's other machine takes slices 5 and 6):
+```powershell
+Start-Process -FilePath ".venv\Scripts\python.exe" -ArgumentList "tools/build_strength_tables.py --shard 0,1,2,3,4/7" -RedirectStandardOutput outputs	ables_run.log -RedirectStandardError outputs	ables_run.err -NoNewWindow
+```
+Expected: 1,036 prompts (5/7 of 1,450). Roughly 30 to 60 minutes on this machine (the user's slower machine needs about 4.6 s per prompt; this machine should be about 2 times faster). Progress lines look like `[200/1036] 0.50 prompts/s | ...`. If interrupted, run the same command again (it skips finished prompts).
+4. Verify (the number of files must be 1,036 for this shard):
+```powershell
+.venv\Scripts\python.exe tools/build_strength_tables.py --verify --expected 1036
+```
+Expected: `Problems: 0` and `RESULT: OK`; it also prints the average number of candidates passing the strict filter at each strength (report these two lines).
+5. Package and report:
+```powershell
+Compress-Archive -Path outputs\strength_tables\* -DestinationPath outputs\strength_tables_system2.zip -Force
+```
+Report using the template in section 7, adding: files in `outputs\strength_tables` (expected 1,036), problems (expected 0), total seconds, seconds per prompt, and the zip size. Do not upload or commit the zip.
+
