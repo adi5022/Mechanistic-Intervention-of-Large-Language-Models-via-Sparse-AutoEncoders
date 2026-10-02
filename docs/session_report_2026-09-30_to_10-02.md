@@ -279,3 +279,16 @@ Two machines: add `--shard 0,1,2,3,4/7` on the faster and `--shard 5,6/7` on the
 
 ## 12. Commits in this session (branch `pool-refill-implementation`)
 `80e5409` diagnostics, tab, Entry 22 | `cf5086f` speed fix, wording correction | `5a7d787` reference spec | `0e8fb16`, `01b48fc`, `f8f65bc`, `077e251` Entry 23 plan | `bcc1ea2`, `2547612` CounterFact builder and yield | `9a53d15` split script | `523c374` cache builder | `09dbaf2` agent instructions, verifier, split files | `23e272f`, `ddf13fe` weighted sharding and speed correction | `3fdf602`, `679430c` headroom | `97d3e10`, `12ea10c` strength tables | `de532fa` strength-table results.
+
+---
+
+## 13. Addendum (2026-10-03): the training run finished
+
+The full training ran on the RTX 4050 laptop (20 minutes) and was analysed prompt by prompt (journal entry `docs/Research_Journal/26.md`; data in `docs/Research_Journal/packs/strength_models/`). In plain words, on the 300 test prompts and in the stand-in (not the real system):
+- Your fixed 0.6 / 0.5 fixed **25%** of the prompts.
+- One better pair for everyone (mute 0.98, boost 1.81) fixed **39%**. That is a clear, statistically solid gain (42 prompts only the better pair fixed, 1 only yours).
+- The network choosing per prompt fixed **40%**: 3 prompts more than the single pair, 0 fewer. That is not distinguishable from no gain.
+- Tuning on each prompt directly (the "oracle") fixed 41%.
+- The better pair roughly **doubles the side effects** on other predictions.
+- Prompts that start very deep (rank 101 to 1000) stay almost unfixable whatever the strengths.
+So the finding so far is **a better default setting**, not per-prompt adaptation. The real test (your real sweep with these strengths on the same prompts) has not been run.

@@ -160,3 +160,10 @@ Chronological timeline of FeatureScalpel's design modifications, pivots, and mil
 * **Also 2026-10-02**: journal entries 24 (data pipeline and headroom results), 25 (literature check and direction assessment) and a placeholder for 21 (safety-filter study, still unwritten) added; H17, EXP-016 and EXP-017 added to the logs.
 
 * **Also 2026-10-02 (training code)**: wrote `src/strength_models.py` and `tools/train_strength_models.py` (PromptNet, learned fixed pair, oracle, prefix-cumulative proxy, four self-checks including a comparison with the real sweep's round-0 pools). Three design failures found and fixed during development are recorded in Entry 23, section 13.9. Full training run not yet done.
+
+### 2026-10-03
+* **Title**: Learned-strength models trained (prefix proxy) and analysed
+* **Motivation**: Test whether choosing the mute and boost strengths (per prompt or globally) beats fixed 0.6 / 0.5.
+* **Summary**: Ran `tools/train_strength_models.py` on the RTX 4050 laptop (1,195 s) and analysed per prompt with `tools/analyse_strength_models.py`. On the 300 test prompts the proxy success rate rose from 25.0% (fixed 0.6/0.5) to 38.7% (learned fixed pair, mute 0.98 / boost 1.81) and 39.7% (PromptNet; 3 prompts more than the pair, p = 0.25); side effects roughly doubled. Per-prompt adaptation not shown; real sweep not yet run.
+* **Files involved**: `docs/Research_Journal/26.md`, `docs/Research_Journal/packs/strength_models/`, `tools/analyse_strength_models.py`
+* **Status**: Completed (proxy only)
