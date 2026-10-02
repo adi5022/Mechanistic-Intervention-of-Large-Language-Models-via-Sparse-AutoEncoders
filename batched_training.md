@@ -164,7 +164,7 @@ Same rules as sections 4 and 6 above (do not edit code, do not commit `outputs/`
 Required: the line `Sanity check: ... OK` (both differences about 1e-9 or smaller). If it says MISMATCH, stop and report. Then delete the smoke folder.
 3. Real run, **this machine takes slices 0 to 4 of 7** (it is the faster machine; the user's other machine takes slices 5 and 6):
 ```powershell
-Start-Process -FilePath ".venv\Scripts\python.exe" -ArgumentList "tools/build_strength_tables.py --shard 0,1,2,3,4/7" -RedirectStandardOutput outputs	ables_run.log -RedirectStandardError outputs	ables_run.err -NoNewWindow
+Start-Process -FilePath ".venv\Scripts\python.exe" -ArgumentList "tools/build_strength_tables.py --shard 0,1,2,3,4/7" -RedirectStandardOutput outputs\tables_run.log -RedirectStandardError outputs\tables_run.err -NoNewWindow
 ```
 Expected: 1,036 prompts (5/7 of 1,450). Roughly 30 to 60 minutes on this machine (the user's slower machine needs about 4.6 s per prompt; this machine should be about 2 times faster). Progress lines look like `[200/1036] 0.50 prompts/s | ...`. If interrupted, run the same command again (it skips finished prompts).
 4. Verify (the number of files must be 1,036 for this shard):
