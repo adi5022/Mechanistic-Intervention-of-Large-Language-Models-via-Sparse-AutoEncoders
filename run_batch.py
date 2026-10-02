@@ -18,7 +18,7 @@ def main():
     ap.add_argument("out", nargs="?", default=None)
     ap.add_argument("--layer", type=int, default=8)
     ap.add_argument("--resume", action="store_true")
-    ap.add_argument("--shard", default=None, help="i/n: this worker runs every n-th job starting at i (parallel workers)")
+    ap.add_argument("--shard", default=None, help="i/n: this worker runs every n-th job starting at i (parallel workers). A faster machine can take several slices: 0,1,2,3/5")
     a = ap.parse_args()
     out = a.out or f"outputs/batch_runs/batch_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
 
@@ -31,10 +31,11 @@ def main():
     shard = None
     if a.shard:
         i_, n_ = a.shard.split("/")
-        shard = (int(i_), int(n_))
+        idx = [int(x) for x in i_.split(",")]
+        shard = (idx[0] if len(idx) == 1 else idx, int(n_))
     total = len(spec["prompts"]) * len(spec["arms"]) * len(spec["modes"]) * spec["repeats"]
     if shard:
-        total = len(range(shard[0], total, shard[1]))          # approximate for the banner; the runner reports the exact count
+        total = sum(len(range(i, total, shard[1])) for i in ([shard[0]] if isinstance(shard[0], int) else shard[0]))   # approximate for the banner
     print(f"{spec['name']}: {total} runs -> {out}", flush=True)
 
     def cb(done, total, rec):
