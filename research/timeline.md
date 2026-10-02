@@ -158,3 +158,5 @@ Chronological timeline of FeatureScalpel's design modifications, pivots, and mil
 * **Files involved**: `docs/literature_review_sae_editing.md`, `docs/session_report_2026-09-30_to_10-02.md`, `handoff.md`
 * **Status**: Completed
 * **Also 2026-10-02**: journal entries 24 (data pipeline and headroom results), 25 (literature check and direction assessment) and a placeholder for 21 (safety-filter study, still unwritten) added; H17, EXP-016 and EXP-017 added to the logs.
+
+* **Also 2026-10-02 (training code)**: wrote `src/strength_models.py` and `tools/train_strength_models.py` (PromptNet, learned fixed pair, oracle, prefix-cumulative proxy, four self-checks including a comparison with the real sweep's round-0 pools). Three design failures found and fixed during development are recorded in Entry 23, section 13.9. Full training run not yet done.
