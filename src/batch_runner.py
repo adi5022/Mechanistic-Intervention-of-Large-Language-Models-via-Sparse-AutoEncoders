@@ -339,7 +339,8 @@ def run_batch(model, sae, hook_name, layer, device, spec, progress_cb=None, save
         import random
         order = list(range(len(jobs)))
         random.Random(12345).shuffle(order)
-        mine = {order[k] for k in range(len(order)) if k % shard[1] == shard[0]}
+        slices = {shard[0]} if isinstance(shard[0], int) else set(shard[0])     # an int, or several slices for a faster machine
+        mine = {order[k] for k in range(len(order)) if k % shard[1] in slices}
         jobs = [j for j in jobs if j[0] in mine]
     total = len(jobs)
     meta = {"name": spec["name"], "started": datetime.now().strftime("%Y-%m-%d %H:%M:%S"), "layer": layer,

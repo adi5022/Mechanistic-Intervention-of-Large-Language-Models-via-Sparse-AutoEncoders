@@ -11,8 +11,8 @@ Work can be shared between machines: each machine runs a different shard (--shar
 outputs/strength_cache folder; afterwards copy all the .pt files into one folder (file names never clash).
 
     one machine:   .venv\\Scripts\\python.exe tools/build_strength_cache.py
-    two machines:  machine A:  ... tools/build_strength_cache.py --shard 0/2
-                   machine B:  ... tools/build_strength_cache.py --shard 1/2
+    two equal machines:  A: ... --shard 0/2        B: ... --shard 1/2
+    machines 4x apart:   fast: ... --shard 0,1,2,3/5     slow: ... --shard 4/5
     quick test:    ... tools/build_strength_cache.py --limit 5 --out-dir outputs/strength_cache_test
 
 Default sets: val, test_seen, test_unseen and the first 1000 training prompts (--train-n). Training prompts are a
@@ -40,7 +40,8 @@ def main():
     ap.add_argument("--out-dir", default=os.path.join(ROOT, "outputs", "strength_cache"))
     ap.add_argument("--train-n", type=int, default=1000, help="first N prompts of the balanced training order")
     ap.add_argument("--sets", default="val,test_seen,test_unseen,train", help="comma-separated: train,val,test_seen,test_unseen")
-    ap.add_argument("--shard", default=None, help="i/n: this machine handles every n-th prompt starting at i")
+    ap.add_argument("--shard", default=None, help="i/n: this machine handles every n-th prompt starting at i. "
+                    "Several slices for a faster machine: 0,1,2,3/5 (and 4/5 on the slower one)")
     ap.add_argument("--layer", type=int, default=8)
     ap.add_argument("--top-n", type=int, default=200)
     ap.add_argument("--limit", type=int, default=0, help="only the first N prompts of this shard (quick test)")
@@ -60,8 +61,9 @@ def main():
         work += [(name, by_id[i]) for i in ids]
     total_all = len(work)
     if a.shard:
-        i_, n_ = (int(x) for x in a.shard.split("/"))
-        work = [w for k, w in enumerate(work) if k % n_ == i_]
+        i_, n_ = a.shard.split("/")
+        slices, n_ = {int(x) for x in i_.split(",")}, int(n_)         # e.g. 0,1,2,3/5 = four of five slices (a faster machine)
+        work = [w for k, w in enumerate(work) if k % n_ in slices]
     if a.limit:
         work = work[:a.limit]
     os.makedirs(a.out_dir, exist_ok=True)
