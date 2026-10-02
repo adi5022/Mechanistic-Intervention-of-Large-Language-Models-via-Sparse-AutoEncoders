@@ -167,3 +167,5 @@ Chronological timeline of FeatureScalpel's design modifications, pivots, and mil
 * **Summary**: Ran `tools/train_strength_models.py` on the RTX 4050 laptop (1,195 s) and analysed per prompt with `tools/analyse_strength_models.py`. On the 300 test prompts the proxy success rate rose from 25.0% (fixed 0.6/0.5) to 38.7% (learned fixed pair, mute 0.98 / boost 1.81) and 39.7% (PromptNet; 3 prompts more than the pair, p = 0.25); side effects roughly doubled. Per-prompt adaptation not shown; real sweep not yet run.
 * **Files involved**: `docs/Research_Journal/26.md`, `docs/Research_Journal/packs/strength_models/`, `tools/analyse_strength_models.py`
 * **Status**: Completed (proxy only)
+
+* **Also 2026-10-03 (version 2)**: wrote `src/feature_models.py` and `tools/train_feature_net.py` (per-feature multipliers from a shared scoring network; no new data collection). Development runs: about 31 to 32% of held-out prompts vs 37% for the version-1 pair and 25% for fixed 0.6 / 0.5 in the one-shot proxy; the free per-feature upper bound is 73%. Full run pending (Entry 27).

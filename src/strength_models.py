@@ -49,6 +49,17 @@ DEFAULT_PREFIXES = [1, 2, 3, 5, 8, 13, 21, 34, 55, 0]          # 0 = all survivi
 
 
 # ----------------------------------------------------------------------------------------- data
+CDESC_NAMES = ["log_act_max", "log_act_last", "frac_positions_active", "rel_position_of_max", "slog_removal_effect_target",
+               "slog_removal_effect_blocker", "mute_list_rank_frac", "boost_list_rank_frac", "dir_logit_align_target",
+               "dir_logit_align_blocker", "decoder_norm", "passes_strict_mute_0.6", "passes_strict_boost_0.5",
+               "slog_target_change_mute_0.6", "slog_target_change_boost_0.5"]
+
+
+def _slog(x, scale=1e-6):
+    """signed log10(1 + |x| / scale): keeps the sign, compresses effects that span many orders of magnitude"""
+    return torch.sign(x) * torch.log10(1.0 + x.abs() / scale)
+
+
 def load_item(case_id, set_name, cache_dir, tables_dir):
     """Cache entry + strength table of one prompt, with the strict-filter masks precomputed."""
     c = torch.load(os.path.join(cache_dir, f"{case_id}.pt"), weights_only=False)
@@ -57,14 +68,26 @@ def load_item(case_id, set_name, cache_dir, tables_dir):
     cp, cr = t["clean_prob"], t["clean_rank"]
     ok_m = ((t["mute_prob"] - cp) >= -STRICT_PROB_TOL) & (t["mute_rank"] <= cr)          # [n_mute_grid, K]
     ok_b = ((t["boost_prob"] - cp) >= -STRICT_PROB_TOL) & (t["boost_rank"] <= cr)
+    # per-candidate descriptors for the per-feature model (src/feature_models.py); see CDESC_NAMES
+    n_tok, K = int(c["tokens"].shape[0]), int(c["cand_ids"].numel())
+    gm, gb = list(t["mute_grid"]).index(REFERENCE[0]), list(t["boost_grid"]).index(REFERENCE[1])
+    m_pos = torch.argsort(torch.argsort(c["db"], stable=True))
+    b_pos = torch.argsort(torch.argsort(c["dt"], stable=True))
+    cdesc = torch.stack([
+        torch.log1p(c["cand_act_max"].float()), torch.log1p(c["cand_act_last"].float()),
+        c["cand_n_pos"].float() / max(n_tok - 1, 1), c["cand_pos_max"].float() / n_tok,
+        _slog(c["dt"].float()), _slog(c["db"].float()), m_pos.float() / max(K, 1), b_pos.float() / max(K, 1),
+        c["align_target"].float(), c["align_blocker"].float(), c["dec_norm"].float(),
+        ok_m[gm].float(), ok_b[gb].float(), _slog((t["mute_prob"][gm] - cp).float()), _slog((t["boost_prob"][gb] - cp).float()),
+    ], dim=1)                                                                                  # [K, len(CDESC_NAMES)]
     return {
         "case_id": int(case_id), "set": set_name, "relation_id": c["relation_id"], "baseline_rank": int(c["baseline_rank"]),
         "baseline_prob": float(c["baseline_prob"]), "prompt": c["prompt"], "target": c["target"],
         "target_id": int(c["target_id"]), "blocker_id": int(c["blocker_id"]),
         "resid": c["resid8"].float(), "toks": c["tokens"].long(), "acts": c["cand_acts"].float(), "ids": c["cand_ids"].long(),
         "ok_m": ok_m, "ok_b": ok_b, "md": (t["mute_prob"] - cp).float(), "bd": (t["boost_prob"] - cp).float(),
-        "db": c["db"].float(), "dt": c["dt"].float(),
-        "m_pos": torch.argsort(torch.argsort(c["db"], stable=True)), "b_pos": torch.argsort(torch.argsort(c["dt"], stable=True)),
+        "db": c["db"].float(), "dt": c["dt"].float(), "cdesc": cdesc, "amax": c["cand_act_max"].float(),
+        "m_pos": m_pos, "b_pos": b_pos,
         "feat": torch.tensor([c["summary"][n] for n in SUMMARY_NAMES], dtype=torch.float32),
         "mute_grid": list(t["mute_grid"]), "boost_grid": list(t["boost_grid"]), "n": int(c["tokens"].shape[0]),
     }
@@ -84,8 +107,10 @@ def make_batch(items, W_dec, dev):
     ok_m, ok_b = torch.zeros(B, G_m, K, dtype=torch.bool), torch.zeros(B, G_b, K, dtype=torch.bool)
     md, bd = torch.zeros(B, G_m, K), torch.zeros(B, G_b, K)
     m_pos, b_pos = torch.full((B, K), big, dtype=torch.long), torch.full((B, K), big, dtype=torch.long)
+    cdesc, amax, kmask = torch.zeros(B, K, len(CDESC_NAMES)), torch.zeros(B, K), torch.zeros(B, K, dtype=torch.bool)
     for b, it in enumerate(items):
         n, k = it["n"], it["ids"].numel()
+        cdesc[b, :k], amax[b, :k], kmask[b, :k] = it["cdesc"], it["amax"], True
         resid[b, :n], toks[b, :n], acts[b, :n, :k], ids[b, :k] = it["resid"], it["toks"], it["acts"], it["ids"]
         ok_m[b, :, :k], ok_b[b, :, :k], md[b, :, :k], bd[b, :, :k] = it["ok_m"], it["ok_b"], it["md"], it["bd"]
         m_pos[b, :k], b_pos[b, :k] = it["m_pos"], it["b_pos"]
@@ -97,6 +122,7 @@ def make_batch(items, W_dec, dev):
             "feat": to(torch.stack([it["feat"] for it in items])),
             "m_order": to(torch.argsort(m_pos, dim=1)), "b_order": to(torch.argsort(b_pos, dim=1)),
             "mute_grid": torch.tensor(items[0]["mute_grid"], device=dev), "boost_grid": torch.tensor(items[0]["boost_grid"], device=dev),
+            "cdesc": to(cdesc), "amax": to(amax), "kmask": to(kmask),       # per-candidate descriptors, activations, validity mask
             "wd": W_dec[to(ids)].detach(),                                  # [B, K, 768] decoder rows of the candidates
             "case_ids": [it["case_id"] for it in items], "baseline_rank": [it["baseline_rank"] for it in items]}
 
