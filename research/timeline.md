@@ -150,3 +150,10 @@ Chronological timeline of FeatureScalpel's design modifications, pivots, and mil
 * **Files involved**: `tools/build_counterfact_set.py`, `docs/Research_Journal/23.md`
 * **Status**: Script written; full run pending
 * **Also 2026-10-02**: wrote `tools/split_counterfact_set.py` and `tools/build_strength_cache.py` (+ `src/strength_cache.py`); the cache's built-in sanity check caught a wrong `scale` argument (multiplier, not strength) before any data was written; cache rankings verified identical to the sweep's own on 6 prompts.
+
+### 2026-10-01 to 2026-10-02 (documentation)
+* **Title**: Literature check, session report and handoff rewrite
+* **Motivation**: An employer questioned the SAE approach; the whole session needed to be recorded in a form a new reader can follow.
+* **Summary**: Wrote `docs/literature_review_sae_editing.md` (established field; nothing conceptually new; evidence on SAE steering is mixed; what beat SAEs and how; what follows), `docs/session_report_2026-09-30_to_10-02.md` (plain-language report with glossary, numbers, mistakes and commands) and a new root `handoff.md`. The previous handoff was kept as `docs/handoff_2026-10-01_session_log.md`.
+* **Files involved**: `docs/literature_review_sae_editing.md`, `docs/session_report_2026-09-30_to_10-02.md`, `handoff.md`
+* **Status**: Completed

@@ -8,6 +8,7 @@ We transition from an implementation-only repository to a structured research re
 
 ## Directory Structure
 
+* **Start here for the latest work:** `handoff.md` (repo root), `docs/session_report_2026-09-30_to_10-02.md` (plain-language report), `docs/literature_review_sae_editing.md` (literature and novelty), `docs/Research_Journal/22.md` and `23.md`.
 * **`research/timeline.md`**: Chronological trace of milestones, pivots, and results.
 * **`research/hypothesis_log.md`**: Structured record of hypotheses tested, their outcomes, and evidence.
 * **`research/experiment_index.md`**: Master list of all experiments.
