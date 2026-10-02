@@ -80,3 +80,8 @@ Blocker fixed per round (should re-select when top-1 changes); Groq explanation 
 - Entry 21 (write-up of the safety-filter study) is still unwritten; drafts are in each pack's `journal_entry_draft.md`.
 - The paper draft (`research/paper/draft_v1/main.tex`) does not yet contain the Entry 22 or Entry 23 work or the literature note. It has not been compiled (no LaTeX on the machines).
 - No SAE-versus-other-methods comparison has been run. The reference run of the real system on a large prompt set has not been run.
+
+## UPDATE 2026-10-02 (late): training code written
+- `src/strength_models.py` and `tools/train_strength_models.py` exist and pass their smoke test (Entry 23, section 13.9). **Next: run it** (`.venv\Scripts\python.exe tools/train_strength_models.py`, about an hour; add `--quick` for a 4-minute smoke test), then read `outputs/strength_models/<time>/results.json`.
+- The proxy is prefix-cumulative (it mimics the sweep's step-by-step additions); the side-effect penalty applies only where the target already leads; the control has its own larger learning rate. These three were failures found during development (section 13.9). Early smoke reading: most of the gain over fixed 0.6/0.5 comes from a better GLOBAL pair (about 0.95 / 1.6), not from per-prompt adaptation; one seed, 10 epochs, NOT a result.
+- Still to do after the full run: per-arm specs for the real sweeps (each arm needs its own spec) plus a paired analysis across arms; version 2; the reference run of the real system.
