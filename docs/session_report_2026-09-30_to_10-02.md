@@ -228,6 +228,9 @@ Process note: the harness appears to halve double backslashes in commands, which
 | Plain-language report (this file) | `docs/session_report_2026-09-30_to_10-02.md` |
 | Literature and novelty | `docs/literature_review_sae_editing.md` |
 | Diagnostics write-up | `docs/Research_Journal/22.md` |
+| Data pipeline and headroom results (journal form) | `docs/Research_Journal/24.md` |
+| Literature check (journal form) | `docs/Research_Journal/25.md` |
+| Safety-filter study (placeholder, interpretation not yet written) | `docs/Research_Journal/21.md` |
 | Full study plan and every result since | `docs/Research_Journal/23.md` (sections 13.1 to 13.8 are the running log) |
 | How to resume | `handoff.md` |
 | Instructions for an AI agent on the second machine | `batched_training.md` |

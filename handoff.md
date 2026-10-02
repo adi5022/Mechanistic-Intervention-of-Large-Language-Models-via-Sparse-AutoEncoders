@@ -6,7 +6,7 @@ Branch: `pool-refill-implementation` (everything is pushed). Repo: `Mechanistic-
 1. `docs/session_report_2026-09-30_to_10-02.md`: plain-language account of everything done in the last session, with numbers, mistakes and where files are.
 2. `docs/Research_Journal/23.md`: the full plan for the learned-strength study and a running log of every result since (sections 13.1 to 13.8).
 3. `docs/literature_review_sae_editing.md`: what the literature says about SAE editing and what is (not) novel here.
-4. `docs/Research_Journal/22.md`: the repair and SAE-limit diagnostics (note the scope warning at its top).
+4. `docs/Research_Journal/24.md` (data pipeline and headroom results, a clean results entry), `25.md` (literature check and direction assessment), `22.md` (repair and SAE-limit diagnostics; note the scope warning at its top). `21.md` is a placeholder: the safety-filter study's interpretation is still unwritten.
 5. Older background: `research/paper/draft_v1/HANDOFF.md` (paper draft, Batch tab, working-style lessons), `docs/handoff_2026-09-24.md`, `docs/handoff_2026-10-01_session_log.md` (the previous version of this file, a long running log).
 
 ## The project in one paragraph
