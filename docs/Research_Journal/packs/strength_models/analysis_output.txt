@@ -1,0 +1,45 @@
+selected: {'constant_seed': 1, 'promptnet_seed': 0, 'size': 1000} | learned fixed pair: {'mu': 0.9781778454780579, 'beta': 1.8096805810928345}
+Size 1000, mean +- std over seeds (rank-1 %, from the training run):
+  constant  val          40.9 +- 0.31   seeds [40.7, 41.3, 40.7]
+  constant  test_seen    37.3 +- 0.00   seeds [37.3, 37.3, 37.3]
+  constant  test_unseen  40.0 +- 0.00   seeds [40.0, 40.0, 40.0]
+  promptnet val          41.6 +- 0.31   seeds [42.0, 41.3, 41.3]
+  promptnet test_seen    38.7 +- 0.00   seeds [38.7, 38.7, 38.7]
+  promptnet test_unseen  40.2 +- 0.63   seeds [40.7, 40.7, 39.3]
+epochs used (promptnet): [12, 12, 21]
+Per-prompt re-evaluation (prefix proxy, from the exported strengths):
+  val             reference: 38/150 (25.3%)  constant: 62/150 (41.3%)  promptnet: 63/150 (42.0%)  oracle: 66/150 (44.0%)
+  test_seen       reference: 33/150 (22.0%)  constant: 56/150 (37.3%)  promptnet: 58/150 (38.7%)  oracle: 58/150 (38.7%)
+  test_unseen     reference: 42/150 (28.0%)  constant: 60/150 (40.0%)  promptnet: 61/150 (40.7%)  oracle: 65/150 (43.3%)
+  TEST ONLY (300) reference: 75/300 (25.0%)  constant: 116/300 (38.7%)  promptnet: 119/300 (39.7%)  oracle: 123/300 (41.0%)
+  ALL 450         reference: 113/450 (25.1%)  constant: 178/450 (39.6%)  promptnet: 182/450 (40.4%)  oracle: 189/450 (42.0%)
+Paired comparisons on all 450 held-out prompts (exact McNemar test on rank 1):
+  constant   vs reference : constant only  66 | reference only   1 | both succeed 112 | p = 0.0000
+  promptnet  vs reference : promptnet only  70 | reference only   1 | both succeed 112 | p = 0.0000
+  promptnet  vs constant  : promptnet only   4 | constant only   0 | both succeed 178 | p = 0.1250
+  oracle     vs promptnet : oracle only  13 | promptnet only   6 | both succeed 176 | p = 0.1671
+  oracle     vs constant  : oracle only  16 | constant only   5 | both succeed 173 | p = 0.0266
+Paired comparisons on the 300 TEST prompts only (validation excluded) (exact McNemar test on rank 1):
+  constant   vs reference : constant only  42 | reference only   1 | both succeed  74 | p = 0.0000
+  promptnet  vs reference : promptnet only  45 | reference only   1 | both succeed  74 | p = 0.0000
+  promptnet  vs constant  : promptnet only   3 | constant only   0 | both succeed 116 | p = 0.2500
+  oracle     vs promptnet : oracle only  10 | promptnet only   6 | both succeed 113 | p = 0.4545
+  oracle     vs constant  : oracle only  12 | constant only   5 | both succeed 111 | p = 0.1435
+Side effects (mean KL among prompts that reach rank 1) and mean strengths:
+  reference  KL(succ) 0.156   mean mu 0.60  mean beta 0.50
+  constant   KL(succ) 0.383   mean mu 0.98  mean beta 1.81
+  promptnet  KL(succ) 0.379   mean mu 0.99  mean beta 1.87
+  oracle     KL(succ) 0.360   mean mu 0.83  mean beta 1.10
+By starting rank (rank-1 counts):
+  band         reference    constant   promptnet      oracle     n
+  2-5                70          87          89          90   104
+  6-20               31          59          61          61   113
+  21-100              11          26          26          30   116
+  101-1000              1           6           6           8   117
+Does the choice depend on how deep the target starts? (mean strengths by starting rank)
+  rank 2-5     promptnet mu 0.96 beta 1.67   | oracle mu 0.73 beta 0.92
+  rank 6-20    promptnet mu 0.99 beta 1.84   | oracle mu 0.84 beta 1.14
+  rank 21-100   promptnet mu 1.00 beta 1.95   | oracle mu 0.88 beta 1.17
+  rank 101-1000  promptnet mu 1.00 beta 1.99   | oracle mu 0.89 beta 1.15
+  promptnet: mu 0.84 to 1.00, beta 0.96 to 2.00   (allowed range mu 0.2 to 1.0, beta 0.25 to 2.0)
+  oracle:    mu 0.21 to 0.99, beta 0.25 to 1.99
