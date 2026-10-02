@@ -13,3 +13,4 @@ docs/Research_Journal/packs/*/data/result_full.json
 
 # Large downloaded datasets (re-download from rome.baulab.info/data/dsets/)
 datasets/counterfact.json
+data/counterfact_hard_set.json
