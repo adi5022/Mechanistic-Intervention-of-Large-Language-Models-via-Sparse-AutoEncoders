@@ -142,3 +142,10 @@ Chronological timeline of FeatureScalpel's design modifications, pivots, and mil
 * **Summary**: Corrected Entry 22 wording (3 hand-picked failed prompts are not a success rate). Created the reference spec (strict filter, Top-N 200, all positions, 131 prompts). Wrote the plan for learned strengths (Entry 23). No new experiments run.
 * **Files involved**: `data/reference_strict_topn200_all.json`, `docs/Research_Journal/23.md`
 * **Status**: Planned
+
+### 2026-10-02
+* **Title**: Step 1 of the learned-strength study: CounterFact hard-set builder
+* **Motivation**: A bigger, less templated prompt set than the 131 prompts, defined by the author's condition (the true answer is not rank 1).
+* **Summary**: Wrote `tools/build_counterfact_set.py` (batched ranking, self-check, yield report). Smoke test on 500 records: 373 kept, 500 prompts ranked in 0.7 s. Updated Entry 23 with the step-by-step order of work.
+* **Files involved**: `tools/build_counterfact_set.py`, `docs/Research_Journal/23.md`
+* **Status**: Script written; full run pending
