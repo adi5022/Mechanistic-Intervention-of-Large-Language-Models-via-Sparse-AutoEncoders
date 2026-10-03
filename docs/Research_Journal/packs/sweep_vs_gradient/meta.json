@@ -1,0 +1,28 @@
+{
+ "started": "2026-10-03T22:00:30.748468",
+ "args": {
+  "n_per_band": 0,
+  "arms": "sweep_ref,sweep_wide,gd",
+  "top_n": 200,
+  "gd_steps": 100,
+  "layer": 8,
+  "seed": 7,
+  "out": "outputs/sweep_vs_gradient/20261003_130719",
+  "resume": true,
+  "summarise_only": null
+ },
+ "n_cases": 300,
+ "skipped_multi_token": 0,
+ "layer": 8,
+ "device": "cuda",
+ "sweep_cfg": {
+  "sweep_ref": {
+   "mute_strength": 0.6,
+   "boost_strength": 0.5
+  },
+  "sweep_wide": {
+   "mute_strength": 1.0,
+   "boost_strength": 2.0
+  }
+ }
+}
