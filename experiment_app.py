@@ -255,7 +255,18 @@ tab4, tab6, tab7, tab11, tab12, tab13 = st.tabs([
 with tab4:
     st.header("Hybrid Mute & Boost (Dual Intervention)")
     st.markdown("Simultaneously **mutes competitor features** and **amplifies target features** in a single joint forward pass.")
-    
+
+    METHOD_FIXED_4 = "Fixed mute / boost strengths (sweep)"
+    METHOD_GD_4 = "Gradient descent (one multiplier per feature)"
+    method_4 = st.radio(
+        "Editing method", [METHOD_FIXED_4, METHOD_GD_4], horizontal=True, key="t4_method",
+        help="Fixed = the sweep below: one mute strength for the muted pool and one boost strength for the boosted pool, "
+             "features added step by step. Gradient descent = every candidate feature gets its own multiplier (below 1 mutes, "
+             "above 1 boosts), tuned on this prompt by gradient descent on the real model. Choosing it replaces the mute / "
+             "boost controls."
+    )
+    use_gd_4 = method_4 == METHOD_GD_4
+
     col1, col2 = st.columns(2)
     with col1:
         prompt_4 = st.text_input("Prompt", "Seiyu Group's headquarters are in", key="t4_prompt")
@@ -270,33 +281,186 @@ with tab4:
         )
         cand_positions_4 = "all" if candidate_source_4.startswith("All") else "last"
     with col2:
-        cumulative_sweep_4 = st.checkbox(
-            "🔁 Cumulative Sweep (pile on one feature at a time until Target reaches Rank 1)", value=False, key="t4_cumulative",
-            help="Ignores the Mute/Boost Batch Sizes below. Instead runs Mute 1/Boost 1, then Mute 2/Boost 2, then Mute 3/Boost 3, and so on — one feature added to each side per step — stopping the moment the target reaches Rank #1 (or once the candidate pool runs out)."
-        )
-        refill_enabled_4 = st.checkbox(
-            "♻️ Pool Refill (adaptive rounds — only with Cumulative Sweep)", value=True, key="t4_refill", disabled=not cumulative_sweep_4,
-            help="When the safe-candidate pool is used up and the target is not yet Rank #1, keep every applied feature, run a fresh forward pass to get a new steered baseline, then re-rank and re-filter candidates (including ones rejected earlier) against that state, and continue. Repeats until Rank #1 or no safe candidate remains."
-        )
-        max_rounds_4 = st.number_input(
-            "Max Refill Rounds (0 = unlimited)", value=0, min_value=0, step=1, key="t4_max_rounds",
-            disabled=not (cumulative_sweep_4 and refill_enabled_4)
-        )
-        col_m1, col_m2 = st.columns(2)
-        with col_m1:
-            strength_mute_4 = st.number_input("Mute Strength", value=0.3, step=0.1, key="t4_m_strength")
-            mute_sizes_str_4 = st.text_input("Mute Batch Sizes", "1, 3, 5", key="t4_m_bs", disabled=cumulative_sweep_4)
-        with col_m2:
-            strength_boost_4 = st.number_input("Boost Strength", value=0.5, step=0.1, key="t4_b_strength")
-            boost_sizes_str_4 = st.text_input("Boost Batch Sizes", "1, 3, 5", key="t4_b_bs", disabled=cumulative_sweep_4)
-        use_safety_4 = st.checkbox("Enable Safety Filter (Target Protection)", value=True, key="t4_safety")
-        stop_on_rank1_4 = st.checkbox("Stop sweep once Target reaches Rank 1", value=True, key="t4_stop_rank1")
-        use_batched_4 = st.checkbox(
-            "⚡ Use GPU-Batched Optimization", value=True, key="t4_use_batched",
-            help="ON = candidate ranking & safety filtering run as batched GPU calls (fast, current default). OFF = the original one-candidate-at-a-time method (slow, kept for comparison)."
-        )
+        if use_gd_4:
+            st.markdown("**Gradient descent settings**")
+            st.caption(
+                "Replaces the mute / boost strengths, batch sizes, cumulative sweep, pool refill and safety filter. Every candidate "
+                "feature (Top N, chosen on the left) gets its own multiplier, tuned on this prompt for the number of steps below, "
+                "starting from no edit. Multipliers go from 0 (feature removed) to 3 (tripled); 1 leaves it alone."
+            )
+            gd_c1, gd_c2 = st.columns(2)
+            with gd_c1:
+                gd_steps_4 = st.number_input("Steps", value=100, min_value=1, max_value=1000, step=10, key="t4_gd_steps",
+                                             help="Gradient steps on the multipliers. Each step is one forward and one backward pass through blocks of the model from the SAE layer upward.")
+                gd_lr_4 = st.number_input("Learning rate", value=0.1, min_value=0.001, step=0.01, format="%.3f", key="t4_gd_lr")
+                gd_margin_4 = st.number_input("Rank-1 margin (logits)", value=0.3, min_value=0.0, step=0.1, key="t4_gd_margin",
+                                              help="The target has to beat the strongest other token by this much in the loss.")
+            with gd_c2:
+                gd_lam_kl_4 = st.number_input("Side-effect weight (KL)", value=3.0, min_value=0.0, step=0.5, key="t4_gd_lamkl",
+                                              help="Penalty on how much the other tokens' probabilities change, applied once the target leads. Higher = fewer side effects, lower success.")
+                gd_lam_size_4 = st.number_input("Edit-size weight", value=0.005, min_value=0.0, step=0.001, format="%.4f", key="t4_gd_lamsize",
+                                                help="Penalty on the total size of the multiplier changes, weighted by how active each feature is.")
+        else:
+            cumulative_sweep_4 = st.checkbox(
+                "🔁 Cumulative Sweep (pile on one feature at a time until Target reaches Rank 1)", value=False, key="t4_cumulative",
+                help="Ignores the Mute/Boost Batch Sizes below. Instead runs Mute 1/Boost 1, then Mute 2/Boost 2, then Mute 3/Boost 3, and so on — one feature added to each side per step — stopping the moment the target reaches Rank #1 (or once the candidate pool runs out)."
+            )
+            refill_enabled_4 = st.checkbox(
+                "♻️ Pool Refill (adaptive rounds — only with Cumulative Sweep)", value=True, key="t4_refill", disabled=not cumulative_sweep_4,
+                help="When the safe-candidate pool is used up and the target is not yet Rank #1, keep every applied feature, run a fresh forward pass to get a new steered baseline, then re-rank and re-filter candidates (including ones rejected earlier) against that state, and continue. Repeats until Rank #1 or no safe candidate remains."
+            )
+            max_rounds_4 = st.number_input(
+                "Max Refill Rounds (0 = unlimited)", value=0, min_value=0, step=1, key="t4_max_rounds",
+                disabled=not (cumulative_sweep_4 and refill_enabled_4)
+            )
+            col_m1, col_m2 = st.columns(2)
+            with col_m1:
+                strength_mute_4 = st.number_input("Mute Strength", value=0.3, step=0.1, key="t4_m_strength")
+                mute_sizes_str_4 = st.text_input("Mute Batch Sizes", "1, 3, 5", key="t4_m_bs", disabled=cumulative_sweep_4)
+            with col_m2:
+                strength_boost_4 = st.number_input("Boost Strength", value=0.5, step=0.1, key="t4_b_strength")
+                boost_sizes_str_4 = st.text_input("Boost Batch Sizes", "1, 3, 5", key="t4_b_bs", disabled=cumulative_sweep_4)
+            use_safety_4 = st.checkbox("Enable Safety Filter (Target Protection)", value=True, key="t4_safety")
+            stop_on_rank1_4 = st.checkbox("Stop sweep once Target reaches Rank 1", value=True, key="t4_stop_rank1")
+            use_batched_4 = st.checkbox(
+                "⚡ Use GPU-Batched Optimization", value=True, key="t4_use_batched",
+                help="ON = candidate ranking & safety filtering run as batched GPU calls (fast, current default). OFF = the original one-candidate-at-a-time method (slow, kept for comparison)."
+            )
 
-    if st.button("Run Hybrid Mute & Boost Test", key="btn_t4"):
+    if use_gd_4 and st.button("Run Gradient-Descent Edit", key="btn_t4_gd"):
+        from src.gradient_editing import run_gradient_descent_edit
+
+        prompt_4 = prompt_4.strip()
+        target_4 = target_4.strip()
+        target_str = " " + target_4
+        target_token_id = get_target_token_id(model, target_str)
+        _n_tgt_tokens = int(model.to_tokens(target_str, prepend_bos=False).numel())
+        if _n_tgt_tokens > 1:
+            st.warning(
+                f"⚠️ '{target_str}' is {_n_tgt_tokens} GPT-2 tokens. Only its LAST piece ('{model.to_string([target_token_id])}') is being scored, "
+                f"so the rank/probability below is NOT for the whole word. Use a single-token target for a valid result."
+            )
+
+        if device == "cuda":
+            torch.cuda.synchronize()
+        gd_start = time.perf_counter()
+
+        model.reset_hooks()
+        gd_clean = build_clean_context(model, sae, prompt_4, target_token_id)
+        gd_base_top1_id = int(torch.argmax(gd_clean.clean_probs).item())
+        gd_base_top1 = model.to_string([gd_base_top1_id])
+        st.write(f"**Baseline Top-1:** `{gd_base_top1}` | **Target '{target_str}' Prob:** `{fmt_prob(gd_clean.clean_target_prob)}` | **Rank:** `#{gd_clean.clean_rank}`")
+
+        if gd_clean.clean_rank == 1:
+            st.info("The target is already Rank #1 on the unedited model; nothing to edit.")
+        else:
+            gd_bar = st.progress(0.0, text="Gradient descent: step 0")
+
+            def _gd_progress(step, total, rank):
+                gd_bar.progress(min(step / total, 1.0), text=f"Gradient descent: step {step}/{total} · target rank #{rank}")
+
+            gd = run_gradient_descent_edit(
+                model, sae, gd_clean, target_token_id, prompt_4, layer, hook_name, top_n=int(top_n_4),
+                positions=cand_positions_4, steps=int(gd_steps_4), lr=float(gd_lr_4), lam_kl=float(gd_lam_kl_4),
+                lam_size=float(gd_lam_size_4), margin_target=float(gd_margin_4), on_step=_gd_progress,
+            )
+            gd_bar.empty()
+            if device == "cuda":
+                torch.cuda.synchronize()
+            gd_end = time.perf_counter()
+
+            real = gd["real_path"]
+            real_top1 = model.to_string([real["top1_id"]])
+            success = real["rank"] == 1
+            (st.success if success else st.warning)(
+                f"🎯 **Target '{target_str}' reached Rank #1.**" if success
+                else f"Target ended at Rank #{real['rank']} (baseline #{gd_clean.clean_rank}); it did not reach Rank #1."
+            )
+            if real["rank"] != gd["train_path"]["rank"]:
+                st.warning(f"The tuning pass and the real hook pass disagree (rank #{gd['train_path']['rank']} vs #{real['rank']}). The number shown is the real hook pass.")
+
+            st.subheader("🏆 Result (checked through the real hook)")
+            g1, g2, g3, g4 = st.columns(4)
+            g1.metric("Target rank", f"#{real['rank']}", delta=f"{gd_clean.clean_rank - real['rank']:+d} vs baseline", delta_color="normal")
+            g2.metric("Target prob", fmt_prob(real["prob"]))
+            g3.metric("New Top-1", real_top1)
+            g4.metric("Side effects (KL, nats)", f"{real['kl']:.4f}",
+                      help="KL(clean || edited) over all tokens except the target and the original top-1, renormalised. 0 = other tokens unchanged.")
+
+            a_arr = torch.tensor(gd["a"])
+            n_mute = int((a_arr < -0.05).sum())
+            n_boost = int((a_arr > 0.05).sum())
+            n_total = gd["n_candidates"]
+            s1, s2, s3, s4 = st.columns(4)
+            s1.metric("Candidates tuned", n_total)
+            s2.metric("Muted (multiplier < 0.95)", n_mute)
+            s3.metric("Boosted (multiplier > 1.05)", n_boost)
+            s4.metric("Best step", f"{gd['best_step']} / {int(gd_steps_4)}")
+
+            st.subheader("📉 Target Rank Progression")
+            st.caption("Step 0 is the unedited model. The dashed green line marks Rank #1. The red diamond marks the step whose multipliers are kept.")
+            gd_progress = [{"Step": h["step"], "Label": "Baseline" if h["step"] == 0 else f"Step {h['step']}", "Target Rank": h["rank"],
+                            "Target Prob (%)": h["prob"] * 100} for h in gd["history"]]
+            render_rank_progression_chart(gd_progress, best_step=gd["best_step"])
+
+            st.subheader("🎚️ Per-feature multipliers")
+            st.caption("Multiplier = 1 + a. Below 1 mutes the feature, above 1 boosts it, 1 leaves it alone. Sorted by how far from 1. Max activation is the feature's largest activation on the prompt.")
+            gd_rows = sorted(
+                [{"Feature": f, "Multiplier": 1.0 + ak, "Action": "mute" if ak < -0.05 else "boost" if ak > 0.05 else "unchanged",
+                  "Max activation": am} for f, ak, am in zip(gd["fids"], gd["a"], gd["activation_max"])],
+                key=lambda r: -abs(r["Multiplier"] - 1.0),
+            )
+            changed_rows = [r for r in gd_rows if r["Action"] != "unchanged"]
+            if changed_rows:
+                for r in changed_rows[:15]:
+                    st.markdown(
+                        f"- {make_feature_hover_link(r['Feature'], layer)} · **{r['Action']}** · multiplier `{r['Multiplier']:.3f}` · max activation `{r['Max activation']:.2f}`",
+                        unsafe_allow_html=True,
+                    )
+                if len(changed_rows) > 15:
+                    st.caption(f"Top 15 of {len(changed_rows)} changed features shown with Neuronpedia links; the full table is below.")
+            with st.expander(f"All {n_total} candidate multipliers"):
+                st.dataframe(pd.DataFrame(gd_rows), use_container_width=True)
+
+            st.markdown("---")
+            st.subheader("⏱️ Stopwatch")
+            st.metric("Total wall-clock time", f"{gd_end - gd_start:.3f}s")
+            st.caption(f"{int(gd_steps_4) + 1} forward passes plus {int(gd_steps_4)} backward passes from layer {layer} upward, plus one full-model pass to check the result.")
+
+            gd_record = {
+                "run_id": len(st.session_state["history"]) + 1,
+                "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "mode": "Gradient descent (per-feature)",
+                "layer": layer,
+                "prompt": prompt_4,
+                "target": target_4,
+                "top_n": int(top_n_4),
+                "candidate_source": candidate_source_4,
+                "total_time_s": round(gd_end - gd_start, 3),
+                "baseline_top1": gd_base_top1,
+                "baseline_target_prob": f"{fmt_prob(gd_clean.clean_target_prob)}",
+                "baseline_target_prob_pct": gd_clean.clean_target_prob * 100,
+                "baseline_rank": gd_clean.clean_rank,
+                "final_top1": real_top1,
+                "final_target_prob": f"{fmt_prob(real['prob'])}",
+                "final_target_prob_pct": real["prob"] * 100,
+                "success": success,
+                "stop_reason": f"Ran all {int(gd_steps_4)} steps; kept the best step ({gd['best_step']}).",
+                "best_result": {"rank": real["rank"], "prob": real["prob"], "top1": real_top1, "step": gd["best_step"]},
+                "rank_progression": gd_progress,
+                "gradient_descent": {
+                    "settings": gd["settings"], "kl_nats": real["kl"], "n_candidates": n_total, "n_muted": n_mute, "n_boosted": n_boost,
+                    "tuning_path_rank": gd["train_path"]["rank"], "real_path_rank": real["rank"],
+                    "multipliers": {str(f): 1.0 + ak for f, ak in zip(gd["fids"], gd["a"])},
+                },
+                "settings": {"method": "gradient_descent", "sae_layer": layer, "hook_name": hook_name, "device": device, **gd["settings"]},
+                "rounds": [], "hybrid_details": [],
+            }
+            st.session_state["history"].append(gd_record)
+            persist_history()
+            st.success(f"Run saved to Session History (auto-saved to {st.session_state['history_file']})")
+
+    if (not use_gd_4) and st.button("Run Hybrid Mute & Boost Test", key="btn_t4"):
         try:
             mute_sizes_4 = [int(x.strip()) for x in mute_sizes_str_4.split(",") if x.strip()]
         except ValueError:
