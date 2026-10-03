@@ -240,13 +240,14 @@ enable_xai = st.sidebar.checkbox("Enable AI Explanations (Groq)", value=bool(def
 groq_key_input = default_groq_key
 
 # Tabs setup
-tab4, tab6, tab7, tab11, tab12, tab13 = st.tabs([
+tab4, tab6, tab7, tab11, tab12, tab13, tab_proto = st.tabs([
     "🔄 Hybrid mute and boost",
     "📚 Monosemanticity Analysis",
     "📊 Session history and benchmarks",
     "⏱️ Sequential vs Batched Proof",
     "🧮 Batch: Last vs All Tokens",
-    "🔬 Repair & SAE limit"
+    "🔬 Repair & SAE limit",
+    "🧪 Prototype lab"
 ])
 
 
@@ -2836,3 +2837,203 @@ with tab13:
 
         with st.expander("Raw JSON"):
             st.json(R, expanded=False)
+
+
+# --- TAB: Prototype lab (gradient descent per feature + optional additive edit on silent features) ---
+with tab_proto:
+    st.header("Prototype lab")
+    st.markdown(
+        "Every candidate feature gets **its own multiplier** (0 = removed, 1 = unchanged, up to 3 = tripled), tuned on this prompt by gradient "
+        "descent. Optionally the edit can also **switch on silent features**: a multiplier cannot do that (0 x anything = 0), so this adds an "
+        "amount of a silent feature's direction at the last position. Result and rank are re-checked through the real hook."
+    )
+    st.caption(
+        "Adding volume to features that point at the target writes the answer in: it is not the same as recovering something the model "
+        "already knew. Only the first piece of a multi-token word is scored (the app warns)."
+    )
+
+    pl_c1, pl_c2 = st.columns(2)
+    with pl_c1:
+        pl_prompt = st.text_input("Prompt", "The capital of France is", key="pl_prompt")
+        pl_target = st.text_input("Target Completion", "Hong", key="pl_target")
+        pl_topn = st.number_input(
+            "Top N Candidate Features (maximum)", value=200, min_value=1, step=10, key="pl_topn",
+            help="How many ACTIVE features may get a multiplier (capped at the number that are active). The study used 200."
+        )
+        pl_source = st.radio(
+            "Candidate source", ["All prompt positions", "Last token only"], horizontal=True, key="pl_source",
+            help="Which active features are considered for multipliers. The edit scales a feature at every position either way."
+        )
+        pl_additive = st.checkbox(
+            "Also allow adding to silent features", value=True, key="pl_additive",
+            help="Adds, at the last position only, an amount of features that are exactly silent there. Candidates are the silent features whose "
+                 "direction most helps the target to first order. The extra knob starts at exactly zero and is charged for by the sparsity weight."
+        )
+        pl_klall = st.checkbox(
+            "Always penalise side effects", value=False, key="pl_klall",
+            help="Off: the side-effect penalty switches on only once the target reaches rank 1 (as in the earlier studies), so a failing edit is "
+                 "free to distort the output. On: the penalty is charged on every step."
+        )
+    with pl_c2:
+        st.markdown("**Gradient descent settings**")
+        pa, pb = st.columns(2)
+        with pa:
+            pl_steps = st.number_input("Steps", value=100, min_value=1, max_value=1000, step=10, key="pl_steps")
+            pl_lr = st.number_input("Learning rate", value=0.1, min_value=0.001, step=0.01, format="%.3f", key="pl_lr")
+            pl_margin = st.number_input("Rank-1 margin (logits)", value=0.3, min_value=0.0, step=0.1, key="pl_margin")
+        with pb:
+            pl_lamkl = st.number_input("Side-effect weight (KL)", value=3.0, min_value=0.0, step=0.5, key="pl_lamkl")
+            pl_lamsize = st.number_input("Edit-size weight", value=0.005, min_value=0.0, step=0.001, format="%.4f", key="pl_lamsize")
+        if pl_additive:
+            st.markdown("**Additive settings**")
+            pc, pd_ = st.columns(2)
+            with pc:
+                pl_m = st.number_input("Silent candidates (M)", value=200, min_value=1, step=10, key="pl_m",
+                                       help="How many silent features may be switched on (the top M by first-order score).")
+                pl_capf = st.number_input("Cap (x loudest active feature)", value=1.0, min_value=0.1, step=0.1, key="pl_capf",
+                                          help="No feature can be switched on louder than this multiple of the loudest feature already active on the prompt.")
+            with pd_:
+                pl_lamadd = st.number_input("Sparsity weight", value=0.005, min_value=0.0, step=0.001, format="%.4f", key="pl_lamadd",
+                                            help="Penalty on the total added amount (in units of the cap). Higher = fewer, smaller additions.")
+                pl_addlr = st.number_input("Additive learning rate", value=0.3, min_value=0.01, step=0.05, key="pl_addlr")
+
+    if st.button("Run", key="btn_pl"):
+        from src.gradient_editing import run_gradient_descent_edit
+
+        pl_prompt = pl_prompt.strip()
+        pl_target = pl_target.strip()
+        pl_target_str = " " + pl_target
+        pl_tid = get_target_token_id(model, pl_target_str)
+        _pl_ntok = int(model.to_tokens(pl_target_str, prepend_bos=False).numel())
+        if _pl_ntok > 1:
+            st.warning(
+                f"⚠️ '{pl_target_str}' is {_pl_ntok} GPT-2 tokens. Only its LAST piece ('{model.to_string([pl_tid])}') is being scored, "
+                f"so the rank/probability below is NOT for the whole word. Use a single-token target for a valid result."
+            )
+
+        if device == "cuda":
+            torch.cuda.synchronize()
+        pl_t0 = time.perf_counter()
+        model.reset_hooks()
+        pl_clean = build_clean_context(model, sae, pl_prompt, pl_tid)
+        pl_base_top1 = model.to_string([int(torch.argmax(pl_clean.clean_probs).item())])
+        st.write(f"**Baseline Top-1:** `{pl_base_top1}` | **Target '{pl_target_str}' Prob:** `{fmt_prob(pl_clean.clean_target_prob)}` | **Rank:** `#{pl_clean.clean_rank}`")
+
+        if pl_clean.clean_rank == 1:
+            st.info("The target is already Rank #1 on the unedited model; nothing to edit.")
+        else:
+            pl_bar = st.progress(0.0, text="Step 0")
+
+            def _pl_progress(step, total, rank):
+                pl_bar.progress(min(step / total, 1.0), text=f"Step {step}/{total} · target rank #{rank}")
+
+            extra = {}
+            if pl_additive:
+                extra = {"additive": True, "add_top_m": int(pl_m), "add_cap_factor": float(pl_capf), "lam_add": float(pl_lamadd), "add_lr": float(pl_addlr)}
+            pl = run_gradient_descent_edit(
+                model, sae, pl_clean, pl_tid, pl_prompt, layer, hook_name, top_n=int(pl_topn),
+                positions="all" if pl_source.startswith("All") else "last", steps=int(pl_steps), lr=float(pl_lr),
+                lam_kl=float(pl_lamkl), lam_size=float(pl_lamsize), margin_target=float(pl_margin), on_step=_pl_progress,
+                kl_always=bool(pl_klall), **extra,
+            )
+            pl_bar.empty()
+            if device == "cuda":
+                torch.cuda.synchronize()
+            pl_t1 = time.perf_counter()
+
+            real = pl["real_path"]
+            real_top1 = model.to_string([real["top1_id"]])
+            success = real["rank"] == 1
+            (st.success if success else st.warning)(
+                f"🎯 **Target '{pl_target_str}' reached Rank #1.**" if success
+                else f"Target ended at Rank #{real['rank']} (baseline #{pl_clean.clean_rank}); it did not reach Rank #1."
+            )
+            if real["rank"] != pl["train_path"]["rank"]:
+                st.warning(f"The tuning pass and the real hook pass disagree (rank #{pl['train_path']['rank']} vs #{real['rank']}). The number shown is the real hook pass.")
+
+            st.subheader("🏆 Result (checked through the real hook)")
+            r1, r2, r3, r4 = st.columns(4)
+            r1.metric("Target rank", f"#{real['rank']}", delta=f"{pl_clean.clean_rank - real['rank']:+d} vs baseline", delta_color="normal")
+            r2.metric("Target prob", fmt_prob(real["prob"]))
+            r3.metric("New Top-1", real_top1)
+            r4.metric("Side effects (KL, nats)", f"{real['kl']:.4f}",
+                      help="KL(clean || edited) over all tokens except the target and the original top-1, renormalised. 0 = other tokens unchanged.")
+
+            pl_a = torch.tensor(pl["a"])
+            pl_nm, pl_nb = int((pl_a < -0.05).sum()), int((pl_a > 0.05).sum())
+            sm = pl.get("add_summary")
+            s1, s2, s3, s4, s5 = st.columns(5)
+            s1.metric("Candidates tuned", pl["n_candidates"])
+            s2.metric("Muted (multiplier < 0.95)", pl_nm)
+            s3.metric("Boosted (multiplier > 1.05)", pl_nb)
+            s4.metric("Switched on (added ≥ 1% of cap)", sm["n_ge_1pct_cap"] if sm else "off")
+            s5.metric("Edit size (share of residual norm)", f"{100 * pl['edit_size_frac_norm']:.1f}%",
+                      help="||change|| / ||residual|| at the last position, multiplier part plus additive part.")
+            if sm:
+                st.caption(f"Additive: {pl['add_candidates']} silent candidates; total added {sm['total_over_cap']:.2f} caps (cap = {pl['add_cap']:.2f}); "
+                           f"largest single addition {sm['max_over_cap']:.2f} of the cap; best step {pl['best_step']} / {int(pl_steps)}.")
+            else:
+                st.caption(f"Best step {pl['best_step']} / {int(pl_steps)}.")
+
+            st.subheader("📉 Target Rank Progression")
+            pl_progress = [{"Step": h["step"], "Label": "Baseline" if h["step"] == 0 else f"Step {h['step']}", "Target Rank": h["rank"],
+                            "Target Prob (%)": h["prob"] * 100} for h in pl["history"]]
+            render_rank_progression_chart(pl_progress, best_step=pl["best_step"])
+
+            if sm:
+                st.subheader("➕ Switched-on silent features")
+                st.caption("Features that were silent at the last position and were given volume. Amount is shown as a share of the cap. "
+                           "Check whether they make sense for the target.")
+                pl_add_rows = sorted(({"Feature": f, "Amount": v, "Share of cap": v / pl["add_cap"]} for f, v in pl["added"].items()),
+                                     key=lambda r: -r["Amount"])
+                pl_on = [r for r in pl_add_rows if r["Share of cap"] >= 0.01]
+                for r in pl_on[:12]:
+                    st.markdown(f"- {make_feature_hover_link(r['Feature'], layer)} · added `{r['Amount']:.2f}` ({100 * r['Share of cap']:.0f}% of cap)", unsafe_allow_html=True)
+                if len(pl_on) > 12:
+                    st.caption(f"Top 12 of {len(pl_on)} shown with Neuronpedia links; the full table is below.")
+                with st.expander(f"All {len(pl_add_rows)} silent candidates"):
+                    st.dataframe(pd.DataFrame(pl_add_rows), use_container_width=True)
+
+            st.subheader("🎚️ Per-feature multipliers")
+            st.caption("Multiplier = 1 + a. Below 1 mutes, above 1 boosts, 1 leaves the feature alone. Sorted by distance from 1.")
+            pl_rows = sorted(
+                [{"Feature": f, "Multiplier": 1.0 + ak, "Action": "mute" if ak < -0.05 else "boost" if ak > 0.05 else "unchanged", "Max activation": am}
+                 for f, ak, am in zip(pl["fids"], pl["a"], pl["activation_max"])],
+                key=lambda r: -abs(r["Multiplier"] - 1.0),
+            )
+            pl_changed = [r for r in pl_rows if r["Action"] != "unchanged"]
+            for r in pl_changed[:10]:
+                st.markdown(f"- {make_feature_hover_link(r['Feature'], layer)} · **{r['Action']}** · multiplier `{r['Multiplier']:.3f}` · max activation `{r['Max activation']:.2f}`",
+                            unsafe_allow_html=True)
+            if len(pl_changed) > 10:
+                st.caption(f"Top 10 of {len(pl_changed)} changed features shown; the full table is below.")
+            with st.expander(f"All {pl['n_candidates']} candidate multipliers"):
+                st.dataframe(pd.DataFrame(pl_rows), use_container_width=True)
+
+            st.markdown("---")
+            st.metric("⏱️ Total wall-clock time (model compute)", f"{pl_t1 - pl_t0:.3f}s")
+
+            pl_record = {
+                "run_id": len(st.session_state["history"]) + 1,
+                "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "mode": "Prototype: gradient descent (+additive)" if pl_additive else "Prototype: gradient descent",
+                "layer": layer, "prompt": pl_prompt, "target": pl_target, "top_n": int(pl_topn), "candidate_source": pl_source,
+                "total_time_s": round(pl_t1 - pl_t0, 3), "baseline_top1": pl_base_top1,
+                "baseline_target_prob": f"{fmt_prob(pl_clean.clean_target_prob)}", "baseline_target_prob_pct": pl_clean.clean_target_prob * 100,
+                "baseline_rank": pl_clean.clean_rank, "final_top1": real_top1, "final_target_prob": f"{fmt_prob(real['prob'])}",
+                "final_target_prob_pct": real["prob"] * 100, "success": success,
+                "stop_reason": f"Ran all {int(pl_steps)} steps; kept the best step ({pl['best_step']}).",
+                "best_result": {"rank": real["rank"], "prob": real["prob"], "top1": real_top1, "step": pl["best_step"]},
+                "rank_progression": pl_progress,
+                "gradient_descent": {
+                    "settings": pl["settings"], "kl_nats": real["kl"], "n_candidates": pl["n_candidates"], "n_muted": pl_nm, "n_boosted": pl_nb,
+                    "tuning_path_rank": pl["train_path"]["rank"], "real_path_rank": real["rank"], "edit_size_frac_norm": pl["edit_size_frac_norm"],
+                    "multipliers": {str(f): 1.0 + ak for f, ak in zip(pl["fids"], pl["a"])},
+                    "added": {str(f): v for f, v in pl["added"].items()}, "add_summary": sm,
+                },
+                "settings": {"method": "prototype_gradient_descent", "sae_layer": layer, "hook_name": hook_name, "device": device, **pl["settings"]},
+                "rounds": [], "hybrid_details": [],
+            }
+            st.session_state["history"].append(pl_record)
+            persist_history()
+            st.success(f"Run saved to Session History (auto-saved to {st.session_state['history_file']})")

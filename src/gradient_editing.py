@@ -21,7 +21,7 @@ exactly silent there:
                  those with a positive score
     amount     : c_k = cap * (sigmoid(s_k) - sigmoid(ADD_S0)) for s_k >= ADD_S0 (else 0); s_k starts at ADD_S0, so every amount starts at exactly 0
                  (a tiny non-zero start is NOT harmless: the candidates are chosen because they help, so they add coherently);
-                 cap = the loudest candidate activation
+                 cap = the loudest candidate activation on the real prompt positions (start-of-text token excluded)
     extra loss : lam_add * sum_k c_k / cap          (prefers few, small additions)
 
 OPTIONAL `kl_always=True`: the KL term is charged on every step, not only once the target already leads (the default,
@@ -93,7 +93,7 @@ def silent_candidates(model, sae, resid, tokens, layer, target_id, top_m):
 
 def run_gradient_descent_edit(model, sae, clean_ctx, target_token_id, prompt, layer, hook_name, top_n=200,
                               positions="all", steps=100, lr=0.1, lam_kl=3.0, lam_size=0.005, margin_target=0.3,
-                              on_step=None, additive=False, add_top_m=200, add_cap=None, lam_add=0.005, add_lr=0.3,
+                              on_step=None, additive=False, add_top_m=200, add_cap=None, add_cap_factor=1.0, lam_add=0.005, add_lr=0.3,
                               kl_always=False):
     """Tune one multiplier per candidate feature for this prompt (and, with additive=True, an added amount for silent
     features). Returns a dict with the multipliers, the additions, the per-step history, and the result re-checked through
@@ -121,7 +121,9 @@ def run_gradient_descent_edit(model, sae, clean_ctx, target_token_id, prompt, la
     cap = None
     if additive:
         add_ids, add_scores = silent_candidates(model, sae, resid, tokens, layer, target_token_id, add_top_m)
-        cap = float(add_cap) if add_cap else float(amax.max().item())
+        act_real = acts[1:] if acts.shape[0] > 1 else acts                      # the loudest feature on the real prompt positions: the
+        loudest = float(act_real.max().item())                                  # start-of-text token has huge activations and would inflate the cap
+        cap = float(add_cap) if add_cap else float(add_cap_factor) * loudest
         if add_ids.numel() > 0:
             add_wd = sae.W_dec[add_ids].detach()                                # [M, d_model]
             s = torch.full((add_ids.numel(),), ADD_S0, device=device).requires_grad_(True)
@@ -175,6 +177,12 @@ def run_gradient_descent_edit(model, sae, clean_ctx, target_token_id, prompt, la
     real_rank, real_prob, real_kl, _ = _score(real_last, clean_last, target_token_id, blocker_id)
     real_top1 = int(torch.argmax(real_last).item())
 
+    with torch.no_grad():                       # edit size at the last position: ||change|| / ||residual|| (multiplier part + additive part)
+        d_last = (best_a * acts[-1]) @ wd
+        if best_c is not None:
+            d_last = d_last + best_c @ add_wd
+        edit_size = float(d_last.norm().item() / resid[0, -1].norm().item())
+
     out = {
         "fids": fids, "a": best_a.tolist(), "activation_max": amax.tolist(), "best_step": best_step, "history": history,
         "blocker_id": blocker_id, "n_candidates": K,
@@ -182,10 +190,10 @@ def run_gradient_descent_edit(model, sae, clean_ctx, target_token_id, prompt, la
         "real_path": {"rank": real_rank, "prob": float(real_prob.item()), "kl": float(real_kl.item()), "top1_id": real_top1},
         "settings": {"top_n": top_n, "positions": positions, "steps": steps, "lr": lr, "lam_kl": lam_kl,
                      "lam_size": lam_size, "margin": margin_target, "additive": additive, "kl_always": kl_always},
-        "added": add_map, "add_cap": cap,
+        "added": add_map, "add_cap": cap, "edit_size_frac_norm": edit_size,
     }
     if additive:
-        out["settings"].update({"add_top_m": add_top_m, "add_cap": cap, "lam_add": lam_add, "add_lr": add_lr})
+        out["settings"].update({"add_top_m": add_top_m, "add_cap": cap, "add_cap_factor": add_cap_factor, "lam_add": lam_add, "add_lr": add_lr})
         out["add_candidates"] = int(add_ids.numel())
         amounts = list(add_map.values())
         out["add_summary"] = {                  # how concentrated the addition is (a few strong features, or many weak ones)
