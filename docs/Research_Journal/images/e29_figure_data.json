@@ -1,0 +1,231 @@
+{
+ "n_prompts": 300,
+ "fig1_rank1": {
+  "2-5": {
+   "n": 67,
+   "sweep_ref": 51,
+   "sweep_wide": 63,
+   "gd": 67
+  },
+  "6-20": {
+   "n": 76,
+   "sweep_ref": 31,
+   "sweep_wide": 54,
+   "gd": 76
+  },
+  "21-100": {
+   "n": 78,
+   "sweep_ref": 10,
+   "sweep_wide": 31,
+   "gd": 74
+  },
+  "101-1000": {
+   "n": 79,
+   "sweep_ref": 2,
+   "sweep_wide": 13,
+   "gd": 54
+  },
+  "All 300": {
+   "n": 300,
+   "sweep_ref": 94,
+   "sweep_wide": 161,
+   "gd": 271
+  }
+ },
+ "fig2_kl_pairs": {
+  "sweep_ref": {
+   "n_both_rank1": 94,
+   "gd_lower": 92,
+   "median_other": 0.11570672318339348,
+   "median_gd": 0.027961662970483303
+  },
+  "sweep_wide": {
+   "n_both_rank1": 161,
+   "gd_lower": 160,
+   "median_other": 0.4075510501861572,
+   "median_gd": 0.051691316068172455
+  }
+ },
+ "fig3_success_vs_kl": {
+  "sweep_ref": {
+   "2-5": {
+    "median_kl": 0.1092,
+    "rank1_pct": 76.12
+   },
+   "6-20": {
+    "median_kl": 0.2538,
+    "rank1_pct": 40.79
+   },
+   "21-100": {
+    "median_kl": 0.3081,
+    "rank1_pct": 12.82
+   },
+   "101-1000": {
+    "median_kl": 0.3532,
+    "rank1_pct": 2.53
+   }
+  },
+  "sweep_wide": {
+   "2-5": {
+    "median_kl": 0.2095,
+    "rank1_pct": 94.03
+   },
+   "6-20": {
+    "median_kl": 0.488,
+    "rank1_pct": 71.05
+   },
+   "21-100": {
+    "median_kl": 0.754,
+    "rank1_pct": 39.74
+   },
+   "101-1000": {
+    "median_kl": 0.834,
+    "rank1_pct": 16.46
+   }
+  },
+  "gd": {
+   "2-5": {
+    "median_kl": 0.0193,
+    "rank1_pct": 100.0
+   },
+   "6-20": {
+    "median_kl": 0.0755,
+    "rank1_pct": 100.0
+   },
+   "21-100": {
+    "median_kl": 0.2934,
+    "rank1_pct": 94.87
+   },
+   "101-1000": {
+    "median_kl": 0.5519,
+    "rank1_pct": 68.35
+   }
+  }
+ },
+ "fig4_time_s": {
+  "sweep_ref": {
+   "mean": 49.65395333333334,
+   "median": 52.5745,
+   "min": 2.711,
+   "max": 187.633
+  },
+  "sweep_wide": {
+   "mean": 38.50418666666666,
+   "median": 38.241,
+   "min": 2.255,
+   "max": 122.763
+  },
+  "gd": {
+   "mean": 7.701436666666665,
+   "median": 7.8175,
+   "min": 5.059,
+   "max": 8.805
+  }
+ },
+ "e28_rank_by_step": {
+  "The sky is -> black": {
+   "run_id": 2,
+   "start_rank": 10,
+   "end_rank": 1,
+   "steps": 100,
+   "kl": 0.3350048065185547,
+   "settings": {
+    "top_n": 200,
+    "positions": "all",
+    "steps": 100,
+    "lr": 0.1,
+    "lam_kl": 3.0,
+    "lam_size": 0.005,
+    "margin": 0.3
+   }
+  },
+  "Frankie Lee Sims died at -> Dallas": {
+   "run_id": 10,
+   "start_rank": 548,
+   "end_rank": 1,
+   "steps": 100,
+   "kl": 1.8770439624786377,
+   "settings": {
+    "top_n": 200,
+    "positions": "all",
+    "steps": 100,
+    "lr": 0.1,
+    "lam_kl": 3.0,
+    "lam_size": 0.005,
+    "margin": 0.3
+   }
+  },
+  "Kaka professionally plays the sport -> soccer": {
+   "run_id": 11,
+   "start_rank": 436,
+   "end_rank": 1,
+   "steps": 110,
+   "kl": 1.227785348892212,
+   "settings": {
+    "top_n": 200,
+    "positions": "all",
+    "steps": 110,
+    "lr": 0.1,
+    "lam_kl": 3.0,
+    "lam_size": 0.005,
+    "margin": 0.3
+   }
+  },
+  "My nephew is a -> rapist": {
+   "run_id": 1,
+   "start_rank": 1740,
+   "end_rank": 17,
+   "steps": 100,
+   "kl": 0.5563197135925293,
+   "settings": {
+    "top_n": 200,
+    "positions": "all",
+    "steps": 100,
+    "lr": 0.1,
+    "lam_kl": 3.0,
+    "lam_size": 0.005,
+    "margin": 0.3
+   }
+  },
+  "The sky is -> powder": {
+   "run_id": 6,
+   "start_rank": 2554,
+   "end_rank": 179,
+   "steps": 100,
+   "kl": 0.8357303738594055,
+   "settings": {
+    "top_n": 200,
+    "positions": "all",
+    "steps": 100,
+    "lr": 0.1,
+    "lam_kl": 3.0,
+    "lam_size": 0.005,
+    "margin": 0.3
+   }
+  },
+  "The sky is -> powder / sweep 0.3 / 0.5": {
+   "run_id": 5,
+   "end_rank": 1133
+  },
+  "The sky is -> powder / sweep 0.6 / 0.8": {
+   "run_id": 9,
+   "end_rank": 569
+  },
+  "Hello, my name is -> Aryan": {
+   "run_id": 12,
+   "start_rank": 13576,
+   "end_rank": 2664,
+   "steps": 100,
+   "kl": 0.3170042037963867,
+   "settings": {
+    "top_n": 200,
+    "positions": "all",
+    "steps": 100,
+    "lr": 0.1,
+    "lam_kl": 3.0,
+    "lam_size": 0.005,
+    "margin": 0.3
+   }
+  }
+ }
+}
