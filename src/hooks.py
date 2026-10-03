@@ -140,6 +140,25 @@ def make_scale_map_hook(scale_map: dict, sae):
     return hook_fn
 
 
+def make_scale_and_add_hook(scale_map: dict, add_map: dict, sae):
+    """
+    Scale-map delta patch (every feature id in scale_map is multiplied, at every position) PLUS an additive edit:
+    for every feature id in add_map, `amount * decoder direction` is added to the residual stream at the LAST position
+    only (a way to switch on features that are silent there; a multiplier cannot, since 0 * m = 0). Single prompt only.
+    """
+    scale_hook = make_scale_map_hook(scale_map, sae)
+
+    def hook_fn(resid, hook):
+        out = scale_hook(resid, hook).clone()
+        if add_map:
+            ids = torch.as_tensor(list(add_map.keys()), device=resid.device)
+            amounts = torch.as_tensor(list(add_map.values()), device=resid.device, dtype=resid.dtype)
+            out[:, -1, :] = out[:, -1, :] + amounts @ sae.W_dec[ids].to(resid.dtype)
+        return out
+
+    return hook_fn
+
+
 def make_per_row_scale_hook_with_base(feature_ids: list[int], sae, scale: float, base_scale_map: dict):
     """
     Like make_per_row_scale_hook, but every row additionally has the already-applied
