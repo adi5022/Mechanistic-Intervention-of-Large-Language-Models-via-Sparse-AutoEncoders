@@ -1,5 +1,5 @@
 """
-Gradient-descent per-feature editing for the Hybrid tab (branch gradient-descent-editing).
+Gradient-descent per-feature editing (branch gradient-descent-editing; Entries 28 to 30).
 
 Instead of muting one pool of features at one strength and boosting another pool at another strength, every candidate
 feature gets its OWN multiplier m_k = 1 + a_k (a_k < 0 mutes, a_k > 0 boosts, a_k = 0 leaves it alone, a_k in [-1, 2]).
@@ -11,9 +11,25 @@ residual state), starting from "no edit". This is the same procedure as `oracle_
          + lam_kl   * KL(clean || edited) over all tokens except target and blocker, only once the target leads
          + lam_size * sum_k |a_k| * w_k          (w_k = candidate's share of the total max activation)
 
+OPTIONAL ADDITIVE EDIT (`additive=True`, Entry 30). A multiplier cannot switch on a feature that is silent (0 * m = 0).
+The additive knob adds an amount c_k >= 0 of a feature's decoder direction at the LAST position only, for features that are
+exactly silent there:
+
+    new volume = old volume * multiplier + added amount
+    candidates : the top `add_top_m` silent features by a first-order score (the gradient of the target margin with respect
+                 to the layer-`layer` residual at the last position, dotted with each feature's decoder direction), among
+                 those with a positive score
+    amount     : c_k = cap * (sigmoid(s_k) - sigmoid(ADD_S0)) for s_k >= ADD_S0 (else 0); s_k starts at ADD_S0, so every amount starts at exactly 0
+                 (a tiny non-zero start is NOT harmless: the candidates are chosen because they help, so they add coherently);
+                 cap = the loudest candidate activation
+    extra loss : lam_add * sum_k c_k / cap          (prefers few, small additions)
+
+OPTIONAL `kl_always=True`: the KL term is charged on every step, not only once the target already leads (the default,
+inherited from Entries 26/27, does not discourage a failing edit from distorting the output).
+
 The best iterate is kept (a successful one with the lowest loss, otherwise the lowest loss). The reported result is then
-re-checked through the real hook path (the same delta-patch hook the sweep uses), so the number shown does not depend on
-the training-time shortcut.
+re-checked through the real hook path (the delta-patch hook the sweep uses, plus the additive hook), so the number shown
+does not depend on the training-time shortcut.
 """
 import math
 
@@ -21,10 +37,12 @@ import torch
 import torch.nn.functional as F
 
 from src.editing import get_top_active_features
-from src.hooks import make_scale_map_hook
+from src.hooks import make_scale_and_add_hook
 
 BETA_MAX = 2.0
 Z_ZERO = -math.log(BETA_MAX)          # sigmoid(Z_ZERO) = 1 / (1 + BETA_MAX)  ->  a = 0 (no edit)
+ADD_S0 = -6.0                         # the additive amounts start at EXACTLY 0 (no edit): c = cap * max(0, sigmoid(s) - sigmoid(ADD_S0))
+ADD_REPORT_FRAC = 0.01                # an addition is reported / counted when it is at least this share of the cap
 
 
 def _to_a(z):
@@ -55,11 +73,31 @@ def _score(last, clean_last, target_id, blocker_id):
     return rank, tl.exp(), kl, margin
 
 
+def silent_candidates(model, sae, resid, tokens, layer, target_id, top_m):
+    """Top `top_m` features that are exactly silent at the last position and whose first-order effect on the target margin
+    is positive. Returns (feature ids [M], first-order scores [M]); M can be smaller than top_m."""
+    r = resid.detach().clone().requires_grad_(True)
+    last = _last_logits(model, r, tokens, layer)
+    other = last.clone()
+    other[target_id] = float("-inf")
+    margin = last[target_id] - other.max()
+    g = torch.autograd.grad(margin, r)[0][0, -1]                                # [d_model]
+    with torch.no_grad():
+        scores = sae.W_dec @ g                                                  # [n_features]
+        silent = sae.encode(resid[0, -1:])[0] == 0
+        scores = torch.where(silent & (scores > 0), scores, torch.full_like(scores, float("-inf")))
+        vals, ids = torch.topk(scores, min(top_m, scores.numel()))
+        keep = torch.isfinite(vals)
+    return ids[keep], vals[keep]
+
+
 def run_gradient_descent_edit(model, sae, clean_ctx, target_token_id, prompt, layer, hook_name, top_n=200,
                               positions="all", steps=100, lr=0.1, lam_kl=3.0, lam_size=0.005, margin_target=0.3,
-                              on_step=None):
-    """Tune one multiplier per candidate feature for this prompt. Returns a dict with the multipliers, the per-step
-    history, and the result re-checked through the real hook path."""
+                              on_step=None, additive=False, add_top_m=200, add_cap=None, lam_add=0.005, add_lr=0.3,
+                              kl_always=False):
+    """Tune one multiplier per candidate feature for this prompt (and, with additive=True, an added amount for silent
+    features). Returns a dict with the multipliers, the additions, the per-step history, and the result re-checked through
+    the real hook path."""
     device = clean_ctx.resid_all.device
     cands = get_top_active_features(model, sae, prompt, top_n=top_n, clean_ctx=clean_ctx, positions=positions)
     fids = [f for f, _ in cands]
@@ -78,43 +116,82 @@ def run_gradient_descent_edit(model, sae, clean_ctx, target_token_id, prompt, la
         clean_last = _last_logits(model, resid, tokens, layer)
 
     z = torch.full((K,), Z_ZERO, device=device).requires_grad_(True)
-    opt = torch.optim.Adam([z], lr=lr)
-    best_key, best_a, best_step = float("inf"), None, 0
+    groups = [{"params": [z], "lr": lr}]
+    add_ids = add_wd = s = None
+    cap = None
+    if additive:
+        add_ids, add_scores = silent_candidates(model, sae, resid, tokens, layer, target_token_id, add_top_m)
+        cap = float(add_cap) if add_cap else float(amax.max().item())
+        if add_ids.numel() > 0:
+            add_wd = sae.W_dec[add_ids].detach()                                # [M, d_model]
+            s = torch.full((add_ids.numel(),), ADD_S0, device=device).requires_grad_(True)
+            s0 = torch.full_like(s, ADD_S0).detach()                          # same dtype / op as s, so c is bit-exactly 0 at the start
+            groups.append({"params": [s], "lr": add_lr})
+    opt = torch.optim.Adam(groups)
+
+    best_key, best_a, best_c, best_step = float("inf"), None, None, 0
     history = []
     for step in range(steps + 1):
         a = _to_a(z)
         delta = torch.einsum("pk,k,kd->pd", acts, a, wd).unsqueeze(0)
+        c = None
+        if s is not None:
+            c = cap * (torch.sigmoid(s) - torch.sigmoid(s0)) * (s >= s0).to(s.dtype)      # >= keeps the gradient alive at the start
+            add_full = torch.zeros_like(delta)
+            add_full[0, -1] = c @ add_wd
+            delta = delta + add_full
         last = _last_logits(model, resid + delta, tokens, layer)
         rank, prob, kl, margin = _score(last, clean_last, target_token_id, blocker_id)
-        lead = float(margin.item() >= margin_target)
+        lead = 1.0 if kl_always else float(margin.item() >= margin_target)
         loss = F.relu(margin_target - margin) + lam_kl * kl * lead + lam_size * (a.abs() * w).sum()
+        if c is not None:
+            loss = loss + lam_add * c.sum() / cap
         key = (1e6 if rank > 1 else 0.0) + float(loss.item())
         history.append({"step": step, "rank": rank, "prob": float(prob.item()), "kl": float(kl.item()), "loss": float(loss.item())})
         if key < best_key:
             best_key, best_a, best_step = key, a.detach().clone(), step
+            best_c = c.detach().clone() if c is not None else None
         if on_step is not None:
             on_step(step, steps, rank)
         if step == steps:
             break
-        # autograd.grad w.r.t. z only: .backward() would also fill weight gradients for every GPT-2 parameter
-        z.grad, = torch.autograd.grad(loss, z)
+        # autograd.grad w.r.t. the free numbers only: .backward() would also fill weight gradients for every GPT-2 parameter
+        params = [z] + ([s] if s is not None else [])
+        grads = torch.autograd.grad(loss, params)
+        for p_, g_ in zip(params, grads):
+            p_.grad = g_
         opt.step()
 
-    # Re-check the chosen multipliers through the real hook path (full model, same hook the sweep uses).
+    # Re-check the chosen edit through the real hook path (full model, same delta-patch hook the sweep uses).
     scale_map = {fid: float(1.0 + ak) for fid, ak in zip(fids, best_a.tolist())}
+    add_map = {}
+    if best_c is not None:                      # ALL candidates' amounts go through the real hook (no threshold: many small ones add up)
+        add_map = {int(i): float(v) for i, v in zip(add_ids.tolist(), best_c.tolist())}
     model.reset_hooks()
     with torch.no_grad():
-        logits = model.run_with_hooks(tokens, fwd_hooks=[(hook_name, make_scale_map_hook(scale_map, sae))])
+        logits = model.run_with_hooks(tokens, fwd_hooks=[(hook_name, make_scale_and_add_hook(scale_map, add_map, sae))])
     model.reset_hooks()
     real_last = logits[0, -1]
     real_rank, real_prob, real_kl, _ = _score(real_last, clean_last, target_token_id, blocker_id)
     real_top1 = int(torch.argmax(real_last).item())
 
-    return {
+    out = {
         "fids": fids, "a": best_a.tolist(), "activation_max": amax.tolist(), "best_step": best_step, "history": history,
         "blocker_id": blocker_id, "n_candidates": K,
         "train_path": {"rank": history[best_step]["rank"], "prob": history[best_step]["prob"], "kl": history[best_step]["kl"]},
         "real_path": {"rank": real_rank, "prob": float(real_prob.item()), "kl": float(real_kl.item()), "top1_id": real_top1},
         "settings": {"top_n": top_n, "positions": positions, "steps": steps, "lr": lr, "lam_kl": lam_kl,
-                     "lam_size": lam_size, "margin": margin_target},
+                     "lam_size": lam_size, "margin": margin_target, "additive": additive, "kl_always": kl_always},
+        "added": add_map, "add_cap": cap,
     }
+    if additive:
+        out["settings"].update({"add_top_m": add_top_m, "add_cap": cap, "lam_add": lam_add, "add_lr": add_lr})
+        out["add_candidates"] = int(add_ids.numel())
+        amounts = list(add_map.values())
+        out["add_summary"] = {                  # how concentrated the addition is (a few strong features, or many weak ones)
+            "n_ge_1pct_cap": sum(1 for v in amounts if v >= ADD_REPORT_FRAC * cap),
+            "n_ge_10pct_cap": sum(1 for v in amounts if v >= 0.10 * cap),
+            "total_over_cap": sum(amounts) / cap if cap else 0.0,
+            "max_over_cap": (max(amounts) / cap) if amounts and cap else 0.0,
+        }
+    return out
