@@ -2865,9 +2865,11 @@ with tab_proto:
             help="Which active features are considered for multipliers. The edit scales a feature at every position either way."
         )
         pl_additive = st.checkbox(
-            "Also allow adding to silent features", value=True, key="pl_additive",
+            "Also allow adding to silent features", value=False, key="pl_additive",
             help="Adds, at the last position only, an amount of features that are exactly silent there. Candidates are the silent features whose "
-                 "direction most helps the target to first order. The extra knob starts at exactly zero and is charged for by the sparsity weight."
+                 "direction most helps the target to first order. The extra knob starts at exactly zero and is charged for by the sparsity weight. "
+                 "WARNING: this edit is strong enough to push almost ANY word to rank 1 (a control with 20 random unrelated words reached rank 1 "
+                 "on 20 of 20, against 1 of 20 without it), so rank 1 alone is not evidence that anything was fixed. Watch the edit size."
         )
         pl_klall = st.checkbox(
             "Always penalise side effects", value=False, key="pl_klall",
@@ -2972,6 +2974,13 @@ with tab_proto:
             if sm:
                 st.caption(f"Additive: {pl['add_candidates']} silent candidates; total added {sm['total_over_cap']:.2f} caps (cap = {pl['add_cap']:.2f}); "
                            f"largest single addition {sm['max_over_cap']:.2f} of the cap; best step {pl['best_step']} / {int(pl_steps)}.")
+                st.warning(
+                    f"Read this result with care: the edit is {100 * pl['edit_size_frac_norm']:.0f}% of the residual norm at the last position. "
+                    "An edit this large can push almost any word to rank 1 (control: 20 random unrelated words, 20 of 20 reached rank 1 with "
+                    "the additive edit, 1 of 20 without). Rank 1 here shows the edit is strong, not that the model's knowledge was recovered."
+                    if pl["edit_size_frac_norm"] > 0.5 else
+                    f"Edit size {100 * pl['edit_size_frac_norm']:.0f}% of the residual norm. For reference, the additive edit reached rank 1 on 20 of 20 "
+                    "random unrelated words in a control, so rank 1 alone is not evidence of a fix.", icon="⚠️")
             else:
                 st.caption(f"Best step {pl['best_step']} / {int(pl_steps)}.")
 

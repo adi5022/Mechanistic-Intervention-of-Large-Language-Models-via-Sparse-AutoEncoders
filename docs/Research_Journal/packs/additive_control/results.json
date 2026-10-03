@@ -1,0 +1,492 @@
+{
+ "seed": 11,
+ "split": "val",
+ "rows": [
+  {
+   "prompt": "Irish Free State is a part of the continent of",
+   "target": " guarant",
+   "start_rank": 27615,
+   "multipliers only": {
+    "rank": 1060,
+    "kl": 2.5539653301239014,
+    "edit_size_frac_norm": 0.3789260692515871,
+    "prob": 0.00015243030793499202
+   },
+   "+ additive (cap 1.0)": {
+    "rank": 1,
+    "kl": 1.1533985137939453,
+    "edit_size_frac_norm": 3.086000798222476,
+    "prob": 0.12522923946380615
+   },
+   "+ additive (cap 0.25)": {
+    "rank": 1,
+    "kl": 1.5432312488555908,
+    "edit_size_frac_norm": 1.7430896525588775,
+    "prob": 0.06635728478431702
+   }
+  },
+  {
+   "prompt": "The Little Prince was written in",
+   "target": " histor",
+   "start_rank": 13107,
+   "multipliers only": {
+    "rank": 1192,
+    "kl": 0.4288567304611206,
+    "edit_size_frac_norm": 0.4688668704132383,
+    "prob": 8.015058119781315e-05
+   },
+   "+ additive (cap 1.0)": {
+    "rank": 1,
+    "kl": 0.25789737701416016,
+    "edit_size_frac_norm": 2.767797549871932,
+    "prob": 0.05096634849905968
+   },
+   "+ additive (cap 0.25)": {
+    "rank": 1,
+    "kl": 0.24545252323150635,
+    "edit_size_frac_norm": 1.8345276582174652,
+    "prob": 0.04274473711848259
+   }
+  },
+  {
+   "prompt": "Renault Trucks is owned by",
+   "target": " disable",
+   "start_rank": 27629,
+   "multipliers only": {
+    "rank": 9614,
+    "kl": 0.7378184795379639,
+    "edit_size_frac_norm": 0.4491883555802673,
+    "prob": 7.500456831621705e-06
+   },
+   "+ additive (cap 1.0)": {
+    "rank": 1,
+    "kl": 0.48760363459587097,
+    "edit_size_frac_norm": 2.0213845344055152,
+    "prob": 0.02717668190598488
+   },
+   "+ additive (cap 0.25)": {
+    "rank": 1,
+    "kl": 0.9528989195823669,
+    "edit_size_frac_norm": 1.2329108524662642,
+    "prob": 0.01494696456938982
+   }
+  },
+  {
+   "prompt": "The official language of Benelux is",
+   "target": " notices",
+   "start_rank": 41473,
+   "multipliers only": {
+    "rank": 5937,
+    "kl": 2.223938226699829,
+    "edit_size_frac_norm": 0.4588897796700423,
+    "prob": 1.790177520888392e-05
+   },
+   "+ additive (cap 1.0)": {
+    "rank": 1,
+    "kl": 1.7811379432678223,
+    "edit_size_frac_norm": 3.8669155197098775,
+    "prob": 0.023875365033745766
+   },
+   "+ additive (cap 0.25)": {
+    "rank": 1,
+    "kl": 2.740586519241333,
+    "edit_size_frac_norm": 2.007412016162523,
+    "prob": 0.019629396498203278
+   }
+  },
+  {
+   "prompt": "Space Center Houston can be found in",
+   "target": " surv",
+   "start_rank": 44594,
+   "multipliers only": {
+    "rank": 2670,
+    "kl": 2.535365104675293,
+    "edit_size_frac_norm": 0.42450592563799633,
+    "prob": 3.505007771309465e-05
+   },
+   "+ additive (cap 1.0)": {
+    "rank": 1,
+    "kl": 1.418977975845337,
+    "edit_size_frac_norm": 2.166869049707555,
+    "prob": 0.024381965398788452
+   },
+   "+ additive (cap 0.25)": {
+    "rank": 1,
+    "kl": 1.8756929636001587,
+    "edit_size_frac_norm": 1.292665861347251,
+    "prob": 0.007251692470163107
+   }
+  },
+  {
+   "prompt": "Gulf War can be found in",
+   "target": " reverence",
+   "start_rank": 25825,
+   "multipliers only": {
+    "rank": 1758,
+    "kl": 0.8803078532218933,
+    "edit_size_frac_norm": 0.23653626981199566,
+    "prob": 7.048826955724508e-05
+   },
+   "+ additive (cap 1.0)": {
+    "rank": 1,
+    "kl": 3.902658700942993,
+    "edit_size_frac_norm": 0.763186671087718,
+    "prob": 0.07495416700839996
+   },
+   "+ additive (cap 0.25)": {
+    "rank": 1,
+    "kl": 0.8715998530387878,
+    "edit_size_frac_norm": 0.9532433198569854,
+    "prob": 0.08741586655378342
+   }
+  },
+  {
+   "prompt": "Lenta.ru is written in",
+   "target": " spikes",
+   "start_rank": 22620,
+   "multipliers only": {
+    "rank": 382,
+    "kl": 2.7159781455993652,
+    "edit_size_frac_norm": 0.3934722274497361,
+    "prob": 0.00038761968608014286
+   },
+   "+ additive (cap 1.0)": {
+    "rank": 1,
+    "kl": 1.3019229173660278,
+    "edit_size_frac_norm": 2.225479214796188,
+    "prob": 0.048319924622774124
+   },
+   "+ additive (cap 0.25)": {
+    "rank": 1,
+    "kl": 1.321427822113037,
+    "edit_size_frac_norm": 1.4061524158816265,
+    "prob": 0.01996210217475891
+   }
+  },
+  {
+   "prompt": "Somali Football Federation is affiliated with the",
+   "target": " bumped",
+   "start_rank": 41658,
+   "multipliers only": {
+    "rank": 1729,
+    "kl": 2.1627650260925293,
+    "edit_size_frac_norm": 0.3717947908424959,
+    "prob": 9.383546421304345e-05
+   },
+   "+ additive (cap 1.0)": {
+    "rank": 1,
+    "kl": 0.7724064588546753,
+    "edit_size_frac_norm": 2.347400788390475,
+    "prob": 0.013375602662563324
+   },
+   "+ additive (cap 0.25)": {
+    "rank": 1,
+    "kl": 1.0753848552703857,
+    "edit_size_frac_norm": 1.3261820721773965,
+    "prob": 0.007118917070329189
+   }
+  },
+  {
+   "prompt": "Abdiel was written in",
+   "target": " loads",
+   "start_rank": 21423,
+   "multipliers only": {
+    "rank": 897,
+    "kl": 2.0400242805480957,
+    "edit_size_frac_norm": 0.46233210255416624,
+    "prob": 0.00011965657904511318
+   },
+   "+ additive (cap 1.0)": {
+    "rank": 1,
+    "kl": 0.9757024645805359,
+    "edit_size_frac_norm": 1.8215468128392716,
+    "prob": 0.06382319331169128
+   },
+   "+ additive (cap 0.25)": {
+    "rank": 1,
+    "kl": 1.6368820667266846,
+    "edit_size_frac_norm": 1.0622827646123123,
+    "prob": 0.030464598909020424
+   }
+  },
+  {
+   "prompt": "Taking Chance premiered on",
+   "target": " pious",
+   "start_rank": 33691,
+   "multipliers only": {
+    "rank": 13886,
+    "kl": 4.204802989959717,
+    "edit_size_frac_norm": 0.5223234200065255,
+    "prob": 7.066424132062821e-06
+   },
+   "+ additive (cap 1.0)": {
+    "rank": 1,
+    "kl": 5.814831256866455,
+    "edit_size_frac_norm": 1.5908671282358011,
+    "prob": 0.010127587243914604
+   },
+   "+ additive (cap 0.25)": {
+    "rank": 1,
+    "kl": 1.9109148979187012,
+    "edit_size_frac_norm": 1.0460296317288895,
+    "prob": 0.011839390732347965
+   }
+  },
+  {
+   "prompt": "Coldplay formed in",
+   "target": " exhausted",
+   "start_rank": 27637,
+   "multipliers only": {
+    "rank": 1111,
+    "kl": 4.097567558288574,
+    "edit_size_frac_norm": 0.4594724169541125,
+    "prob": 0.00010440176993142813
+   },
+   "+ additive (cap 1.0)": {
+    "rank": 1,
+    "kl": 0.6007126569747925,
+    "edit_size_frac_norm": 3.2195455320049127,
+    "prob": 0.03170787915587425
+   },
+   "+ additive (cap 0.25)": {
+    "rank": 1,
+    "kl": 0.7347819805145264,
+    "edit_size_frac_norm": 1.3874258859892934,
+    "prob": 0.016913272440433502
+   }
+  },
+  {
+   "prompt": "The language of Slitz is",
+   "target": " stumbled",
+   "start_rank": 11930,
+   "multipliers only": {
+    "rank": 1298,
+    "kl": 0.7896511554718018,
+    "edit_size_frac_norm": 0.3544776895726629,
+    "prob": 0.00012532644905149937
+   },
+   "+ additive (cap 1.0)": {
+    "rank": 1,
+    "kl": 0.2965211868286133,
+    "edit_size_frac_norm": 1.2402976530693128,
+    "prob": 0.03286924585700035
+   },
+   "+ additive (cap 0.25)": {
+    "rank": 1,
+    "kl": 0.3262704610824585,
+    "edit_size_frac_norm": 0.9023393996917567,
+    "prob": 0.0317702442407608
+   }
+  },
+  {
+   "prompt": "In Burundi, an official language is",
+   "target": " briefings",
+   "start_rank": 28356,
+   "multipliers only": {
+    "rank": 379,
+    "kl": 1.4813973903656006,
+    "edit_size_frac_norm": 0.3235827623136059,
+    "prob": 0.0003998283063992858
+   },
+   "+ additive (cap 1.0)": {
+    "rank": 1,
+    "kl": 0.5573753118515015,
+    "edit_size_frac_norm": 1.2264408821439028,
+    "prob": 0.04055142030119896
+   },
+   "+ additive (cap 0.25)": {
+    "rank": 1,
+    "kl": 0.44857057929039,
+    "edit_size_frac_norm": 0.7194952548514787,
+    "prob": 0.03709438815712929
+   }
+  },
+  {
+   "prompt": "The original language of The Immoralist is",
+   "target": " another",
+   "start_rank": 271,
+   "multipliers only": {
+    "rank": 26,
+    "kl": 0.4598042964935303,
+    "edit_size_frac_norm": 0.37987748434624263,
+    "prob": 0.005447056610137224
+   },
+   "+ additive (cap 1.0)": {
+    "rank": 1,
+    "kl": 0.06973116099834442,
+    "edit_size_frac_norm": 0.41015007586462615,
+    "prob": 0.05146272853016853
+   },
+   "+ additive (cap 0.25)": {
+    "rank": 1,
+    "kl": 0.08931104838848114,
+    "edit_size_frac_norm": 0.4606845025083878,
+    "prob": 0.04788171872496605
+   }
+  },
+  {
+   "prompt": "John Pym died in the city of",
+   "target": " west",
+   "start_rank": 1227,
+   "multipliers only": {
+    "rank": 1,
+    "kl": 0.3874714970588684,
+    "edit_size_frac_norm": 0.3546537454682644,
+    "prob": 0.013240527361631393
+   },
+   "+ additive (cap 1.0)": {
+    "rank": 1,
+    "kl": 0.10563667863607407,
+    "edit_size_frac_norm": 0.3831021431303917,
+    "prob": 0.014322295784950256
+   },
+   "+ additive (cap 0.25)": {
+    "rank": 1,
+    "kl": 0.08894872665405273,
+    "edit_size_frac_norm": 0.34741405139236603,
+    "prob": 0.013756178319454193
+   }
+  },
+  {
+   "prompt": "Alida Withoos, a citizen of",
+   "target": " exponential",
+   "start_rank": 32891,
+   "multipliers only": {
+    "rank": 10271,
+    "kl": 2.3881075382232666,
+    "edit_size_frac_norm": 0.3586071173815865,
+    "prob": 1.1140415153931826e-05
+   },
+   "+ additive (cap 1.0)": {
+    "rank": 1,
+    "kl": 2.622438907623291,
+    "edit_size_frac_norm": 3.2211381026690775,
+    "prob": 0.007649363949894905
+   },
+   "+ additive (cap 0.25)": {
+    "rank": 1,
+    "kl": 3.586360216140747,
+    "edit_size_frac_norm": 1.6144019568840011,
+    "prob": 0.006462968420237303
+   }
+  },
+  {
+   "prompt": "William Hodges was native to",
+   "target": " envelope",
+   "start_rank": 30894,
+   "multipliers only": {
+    "rank": 1395,
+    "kl": 1.6943159103393555,
+    "edit_size_frac_norm": 0.3985675521172641,
+    "prob": 0.00013300102727953345
+   },
+   "+ additive (cap 1.0)": {
+    "rank": 1,
+    "kl": 0.7544958591461182,
+    "edit_size_frac_norm": 3.1600695778528745,
+    "prob": 0.01931375078856945
+   },
+   "+ additive (cap 0.25)": {
+    "rank": 1,
+    "kl": 1.4669609069824219,
+    "edit_size_frac_norm": 1.511745046736631,
+    "prob": 0.008109920658171177
+   }
+  },
+  {
+   "prompt": "The language of Polish Biographical Dictionary is",
+   "target": " bowls",
+   "start_rank": 40259,
+   "multipliers only": {
+    "rank": 913,
+    "kl": 1.5670366287231445,
+    "edit_size_frac_norm": 0.3939036422137034,
+    "prob": 0.0001244479644810781
+   },
+   "+ additive (cap 1.0)": {
+    "rank": 1,
+    "kl": 0.6557422876358032,
+    "edit_size_frac_norm": 1.669931827585155,
+    "prob": 0.03131844848394394
+   },
+   "+ additive (cap 0.25)": {
+    "rank": 1,
+    "kl": 0.7853427529335022,
+    "edit_size_frac_norm": 1.3949162028558189,
+    "prob": 0.02678467147052288
+   }
+  },
+  {
+   "prompt": "steak tartare was from",
+   "target": " vigilante",
+   "start_rank": 36524,
+   "multipliers only": {
+    "rank": 3550,
+    "kl": 2.070951461791992,
+    "edit_size_frac_norm": 0.4279292828729122,
+    "prob": 3.703356924233958e-05
+   },
+   "+ additive (cap 1.0)": {
+    "rank": 1,
+    "kl": 0.6254887580871582,
+    "edit_size_frac_norm": 1.2956167510630547,
+    "prob": 0.0220493134111166
+   },
+   "+ additive (cap 0.25)": {
+    "rank": 1,
+    "kl": 0.7867328524589539,
+    "edit_size_frac_norm": 0.8235802501756816,
+    "prob": 0.028055496513843536
+   }
+  },
+  {
+   "prompt": "Makkah Region, which has the capital city",
+   "target": " heavily",
+   "start_rank": 3388,
+   "multipliers only": {
+    "rank": 13,
+    "kl": 1.5386724472045898,
+    "edit_size_frac_norm": 0.3145428472089077,
+    "prob": 0.013022417202591896
+   },
+   "+ additive (cap 1.0)": {
+    "rank": 1,
+    "kl": 0.8140637874603271,
+    "edit_size_frac_norm": 1.526894471614046,
+    "prob": 0.13197945058345795
+   },
+   "+ additive (cap 0.25)": {
+    "rank": 1,
+    "kl": 0.5370050668716431,
+    "edit_size_frac_norm": 0.9043618418605184,
+    "prob": 0.14064735174179077
+   }
+  }
+ ],
+ "summary": {
+  "multipliers only": {
+   "rank1": 1,
+   "n": 20,
+   "median_end_rank": 1245.0,
+   "median_kl": 1.8671700954437256,
+   "median_edit_size_frac_norm": 0.3936879348317197,
+   "median_prob": 0.00011202917448827066
+  },
+  "+ additive (cap 1.0)": {
+   "rank1": 20,
+   "n": 20,
+   "median_end_rank": 1.0,
+   "median_kl": 0.7634511590003967,
+   "median_edit_size_frac_norm": 1.9214656736223934,
+   "median_prob": 0.031513163819909096
+  },
+  "+ additive (cap 0.25)": {
+   "rank1": 20,
+   "n": 20,
+   "median_end_rank": 1.0,
+   "median_kl": 0.9122493863105774,
+   "median_edit_size_frac_norm": 1.2627883569067575,
+   "median_prob": 0.023373386822640896
+  }
+ }
+}
