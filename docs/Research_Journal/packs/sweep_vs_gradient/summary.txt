@@ -1,0 +1,23 @@
+Equal-budget comparison: 300 prompts (0 errors)  [outputs/sweep_vs_gradient/20261003_130719]
+
+arm              rank-1  median KL  mean KL  KL (succ.)  features  edit size  neutral KL  flips  time s
+-------------------------------------------------------------------------------------------------------
+sweep_ref      94/300       0.259    0.346       0.175     247.3      0.176      0.0045   0.05    49.7
+sweep_wide    161/300       0.600    0.754       0.553     182.4      0.408      0.0292   0.08    38.5
+gd            271/300       0.144    0.340       0.272     192.6      0.217      0.0088   0.06     7.7
+
+median KL = same-prompt KL over all prompts (failed ones included); KL (succ.) = mean over prompts that reached rank 1;
+edit size = ||added change|| / ||residual|| at the last position; neutral KL / flips = the same edit on 20 unrelated prompts.
+
+PAIRED (exact McNemar on reaching rank 1; KL on prompts where BOTH arms reached rank 1):
+  sweep_ref vs sweep_wide: only sweep_ref 1, only sweep_wide 68 (p = 2.372e-19); both reached rank 1 on 93: median KL diff (sweep_ref - sweep_wide) -0.093, sweep_ref lower on 80 (Wilcoxon p = 1.834e-11)
+  sweep_ref vs gd: only sweep_ref 0, only gd 177 (p = 1.044e-53); both reached rank 1 on 94: median KL diff (sweep_ref - gd) +0.095, sweep_ref lower on 2 (Wilcoxon p = 6.364e-17)
+  sweep_wide vs gd: only sweep_wide 0, only gd 110 (p = 1.541e-33); both reached rank 1 on 161: median KL diff (sweep_wide - gd) +0.331, sweep_wide lower on 1 (Wilcoxon p = 1.478e-27)
+
+PER STARTING-RANK BAND (rank-1 count / n):
+  2-5      sweep_ref 51/67  sweep_wide 63/67  gd 67/67
+  6-20     sweep_ref 31/76  sweep_wide 54/76  gd 76/76
+  21-100   sweep_ref 10/78  sweep_wide 31/78  gd 74/78
+  101-1000 sweep_ref 2/79  sweep_wide 13/79  gd 54/79
+
+Consistency: sweep-reported best rank differs from the re-measured rank on 0 prompt/arm pairs (0 expected; a difference means the final edit was not reproduced exactly).
