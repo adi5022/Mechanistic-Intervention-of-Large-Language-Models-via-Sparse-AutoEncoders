@@ -1,0 +1,22 @@
+Reworded-prompt test: 40 prompts (0 errors), targets = random  [outputs/generalisation/random40]
+
+arm                        orig. rank-1 edit size |  reworded: improved  rank-1        med rank log10 gain |  nearby: KL  flips target top-1 |  neutral KL  flips
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+gd                               1/40         40% |                 96%      0%    17504 ->11832       0.19 |       0.444    24%           0% |       0.016    10%
+gd_add@cap=1.0                  40/40        177% |                100%     25%    17504 ->   4       3.51 |       1.680    72%          27% |       2.273    82%
+gd_add@cap=0.25                 39/40        119% |                100%     16%    17504 ->   9       3.09 |       1.336    65%          19% |       1.518    74%
+
+reworded = CounterFact paraphrase prompts of the same fact, edit tuned on the ORIGINAL prompt only; 'improved' = target rank better than unedited;
+nearby = other subjects with the same relation (should not change); 'target top-1' = share of nearby prompts where the TARGET became the top word (a leak);
+KL = KL(clean || edited) over the whole vocabulary at the last position; neutral = 20 unrelated prompts.
+
+Given the ORIGINAL prompt reached rank 1 (does the fix carry over to reworded prompts?):
+  gd                         reworded improved 100%, reached rank 1 0%
+  gd_add@cap=1.0             reworded improved 100%, reached rank 1 25%
+  gd_add@cap=0.25            reworded improved 100%, reached rank 1 17%
+
+PAIRED vs gd (per prompt; Wilcoxon signed-rank):
+  gd_add@cap=1.0             reworded log10 gain, median difference +3.38 (p = 1.82e-12); nearby KL, median difference +0.757 (p = 2e-10)
+  gd_add@cap=0.25            reworded log10 gain, median difference +3.05 (p = 1.82e-12); nearby KL, median difference +0.801 (p = 6e-11)
+
+Consistency: the original prompt's rank through the hook differs from the tuning-pass rank on 0 prompt/arm pairs (0 expected).

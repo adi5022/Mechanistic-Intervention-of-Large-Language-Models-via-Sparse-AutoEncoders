@@ -1,0 +1,23 @@
+{
+ "started": "2026-10-04T00:07:02.582436",
+ "args": {
+  "n_per_band": 10,
+  "arms": "gd,gd_add@cap=1.0,gd_add@cap=0.25",
+  "split": "test",
+  "targets": "true",
+  "top_n": 200,
+  "gd_steps": 100,
+  "add_m": 200,
+  "add_cap_factor": 1.0,
+  "lam_add": 0.005,
+  "add_lr": 0.3,
+  "layer": 8,
+  "seed": 7,
+  "out": "outputs/generalisation/true40",
+  "resume": false,
+  "summarise_only": null
+ },
+ "n_cases": 40,
+ "layer": 8,
+ "device": "cuda"
+}
