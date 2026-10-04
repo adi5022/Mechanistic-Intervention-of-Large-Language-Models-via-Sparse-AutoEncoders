@@ -1,3 +1,5 @@
+> **NEWER HANDOFF (2026-10-05, written for the move to a MacBook): `docs/handoff_2026-10-05_mac.md`. Start there; the current branch is `gradient-descent-editing`. This file is the older running log.**
+
 # Handoff (2026-10-02): START HERE
 
 Branch: `pool-refill-implementation` (everything is pushed). Repo: `Mechanistic-Intervention-of-Large-Language-Models-via-Sparse-AutoEncoders` (folder name FeatureScalpel).
