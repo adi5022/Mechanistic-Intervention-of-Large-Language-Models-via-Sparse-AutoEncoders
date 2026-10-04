@@ -19,6 +19,8 @@ from src.editing import (
     check_combination_safe,
     build_clean_context,
     build_steered_context,
+    tokens_without_bos,
+    ensure_bos_default,
     run_weighted_multi_competitor_reduction,
     run_weighted_multi_feature_competitor_reduction,
     make_weighted_ablation_hook,
@@ -232,6 +234,13 @@ with st.spinner("Loading Base Model (GPT-2 Small)..."):
 with st.spinner(f"Loading SAE for Layer {layer}..."):
     sae = get_cached_sae(layer)
 
+# The cached model is shared by every session and rerun. If its start-of-text default was ever switched off (a thread race
+# in model.to_tokens(..., prepend_bos=False), see Journal Entry 30 section 13), every prompt would silently lose its first
+# token and all ranks would be wrong. Restore it on every run and say so.
+if ensure_bos_default(model):
+    st.sidebar.warning("The model's start-of-text default had been switched off (a known thread race); it was restored. "
+                       "Results from earlier runs in this server session were computed without it and are not comparable.")
+
 hook_name = getattr(sae.cfg, "hook_name", f"blocks.{layer}.hook_resid_pre")
 
 st.sidebar.markdown("---")
@@ -335,7 +344,7 @@ with tab4:
         target_4 = target_4.strip()
         target_str = " " + target_4
         target_token_id = get_target_token_id(model, target_str)
-        _n_tgt_tokens = int(model.to_tokens(target_str, prepend_bos=False).numel())
+        _n_tgt_tokens = int(tokens_without_bos(model, target_str).numel())
         if _n_tgt_tokens > 1:
             st.warning(
                 f"⚠️ '{target_str}' is {_n_tgt_tokens} GPT-2 tokens. Only its LAST piece ('{model.to_string([target_token_id])}') is being scored, "
@@ -478,7 +487,7 @@ with tab4:
         target_4 = target_4.strip()
         target_str = " " + target_4
         target_token_id = get_target_token_id(model, target_str)
-        _n_tgt_tokens = int(model.to_tokens(target_str, prepend_bos=False).numel())
+        _n_tgt_tokens = int(tokens_without_bos(model, target_str).numel())
         if _n_tgt_tokens > 1:
             st.warning(
                 f"⚠️ '{target_str}' is {_n_tgt_tokens} GPT-2 tokens. Only its LAST piece ('{model.to_string([target_token_id])}') is being scored, "
@@ -2157,7 +2166,7 @@ with tab12:
                 f"= **{n_jobs} runs** on layer {layer} ({device.upper()}).")
         _tok_rows = []
         for p_ in spec_ok["prompts"]:
-            n_tok = int(model.to_tokens(" " + p_["target"], prepend_bos=False).numel())
+            n_tok = int(tokens_without_bos(model, " " + p_["target"]).numel())
             _tok_rows.append({"Prompt": p_["prompt"], "Target": p_["target"], "Target tokens": n_tok,
                               "OK": "✅" if n_tok == 1 else "⚠️ multi-token (only the LAST piece would be scored)"})
         with st.expander("Target token check", expanded=any(r["Target tokens"] != 1 for r in _tok_rows)):
@@ -2876,6 +2885,16 @@ with tab_proto:
             help="Off: the side-effect penalty switches on only once the target reaches rank 1 (as in the earlier studies), so a failing edit is "
                  "free to distort the output. On: the penalty is charged on every step."
         )
+        pl_gen_n = st.number_input(
+            "Tokens to generate after the prompt", value=15, min_value=1, max_value=60, step=1, key="pl_gen_n",
+            help="At the end of the run the unedited model and the edited model each continue the prompt greedily for this many tokens, "
+                 "so you can see what happens after the target word."
+        )
+        pl_gen_keep = st.checkbox(
+            "Keep the edit on while generating", value=True, key="pl_gen_keep",
+            help="On: the multipliers also act on the tokens the model generates. Off: they act only on the prompt's own positions. "
+                 "Either way the additive part (if used) is added once, at the prompt's last position, where it was tuned."
+        )
     with pl_c2:
         st.markdown("**Gradient descent settings**")
         pa, pb = st.columns(2)
@@ -2900,13 +2919,13 @@ with tab_proto:
                 pl_addlr = st.number_input("Additive learning rate", value=0.3, min_value=0.01, step=0.05, key="pl_addlr")
 
     if st.button("Run", key="btn_pl"):
-        from src.gradient_editing import run_gradient_descent_edit
+        from src.gradient_editing import run_gradient_descent_edit, generate_greedy
 
         pl_prompt = pl_prompt.strip()
         pl_target = pl_target.strip()
         pl_target_str = " " + pl_target
         pl_tid = get_target_token_id(model, pl_target_str)
-        _pl_ntok = int(model.to_tokens(pl_target_str, prepend_bos=False).numel())
+        _pl_ntok = int(tokens_without_bos(model, pl_target_str).numel())
         if _pl_ntok > 1:
             st.warning(
                 f"⚠️ '{pl_target_str}' is {_pl_ntok} GPT-2 tokens. Only its LAST piece ('{model.to_string([pl_tid])}') is being scored, "
@@ -3019,6 +3038,57 @@ with tab_proto:
             with st.expander(f"All {pl['n_candidates']} candidate multipliers"):
                 st.dataframe(pd.DataFrame(pl_rows), use_container_width=True)
 
+            # ---- baseline vs edited generation: continue past the target token ----
+            import html as _html
+            from itertools import zip_longest as _zl
+            st.subheader("📝 Baseline vs edited text")
+            st.caption(
+                "Both runs continue the same prompt greedily (always the most likely next token). The edited run uses the edit tuned above "
+                f"({'multipliers also on the generated tokens' if pl_gen_keep else 'multipliers only on the prompt'}; the additive part, if used, "
+                "added once at the prompt's last position). The target token is highlighted. Greedy decoding picks the target whenever it is "
+                "rank 1, even at a few percent probability; sampling would not."
+            )
+            pl_scale_map = {f: 1.0 + ak for f, ak in zip(pl["fids"], pl["a"])}
+            pl_base_steps, pl_base_text = generate_greedy(model, sae, hook_name, pl_prompt, int(pl_gen_n), target_id=pl_tid)
+            pl_edit_steps, pl_edit_text = generate_greedy(model, sae, hook_name, pl_prompt, int(pl_gen_n), pl_scale_map, pl["added"],
+                                                          keep_on=bool(pl_gen_keep), target_id=pl_tid)
+
+            def _pl_html(steps):
+                parts = []
+                for s_ in steps:
+                    tok = _html.escape(s_["token"]).replace("\n", "↵\n")
+                    parts.append(f'<span style="background:rgba(27,175,122,0.35);border-radius:3px;padding:0 2px;font-weight:700">{tok}</span>'
+                                 if s_["token_id"] == pl_tid else f"<b>{tok}</b>")
+                return ('<div style="font-family:monospace;white-space:pre-wrap;line-height:1.7">'
+                        f"{_html.escape(pl_prompt)}{''.join(parts)}</div>")
+
+            gc1, gc2 = st.columns(2)
+            with gc1:
+                with st.container(border=True):
+                    st.markdown("**Baseline (no edit)**")
+                    st.markdown(_pl_html(pl_base_steps), unsafe_allow_html=True)
+            with gc2:
+                with st.container(border=True):
+                    st.markdown("**After the edit**")
+                    st.markdown(_pl_html(pl_edit_steps), unsafe_allow_html=True)
+            pl_hit = [s_["step"] for s_ in pl_edit_steps if s_["token_id"] == pl_tid]
+            pl_hit_base = [s_["step"] for s_ in pl_base_steps if s_["token_id"] == pl_tid]
+            st.caption(
+                (f"The target token appears in the edited text at step {pl_hit[0]}" + (f" (and {len(pl_hit) - 1} more time(s))" if len(pl_hit) > 1 else "")
+                 if pl_hit else "The target token does not appear in the edited text")
+                + (f"; in the baseline text at step {pl_hit_base[0]}." if pl_hit_base else "; it does not appear in the baseline text.")
+            )
+            with st.expander("Token by token (probability of each chosen token; the target's probability and rank in the edited run)"):
+                pl_tab = []
+                for b_, e_ in _zl(pl_base_steps, pl_edit_steps):
+                    pl_tab.append({
+                        "Step": (b_ or e_)["step"],
+                        "Baseline token": repr(b_["token"]) if b_ else "", "Baseline prob (%)": 100 * b_["prob"] if b_ else None,
+                        "Edited token": repr(e_["token"]) if e_ else "", "Edited prob (%)": 100 * e_["prob"] if e_ else None,
+                        "Target prob, edited run (%)": 100 * e_["target_prob"] if e_ else None, "Target rank, edited run": e_["target_rank"] if e_ else None,
+                    })
+                st.dataframe(pd.DataFrame(pl_tab).set_index("Step"), use_container_width=True)
+
             st.markdown("---")
             st.metric("⏱️ Total wall-clock time (model compute)", f"{pl_t1 - pl_t0:.3f}s")
 
@@ -3041,6 +3111,9 @@ with tab_proto:
                     "added": {str(f): v for f, v in pl["added"].items()}, "add_summary": sm,
                 },
                 "settings": {"method": "prototype_gradient_descent", "sae_layer": layer, "hook_name": hook_name, "device": device, **pl["settings"]},
+                "generation": {"n_tokens": int(pl_gen_n), "keep_edit_on": bool(pl_gen_keep), "decoding": "greedy",
+                               "baseline_text": pl_base_text, "edited_text": pl_edit_text,
+                               "baseline_steps": pl_base_steps, "edited_steps": pl_edit_steps},
                 "rounds": [], "hybrid_details": [],
             }
             st.session_state["history"].append(pl_record)

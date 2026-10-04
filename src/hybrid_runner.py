@@ -30,6 +30,7 @@ from src.editing import (
     check_combination_safe,
     build_clean_context,
     build_steered_context,
+    tokens_without_bos,
 )
 from src.hooks import make_mute_and_boost_hook, build_scale_map_graded, make_scale_map_hook
 from src.batched_eval import MAX_EVAL_BATCH, batched_ablation_probs_and_ranks, batched_probs_and_ranks_per_row_scales
@@ -162,7 +163,7 @@ def run_hybrid_sweep(model, sae, hook_name, layer, device, prompt, target, cfg=N
     prompt = prompt.strip()
     target = target.strip()
     target_str = " " + target
-    _tgt_ids = model.to_tokens(target_str, prepend_bos=False).squeeze(0).reshape(-1)
+    _tgt_ids = tokens_without_bos(model, target_str).squeeze(0).reshape(-1)
     n_target_tokens = int(_tgt_ids.numel())
     if c["multi_token"] == "first_piece" and n_target_tokens > 1:
         target_token_id = int(_tgt_ids[0].item())
