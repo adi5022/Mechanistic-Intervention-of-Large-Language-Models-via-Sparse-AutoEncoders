@@ -10,3 +10,23 @@ Mechanistic interpretability research project exploring inference-time activatio
 - Limits: one model and layer, hand-picked prompts, success = rank #1 on the next token only, side effects not yet measured (see Entry 20, Sections 7 and 9).
 - Reproduce: `python run_batch.py data/candidate_source_batch_spec.json` (about 5 minutes on a CUDA GPU), or use the Batch tab.
 - Earlier results: layer benchmarks in `benchmark_results/`, journal entries in `docs/Research_Journal/`.
+
+## Running it
+
+**Windows + NVIDIA GPU** (the machines the project was built on): `python -m venv .venv`, `.venv\Scripts\pip install -r requirements.txt` (note: the `torch==` line there does not match the working environment, torch 2.6.0+cu124), then `.venv\Scripts\streamlit.exe run experiment_app.py`.
+
+**macOS (Apple Silicon)**, uses the Apple GPU through PyTorch's MPS backend, falls back to the CPU:
+```bash
+bash scripts/setup_mac.sh            # creates .venv, installs mac_requirements.txt, prints the device it will use
+bash scripts/get_data_mac.sh         # only for the test tools: downloads CounterFact and builds the hard set (the app's Prototype lab does not need it)
+python tools/check_mac_parity.py     # checks this Mac reproduces the saved Windows results (add --full for the 5 additive self-checks)
+bash scripts/run_app_mac.sh          # app at http://localhost:8501
+```
+- The code picks `cuda`, then `mps`, then `cpu`. Force one with `FEATURESCALPEL_DEVICE=cpu|mps|cuda` (use `cpu` if MPS misbehaves).
+- Timings are not comparable across machines (CUDA, MPS and CPU differ); compare methods only on one machine.
+- The Prototype lab tab (gradient-descent edit, additive edit, baseline-vs-edited text, follow-up prompts) is the current main tab and works on any device. The Batch tab's GPU memory panel is NVIDIA-specific; on a Mac it shows a short unified-memory note and caps background workers at 2.
+- Not ported: the GPU-timing benchmark scripts at the repository root (`test_gpu_benchmark.py`, `run_speed_analysis.py`, `layer_benchmark.py`); they measure CUDA hardware specifically.
+- Status of the Mac port: written and tested on the CPU path of a Windows PC; **not yet run on a real Mac** (see `docs/handoff_2026-10-05_mac.md`).
+
+## Where the work stands
+Read `docs/handoff_2026-10-05_mac.md` first (state, results, planned work), then `docs/research_roadmap.md` and the latest Research Journal entries (28 to 30).

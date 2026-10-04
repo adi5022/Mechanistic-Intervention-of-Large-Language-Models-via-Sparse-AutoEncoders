@@ -1,0 +1,26 @@
+# FeatureScalpel - requirements for macOS (Apple Silicon: M1/M2/M3/M4). Use requirements.txt on Windows + NVIDIA.
+#
+# Install:   python3 -m venv .venv && source .venv/bin/activate && pip install -r mac_requirements.txt
+# (or run scripts/setup_mac.sh, which does this and prints the device the code will use)
+#
+# Python: 3.11, 3.12 or 3.13 (the Windows machines run 3.13.7).
+# There is NO CUDA on a Mac. The default torch wheel from PyPI for macOS includes the MPS backend (Apple GPU).
+# The code picks cuda > mps > cpu automatically; set FEATURESCALPEL_DEVICE=cpu to force the CPU if MPS misbehaves.
+#
+# The libraries below are the versions the project was developed and tested with on Windows. They are pure Python or
+# have macOS wheels. torch is a lower bound, not an exact pin: the Windows machines run 2.6.0 (CUDA 12.4 build) and the
+# exact torch version used on a Mac has not been tested yet. torchvision/torchaudio are not used by the code.
+torch>=2.6
+transformer-lens==3.5.1
+sae-lens==6.45.3
+transformers>=5.0
+streamlit==1.59.1
+pandas==3.0.3
+matplotlib==3.11.2
+numpy>=2.0
+scipy>=1.13
+altair>=5.0
+requests>=2.31
+tabulate==0.9.0
+python-dotenv>=1.0
+tqdm>=4.66
