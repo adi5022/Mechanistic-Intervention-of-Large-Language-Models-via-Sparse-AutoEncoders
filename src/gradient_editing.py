@@ -37,7 +37,7 @@ import torch
 import torch.nn.functional as F
 
 from src.editing import get_top_active_features
-from src.hooks import make_scale_and_add_hook
+from src.hooks import make_scale_and_add_hook, make_scale_map_hook
 
 BETA_MAX = 2.0
 Z_ZERO = -math.log(BETA_MAX)          # sigmoid(Z_ZERO) = 1 / (1 + BETA_MAX)  ->  a = 0 (no edit)
@@ -203,3 +203,54 @@ def run_gradient_descent_edit(model, sae, clean_ctx, target_token_id, prompt, la
             "max_over_cap": (max(amounts) / cap) if amounts and cap else 0.0,
         }
     return out
+
+
+# ------------------------------------------------------------------------------------------------ generation (Prototype lab)
+def _generation_hook(scale_map, add_map, sae, prompt_len, keep_on):
+    """The tuned edit as a hook for a growing sequence. Multipliers scale their features at every position (keep_on=True) or
+    only at the prompt's positions (keep_on=False). The additive amounts are added ONCE, at the prompt's last position
+    (index prompt_len - 1: the position they were tuned for), on every forward pass, so the sequence is recomputed
+    consistently without a key-value cache."""
+    scale_hook = make_scale_map_hook(scale_map, sae)
+
+    def hook_fn(resid, hook):
+        out = scale_hook(resid, hook)
+        if not keep_on and resid.shape[1] > prompt_len:
+            out = torch.cat([out[:, :prompt_len], resid[:, prompt_len:]], dim=1)
+        if add_map:
+            out = out.clone()
+            ids = torch.as_tensor(list(add_map.keys()), device=resid.device)
+            amounts = torch.as_tensor(list(add_map.values()), device=resid.device, dtype=resid.dtype)
+            out[:, prompt_len - 1, :] = out[:, prompt_len - 1, :] + amounts @ sae.W_dec[ids].to(resid.dtype)
+        return out
+
+    return hook_fn
+
+
+def generate_greedy(model, sae, hook_name, prompt, n_tokens, scale_map=None, add_map=None, keep_on=True, target_id=None):
+    """Greedy decoding (always the most likely next token) for `n_tokens` tokens, with or without the tuned edit.
+    No key-value cache: each step recomputes the whole sequence, so the edit is applied exactly as described above.
+    Returns (steps, continuation text); each step has the chosen token, its probability, the target's probability and rank."""
+    toks = model.to_tokens(prompt)
+    prompt_len = toks.shape[1]
+    edited = bool(scale_map) or bool(add_map)
+    steps = []
+    for i in range(n_tokens):
+        model.reset_hooks()
+        with torch.no_grad():
+            if edited:
+                logits = model.run_with_hooks(toks, fwd_hooks=[(hook_name, _generation_hook(scale_map or {}, add_map or {}, sae, prompt_len, keep_on))])
+            else:
+                logits = model(toks)
+        model.reset_hooks()
+        probs = F.softmax(logits[0, -1], dim=-1)
+        nxt = int(torch.argmax(probs).item())
+        step = {"step": i + 1, "token_id": nxt, "token": model.to_string([nxt]), "prob": float(probs[nxt].item())}
+        if target_id is not None:
+            step["target_prob"] = float(probs[target_id].item())
+            step["target_rank"] = int((probs > probs[target_id]).sum().item()) + 1
+        steps.append(step)
+        toks = torch.cat([toks, torch.tensor([[nxt]], device=toks.device)], dim=1)
+        if nxt == model.tokenizer.eos_token_id:
+            break
+    return steps, model.to_string(toks[0, prompt_len:])

@@ -107,6 +107,24 @@ def main():
               f"active among added: {len(bad)}, in range: {in_range} {'ok' if good else 'FAIL'}")
         ok_all &= (g["train_path"]["rank"] == rk)
 
+    print("5. GENERATION (baseline vs edited, greedy):")
+    from src.gradient_editing import generate_greedy
+    for r in pick[:3] + pick[4:5]:
+        tid, ctx = ctx_for(r)
+        g = run_gradient_descent_edit(model, sae, ctx, tid, r["prompt"], layer, hook_name, steps=100, additive=True)
+        smap = {f: 1.0 + x for f, x in zip(g["fids"], g["a"])}
+        n = 8
+        base_steps, base_text = generate_greedy(model, sae, hook_name, r["prompt"], n, target_id=tid)
+        ref = model.generate(r["prompt"], max_new_tokens=n, do_sample=False, verbose=False, stop_at_eos=False)[len(r["prompt"]):]
+        same_base = base_text == ref
+        e_on, text_on = generate_greedy(model, sae, hook_name, r["prompt"], n, smap, g["added"], keep_on=True, target_id=tid)
+        e_off, text_off = generate_greedy(model, sae, hook_name, r["prompt"], n, smap, g["added"], keep_on=False, target_id=tid)
+        first_ok = e_on[0]["token_id"] == g["real_path"]["top1_id"] and e_off[0]["token_id"] == g["real_path"]["top1_id"]
+        good = same_base and first_ok
+        ok_all &= good
+        print(f"   {r['prompt'][:34]!r:<38} baseline == TransformerLens greedy: {same_base} | first edited token == tuned top-1 (both modes): {first_ok} {'ok' if good else 'FAIL'}")
+        print(f"      baseline: {base_text!r}\n      edited  : {text_on!r}  |  prompt-only: {text_off!r}")
+
     print("\nALL CHECKS PASSED" if ok_all else "\nSOME CHECKS FAILED")
     sys.exit(0 if ok_all else 1)
 

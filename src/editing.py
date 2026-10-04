@@ -10,11 +10,35 @@ from src.hooks import make_ablation_hook, make_scale_map_hook, with_extra_scale
 
 HOOK_NAME = "blocks.8.hook_resid_pre"
 
+def tokens_without_bos(model, text: str):
+    """
+    Token ids of `text` with NO start-of-text token, without touching model.cfg.
+
+    Do not use model.to_tokens(text, prepend_bos=False) in code that can run on several threads: it temporarily sets
+    model.cfg.default_prepend_bos to False and later writes back the value it saved. When two threads overlap (two
+    Streamlit sessions, or a rerun while an old run is still going, all sharing one cached model) the wrong value can be
+    written back for good, and every later prompt is then tokenised WITHOUT the start-of-text token (wrong ranks and
+    probabilities, no error). Reproduced with two threads in about 20 seconds; see Journal Entry 30, section 13.
+    """
+    ids = model.tokenizer(text, return_tensors="pt")["input_ids"]
+    if model.cfg.tokenizer_prepends_bos and ids.shape[1] and ids[0, 0].item() == model.tokenizer.bos_token_id:
+        ids = ids[:, 1:]
+    return ids.to(model.cfg.device)
+
+
+def ensure_bos_default(model) -> bool:
+    """Restore model.cfg.default_prepend_bos to True if it was switched off. Returns True if it had to be restored."""
+    if model.cfg.default_prepend_bos is not True:
+        model.cfg.default_prepend_bos = True
+        return True
+    return False
+
+
 def get_target_token_id(model, target_str: str) -> int:
     """
     Safely resolves a target string (e.g. ' Paris') to its token ID in the model's vocabulary.
     """
-    token_ids = model.to_tokens(target_str, prepend_bos=False).squeeze()
+    token_ids = tokens_without_bos(model, target_str).squeeze()
     if token_ids.numel() > 1:
         return token_ids[-1].item()
     return token_ids.item()
