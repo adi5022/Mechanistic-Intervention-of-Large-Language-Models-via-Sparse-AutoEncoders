@@ -1,0 +1,27 @@
+Generation-quality and context-sensitivity test: 40 prompts (0 errors), targets = true  [outputs/generation_quality/true40]
+
+A. SEQUENTIAL COLLAPSE (continuations of the same length; tail perplexity under the UNEDITED model, lower = more fluent)
+run                                distinct-2   loop  target in text  target repeats  tail ppl (median)
+-------------------------------------------------------------------------------------------------------
+no edit                                  0.93     0%             12%            0.03                4.7
+gd (edit kept on)                        0.85    12%             90%            0.68                4.4
+gd (prompt only)                         0.88     8%             90%            0.65                4.2
+gd_add@cap=1.0 (edit kept on)            0.86     8%            100%            0.57                4.8
+gd_add@cap=1.0 (prompt only)             0.88     2%            100%            0.65                4.7
+gd_add@cap=0.25 (edit kept on)           0.89     2%            100%            0.68                4.8
+gd_add@cap=0.25 (prompt only)            0.89     2%            100%            0.70                4.3
+
+B. CONTEXT SENSITIVITY (the SAME edit applied to the prompt with a prefix; target = the word the edit was tuned for)
+arm / context                       target top-1: unedited   edited   median rank: unedited   edited  median prob % unedited   edited
+-------------------------------------------------------------------------------------------------------------------------------------
+gd / plain                                              0%      90%                      24        1                    0.41     7.68
+gd / do_not_say                                        45%      68%                       2        1                   10.72    22.79
+gd / wrong_answer                                      30%      68%                       2        1                    7.27    14.59
+gd_add@cap=1.0 / plain                                  0%     100%                      24        1                    0.41     7.37
+gd_add@cap=1.0 / do_not_say                            45%      90%                       2        1                   10.72    38.89
+gd_add@cap=1.0 / wrong_answer                          30%      88%                       2        1                    7.27    30.93
+gd_add@cap=0.25 / plain                                 0%     100%                      24        1                    0.41     7.39
+gd_add@cap=0.25 / do_not_say                           45%      88%                       2        1                   10.72    34.05
+gd_add@cap=0.25 / wrong_answer                         30%      85%                       2        1                    7.27    26.12
+
+plain = the original prompt; do_not_say = 'Do not say the word X. <prompt>'; wrong_answer = 'X is the wrong answer. <prompt>'.

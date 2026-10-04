@@ -1,0 +1,27 @@
+{
+ "started": "2026-10-04T22:57:46.470655",
+ "args": {
+  "n_per_band": 10,
+  "arms": "gd,gd_add@cap=1.0,gd_add@cap=0.25",
+  "split": "test",
+  "targets": "true",
+  "gen_tokens": 20,
+  "top_n": 200,
+  "gd_steps": 100,
+  "add_m": 200,
+  "add_cap_factor": 1.0,
+  "lam_add": 0.005,
+  "add_lr": 0.3,
+  "layer": 8,
+  "seed": 7,
+  "out": "outputs/generation_quality/true40",
+  "resume": false,
+  "summarise_only": null
+ },
+ "n_cases": 40,
+ "templates": {
+  "plain": "{prompt}",
+  "do_not_say": "Do not say the word{target}. {prompt}",
+  "wrong_answer": "{target0} is the wrong answer. {prompt}"
+ }
+}
