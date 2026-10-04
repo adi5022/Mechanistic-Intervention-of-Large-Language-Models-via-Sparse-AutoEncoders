@@ -3,6 +3,11 @@ Utilities for loading and interacting with Sparse Autoencoders (SAEs) and Transf
 """
 
 import os
+
+# On Apple Silicon, any PyTorch operation the MPS backend does not implement falls back to the CPU instead of raising an error.
+# It must be set before torch is imported, and it has no effect on CUDA or CPU runs.
+os.environ.setdefault("PYTORCH_ENABLE_MPS_FALLBACK", "1")
+
 import torch
 from transformer_lens import HookedTransformer
 from sae_lens import SAE
@@ -27,7 +32,11 @@ if hf_token:
 def get_default_device() -> str:
     """
     Returns the best available device for PyTorch operations (CUDA GPU, Apple MPS, or CPU fallback).
+    Set the environment variable FEATURESCALPEL_DEVICE to cpu, mps or cuda to force one (for example cpu if MPS misbehaves).
     """
+    forced = os.environ.get("FEATURESCALPEL_DEVICE", "").strip().lower()
+    if forced in ("cpu", "mps", "cuda"):
+        return forced
     if torch.cuda.is_available():
         return "cuda"
     elif hasattr(torch.backends, "mps") and torch.backends.mps.is_available():

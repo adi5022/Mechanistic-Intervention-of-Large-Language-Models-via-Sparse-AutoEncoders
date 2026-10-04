@@ -6,7 +6,7 @@ from src.sae_utils import load_model_and_sae
 from src.evaluation import run_stage_1_evaluation
 
 # Create the outputs/stage_1/ directory if it doesn't exist
-output_dir = "d:/Projects/transient_steering/outputs/stage_1"
+output_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "outputs", "stage_1")
 os.makedirs(output_dir, exist_ok=True)
 
 print("Loading model and SAE...")

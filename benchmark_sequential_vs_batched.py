@@ -31,8 +31,8 @@ from src.editing import (
 
 
 def sync_if_cuda(device: str):
-    if device == "cuda":
-        torch.cuda.synchronize()
+    from src.device_utils import sync_device
+    sync_device(device)      # cuda or mps; no-op on cpu
 
 
 def run_sequential(model, sae, clean_ctx, prompt, fids, target_token_id, strength, kind, device):

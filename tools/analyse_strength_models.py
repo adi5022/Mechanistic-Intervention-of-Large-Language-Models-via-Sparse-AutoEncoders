@@ -7,7 +7,7 @@ test-unseen) with the same prefix proxy, then reports paired comparisons (exact 
 breakdown by starting rank. The numbers are from the PROXY (not the real sweep).
 
     .venv\\Scripts\\python.exe tools/analyse_strength_models.py --dir outputs/strength_models/<time>
-    .venv\\Scripts\\python.exe tools/analyse_strength_models.py --dir D:/Downloads        (a folder holding results.json + strengths_export.json)
+    .venv\\Scripts\\python.exe tools/analyse_strength_models.py --dir ~/Downloads        (a folder holding results.json + strengths_export.json)
 """
 import argparse
 import json
