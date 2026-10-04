@@ -8,6 +8,7 @@ import time
 from datetime import datetime
 
 from src.sae_utils import load_base_model, load_sae_for_layer, get_default_device
+from src.device_utils import sync_device
 from src.editing import (
     get_target_token_id,
     get_top_competitor_features,
@@ -351,8 +352,7 @@ with tab4:
                 f"so the rank/probability below is NOT for the whole word. Use a single-token target for a valid result."
             )
 
-        if device == "cuda":
-            torch.cuda.synchronize()
+        sync_device(device)
         gd_start = time.perf_counter()
 
         model.reset_hooks()
@@ -375,8 +375,7 @@ with tab4:
                 lam_size=float(gd_lam_size_4), margin_target=float(gd_margin_4), on_step=_gd_progress,
             )
             gd_bar.empty()
-            if device == "cuda":
-                torch.cuda.synchronize()
+            sync_device(device)
             gd_end = time.perf_counter()
 
             real = gd["real_path"]
@@ -495,8 +494,7 @@ with tab4:
             )
 
         # --- Stopwatch start ---
-        if device == "cuda":
-            torch.cuda.synchronize()
+        sync_device(device)
         t4_start = time.perf_counter()
 
         # Clean baseline pass
@@ -1098,8 +1096,7 @@ with tab4:
             st.dataframe(pd.DataFrame(rank_progression).set_index("Step"), use_container_width=True)
 
         # --- Compute stopwatch stop (GPU/CPU work only) ---
-        if device == "cuda":
-            torch.cuda.synchronize()
+        sync_device(device)
         t4_end = time.perf_counter()
 
         st.markdown("---")
@@ -1742,8 +1739,7 @@ with tab11:
         """Runs the full Tab-4-style hybrid sweep end-to-end and times it with a single stopwatch.
         use_batched=False reproduces the app's original sequential behaviour;
         use_batched=True uses the GPU-batched candidate ranking + safety filtering."""
-        if device == "cuda":
-            torch.cuda.synchronize()
+        sync_device(device)
         t_start = time.perf_counter()
 
         model.reset_hooks()
@@ -1898,8 +1894,7 @@ with tab11:
                     break
 
         model.reset_hooks()
-        if device == "cuda":
-            torch.cuda.synchronize()
+        sync_device(device)
         elapsed = time.perf_counter() - t_start
 
         rows = [{
@@ -2102,6 +2097,11 @@ with tab12:
             if _os.name == "nt":
                 out = _sp.run(["tasklist", "/FI", f"PID eq {int(pid)}", "/NH"], capture_output=True, text=True, timeout=10).stdout
                 return str(int(pid)) in out
+            try:
+                if _os.waitpid(int(pid), _os.WNOHANG)[0] != 0:     # our child has exited: reaped now
+                    return False
+            except ChildProcessError:
+                pass                                              # not our child (for example after an app restart)
             _os.kill(int(pid), 0)
             return True
         except Exception:
@@ -2193,7 +2193,7 @@ with tab12:
     def _gpu_mem():
         """(free_gb, total_gb) read live from the driver, or (None, None) without a GPU."""
         try:
-            if torch.cuda.is_available():
+            if device == "cuda" and torch.cuda.is_available():
                 f_, t_ = torch.cuda.mem_get_info()
                 return f_ / 1e9, t_ / 1e9
         except Exception:
@@ -2240,6 +2240,19 @@ with tab12:
             except Exception as e:
                 st.caption(f"Could not run nvidia-smi: {e}")
             st.caption("Close programs you do not need (games, video, other notebooks) to free their memory; this app can only release its own cache.")
+    elif device == "mps":
+        m1, m2 = st.columns([1.3, 4.7])
+        with m1:
+            if st.button("🧹 Free cached GPU memory", key="btn_mps_free", help="Releases memory this app has cached on the Apple GPU but is not using."):
+                import gc as _gc
+                from src.device_utils import empty_device_cache as _edc
+                _gc.collect()
+                _edc(device)
+                st.session_state["mps_free_msg"] = "Cache released."
+        with m2:
+            st.caption("**Apple Silicon GPU (MPS):** memory is unified, shared with the rest of the Mac, so there is no separate GPU memory reading. "
+                       "Each extra worker loads its own copy of the model (about 1.4 GB). Keep it to 1 or 2 workers and close heavy apps."
+                       + (f" · {st.session_state['mps_free_msg']}" if st.session_state.get("mps_free_msg") else ""))
     _max_safe = max(1, int((_free_gb or 2.0) // 1.4)) if _free_gb is not None else 1     # ~1.4 GB per worker (model + SAE + CUDA context)
     w1, w2 = st.columns([1, 3])
     with w1:
@@ -2250,7 +2263,8 @@ with tab12:
             st.caption(f"GPU memory free right now: **{_free_gb:.1f} GB** → about **{_max_safe}** extra worker(s) fit safely. "
                        f"{'Close other GPU programs (or this page\'s other tabs) to fit more.' if _max_safe < 2 else ''} Results from all workers are merged automatically.")
         else:
-            st.caption("No GPU detected; workers run on the CPU (slow). Results from all workers are merged automatically.")
+            st.caption(("Apple GPU (MPS) in use; keep it to 1-2 workers. " if device == "mps" else "No GPU detected; workers run on the CPU (slow). ")
+                       + "Results from all workers are merged automatically.")
     if _free_gb is not None and int(_n_workers) > _max_safe:
         st.warning(f"You asked for {int(_n_workers)} workers but only ~{_max_safe} fit in the free GPU memory; the extra ones would crash silently. "
                    f"I will start {_max_safe} instead.")
@@ -2270,6 +2284,8 @@ with tab12:
             with open(_spec_path, "w", encoding="utf-8") as _f:
                 _f.write(_spec_text)
             _n = min(int(_n_workers), _max_safe) if _free_gb is not None else int(_n_workers)
+            if device == "mps":
+                _n = min(_n, 2)
             _workers = []
             for _k in range(_n):
                 _wout = _out_path if _n == 1 else f"{_out_path}.shard{_k}of{_n}.json"
@@ -2282,6 +2298,7 @@ with tab12:
                 if _n > 1:
                     _cmd += ["--shard", f"{_k}/{_n}"]
                 _proc = _sp.Popen(_cmd, cwd=_PROJECT_ROOT, stdout=_logf, stderr=_sp.STDOUT, creationflags=_flags,
+                                  start_new_session=(_os.name != "nt"),
                                   env={**_os.environ, "PYTHONIOENCODING": "utf-8"})
                 _workers.append({"pid": _proc.pid, "out": _wout, "progress": _wout + ".progress.json", "log": _log_path})
             with open(_ACTIVE_FILE, "w", encoding="utf-8") as _f:
@@ -2342,7 +2359,10 @@ with tab12:
                             if _os.name == "nt":
                                 _sp.run(["taskkill", "/PID", str(w["pid"]), "/T", "/F"], capture_output=True, timeout=15)
                             else:
-                                _os.kill(int(w["pid"]), 15)
+                                try:
+                                    _os.killpg(_os.getpgid(int(w["pid"])), 15)
+                                except Exception:
+                                    _os.kill(int(w["pid"]), 15)
                     except Exception as e:
                         st.error(f"Could not stop worker {w['pid']}: {e}")
         with cB:
@@ -2932,8 +2952,7 @@ with tab_proto:
                 f"so the rank/probability below is NOT for the whole word. Use a single-token target for a valid result."
             )
 
-        if device == "cuda":
-            torch.cuda.synchronize()
+        sync_device(device)
         pl_t0 = time.perf_counter()
         model.reset_hooks()
         pl_clean = build_clean_context(model, sae, pl_prompt, pl_tid)
@@ -2958,8 +2977,7 @@ with tab_proto:
                 kl_always=bool(pl_klall), **extra,
             )
             pl_bar.empty()
-            if device == "cuda":
-                torch.cuda.synchronize()
+            sync_device(device)
             pl_t1 = time.perf_counter()
 
             real = pl["real_path"]

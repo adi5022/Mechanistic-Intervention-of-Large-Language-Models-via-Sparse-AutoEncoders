@@ -35,6 +35,7 @@ from src.editing import (
 from src.hooks import make_mute_and_boost_hook, build_scale_map_graded, make_scale_map_hook
 from src.batched_eval import MAX_EVAL_BATCH, batched_ablation_probs_and_ranks, batched_probs_and_ranks_per_row_scales
 from src.format_utils import fmt_prob
+from src.device_utils import sync_device
 
 SOURCE_LABELS = {"all": "All prompt positions", "last": "Last token only"}
 
@@ -74,8 +75,7 @@ NEUTRAL_PROMPTS = [
 
 
 def _sync(device):
-    if device == "cuda":
-        torch.cuda.synchronize()
+    sync_device(device)
 
 
 def _fmt_rank_change(new, old):

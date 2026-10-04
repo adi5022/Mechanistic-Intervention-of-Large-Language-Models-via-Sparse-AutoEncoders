@@ -2,6 +2,7 @@ import sys, time, json
 sys.path.insert(0, '.')
 import torch, torch.nn.functional as F
 from src.sae_utils import load_base_model, load_sae_for_layer, get_default_device
+from src.device_utils import sync_device
 from src.editing import get_top_active_features, build_clean_context, get_target_token_id
 from src.batched_eval import batched_ablation_probs
 
@@ -15,8 +16,7 @@ for p in m.parameters():
 d = json.load(open('datasets/counterfact.json', encoding='utf8'))
 recs = d[:6]
 def sync():
-    if dev == 'cuda':
-        torch.cuda.synchronize()
+    sync_device(dev)
 
 print("device", dev)
 rows = []

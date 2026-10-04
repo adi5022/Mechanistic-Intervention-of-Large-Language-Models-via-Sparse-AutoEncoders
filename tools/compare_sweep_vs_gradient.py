@@ -173,6 +173,7 @@ def make_measure(model, sae, hook_name, NEUTRAL_PROMPTS, _score):
 
 def run(a):
     from src.sae_utils import load_base_model, load_sae_for_layer, get_default_device
+    from src.device_utils import sync_device
     from src.editing import build_clean_context, get_target_token_id
     from src.hybrid_runner import run_hybrid_sweep, NEUTRAL_PROMPTS
     from src.hooks import build_scale_map_graded
@@ -237,12 +238,10 @@ def run(a):
                     if "_add" in base:
                         kw.update(additive=True, add_top_m=int(cfg.get("m", a.add_m)), add_cap_factor=cfg.get("cap", a.add_cap_factor),
                                   lam_add=cfg.get("lam", a.lam_add), add_lr=cfg.get("addlr", a.add_lr))
-                    if device == "cuda":
-                        torch.cuda.synchronize()
+                    sync_device(device)
                     t1 = time.perf_counter()
                     g = run_gradient_descent_edit(model, sae, ctx, tid, case["prompt"], layer, hook_name, **kw)
-                    if device == "cuda":
-                        torch.cuda.synchronize()
+                    sync_device(device)
                     secs = time.perf_counter() - t1
                     scale_map = {f: 1.0 + x for f, x in zip(g["fids"], g["a"])}
                     add_map, cap = g["added"], g.get("add_cap") if "_add" in base else None
