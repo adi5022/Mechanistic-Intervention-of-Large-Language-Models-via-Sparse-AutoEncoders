@@ -254,3 +254,20 @@ def generate_greedy(model, sae, hook_name, prompt, n_tokens, scale_map=None, add
         if nxt == model.tokenizer.eos_token_id:
             break
     return steps, model.to_string(toks[0, prompt_len:])
+
+
+def next_token_shift(model, sae, hook_name, prompt, scale_map, add_map):
+    """How much the tuned edit changes the model's next-token distribution on `prompt` (edit applied as in generate_greedy,
+    keep_on=True, additive at the prompt's last position). Returns the full-vocabulary KL(clean || edited) in nats and the
+    clean and edited top-1 tokens with their probabilities. Used by the Prototype lab's follow-up test."""
+    toks = model.to_tokens(prompt)
+    model.reset_hooks()
+    with torch.no_grad():
+        lc = model(toks)[0, -1]
+        le = model.run_with_hooks(toks, fwd_hooks=[(hook_name, _generation_hook(scale_map or {}, add_map or {}, sae, toks.shape[1], True))])[0, -1]
+    model.reset_hooks()
+    lpc, lpe = F.log_softmax(lc.float(), -1), F.log_softmax(le.float(), -1)
+    kl = float((lpc.exp() * (lpc - lpe)).sum().item())
+    ic, ie = int(lpc.argmax().item()), int(lpe.argmax().item())
+    return {"kl": kl, "clean_top1": model.to_string([ic]), "clean_top1_prob": float(lpc[ic].exp().item()),
+            "edited_top1": model.to_string([ie]), "edited_top1_prob": float(lpe[ie].exp().item())}

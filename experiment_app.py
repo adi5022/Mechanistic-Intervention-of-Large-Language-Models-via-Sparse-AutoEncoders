@@ -3003,6 +3003,110 @@ with tab_proto:
             else:
                 st.caption(f"Best step {pl['best_step']} / {int(pl_steps)}.")
 
+            # ---- baseline vs edited generation: continue past the target token ----
+            import html as _html
+            from itertools import zip_longest as _zl
+            st.subheader("📝 Baseline vs edited text")
+            st.caption(
+                "Both runs continue the same prompt greedily (always the most likely next token). The edited run uses the edit tuned above "
+                f"({'multipliers also on the generated tokens' if pl_gen_keep else 'multipliers only on the prompt'}; the additive part, if used, "
+                "added once at the prompt's last position). The target token is highlighted. Greedy decoding picks the target whenever it is "
+                "rank 1, even at a few percent probability; sampling would not."
+            )
+            pl_scale_map = {f: 1.0 + ak for f, ak in zip(pl["fids"], pl["a"])}
+            pl_base_steps, pl_base_text = generate_greedy(model, sae, hook_name, pl_prompt, int(pl_gen_n), target_id=pl_tid)
+            pl_edit_steps, pl_edit_text = generate_greedy(model, sae, hook_name, pl_prompt, int(pl_gen_n), pl_scale_map, pl["added"],
+                                                          keep_on=bool(pl_gen_keep), target_id=pl_tid)
+
+            def _pl_html(steps, prompt_text=None):
+                parts = []
+                for s_ in steps:
+                    tok = _html.escape(s_["token"]).replace("\n", "↵\n")
+                    parts.append(f'<span style="background:rgba(27,175,122,0.35);border-radius:3px;padding:0 2px;font-weight:700">{tok}</span>'
+                                 if s_["token_id"] == pl_tid else f"<b>{tok}</b>")
+                return ('<div style="font-family:monospace;white-space:pre-wrap;line-height:1.7">'
+                        f"{_html.escape(pl_prompt if prompt_text is None else prompt_text)}{''.join(parts)}</div>")
+
+            gc1, gc2 = st.columns(2)
+            with gc1:
+                with st.container(border=True):
+                    st.markdown("**Baseline (no edit)**")
+                    st.markdown(_pl_html(pl_base_steps), unsafe_allow_html=True)
+            with gc2:
+                with st.container(border=True):
+                    st.markdown("**After the edit**")
+                    st.markdown(_pl_html(pl_edit_steps), unsafe_allow_html=True)
+            pl_hit = [s_["step"] for s_ in pl_edit_steps if s_["token_id"] == pl_tid]
+            pl_hit_base = [s_["step"] for s_ in pl_base_steps if s_["token_id"] == pl_tid]
+            st.caption(
+                (f"The target token appears in the edited text at step {pl_hit[0]}" + (f" (and {len(pl_hit) - 1} more time(s))" if len(pl_hit) > 1 else "")
+                 if pl_hit else "The target token does not appear in the edited text")
+                + (f"; in the baseline text at step {pl_hit_base[0]}." if pl_hit_base else "; it does not appear in the baseline text.")
+            )
+            with st.expander("Token by token (probability of each chosen token; the target's probability and rank in the edited run)"):
+                pl_tab = []
+                for b_, e_ in _zl(pl_base_steps, pl_edit_steps):
+                    pl_tab.append({
+                        "Step": (b_ or e_)["step"],
+                        "Baseline token": repr(b_["token"]) if b_ else "", "Baseline prob (%)": 100 * b_["prob"] if b_ else None,
+                        "Edited token": repr(e_["token"]) if e_ else "", "Edited prob (%)": 100 * e_["prob"] if e_ else None,
+                        "Target prob, edited run (%)": 100 * e_["target_prob"] if e_ else None, "Target rank, edited run": e_["target_rank"] if e_ else None,
+                    })
+                st.dataframe(pd.DataFrame(pl_tab).set_index("Step"), use_container_width=True)
+
+
+            # ---- follow-up prompts: does the edit leak into other prompts? (a fragment: reruns alone, the results above stay) ----
+            st.session_state.pop("pl_fu_results", None)
+
+            @st.fragment
+            def _pl_followups(scale_map, added, tid, prompt_text, base_text, edit_text, gen_n):
+                from src.gradient_editing import generate_greedy as _gg, next_token_shift as _nts
+                st.subheader("🔁 Follow-up prompts: did the edit change anything else?")
+                st.caption(
+                    "The model has no memory between prompts, so this tests whether the edit LEAKS: each follow-up is run on the unedited model and on the "
+                    "edited model (same tuned edit, multipliers on every position, the additive part, if any, at the new prompt's last position). "
+                    "If the edit is specific, unrelated prompts should be continued the same way. The edit was tuned on the prompt above only."
+                )
+                fu_text = st.text_area("Follow-up prompts (one per line)", value="The capital of Germany is\nTwo plus two is\nMy favourite colour is",
+                                       key="pl_fu_text", height=110)
+                fu_chain = st.checkbox(
+                    "Continue the conversation: append each follow-up to the text generated above", value=False, key="pl_fu_chain",
+                    help="Off: each follow-up is a fresh prompt. On: baseline gets prompt + baseline text + follow-up, edited gets prompt + edited text + follow-up, "
+                         "so you see whether the edited run's own text changes how it answers next.")
+                if st.button("Test follow-ups", key="btn_pl_fu"):
+                    rows = []
+                    for fu in [x.strip() for x in fu_text.splitlines() if x.strip()]:
+                        bp = prompt_text + base_text + " " + fu if fu_chain else fu
+                        ep = prompt_text + edit_text + " " + fu if fu_chain else fu
+                        bsteps, btext = _gg(model, sae, hook_name, bp, int(gen_n), target_id=tid)
+                        esteps, etext = _gg(model, sae, hook_name, ep, int(gen_n), scale_map, added, keep_on=True, target_id=tid)
+                        shift = _nts(model, sae, hook_name, ep, scale_map, added) if not fu_chain else None
+                        rows.append({"fu": fu, "bp": bp, "ep": ep, "btext": btext, "etext": etext, "bsteps": bsteps, "esteps": esteps, "shift": shift})
+                    st.session_state["pl_fu_results"] = rows
+                rows = st.session_state.get("pl_fu_results")
+                if rows:
+                    same = sum(r["btext"] == r["etext"] for r in rows)
+                    hit = sum(any(x["token_id"] == tid for x in r["esteps"]) for r in rows)
+                    st.markdown(f"**{same} of {len(rows)} follow-ups continue identically** with and without the edit; "
+                                f"the target word appears in the edited continuation of **{hit} of {len(rows)}**.")
+                    for r in rows:
+                        with st.container(border=True):
+                            st.markdown(f"**Follow-up:** `{r['fu']}`" + ("  *(appended to the generated text)*" if fu_chain else ""))
+                            if r["shift"]:
+                                sh = r["shift"]
+                                st.caption(f"Next-word shift on this prompt: KL {sh['kl']:.4f} nats (0 = unchanged) · top-1 without edit "
+                                           f"`{sh['clean_top1']}` ({100 * sh['clean_top1_prob']:.1f}%) · with edit `{sh['edited_top1']}` ({100 * sh['edited_top1_prob']:.1f}%)")
+                            c1, c2 = st.columns(2)
+                            for col, label, steps, ptxt in ((c1, "Baseline", r["bsteps"], r["bp"] if fu_chain else r["fu"]),
+                                                            (c2, "After the edit", r["esteps"], r["ep"] if fu_chain else r["fu"])):
+                                with col:
+                                    st.markdown(f"**{label}**")
+                                    st.markdown(_pl_html(steps, ptxt), unsafe_allow_html=True)
+                            if r["btext"] == r["etext"]:
+                                st.caption("Identical continuation.")
+
+            _pl_followups(pl_scale_map, pl["added"], pl_tid, pl_prompt, pl_base_text, pl_edit_text, int(pl_gen_n))
+
             st.subheader("📉 Target Rank Progression")
             pl_progress = [{"Step": h["step"], "Label": "Baseline" if h["step"] == 0 else f"Step {h['step']}", "Target Rank": h["rank"],
                             "Target Prob (%)": h["prob"] * 100} for h in pl["history"]]
@@ -3037,57 +3141,6 @@ with tab_proto:
                 st.caption(f"Top 10 of {len(pl_changed)} changed features shown; the full table is below.")
             with st.expander(f"All {pl['n_candidates']} candidate multipliers"):
                 st.dataframe(pd.DataFrame(pl_rows), use_container_width=True)
-
-            # ---- baseline vs edited generation: continue past the target token ----
-            import html as _html
-            from itertools import zip_longest as _zl
-            st.subheader("📝 Baseline vs edited text")
-            st.caption(
-                "Both runs continue the same prompt greedily (always the most likely next token). The edited run uses the edit tuned above "
-                f"({'multipliers also on the generated tokens' if pl_gen_keep else 'multipliers only on the prompt'}; the additive part, if used, "
-                "added once at the prompt's last position). The target token is highlighted. Greedy decoding picks the target whenever it is "
-                "rank 1, even at a few percent probability; sampling would not."
-            )
-            pl_scale_map = {f: 1.0 + ak for f, ak in zip(pl["fids"], pl["a"])}
-            pl_base_steps, pl_base_text = generate_greedy(model, sae, hook_name, pl_prompt, int(pl_gen_n), target_id=pl_tid)
-            pl_edit_steps, pl_edit_text = generate_greedy(model, sae, hook_name, pl_prompt, int(pl_gen_n), pl_scale_map, pl["added"],
-                                                          keep_on=bool(pl_gen_keep), target_id=pl_tid)
-
-            def _pl_html(steps):
-                parts = []
-                for s_ in steps:
-                    tok = _html.escape(s_["token"]).replace("\n", "↵\n")
-                    parts.append(f'<span style="background:rgba(27,175,122,0.35);border-radius:3px;padding:0 2px;font-weight:700">{tok}</span>'
-                                 if s_["token_id"] == pl_tid else f"<b>{tok}</b>")
-                return ('<div style="font-family:monospace;white-space:pre-wrap;line-height:1.7">'
-                        f"{_html.escape(pl_prompt)}{''.join(parts)}</div>")
-
-            gc1, gc2 = st.columns(2)
-            with gc1:
-                with st.container(border=True):
-                    st.markdown("**Baseline (no edit)**")
-                    st.markdown(_pl_html(pl_base_steps), unsafe_allow_html=True)
-            with gc2:
-                with st.container(border=True):
-                    st.markdown("**After the edit**")
-                    st.markdown(_pl_html(pl_edit_steps), unsafe_allow_html=True)
-            pl_hit = [s_["step"] for s_ in pl_edit_steps if s_["token_id"] == pl_tid]
-            pl_hit_base = [s_["step"] for s_ in pl_base_steps if s_["token_id"] == pl_tid]
-            st.caption(
-                (f"The target token appears in the edited text at step {pl_hit[0]}" + (f" (and {len(pl_hit) - 1} more time(s))" if len(pl_hit) > 1 else "")
-                 if pl_hit else "The target token does not appear in the edited text")
-                + (f"; in the baseline text at step {pl_hit_base[0]}." if pl_hit_base else "; it does not appear in the baseline text.")
-            )
-            with st.expander("Token by token (probability of each chosen token; the target's probability and rank in the edited run)"):
-                pl_tab = []
-                for b_, e_ in _zl(pl_base_steps, pl_edit_steps):
-                    pl_tab.append({
-                        "Step": (b_ or e_)["step"],
-                        "Baseline token": repr(b_["token"]) if b_ else "", "Baseline prob (%)": 100 * b_["prob"] if b_ else None,
-                        "Edited token": repr(e_["token"]) if e_ else "", "Edited prob (%)": 100 * e_["prob"] if e_ else None,
-                        "Target prob, edited run (%)": 100 * e_["target_prob"] if e_ else None, "Target rank, edited run": e_["target_rank"] if e_ else None,
-                    })
-                st.dataframe(pd.DataFrame(pl_tab).set_index("Step"), use_container_width=True)
 
             st.markdown("---")
             st.metric("⏱️ Total wall-clock time (model compute)", f"{pl_t1 - pl_t0:.3f}s")
