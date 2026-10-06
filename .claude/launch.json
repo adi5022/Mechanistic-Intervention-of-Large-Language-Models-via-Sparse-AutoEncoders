@@ -6,6 +6,12 @@
       "runtimeExecutable": ".venv/Scripts/streamlit.exe",
       "runtimeArgs": ["run", "experiment_app.py", "--server.headless", "true"],
       "port": 8501
+    },
+    {
+      "name": "experiment-app-mac",
+      "runtimeExecutable": ".venv/bin/streamlit",
+      "runtimeArgs": ["run", "experiment_app.py", "--server.headless", "true"],
+      "port": 8501
     }
   ]
 }
