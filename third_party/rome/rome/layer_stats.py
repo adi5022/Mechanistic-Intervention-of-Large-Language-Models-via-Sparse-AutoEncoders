@@ -1,3 +1,4 @@
+from util.globals import DEVICE
 import os
 from pathlib import Path
 
@@ -47,7 +48,7 @@ def main():
     args = parser.parse_args()
 
     tokenizer = AutoTokenizer.from_pretrained(args.model_name)
-    model = AutoModelForCausalLM.from_pretrained(args.model_name).eval().cuda()
+    model = AutoModelForCausalLM.from_pretrained(args.model_name).eval().to(DEVICE)
     set_requires_grad(False, model)
 
     for layer_num in args.layers:
@@ -153,7 +154,7 @@ def layer_stats(
     with torch.no_grad():
         for batch_group in progress(loader, total=batch_count):
             for batch in batch_group:
-                batch = dict_to_(batch, "cuda")
+                batch = dict_to_(batch, DEVICE)
                 with Trace(
                     model, layer_name, retain_input=True, retain_output=False, stop=True
                 ) as tr:

@@ -1,3 +1,4 @@
+from util.globals import DEVICE
 """
 Contains evaluation utilities for pytorch-based rewriting methods.
 To use, simply call `compute_rewrite_quality_counterfact` with the
@@ -120,7 +121,7 @@ def test_batch_prediction(
         ],
         padding=True,
         return_tensors="pt",
-    ).to("cuda")
+    ).to(DEVICE)
 
     a_tok, b_tok = (tok(f" {n}")["input_ids"] for n in [target_new, target_true])
     choice_a_len, choice_b_len = (len(n) for n in [a_tok, b_tok])
