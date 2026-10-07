@@ -12,7 +12,7 @@ Branch: rome-factual-editing (from gradient-descent-editing). Environment: .venv
 | 2b | Tracing over about 100 known facts, averaged heatmaps, choose edit layer | done, 97 facts traced; no sharp mid-layer MLP hotspot, see notes |
 | 3 | Covariance statistics C at the chosen layer | todo |
 | 4 | gpt2.json hparams and a single ROME edit demo | done: gpt2.json hparams, single edit works at layer 5 (Rome p=0.998, paraphrases flip, restore exact); Statue of Liberty p(Rome) rose 0.035 to 0.156 |
-| 5 | Edit-layer sweep on dev split | todo |
+| 5 | Edit-layer sweep on dev split | done: edit layer 3 chosen (best S 0.851 on 100 dev records; layers 1-5 within noise, 7 and 9 clearly worse on NS) |
 | 6 | Frozen benchmark, shared metrics, adapters | todo |
 | 7 | Adapter for Hybrid Mute and Boost, full comparison run | todo |
 | 8 | Fluency, results table, plots, trade-off write-up, merge | todo |
@@ -28,3 +28,6 @@ Branch: rome-factual-editing (from gradient-descent-editing). Environment: .venv
 - Known facts: GPT-2 small gets 342 of 1209 known_1000 prompts right; 97 with p>=0.2 were traced (data/comparison/gpt2_knowns.json).
 - Covariance C: wikitext-103 (Salesforce/wikitext) instead of wikipedia (script dataset no longer loads); 20,000 samples per layer, float32, CPU; same sample count for all 12 layers; stats cached in third_party/rome/data/stats (gitignored).
 - First edit (layer 5, The Eiffel Tower -> Rome): works under transformers 5.x with no extra patches. clamp_norm_factor 3 was binding (delta norm 47.7 = 3 x 15.9). hparams: v_loss_layer 11, kl 0.0625, lr 0.5, 20 steps.
+- Layer sweep (dev, 100 CounterFact records, seed 0, official ROME scoring): no edit ES 0.350 PS 0.330 NS 0.716; L1 1.000/0.975/0.657; L3 1.000/0.985/0.663 (S 0.851); L5 1.000/1.000/0.629; L7 1.000/1.000/0.528; L9 1.000/0.970/0.534. ES saturates at 1.0, so layers differ by NS. Chosen edit layer: 3. Edits cost about 4 s on CPU.
+- NS drops about 5 points even at the best layers (larger than the paper reports for GPT-2 XL). These 100 dev records are excluded from the final test set.
+- STATUS: ROME baseline is complete and working on GPT-2 small. Comparison steps (6-8) wait for go-ahead.

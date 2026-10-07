@@ -18,7 +18,7 @@ from util.generate import generate_fast
 from util.globals import DEVICE, HPARAMS_DIR
 
 ap = argparse.ArgumentParser()
-ap.add_argument("--layer", type=int, default=5)
+ap.add_argument("--layer", type=int, default=3)
 a = ap.parse_args()
 
 tok = AutoTokenizer.from_pretrained("gpt2")
