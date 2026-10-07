@@ -36,7 +36,7 @@ def main():
     def aa(*args, **kwargs):
         parser.add_argument(*args, **kwargs)
 
-    aa("--model_name", default="gpt2-xl", choices=["gpt2-xl", "EleutherAI/gpt-j-6B"])
+    aa("--model_name", default="gpt2-xl", choices=["gpt2", "gpt2-xl", "EleutherAI/gpt-j-6B"])
     aa("--dataset", default="wikipedia", choices=["wikitext", "wikipedia"])
     aa("--layers", default=[17], type=lambda x: list(map(int, x.split(","))))
     aa("--to_collect", default=["mom2"], type=lambda x: x.split(","))
@@ -95,7 +95,7 @@ def layer_stats(
 
     def get_ds():
         raw_ds = load_dataset(
-            ds_name,
+            "Salesforce/wikitext" if ds_name == "wikitext" else ds_name,
             dict(wikitext="wikitext-103-raw-v1", wikipedia="20200501.en")[ds_name],
         )
         maxlen = model.config.n_positions
@@ -146,9 +146,9 @@ def layer_stats(
         sample_size=sample_size,
         batch_size=batch_size,
         collate_fn=length_collation(batch_tokens),
-        pin_memory=True,
+        pin_memory=False,
         random_sample=1,
-        num_workers=2,
+        num_workers=0,
     )
     batch_count = -(-(sample_size or len(ds)) // batch_size)
     with torch.no_grad():

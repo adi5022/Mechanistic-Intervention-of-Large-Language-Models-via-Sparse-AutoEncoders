@@ -26,3 +26,4 @@ Branch: rome-factual-editing (from gradient-descent-editing). Environment: .venv
 - Averaged tracing (97 facts, p>=0.2; clean p 0.358, corrupted p 0.034): late site found (last token, attention layers 8-10 about +0.10; residual at last token about +0.32 by layer 11). No sharp mid-layer MLP hotspot at last subject token: MLP effect about +0.01 at layers 0-1, negative at layers 2-3, about 0 after; residual at last subject token flat about +0.025 over layers 0-8.
 - Decision: tracing does not pin the edit layer for GPT-2 small; choose it empirically in the Step 5 sweep.
 - Known facts: GPT-2 small gets 342 of 1209 known_1000 prompts right; 97 with p>=0.2 were traced (data/comparison/gpt2_knowns.json).
+- Covariance C: wikitext-103 (Salesforce/wikitext) instead of wikipedia (script dataset no longer loads); 20,000 samples per layer, float32, CPU; same sample count for all 12 layers; stats cached in third_party/rome/data/stats (gitignored).
