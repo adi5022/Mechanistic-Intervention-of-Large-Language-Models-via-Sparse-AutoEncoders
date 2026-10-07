@@ -1,0 +1,2396 @@
+[
+ {
+  "known_id": 787,
+  "prompt": "Ilya Kovalchuk professionally plays the sport of ice",
+  "subject": "Ilya Kovalchuk",
+  "attribute": "hockey",
+  "p": 0.9402980804443359
+ },
+ {
+  "known_id": 273,
+  "prompt": "Jarom\u00edr J\u00e1gr professionally plays the sport of ice",
+  "subject": "Jarom\u00edr J\u00e1gr",
+  "attribute": "hockey",
+  "p": 0.923089861869812
+ },
+ {
+  "known_id": 1128,
+  "prompt": "Kingdom of Iraq's capital,",
+  "subject": "Kingdom of Iraq",
+  "attribute": "Baghdad",
+  "p": 0.8070266842842102
+ },
+ {
+  "known_id": 47,
+  "prompt": "Grand Duchy of Finland's capital,",
+  "subject": "Grand Duchy of Finland",
+  "attribute": "Helsinki",
+  "p": 0.7402349710464478
+ },
+ {
+  "known_id": 719,
+  "prompt": "Czech Socialist Republic's capital,",
+  "subject": "Czech Socialist Republic",
+  "attribute": "Prague",
+  "p": 0.6960633993148804
+ },
+ {
+  "known_id": 1009,
+  "prompt": "Jimi Hendrix, playing the electric",
+  "subject": "Jimi Hendrix",
+  "attribute": "guitar",
+  "p": 0.6839976906776428
+ },
+ {
+  "known_id": 810,
+  "prompt": "Norway's capital,",
+  "subject": "Norway",
+  "attribute": "Oslo",
+  "p": 0.6299368143081665
+ },
+ {
+  "known_id": 918,
+  "prompt": "Khedivate of Egypt's capital,",
+  "subject": "Khedivate of Egypt",
+  "attribute": "Cairo",
+  "p": 0.6251366138458252
+ },
+ {
+  "known_id": 508,
+  "prompt": "The headquarter of Minnesota Strikers is located in the heart of downtown",
+  "subject": "Minnesota Strikers",
+  "attribute": "Minneapolis",
+  "p": 0.6243579387664795
+ },
+ {
+  "known_id": 449,
+  "prompt": "Le Quotidien de Paris is written in",
+  "subject": "Le Quotidien de Paris",
+  "attribute": "French",
+  "p": 0.6213074326515198
+ },
+ {
+  "known_id": 892,
+  "prompt": "Le Petit Parisien is written in",
+  "subject": "Le Petit Parisien",
+  "attribute": "French",
+  "p": 0.607757031917572
+ },
+ {
+  "known_id": 556,
+  "prompt": "Italian Chemical Society's expertise is in the field of organic",
+  "subject": "Italian Chemical Society",
+  "attribute": "chemistry",
+  "p": 0.5804027915000916
+ },
+ {
+  "known_id": 674,
+  "prompt": "Commonwealth of the Philippines's capital,",
+  "subject": "Commonwealth of the Philippines",
+  "attribute": "Manila",
+  "p": 0.5802670121192932
+ },
+ {
+  "known_id": 34,
+  "prompt": "Philippines's capital,",
+  "subject": "Philippines",
+  "attribute": "Manila",
+  "p": 0.5801945924758911
+ },
+ {
+  "known_id": 836,
+  "prompt": "Australian Antarctic Territory belongs to the continent of",
+  "subject": "Australian Antarctic Territory",
+  "attribute": "Antarctica",
+  "p": 0.5360701084136963
+ },
+ {
+  "known_id": 621,
+  "prompt": "Kingdom of Egypt's capital,",
+  "subject": "Kingdom of Egypt",
+  "attribute": "Cairo",
+  "p": 0.5248998403549194
+ },
+ {
+  "known_id": 1092,
+  "prompt": "Muhammad al-Bukhari is affiliated with the religion of",
+  "subject": "Muhammad al-Bukhari",
+  "attribute": "Islam",
+  "p": 0.49866414070129395
+ },
+ {
+  "known_id": 1157,
+  "prompt": "Muhammad is affiliated with the religion of",
+  "subject": "Muhammad",
+  "attribute": "Islam",
+  "p": 0.4939717650413513
+ },
+ {
+  "known_id": 440,
+  "prompt": "RIA Novosti is written in",
+  "subject": "RIA Novosti",
+  "attribute": "Russian",
+  "p": 0.4845280945301056
+ },
+ {
+  "known_id": 533,
+  "prompt": "Buenos Aires Herald, created in 1891, is the oldest daily newspaper in",
+  "subject": "Buenos Aires Herald",
+  "attribute": "Argentina",
+  "p": 0.4541380703449249
+ },
+ {
+  "known_id": 1103,
+  "prompt": "Hawaii's capital,",
+  "subject": "Hawaii",
+  "attribute": "Honolulu",
+  "p": 0.42404529452323914
+ },
+ {
+  "known_id": 668,
+  "prompt": "Yannick Cahuzac plays as a central",
+  "subject": "Yannick Cahuzac",
+  "attribute": "midfielder",
+  "p": 0.40680602192878723
+ },
+ {
+  "known_id": 1036,
+  "prompt": "Muhammad Asad is affiliated with the religion of",
+  "subject": "Muhammad Asad",
+  "attribute": "Islam",
+  "p": 0.4034382700920105
+ },
+ {
+  "known_id": 50,
+  "prompt": "Muawiyah I is affiliated with the religion of",
+  "subject": "Muawiyah I",
+  "attribute": "Islam",
+  "p": 0.40248361229896545
+ },
+ {
+  "known_id": 165,
+  "prompt": "Barry Bonds professionally plays the sport of",
+  "subject": "Barry Bonds",
+  "attribute": "baseball",
+  "p": 0.3938315510749817
+ },
+ {
+  "known_id": 361,
+  "prompt": "Galerie des Machines, in the heart of",
+  "subject": "Galerie des Machines",
+  "attribute": "Paris",
+  "p": 0.3934028148651123
+ },
+ {
+  "known_id": 948,
+  "prompt": "The headquarter of BC Hydro is in the heart of downtown",
+  "subject": "BC Hydro",
+  "attribute": "Vancouver",
+  "p": 0.3929133713245392
+ },
+ {
+  "known_id": 423,
+  "prompt": "Koichi Ishii is native to",
+  "subject": "Koichi Ishii",
+  "attribute": "Japan",
+  "p": 0.3826545476913452
+ },
+ {
+  "known_id": 439,
+  "prompt": "Le Moniteur Universel is written in",
+  "subject": "Le Moniteur Universel",
+  "attribute": "French",
+  "p": 0.37740403413772583
+ },
+ {
+  "known_id": 573,
+  "prompt": "Kieler Nachrichten is written in",
+  "subject": "Kieler Nachrichten",
+  "attribute": "German",
+  "p": 0.37288305163383484
+ },
+ {
+  "known_id": 797,
+  "prompt": "Ludovic Sylvestre plays in the position of a defensive",
+  "subject": "Ludovic Sylvestre",
+  "attribute": "midfielder",
+  "p": 0.3663041293621063
+ },
+ {
+  "known_id": 341,
+  "prompt": "Michio Kaku works in the area of theoretical",
+  "subject": "Michio Kaku",
+  "attribute": "physics",
+  "p": 0.36031341552734375
+ },
+ {
+  "known_id": 927,
+  "prompt": "Yusuf al-Qaradawi is affiliated with the religion of",
+  "subject": "Yusuf al-Qaradawi",
+  "attribute": "Islam",
+  "p": 0.35904645919799805
+ },
+ {
+  "known_id": 883,
+  "prompt": "Medical College and Hospital, Kolkata is located in the country of",
+  "subject": "Medical College and Hospital, Kolkata",
+  "attribute": "India",
+  "p": 0.356952428817749
+ },
+ {
+  "known_id": 363,
+  "prompt": "Ahmad al-Badawi follows the religion of",
+  "subject": "Ahmad al-Badawi",
+  "attribute": "Islam",
+  "p": 0.35335254669189453
+ },
+ {
+  "known_id": 72,
+  "prompt": "Sachimi Iwao is a citizen of",
+  "subject": "Sachimi Iwao",
+  "attribute": "Japan",
+  "p": 0.35101380944252014
+ },
+ {
+  "known_id": 518,
+  "prompt": "Gareth Barry plays in the position of a central",
+  "subject": "Gareth Barry",
+  "attribute": "midfielder",
+  "p": 0.3507590591907501
+ },
+ {
+  "known_id": 206,
+  "prompt": "Bandai Co., Ltd. formed in 1979 and is headquartered in",
+  "subject": "Bandai Co., Ltd.",
+  "attribute": "Tokyo",
+  "p": 0.3500487208366394
+ },
+ {
+  "known_id": 752,
+  "prompt": "William McGillivray, who has a citizenship of",
+  "subject": "William McGillivray",
+  "attribute": "Canada",
+  "p": 0.3387419283390045
+ },
+ {
+  "known_id": 1079,
+  "prompt": "George Mihai Florescu plays in the position of a defensive",
+  "subject": "George Mihai Florescu",
+  "attribute": "midfielder",
+  "p": 0.32874247431755066
+ },
+ {
+  "known_id": 523,
+  "prompt": "Buichi Terasawa is a citizen of",
+  "subject": "Buichi Terasawa",
+  "attribute": "Japan",
+  "p": 0.3251952528953552
+ },
+ {
+  "known_id": 979,
+  "prompt": "Stephen Curry professionally plays the sport of",
+  "subject": "Stephen Curry",
+  "attribute": "basketball",
+  "p": 0.31647905707359314
+ },
+ {
+  "known_id": 613,
+  "prompt": "LeBron James professionally plays the sport of",
+  "subject": "LeBron James",
+  "attribute": "basketball",
+  "p": 0.3157418966293335
+ },
+ {
+  "known_id": 106,
+  "prompt": "Metropolitan France's capital,",
+  "subject": "Metropolitan France",
+  "attribute": "Paris",
+  "p": 0.314606249332428
+ },
+ {
+  "known_id": 1033,
+  "prompt": "Michael Faraday works in the field of electromagnetism and is a professor of",
+  "subject": "Michael Faraday",
+  "attribute": "physics",
+  "p": 0.3135617971420288
+ },
+ {
+  "known_id": 992,
+  "prompt": "Yuki Uchida is a citizen of",
+  "subject": "Yuki Uchida",
+  "attribute": "Japan",
+  "p": 0.31061500310897827
+ },
+ {
+  "known_id": 224,
+  "prompt": "Khalid ibn al-Walid is affiliated with the religion of",
+  "subject": "Khalid ibn al-Walid",
+  "attribute": "Islam",
+  "p": 0.30676770210266113
+ },
+ {
+  "known_id": 729,
+  "prompt": "The native language of Laurent Lafitte is",
+  "subject": "Laurent Lafitte",
+  "attribute": "French",
+  "p": 0.3051099479198456
+ },
+ {
+  "known_id": 554,
+  "prompt": "A las Barricadas is written in",
+  "subject": "A las Barricadas",
+  "attribute": "Spanish",
+  "p": 0.30156975984573364
+ },
+ {
+  "known_id": 486,
+  "prompt": "Le Mauricien is written in",
+  "subject": "Le Mauricien",
+  "attribute": "French",
+  "p": 0.29720649123191833
+ },
+ {
+  "known_id": 944,
+  "prompt": "La Voz del Interior is written in",
+  "subject": "La Voz del Interior",
+  "attribute": "Spanish",
+  "p": 0.2939157783985138
+ },
+ {
+  "known_id": 427,
+  "prompt": "Mitsubishi Corporation's headquarters are in",
+  "subject": "Mitsubishi Corporation",
+  "attribute": "Tokyo",
+  "p": 0.2920103967189789
+ },
+ {
+  "known_id": 130,
+  "prompt": "Hamza ibn Abdul-Muttalib is affiliated with the religion of",
+  "subject": "Hamza ibn Abdul-Muttalib",
+  "attribute": "Islam",
+  "p": 0.2914488613605499
+ },
+ {
+  "known_id": 458,
+  "prompt": "The original language of Die Nibelungen was written in",
+  "subject": "Die Nibelungen",
+  "attribute": "German",
+  "p": 0.2830318510532379
+ },
+ {
+  "known_id": 957,
+  "prompt": "Steve Jobs is employed by",
+  "subject": "Steve Jobs",
+  "attribute": "Apple",
+  "p": 0.2794865369796753
+ },
+ {
+  "known_id": 118,
+  "prompt": "The location of Hungarian Ladies Open is in the heart of",
+  "subject": "Hungarian Ladies Open",
+  "attribute": "Budapest",
+  "p": 0.2779945135116577
+ },
+ {
+  "known_id": 1040,
+  "prompt": "Massachusetts's capital,",
+  "subject": "Massachusetts",
+  "attribute": "Boston",
+  "p": 0.2771044075489044
+ },
+ {
+  "known_id": 277,
+  "prompt": "Claude d'Annebault is a citizen of",
+  "subject": "Claude d'Annebault",
+  "attribute": "France",
+  "p": 0.27689242362976074
+ },
+ {
+  "known_id": 632,
+  "prompt": "Nagendra Singh is a citizen of",
+  "subject": "Nagendra Singh",
+  "attribute": "India",
+  "p": 0.2740247845649719
+ },
+ {
+  "known_id": 973,
+  "prompt": "Ritt Bjerregaard, who has a citizenship of",
+  "subject": "Ritt Bjerregaard",
+  "attribute": "Denmark",
+  "p": 0.273624986410141
+ },
+ {
+  "known_id": 733,
+  "prompt": "United Kingdom of the Netherlands belongs to the continent of",
+  "subject": "United Kingdom of the Netherlands",
+  "attribute": "Europe",
+  "p": 0.2699038088321686
+ },
+ {
+  "known_id": 506,
+  "prompt": "The original language of De Officiis was written in",
+  "subject": "De Officiis",
+  "attribute": "Latin",
+  "p": 0.26975977420806885
+ },
+ {
+  "known_id": 216,
+  "prompt": "In Kingdom of Bulgaria, the language spoken is",
+  "subject": "Kingdom of Bulgaria",
+  "attribute": "Bulgarian",
+  "p": 0.2697433531284332
+ },
+ {
+  "known_id": 1057,
+  "prompt": "The original language of Yalkut Yosef was written in",
+  "subject": "Yalkut Yosef",
+  "attribute": "Hebrew",
+  "p": 0.2693977952003479
+ },
+ {
+  "known_id": 504,
+  "prompt": "Russell Wilson professionally plays the sport of",
+  "subject": "Russell Wilson",
+  "attribute": "football",
+  "p": 0.2625391185283661
+ },
+ {
+  "known_id": 802,
+  "prompt": "El Diario de Hoy is written in",
+  "subject": "El Diario de Hoy",
+  "attribute": "Spanish",
+  "p": 0.25952237844467163
+ },
+ {
+  "known_id": 777,
+  "prompt": "Catalan self-determination referendum is located in the northeastern region of",
+  "subject": "Catalan self-determination referendum",
+  "attribute": "Catalonia",
+  "p": 0.2594013810157776
+ },
+ {
+  "known_id": 756,
+  "prompt": "The original language of The Voice Israel is",
+  "subject": "The Voice Israel",
+  "attribute": "Hebrew",
+  "p": 0.25506266951560974
+ },
+ {
+  "known_id": 1151,
+  "prompt": "The native language of Louis-Nicolas Davout is",
+  "subject": "Louis-Nicolas Davout",
+  "attribute": "French",
+  "p": 0.2542685568332672
+ },
+ {
+  "known_id": 514,
+  "prompt": "The Hague belongs to the continent of",
+  "subject": "The Hague",
+  "attribute": "Europe",
+  "p": 0.24812236428260803
+ },
+ {
+  "known_id": 408,
+  "prompt": "Shigeki Maruyama is a citizen of",
+  "subject": "Shigeki Maruyama",
+  "attribute": "Japan",
+  "p": 0.2442474365234375
+ },
+ {
+  "known_id": 759,
+  "prompt": "The native language of Alain Marleix is",
+  "subject": "Alain Marleix",
+  "attribute": "French",
+  "p": 0.24046584963798523
+ },
+ {
+  "known_id": 633,
+  "prompt": "Selim I is affiliated with the religion of",
+  "subject": "Selim I",
+  "attribute": "Islam",
+  "p": 0.24043287336826324
+ },
+ {
+  "known_id": 1117,
+  "prompt": "Mas Canciones is written in",
+  "subject": "Mas Canciones",
+  "attribute": "Spanish",
+  "p": 0.24027225375175476
+ },
+ {
+  "known_id": 215,
+  "prompt": "Adi ibn Hatim is affiliated with the religion of",
+  "subject": "Adi ibn Hatim",
+  "attribute": "Islam",
+  "p": 0.24012094736099243
+ },
+ {
+  "known_id": 456,
+  "prompt": "tatami, that originated in",
+  "subject": "tatami",
+  "attribute": "Japan",
+  "p": 0.23619306087493896
+ },
+ {
+  "known_id": 333,
+  "prompt": "Uqba ibn Nafi is affiliated with the religion of",
+  "subject": "Uqba ibn Nafi",
+  "attribute": "Islam",
+  "p": 0.23427337408065796
+ },
+ {
+  "known_id": 513,
+  "prompt": "Henri Maurice Berteaux is a citizen of",
+  "subject": "Henri Maurice Berteaux",
+  "attribute": "France",
+  "p": 0.2338937371969223
+ },
+ {
+  "known_id": 915,
+  "prompt": "Mir Damad is affiliated with the religion of",
+  "subject": "Mir Damad",
+  "attribute": "Islam",
+  "p": 0.2333766520023346
+ },
+ {
+  "known_id": 999,
+  "prompt": "Kingdom of Bavaria's capital,",
+  "subject": "Kingdom of Bavaria",
+  "attribute": "Munich",
+  "p": 0.2325701266527176
+ },
+ {
+  "known_id": 20,
+  "prompt": "samurai cinema, that originated in",
+  "subject": "samurai cinema",
+  "attribute": "Japan",
+  "p": 0.22862181067466736
+ },
+ {
+  "known_id": 1070,
+  "prompt": "L'Aurore is written in",
+  "subject": "L'Aurore",
+  "attribute": "French",
+  "p": 0.2273552417755127
+ },
+ {
+  "known_id": 217,
+  "prompt": "Nishi-Matsuura District is located in the country of",
+  "subject": "Nishi-Matsuura District",
+  "attribute": "Japan",
+  "p": 0.22715045511722565
+ },
+ {
+  "known_id": 238,
+  "prompt": "Walter Payton professionally plays the sport of",
+  "subject": "Walter Payton",
+  "attribute": "football",
+  "p": 0.22675639390945435
+ },
+ {
+  "known_id": 690,
+  "prompt": "Jarome Iginla professionally plays the sport of",
+  "subject": "Jarome Iginla",
+  "attribute": "hockey",
+  "p": 0.226423442363739
+ },
+ {
+  "known_id": 143,
+  "prompt": "Michel Houellebecq is a citizen of",
+  "subject": "Michel Houellebecq",
+  "attribute": "France",
+  "p": 0.2255963683128357
+ },
+ {
+  "known_id": 608,
+  "prompt": "Bill Gates is employed by",
+  "subject": "Bill Gates",
+  "attribute": "Microsoft",
+  "p": 0.2246912121772766
+ },
+ {
+  "known_id": 651,
+  "prompt": "Super Game Boy, created by",
+  "subject": "Super Game Boy",
+  "attribute": "Nintendo",
+  "p": 0.22226980328559875
+ },
+ {
+  "known_id": 843,
+  "prompt": "Evgeni Malkin professionally plays the sport of",
+  "subject": "Evgeni Malkin",
+  "attribute": "hockey",
+  "p": 0.21666239202022552
+ },
+ {
+  "known_id": 896,
+  "prompt": "The native language of Pierre Lescure is",
+  "subject": "Pierre Lescure",
+  "attribute": "French",
+  "p": 0.21634650230407715
+ },
+ {
+  "known_id": 452,
+  "prompt": "The native language of Bernard Giraudeau is",
+  "subject": "Bernard Giraudeau",
+  "attribute": "French",
+  "p": 0.2163076102733612
+ },
+ {
+  "known_id": 200,
+  "prompt": "The original language of Passer \u00e0 l'acte was written in the late 15th century by the",
+  "subject": "Passer \u00e0 l'acte",
+  "attribute": "French",
+  "p": 0.2154199331998825
+ },
+ {
+  "known_id": 323,
+  "prompt": "Ruhollah Khomeini follows the religion of",
+  "subject": "Ruhollah Khomeini",
+  "attribute": "Islam",
+  "p": 0.2149699181318283
+ },
+ {
+  "known_id": 769,
+  "prompt": "Shane McMahon is employed by the",
+  "subject": "Shane McMahon",
+  "attribute": "WWE",
+  "p": 0.2130882441997528
+ },
+ {
+  "known_id": 874,
+  "prompt": "Ukraine's capital,",
+  "subject": "Ukraine",
+  "attribute": "Kiev",
+  "p": 0.21031151711940765
+ },
+ {
+  "known_id": 194,
+  "prompt": "The original language of La Jornada was written in",
+  "subject": "La Jornada",
+  "attribute": "Spanish",
+  "p": 0.2058912217617035
+ },
+ {
+  "known_id": 320,
+  "prompt": "The native language of Georges Pompidou is",
+  "subject": "Georges Pompidou",
+  "attribute": "French",
+  "p": 0.20535612106323242
+ },
+ {
+  "known_id": 1135,
+  "prompt": "Sultan Satuq Bughra Khan follows the religion of",
+  "subject": "Sultan Satuq Bughra Khan",
+  "attribute": "Islam",
+  "p": 0.19805879890918732
+ },
+ {
+  "known_id": 1035,
+  "prompt": "public transport in Istanbul is located in the country of",
+  "subject": "public transport in Istanbul",
+  "attribute": "Turkey",
+  "p": 0.1975502371788025
+ },
+ {
+  "known_id": 325,
+  "prompt": "Charlie Hebdo is written in",
+  "subject": "Charlie Hebdo",
+  "attribute": "French",
+  "p": 0.19497443735599518
+ },
+ {
+  "known_id": 819,
+  "prompt": "Abdalqadir as-Sufi is affiliated with the religion of",
+  "subject": "Abdalqadir as-Sufi",
+  "attribute": "Islam",
+  "p": 0.194830060005188
+ },
+ {
+  "known_id": 980,
+  "prompt": "Final Fantasy III is developed by",
+  "subject": "Final Fantasy III",
+  "attribute": "Square",
+  "p": 0.19075234234333038
+ },
+ {
+  "known_id": 929,
+  "prompt": "Windows Internet Explorer 8 is developed by",
+  "subject": "Windows Internet Explorer 8",
+  "attribute": "Microsoft",
+  "p": 0.19025647640228271
+ },
+ {
+  "known_id": 161,
+  "prompt": "Shah Alam II is affiliated with the religion of",
+  "subject": "Shah Alam II",
+  "attribute": "Islam",
+  "p": 0.19017371535301208
+ },
+ {
+  "known_id": 861,
+  "prompt": "North Middlesex, Ontario is located in the country of",
+  "subject": "North Middlesex, Ontario",
+  "attribute": "Canada",
+  "p": 0.18966516852378845
+ },
+ {
+  "known_id": 1030,
+  "prompt": "Avenue Montaigne was created in the country of",
+  "subject": "Avenue Montaigne",
+  "attribute": "France",
+  "p": 0.18920566141605377
+ },
+ {
+  "known_id": 631,
+  "prompt": "Subodh Kant Sahay is a citizen of",
+  "subject": "Subodh Kant Sahay",
+  "attribute": "India",
+  "p": 0.18359994888305664
+ },
+ {
+  "known_id": 683,
+  "prompt": "The original language of Sous le ciel de Paris is",
+  "subject": "Sous le ciel de Paris",
+  "attribute": "French",
+  "p": 0.18284808099269867
+ },
+ {
+  "known_id": 454,
+  "prompt": "Hersekzade Ahmed Pasha follows the religion of",
+  "subject": "Hersekzade Ahmed Pasha",
+  "attribute": "Islam",
+  "p": 0.18255789577960968
+ },
+ {
+  "known_id": 1090,
+  "prompt": "Masaichi Kaneda plays in the position of the left-handed",
+  "subject": "Masaichi Kaneda",
+  "attribute": "pitcher",
+  "p": 0.18232695758342743
+ },
+ {
+  "known_id": 53,
+  "prompt": "Vichy France's capital,",
+  "subject": "Vichy France",
+  "attribute": "Paris",
+  "p": 0.18230536580085754
+ },
+ {
+  "known_id": 512,
+  "prompt": "Osman I follows the religion of",
+  "subject": "Osman I",
+  "attribute": "Islam",
+  "p": 0.1817927062511444
+ },
+ {
+  "known_id": 401,
+  "prompt": "Argentine National Anthem is located in the country of",
+  "subject": "Argentine National Anthem",
+  "attribute": "Argentina",
+  "p": 0.180088609457016
+ },
+ {
+  "known_id": 90,
+  "prompt": "Maumoon Abdul Gayoom follows the religion of",
+  "subject": "Maumoon Abdul Gayoom",
+  "attribute": "Islam",
+  "p": 0.17955675721168518
+ },
+ {
+  "known_id": 532,
+  "prompt": "La Vie is written in",
+  "subject": "La Vie",
+  "attribute": "French",
+  "p": 0.17797520756721497
+ },
+ {
+  "known_id": 1150,
+  "prompt": "Saikano was created in the country of",
+  "subject": "Saikano",
+  "attribute": "Japan",
+  "p": 0.17688556015491486
+ },
+ {
+  "known_id": 738,
+  "prompt": "Eurovision Song Contest 1960 premieres on the",
+  "subject": "Eurovision Song Contest 1960",
+  "attribute": "BBC",
+  "p": 0.17674024403095245
+ },
+ {
+  "known_id": 908,
+  "prompt": "The language used by Musa Manarov is a mixture of",
+  "subject": "Musa Manarov",
+  "attribute": "Russian",
+  "p": 0.1761890947818756
+ },
+ {
+  "known_id": 1113,
+  "prompt": "Nonchan Noriben was created in the country of",
+  "subject": "Nonchan Noriben",
+  "attribute": "Japan",
+  "p": 0.17529459297657013
+ },
+ {
+  "known_id": 635,
+  "prompt": "Tenchi Universe was created in the country of",
+  "subject": "Tenchi Universe",
+  "attribute": "Japan",
+  "p": 0.17492040991783142
+ },
+ {
+  "known_id": 44,
+  "prompt": "Jean-Pierre Van Rossem, who has a citizenship of",
+  "subject": "Jean-Pierre Van Rossem",
+  "attribute": "Belgium",
+  "p": 0.1737399399280548
+ },
+ {
+  "known_id": 724,
+  "prompt": "The original language of Les Francs-juges is",
+  "subject": "Les Francs-juges",
+  "attribute": "French",
+  "p": 0.17223766446113586
+ },
+ {
+  "known_id": 176,
+  "prompt": "Josetsu, who has a citizenship of",
+  "subject": "Josetsu",
+  "attribute": "Japan",
+  "p": 0.17199774086475372
+ },
+ {
+  "known_id": 1014,
+  "prompt": "The native language of Claude Bernard is",
+  "subject": "Claude Bernard",
+  "attribute": "French",
+  "p": 0.17159241437911987
+ },
+ {
+  "known_id": 1054,
+  "prompt": "Le Silence de la mer was written in the early 20th century by a",
+  "subject": "Le Silence de la mer",
+  "attribute": "French",
+  "p": 0.17137987911701202
+ },
+ {
+  "known_id": 553,
+  "prompt": "Die Tageszeitung is written in",
+  "subject": "Die Tageszeitung",
+  "attribute": "German",
+  "p": 0.16990673542022705
+ },
+ {
+  "known_id": 21,
+  "prompt": "The capital of Roman Republic is",
+  "subject": "Roman Republic",
+  "attribute": "Rome",
+  "p": 0.16769540309906006
+ },
+ {
+  "known_id": 1080,
+  "prompt": "TUIfly Nordic is located in the country of",
+  "subject": "TUIfly Nordic",
+  "attribute": "Sweden",
+  "p": 0.16767817735671997
+ },
+ {
+  "known_id": 722,
+  "prompt": "The genre played by Casa Loma Orchestra is a blend of classical,",
+  "subject": "Casa Loma Orchestra",
+  "attribute": "jazz",
+  "p": 0.16632042825222015
+ },
+ {
+  "known_id": 894,
+  "prompt": "The native language of Mathieu de Montmorency is",
+  "subject": "Mathieu de Montmorency",
+  "attribute": "French",
+  "p": 0.16547200083732605
+ },
+ {
+  "known_id": 148,
+  "prompt": "Fryderyk Chopin University of Music is located in the country of",
+  "subject": "Fryderyk Chopin University of Music",
+  "attribute": "Poland",
+  "p": 0.1652010828256607
+ },
+ {
+  "known_id": 63,
+  "prompt": "Pandora Hearts was created in the country of",
+  "subject": "Pandora Hearts",
+  "attribute": "Japan",
+  "p": 0.16386471688747406
+ },
+ {
+  "known_id": 1170,
+  "prompt": "The original language of Voyage to Cythera is a mixture of",
+  "subject": "Voyage to Cythera",
+  "attribute": "Greek",
+  "p": 0.162261500954628
+ },
+ {
+  "known_id": 5,
+  "prompt": "Giuseppe Angeli, who has a citizenship of",
+  "subject": "Giuseppe Angeli",
+  "attribute": "Italy",
+  "p": 0.15770766139030457
+ },
+ {
+  "known_id": 442,
+  "prompt": "Final Fantasy is developed by",
+  "subject": "Final Fantasy",
+  "attribute": "Square",
+  "p": 0.1574351042509079
+ },
+ {
+  "known_id": 860,
+  "prompt": "Pervez Musharraf follows the religion of",
+  "subject": "Pervez Musharraf",
+  "attribute": "Islam",
+  "p": 0.15739917755126953
+ },
+ {
+  "known_id": 936,
+  "prompt": "Florida Championship Wrestling is owned by the",
+  "subject": "Florida Championship Wrestling",
+  "attribute": "WWE",
+  "p": 0.15705256164073944
+ },
+ {
+  "known_id": 135,
+  "prompt": "Madame de Montesson died in the city of",
+  "subject": "Madame de Montesson",
+  "attribute": "Paris",
+  "p": 0.15692275762557983
+ },
+ {
+  "known_id": 1196,
+  "prompt": "Final Fantasy Legend III is developed by",
+  "subject": "Final Fantasy Legend III",
+  "attribute": "Square",
+  "p": 0.15657176077365875
+ },
+ {
+  "known_id": 129,
+  "prompt": "Royal National Theatre, in",
+  "subject": "Royal National Theatre",
+  "attribute": "London",
+  "p": 0.15646503865718842
+ },
+ {
+  "known_id": 1034,
+  "prompt": "Marie Fran\u00e7ois Oscar Bardy de Fourtou worked in the city of",
+  "subject": "Marie Fran\u00e7ois Oscar Bardy de Fourtou",
+  "attribute": "Paris",
+  "p": 0.1562844067811966
+ },
+ {
+  "known_id": 111,
+  "prompt": "Process Explorer, a product developed by",
+  "subject": "Process Explorer",
+  "attribute": "Microsoft",
+  "p": 0.15510794520378113
+ },
+ {
+  "known_id": 268,
+  "prompt": "The native language of Maurice Faure is",
+  "subject": "Maurice Faure",
+  "attribute": "French",
+  "p": 0.1547001302242279
+ },
+ {
+  "known_id": 926,
+  "prompt": "Inuyasha was created in the country of",
+  "subject": "Inuyasha",
+  "attribute": "Japan",
+  "p": 0.15421947836875916
+ },
+ {
+  "known_id": 895,
+  "prompt": "The native language of Pierre Daniel Huet is",
+  "subject": "Pierre Daniel Huet",
+  "attribute": "French",
+  "p": 0.15379172563552856
+ },
+ {
+  "known_id": 1006,
+  "prompt": "Kingdom of Great Britain's capital,",
+  "subject": "Kingdom of Great Britain",
+  "attribute": "London",
+  "p": 0.15328243374824524
+ },
+ {
+  "known_id": 649,
+  "prompt": "Saint-Marcellin was created in the country of",
+  "subject": "Saint-Marcellin",
+  "attribute": "France",
+  "p": 0.15304920077323914
+ },
+ {
+  "known_id": 184,
+  "prompt": "The original language of Le Globe is",
+  "subject": "Le Globe",
+  "attribute": "French",
+  "p": 0.15214680135250092
+ },
+ {
+  "known_id": 717,
+  "prompt": "Game Boy Advance is developed by",
+  "subject": "Game Boy Advance",
+  "attribute": "Nintendo",
+  "p": 0.1513233780860901
+ },
+ {
+  "known_id": 392,
+  "prompt": "Sharmila Tagore is affiliated with the religion of",
+  "subject": "Sharmila Tagore",
+  "attribute": "Islam",
+  "p": 0.14982596039772034
+ },
+ {
+  "known_id": 411,
+  "prompt": "Emmanuel Glacier belongs to the continent of",
+  "subject": "Emmanuel Glacier",
+  "attribute": "Antarctica",
+  "p": 0.14938579499721527
+ },
+ {
+  "known_id": 406,
+  "prompt": "Giacinto Brandi is originally from",
+  "subject": "Giacinto Brandi",
+  "attribute": "Italy",
+  "p": 0.1493719220161438
+ },
+ {
+  "known_id": 689,
+  "prompt": "Sadeq Larijani is a citizen of",
+  "subject": "Sadeq Larijani",
+  "attribute": "Iran",
+  "p": 0.1476850062608719
+ },
+ {
+  "known_id": 982,
+  "prompt": "Le Matin de Paris is written in the",
+  "subject": "Le Matin de Paris",
+  "attribute": "French",
+  "p": 0.14656995236873627
+ },
+ {
+  "known_id": 814,
+  "prompt": "The native language of Henriette-Julie de Murat is",
+  "subject": "Henriette-Julie de Murat",
+  "attribute": "French",
+  "p": 0.1459978073835373
+ },
+ {
+  "known_id": 734,
+  "prompt": "Higashikagawa is located in the country of",
+  "subject": "Higashikagawa",
+  "attribute": "Japan",
+  "p": 0.14572939276695251
+ },
+ {
+  "known_id": 469,
+  "prompt": "The native language of Alfred Savoir is",
+  "subject": "Alfred Savoir",
+  "attribute": "French",
+  "p": 0.14540284872055054
+ },
+ {
+  "known_id": 1202,
+  "prompt": "The original language of La Fontaine's Fables is a mixture of",
+  "subject": "La Fontaine's Fables",
+  "attribute": "French",
+  "p": 0.14400263130664825
+ },
+ {
+  "known_id": 1185,
+  "prompt": "Bhaktisiddhanta Saraswati, who has a citizenship of",
+  "subject": "Bhaktisiddhanta Saraswati",
+  "attribute": "India",
+  "p": 0.14376217126846313
+ },
+ {
+  "known_id": 257,
+  "prompt": "Henri Estienne was born in",
+  "subject": "Henri Estienne",
+  "attribute": "Paris",
+  "p": 0.1431814581155777
+ },
+ {
+  "known_id": 805,
+  "prompt": "Il Secolo XIX was written in the late 16th century by the",
+  "subject": "Il Secolo XIX",
+  "attribute": "Italian",
+  "p": 0.14201931655406952
+ },
+ {
+  "known_id": 691,
+  "prompt": "Terrell Owens professionally plays the sport of",
+  "subject": "Terrell Owens",
+  "attribute": "football",
+  "p": 0.140969917178154
+ },
+ {
+  "known_id": 1007,
+  "prompt": "The original language of Celia en el colegio is a mixture of",
+  "subject": "Celia en el colegio",
+  "attribute": "Spanish",
+  "p": 0.14080101251602173
+ },
+ {
+  "known_id": 815,
+  "prompt": "Jacques-Jean Barre was born in",
+  "subject": "Jacques-Jean Barre",
+  "attribute": "Paris",
+  "p": 0.14021895825862885
+ },
+ {
+  "known_id": 1199,
+  "prompt": "The native language of Pierre Alcover is",
+  "subject": "Pierre Alcover",
+  "attribute": "French",
+  "p": 0.13864415884017944
+ },
+ {
+  "known_id": 875,
+  "prompt": "Babur is affiliated with the religion of",
+  "subject": "Babur",
+  "attribute": "Islam",
+  "p": 0.13800287246704102
+ },
+ {
+  "known_id": 503,
+  "prompt": "Internet Explorer 10 is developed by",
+  "subject": "Internet Explorer 10",
+  "attribute": "Microsoft",
+  "p": 0.13700832426548004
+ },
+ {
+  "known_id": 1067,
+  "prompt": "Gambia River belongs to the continent of",
+  "subject": "Gambia River",
+  "attribute": "Africa",
+  "p": 0.13696181774139404
+ },
+ {
+  "known_id": 104,
+  "prompt": "Indira Gandhi International Airport is located in the country of",
+  "subject": "Indira Gandhi International Airport",
+  "attribute": "India",
+  "p": 0.13619793951511383
+ },
+ {
+  "known_id": 314,
+  "prompt": "The native language of Sergey Aksyonov is",
+  "subject": "Sergey Aksyonov",
+  "attribute": "Russian",
+  "p": 0.135568767786026
+ },
+ {
+  "known_id": 753,
+  "prompt": "Russell East Glacier belongs to the continent of",
+  "subject": "Russell East Glacier",
+  "attribute": "Antarctica",
+  "p": 0.13414737582206726
+ },
+ {
+  "known_id": 716,
+  "prompt": "The language used by Pierre de Marca is not the same as that used by the",
+  "subject": "Pierre de Marca",
+  "attribute": "French",
+  "p": 0.1321832686662674
+ },
+ {
+  "known_id": 663,
+  "prompt": "The language used by Jean-Baptiste Marchand is not the language of the",
+  "subject": "Jean-Baptiste Marchand",
+  "attribute": "French",
+  "p": 0.13163039088249207
+ },
+ {
+  "known_id": 598,
+  "prompt": "Jean-Jacques Annaud speaks to the media after a meeting with the",
+  "subject": "Jean-Jacques Annaud",
+  "attribute": "French",
+  "p": 0.13126501441001892
+ },
+ {
+  "known_id": 1129,
+  "prompt": "In Patna, the language spoken is a mix of",
+  "subject": "Patna",
+  "attribute": "Hindi",
+  "p": 0.1306334137916565
+ },
+ {
+  "known_id": 946,
+  "prompt": "Nikon formed in 1975 and is headquartered in",
+  "subject": "Nikon",
+  "attribute": "Tokyo",
+  "p": 0.12915731966495514
+ },
+ {
+  "known_id": 996,
+  "prompt": "The native language of Paul Klebnikov is",
+  "subject": "Paul Klebnikov",
+  "attribute": "Russian",
+  "p": 0.12866604328155518
+ },
+ {
+  "known_id": 472,
+  "prompt": "Adolphe d'Ennery was born in",
+  "subject": "Adolphe d'Ennery",
+  "attribute": "Paris",
+  "p": 0.12859688699245453
+ },
+ {
+  "known_id": 878,
+  "prompt": "Panagarh is located in the country of",
+  "subject": "Panagarh",
+  "attribute": "India",
+  "p": 0.128391832113266
+ },
+ {
+  "known_id": 278,
+  "prompt": "Sukarno is affiliated with the religion of",
+  "subject": "Sukarno",
+  "attribute": "Islam",
+  "p": 0.1280214935541153
+ },
+ {
+  "known_id": 477,
+  "prompt": "Ne partez pas sans moi is written in",
+  "subject": "Ne partez pas sans moi",
+  "attribute": "French",
+  "p": 0.12801504135131836
+ },
+ {
+  "known_id": 298,
+  "prompt": "The native language of Pierre Blanchar is",
+  "subject": "Pierre Blanchar",
+  "attribute": "French",
+  "p": 0.12776635587215424
+ },
+ {
+  "known_id": 551,
+  "prompt": "Prussian Partition belongs to the continent of",
+  "subject": "Prussian Partition",
+  "attribute": "Europe",
+  "p": 0.1271028071641922
+ },
+ {
+  "known_id": 594,
+  "prompt": "Peggy Nash, who has a citizenship of",
+  "subject": "Peggy Nash",
+  "attribute": "Canada",
+  "p": 0.12649588286876678
+ },
+ {
+  "known_id": 694,
+  "prompt": "The original language of Face Dances is a mixture of",
+  "subject": "Face Dances",
+  "attribute": "English",
+  "p": 0.12598343193531036
+ },
+ {
+  "known_id": 590,
+  "prompt": "The native language of Nikolay Strakhov is",
+  "subject": "Nikolay Strakhov",
+  "attribute": "Russian",
+  "p": 0.1256764680147171
+ },
+ {
+  "known_id": 70,
+  "prompt": "Danish pastry was created in the country of",
+  "subject": "Danish pastry",
+  "attribute": "Denmark",
+  "p": 0.1254039853811264
+ },
+ {
+  "known_id": 705,
+  "prompt": "Masako Natsume was born in",
+  "subject": "Masako Natsume",
+  "attribute": "Tokyo",
+  "p": 0.12207398563623428
+ },
+ {
+  "known_id": 233,
+  "prompt": "In Seychelles, the language spoken is a mix of",
+  "subject": "Seychelles",
+  "attribute": "English",
+  "p": 0.12175716459751129
+ },
+ {
+  "known_id": 56,
+  "prompt": "Si la vie est cadeau is written in",
+  "subject": "Si la vie est cadeau",
+  "attribute": "French",
+  "p": 0.12089979648590088
+ },
+ {
+  "known_id": 208,
+  "prompt": "Ukrainian State's capital,",
+  "subject": "Ukrainian State",
+  "attribute": "Kiev",
+  "p": 0.12082458287477493
+ },
+ {
+  "known_id": 710,
+  "prompt": "Jeremy Clarkson is employed by the",
+  "subject": "Jeremy Clarkson",
+  "attribute": "BBC",
+  "p": 0.12073449790477753
+ },
+ {
+  "known_id": 1002,
+  "prompt": "Progressive Records is known for performing a wide variety of genres, from rock to",
+  "subject": "Progressive Records",
+  "attribute": "jazz",
+  "p": 0.11950381845235825
+ },
+ {
+  "known_id": 7,
+  "prompt": "In Marshall Islands, the language spoken is a mixture of",
+  "subject": "Marshall Islands",
+  "attribute": "English",
+  "p": 0.11814043670892715
+ },
+ {
+  "known_id": 844,
+  "prompt": "JVC Kenwood Victor Entertainment is located in the country of",
+  "subject": "JVC Kenwood Victor Entertainment",
+  "attribute": "Japan",
+  "p": 0.11766455322504044
+ },
+ {
+  "known_id": 101,
+  "prompt": "Internet Explorer is developed by",
+  "subject": "Internet Explorer",
+  "attribute": "Microsoft",
+  "p": 0.11733175814151764
+ },
+ {
+  "known_id": 451,
+  "prompt": "Indonesia's capital,",
+  "subject": "Indonesia",
+  "attribute": "Jakarta",
+  "p": 0.11726469546556473
+ },
+ {
+  "known_id": 253,
+  "prompt": "Ky\u014dto Prefecture, which was named after the city of",
+  "subject": "Ky\u014dto Prefecture",
+  "attribute": "Kyoto",
+  "p": 0.11726134270429611
+ },
+ {
+  "known_id": 520,
+  "prompt": "Second Polish Republic's capital city is",
+  "subject": "Second Polish Republic",
+  "attribute": "Warsaw",
+  "p": 0.11426485329866409
+ },
+ {
+  "known_id": 687,
+  "prompt": "The native language of Xavier Saint-Macary is",
+  "subject": "Xavier Saint-Macary",
+  "attribute": "French",
+  "p": 0.11419226974248886
+ },
+ {
+  "known_id": 152,
+  "prompt": "The native language of Isabelle Breitman is",
+  "subject": "Isabelle Breitman",
+  "attribute": "French",
+  "p": 0.11404728144407272
+ },
+ {
+  "known_id": 98,
+  "prompt": "Louth County Council is located in the country of",
+  "subject": "Louth County Council",
+  "attribute": "Ireland",
+  "p": 0.11299639195203781
+ },
+ {
+  "known_id": 58,
+  "prompt": "Magne Robo Gakeen was created in the country of",
+  "subject": "Magne Robo Gakeen",
+  "attribute": "Japan",
+  "p": 0.11241694539785385
+ },
+ {
+  "known_id": 99,
+  "prompt": "The language used by Louis Bonaparte is not the language of the",
+  "subject": "Louis Bonaparte",
+  "attribute": "French",
+  "p": 0.11139196157455444
+ },
+ {
+  "known_id": 972,
+  "prompt": "Alain Touraine speaks to the media after the first round of the",
+  "subject": "Alain Touraine",
+  "attribute": "French",
+  "p": 0.10801678895950317
+ },
+ {
+  "known_id": 1194,
+  "prompt": "Windows 95 is developed by",
+  "subject": "Windows 95",
+  "attribute": "Microsoft",
+  "p": 0.10712485760450363
+ },
+ {
+  "known_id": 901,
+  "prompt": "Ryan Smyth professionally plays the sport of",
+  "subject": "Ryan Smyth",
+  "attribute": "hockey",
+  "p": 0.10698870569467545
+ },
+ {
+  "known_id": 317,
+  "prompt": "PlayStation Eye is developed by",
+  "subject": "PlayStation Eye",
+  "attribute": "Sony",
+  "p": 0.10634031146764755
+ },
+ {
+  "known_id": 59,
+  "prompt": "The language of Electricidad was a mixture of",
+  "subject": "Electricidad",
+  "attribute": "Spanish",
+  "p": 0.10629953444004059
+ },
+ {
+  "known_id": 1179,
+  "prompt": "Gmina Kleczew is located in the country of",
+  "subject": "Gmina Kleczew",
+  "attribute": "Poland",
+  "p": 0.10598281770944595
+ },
+ {
+  "known_id": 597,
+  "prompt": "Louis Nicolas Vauquelin worked in the city of",
+  "subject": "Louis Nicolas Vauquelin",
+  "attribute": "Paris",
+  "p": 0.10597500205039978
+ },
+ {
+  "known_id": 1045,
+  "prompt": "In Indiana, the language spoken is a mixture of",
+  "subject": "Indiana",
+  "attribute": "English",
+  "p": 0.10481883585453033
+ },
+ {
+  "known_id": 750,
+  "prompt": "Sir James Whitehead, 1st Baronet worked in the city of",
+  "subject": "Sir James Whitehead, 1st Baronet",
+  "attribute": "London",
+  "p": 0.10474125295877457
+ },
+ {
+  "known_id": 741,
+  "prompt": "Hiroshi Tsuchida was born in",
+  "subject": "Hiroshi Tsuchida",
+  "attribute": "Tokyo",
+  "p": 0.10405562072992325
+ },
+ {
+  "known_id": 419,
+  "prompt": "The native language of Georges Gorse is",
+  "subject": "Georges Gorse",
+  "attribute": "French",
+  "p": 0.10359429568052292
+ },
+ {
+  "known_id": 768,
+  "prompt": "Postcards Records is known for performing a wide variety of music, from rock to",
+  "subject": "Postcards Records",
+  "attribute": "jazz",
+  "p": 0.1029147207736969
+ },
+ {
+  "known_id": 637,
+  "prompt": "The expertise of medical association is not in the field of",
+  "subject": "medical association",
+  "attribute": "medicine",
+  "p": 0.10094500333070755
+ },
+ {
+  "known_id": 865,
+  "prompt": "Weimar Republic's capital,",
+  "subject": "Weimar Republic",
+  "attribute": "Berlin",
+  "p": 0.10060003399848938
+ },
+ {
+  "known_id": 600,
+  "prompt": "The native language of Edward Bulwer-Lytton is",
+  "subject": "Edward Bulwer-Lytton",
+  "attribute": "English",
+  "p": 0.10051140934228897
+ },
+ {
+  "known_id": 1023,
+  "prompt": "Daniel Victor, who has a citizenship of",
+  "subject": "Daniel Victor",
+  "attribute": "Canada",
+  "p": 0.0998406633734703
+ },
+ {
+  "known_id": 760,
+  "prompt": "Maharashtra's capital,",
+  "subject": "Maharashtra",
+  "attribute": "Mumbai",
+  "p": 0.09975019097328186
+ },
+ {
+  "known_id": 487,
+  "prompt": "Windows Live Mail is developed by",
+  "subject": "Windows Live Mail",
+  "attribute": "Microsoft",
+  "p": 0.09851934015750885
+ },
+ {
+  "known_id": 1055,
+  "prompt": "Pat Tillman professionally plays the sport of",
+  "subject": "Pat Tillman",
+  "attribute": "football",
+  "p": 0.09842706471681595
+ },
+ {
+  "known_id": 491,
+  "prompt": "Johnson Glacier belongs to the continent of",
+  "subject": "Johnson Glacier",
+  "attribute": "Antarctica",
+  "p": 0.09711714833974838
+ },
+ {
+  "known_id": 626,
+  "prompt": "Alitalia-Linee Aeree Italiane is headquartered in",
+  "subject": "Alitalia-Linee Aeree Italiane",
+  "attribute": "Rome",
+  "p": 0.09691902250051498
+ },
+ {
+  "known_id": 580,
+  "prompt": "Arisaka was created in the country of",
+  "subject": "Arisaka",
+  "attribute": "Japan",
+  "p": 0.09683504700660706
+ },
+ {
+  "known_id": 642,
+  "prompt": "The native language of Valentin Rasputin is",
+  "subject": "Valentin Rasputin",
+  "attribute": "Russian",
+  "p": 0.09660559147596359
+ },
+ {
+  "known_id": 757,
+  "prompt": "Samsung Electronics was founded in 1947 and is headquartered in",
+  "subject": "Samsung Electronics",
+  "attribute": "Seoul",
+  "p": 0.09650146216154099
+ },
+ {
+  "known_id": 561,
+  "prompt": "The headquarter of Mayo Clinic is in downtown",
+  "subject": "Mayo Clinic",
+  "attribute": "Rochester",
+  "p": 0.09641454368829727
+ },
+ {
+  "known_id": 1130,
+  "prompt": "Bouygues Telecom is located in the country of",
+  "subject": "Bouygues Telecom",
+  "attribute": "France",
+  "p": 0.09631066769361496
+ },
+ {
+  "known_id": 1049,
+  "prompt": "Semyon Vorontsov was born in",
+  "subject": "Semyon Vorontsov",
+  "attribute": "Moscow",
+  "p": 0.09578067809343338
+ },
+ {
+  "known_id": 461,
+  "prompt": "Mario Bros. is developed by",
+  "subject": "Mario Bros.",
+  "attribute": "Nintendo",
+  "p": 0.09577678889036179
+ },
+ {
+  "known_id": 823,
+  "prompt": "In Papua New Guinea, the language spoken is a mixture of",
+  "subject": "Papua New Guinea",
+  "attribute": "English",
+  "p": 0.09551578015089035
+ },
+ {
+  "known_id": 522,
+  "prompt": "Charles Louis Alphonse Laveran died in the city of",
+  "subject": "Charles Louis Alphonse Laveran",
+  "attribute": "Paris",
+  "p": 0.0946924090385437
+ },
+ {
+  "known_id": 609,
+  "prompt": "Frans Hubert Edouard Arthur Walter Robyns, who has a citizenship of",
+  "subject": "Frans Hubert Edouard Arthur Walter Robyns",
+  "attribute": "Belgium",
+  "p": 0.09463880211114883
+ },
+ {
+  "known_id": 193,
+  "prompt": "Dick Butkus professionally plays the sport of",
+  "subject": "Dick Butkus",
+  "attribute": "football",
+  "p": 0.09461958706378937
+ },
+ {
+  "known_id": 393,
+  "prompt": "In Helsinki, the language spoken is",
+  "subject": "Helsinki",
+  "attribute": "Finnish",
+  "p": 0.09408493340015411
+ },
+ {
+  "known_id": 696,
+  "prompt": "In Tennessee, the language spoken is a mixture of",
+  "subject": "Tennessee",
+  "attribute": "English",
+  "p": 0.0939214825630188
+ },
+ {
+  "known_id": 420,
+  "prompt": "Ibrahim Pasha of Egypt passed away in",
+  "subject": "Ibrahim Pasha of Egypt",
+  "attribute": "Cairo",
+  "p": 0.09380335360765457
+ },
+ {
+  "known_id": 332,
+  "prompt": "Mako Idemitsu was born in",
+  "subject": "Mako Idemitsu",
+  "attribute": "Tokyo",
+  "p": 0.0921735018491745
+ },
+ {
+  "known_id": 658,
+  "prompt": "Debenham Glacier belongs to the continent of",
+  "subject": "Debenham Glacier",
+  "attribute": "Antarctica",
+  "p": 0.0896286815404892
+ },
+ {
+  "known_id": 545,
+  "prompt": "The native language of Alexandre Auguste Ledru-Rollin is",
+  "subject": "Alexandre Auguste Ledru-Rollin",
+  "attribute": "French",
+  "p": 0.08875298500061035
+ },
+ {
+  "known_id": 885,
+  "prompt": "Maurice Bellemare has a citizenship of",
+  "subject": "Maurice Bellemare",
+  "attribute": "Canada",
+  "p": 0.08840916305780411
+ },
+ {
+  "known_id": 1161,
+  "prompt": "Honnavar is located in the country of",
+  "subject": "Honnavar",
+  "attribute": "India",
+  "p": 0.08816315233707428
+ },
+ {
+  "known_id": 499,
+  "prompt": "Hideki Shirakawa was born in",
+  "subject": "Hideki Shirakawa",
+  "attribute": "Tokyo",
+  "p": 0.08698943257331848
+ },
+ {
+  "known_id": 1156,
+  "prompt": "David Cameron worked in the city of",
+  "subject": "David Cameron",
+  "attribute": "London",
+  "p": 0.08682282269001007
+ },
+ {
+  "known_id": 348,
+  "prompt": "Howard Glacier belongs to the continent of",
+  "subject": "Howard Glacier",
+  "attribute": "Antarctica",
+  "p": 0.08640053868293762
+ },
+ {
+  "known_id": 110,
+  "prompt": "Izzy Asper, who has a citizenship of",
+  "subject": "Izzy Asper",
+  "attribute": "Canada",
+  "p": 0.08529062569141388
+ },
+ {
+  "known_id": 249,
+  "prompt": "File Explorer, a product developed by",
+  "subject": "File Explorer",
+  "attribute": "Microsoft",
+  "p": 0.08522862195968628
+ },
+ {
+  "known_id": 970,
+  "prompt": "The native language of Aleksey Khomyakov is",
+  "subject": "Aleksey Khomyakov",
+  "attribute": "Russian",
+  "p": 0.08378271758556366
+ },
+ {
+  "known_id": 1141,
+  "prompt": "Jennie Lee, Baroness Lee of Asheridge worked in the city of",
+  "subject": "Jennie Lee, Baroness Lee of Asheridge",
+  "attribute": "London",
+  "p": 0.08362089842557907
+ },
+ {
+  "known_id": 174,
+  "prompt": "Louis XVII of France died in the city of",
+  "subject": "Louis XVII of France",
+  "attribute": "Paris",
+  "p": 0.08360767364501953
+ },
+ {
+  "known_id": 1000,
+  "prompt": "Jean-Joseph de Mondonville died in the city of",
+  "subject": "Jean-Joseph de Mondonville",
+  "attribute": "Paris",
+  "p": 0.08255767822265625
+ },
+ {
+  "known_id": 766,
+  "prompt": "Gilles Marie Oppenord died in the city of",
+  "subject": "Gilles Marie Oppenord",
+  "attribute": "Paris",
+  "p": 0.08116660267114639
+ },
+ {
+  "known_id": 596,
+  "prompt": "The language used by Ch'ien Mu is very similar to the language used by the",
+  "subject": "Ch'ien Mu",
+  "attribute": "Chinese",
+  "p": 0.078715980052948
+ },
+ {
+  "known_id": 678,
+  "prompt": "Ignatius of Antioch, who has the position of a",
+  "subject": "Ignatius of Antioch",
+  "attribute": "bishop",
+  "p": 0.07820870727300644
+ },
+ {
+  "known_id": 146,
+  "prompt": "Yellowstone National Park can be found in the state of",
+  "subject": "Yellowstone National Park",
+  "attribute": "Montana",
+  "p": 0.07789157330989838
+ },
+ {
+  "known_id": 368,
+  "prompt": "Mark Messier professionally plays the sport of",
+  "subject": "Mark Messier",
+  "attribute": "hockey",
+  "p": 0.07674409449100494
+ },
+ {
+  "known_id": 872,
+  "prompt": "Montesquieu died in the city of",
+  "subject": "Montesquieu",
+  "attribute": "Paris",
+  "p": 0.07667312771081924
+ },
+ {
+  "known_id": 214,
+  "prompt": "The native language of Viacheslav Belavkin is",
+  "subject": "Viacheslav Belavkin",
+  "attribute": "Russian",
+  "p": 0.07585307210683823
+ },
+ {
+  "known_id": 179,
+  "prompt": "IJmuiden, in the",
+  "subject": "IJmuiden",
+  "attribute": "Netherlands",
+  "p": 0.07557108253240585
+ },
+ {
+  "known_id": 275,
+  "prompt": "Brazilian Football Confederation is a part of the",
+  "subject": "Brazilian Football Confederation",
+  "attribute": "FIFA",
+  "p": 0.07541974633932114
+ },
+ {
+  "known_id": 955,
+  "prompt": "ActiveSync, a product developed by",
+  "subject": "ActiveSync",
+  "attribute": "Microsoft",
+  "p": 0.07393679767847061
+ },
+ {
+  "known_id": 166,
+  "prompt": "Lawrence Taylor professionally plays the sport of",
+  "subject": "Lawrence Taylor",
+  "attribute": "football",
+  "p": 0.0734911784529686
+ },
+ {
+  "known_id": 1075,
+  "prompt": "Babylas of Antioch, who has the position of a",
+  "subject": "Babylas of Antioch",
+  "attribute": "bishop",
+  "p": 0.07283440977334976
+ },
+ {
+  "known_id": 207,
+  "prompt": "Johnny Unitas professionally plays the sport of",
+  "subject": "Johnny Unitas",
+  "attribute": "football",
+  "p": 0.07129498571157455
+ },
+ {
+  "known_id": 776,
+  "prompt": "Jon Postel's domain of activity is the world of the",
+  "subject": "Jon Postel",
+  "attribute": "Internet",
+  "p": 0.07060278207063675
+ },
+ {
+  "known_id": 386,
+  "prompt": "The original language of Plus belle la vie is a",
+  "subject": "Plus belle la vie",
+  "attribute": "French",
+  "p": 0.06980918347835541
+ },
+ {
+  "known_id": 539,
+  "prompt": "The native language of Anastasy Vonsyatsky is",
+  "subject": "Anastasy Vonsyatsky",
+  "attribute": "Russian",
+  "p": 0.06979012489318848
+ },
+ {
+  "known_id": 1074,
+  "prompt": "The original language of Il giuramento was written in the 14th century by the",
+  "subject": "Il giuramento",
+  "attribute": "Italian",
+  "p": 0.06962200999259949
+ },
+ {
+  "known_id": 355,
+  "prompt": "David Hilbert's expertise is in the theory of algebraic",
+  "subject": "David Hilbert",
+  "attribute": "geometry",
+  "p": 0.0694509893655777
+ },
+ {
+  "known_id": 3,
+  "prompt": "The Big Bang Theory premieres on",
+  "subject": "The Big Bang Theory",
+  "attribute": "CBS",
+  "p": 0.06913551688194275
+ },
+ {
+  "known_id": 496,
+  "prompt": "The language of Mi Reflejo was a mixture of",
+  "subject": "Mi Reflejo",
+  "attribute": "Spanish",
+  "p": 0.06907417625188828
+ },
+ {
+  "known_id": 134,
+  "prompt": "In United Kingdom, the language spoken is",
+  "subject": "United Kingdom",
+  "attribute": "English",
+  "p": 0.06866788864135742
+ },
+ {
+  "known_id": 646,
+  "prompt": "Roman Empire's capital,",
+  "subject": "Roman Empire",
+  "attribute": "Constantinople",
+  "p": 0.06851155310869217
+ },
+ {
+  "known_id": 197,
+  "prompt": "Tim Tebow plays in the position of",
+  "subject": "Tim Tebow",
+  "attribute": "quarterback",
+  "p": 0.0679742768406868
+ },
+ {
+  "known_id": 410,
+  "prompt": "Elizabeth Butler-Sloss, Baroness Butler-Sloss worked in the city of",
+  "subject": "Elizabeth Butler-Sloss, Baroness Butler-Sloss",
+  "attribute": "London",
+  "p": 0.0677977129817009
+ },
+ {
+  "known_id": 1111,
+  "prompt": "Drew Brees plays in the position of",
+  "subject": "Drew Brees",
+  "attribute": "quarterback",
+  "p": 0.06653295457363129
+ },
+ {
+  "known_id": 966,
+  "prompt": "The native language of Guy Drut is",
+  "subject": "Guy Drut",
+  "attribute": "French",
+  "p": 0.06567135453224182
+ },
+ {
+  "known_id": 1047,
+  "prompt": "Edinburgh Mathematical Society's expertise is in the areas of",
+  "subject": "Edinburgh Mathematical Society",
+  "attribute": "mathematics",
+  "p": 0.06468447297811508
+ },
+ {
+  "known_id": 379,
+  "prompt": "Pius XII, whose position is that of a \"superior\"",
+  "subject": "Pius XII",
+  "attribute": "pope",
+  "p": 0.06296522170305252
+ },
+ {
+  "known_id": 525,
+  "prompt": "In Luhansk Oblast, the language spoken is",
+  "subject": "Luhansk Oblast",
+  "attribute": "Russian",
+  "p": 0.062376148998737335
+ },
+ {
+  "known_id": 64,
+  "prompt": "Nicolas Gigault was born in",
+  "subject": "Nicolas Gigault",
+  "attribute": "Paris",
+  "p": 0.06220637261867523
+ },
+ {
+  "known_id": 1162,
+  "prompt": "The Biskitts was originally aired on the",
+  "subject": "The Biskitts",
+  "attribute": "CBS",
+  "p": 0.06171122193336487
+ },
+ {
+  "known_id": 42,
+  "prompt": "Odnoklassniki was written in the early 1990s by a group of",
+  "subject": "Odnoklassniki",
+  "attribute": "Russian",
+  "p": 0.060429804027080536
+ },
+ {
+  "known_id": 559,
+  "prompt": "The Famous Teddy Z was originally aired on the",
+  "subject": "The Famous Teddy Z",
+  "attribute": "CBS",
+  "p": 0.06021745875477791
+ },
+ {
+  "known_id": 186,
+  "prompt": "The original language of Revue de Paris is a",
+  "subject": "Revue de Paris",
+  "attribute": "French",
+  "p": 0.05962512269616127
+ },
+ {
+  "known_id": 869,
+  "prompt": "Wednesday Night Baseball premieres on",
+  "subject": "Wednesday Night Baseball",
+  "attribute": "ESPN",
+  "p": 0.058165326714515686
+ },
+ {
+  "known_id": 659,
+  "prompt": "Holycross-Ballycahill GAA is located in the country of",
+  "subject": "Holycross-Ballycahill GAA",
+  "attribute": "Ireland",
+  "p": 0.05622425302863121
+ },
+ {
+  "known_id": 1187,
+  "prompt": "The native language of Hendrikus Colijn is",
+  "subject": "Hendrikus Colijn",
+  "attribute": "Dutch",
+  "p": 0.056219905614852905
+ },
+ {
+  "known_id": 357,
+  "prompt": "The language of L'Histoire was not the language of the",
+  "subject": "L'Histoire",
+  "attribute": "French",
+  "p": 0.05492822080850601
+ },
+ {
+  "known_id": 319,
+  "prompt": "The original language of Ma vie en rose is a",
+  "subject": "Ma vie en rose",
+  "attribute": "French",
+  "p": 0.053697261959314346
+ },
+ {
+  "known_id": 318,
+  "prompt": "Georges Ernest Boulanger worked in the city of",
+  "subject": "Georges Ernest Boulanger",
+  "attribute": "Paris",
+  "p": 0.05321981757879257
+ },
+ {
+  "known_id": 937,
+  "prompt": "Latin Empire's capital,",
+  "subject": "Latin Empire",
+  "attribute": "Constantinople",
+  "p": 0.052466049790382385
+ },
+ {
+  "known_id": 849,
+  "prompt": "The native language of Gabrielle Fontan is",
+  "subject": "Gabrielle Fontan",
+  "attribute": "French",
+  "p": 0.0517498180270195
+ },
+ {
+  "known_id": 971,
+  "prompt": "Pierre Contant d'Ivry passed away in",
+  "subject": "Pierre Contant d'Ivry",
+  "attribute": "Paris",
+  "p": 0.05047698691487312
+ },
+ {
+  "known_id": 460,
+  "prompt": "Yves Rocard died in the city of",
+  "subject": "Yves Rocard",
+  "attribute": "Paris",
+  "p": 0.0498170405626297
+ },
+ {
+  "known_id": 647,
+  "prompt": "Ulrika Eleonora, Queen of Sweden died in the city of",
+  "subject": "Ulrika Eleonora, Queen of Sweden",
+  "attribute": "Stockholm",
+  "p": 0.04922600835561752
+ },
+ {
+  "known_id": 1144,
+  "prompt": "Alfa Romeo 6C, produced by",
+  "subject": "Alfa Romeo 6C",
+  "attribute": "Fiat",
+  "p": 0.048471078276634216
+ },
+ {
+  "known_id": 16,
+  "prompt": "The language used by Juan Bautista de Anza is a bit different from the language used by the",
+  "subject": "Juan Bautista de Anza",
+  "attribute": "Spanish",
+  "p": 0.047336529940366745
+ },
+ {
+  "known_id": 541,
+  "prompt": "Bandai Channel started in",
+  "subject": "Bandai Channel",
+  "attribute": "Japan",
+  "p": 0.047207050025463104
+ },
+ {
+  "known_id": 415,
+  "prompt": "Eibenstock is located in the country of",
+  "subject": "Eibenstock",
+  "attribute": "Germany",
+  "p": 0.04683181643486023
+ },
+ {
+  "known_id": 28,
+  "prompt": "Don Shula professionally plays the sport of",
+  "subject": "Don Shula",
+  "attribute": "football",
+  "p": 0.04568013548851013
+ },
+ {
+  "known_id": 280,
+  "prompt": "Australian Mathematical Society's expertise is in the areas of",
+  "subject": "Australian Mathematical Society",
+  "attribute": "mathematics",
+  "p": 0.045590825378894806
+ },
+ {
+  "known_id": 425,
+  "prompt": "The capital of Ky\u014dto Prefecture is the city of",
+  "subject": "Ky\u014dto Prefecture",
+  "attribute": "Kyoto",
+  "p": 0.04453473165631294
+ },
+ {
+  "known_id": 546,
+  "prompt": "Aretha Franklin, playing the",
+  "subject": "Aretha Franklin",
+  "attribute": "piano",
+  "p": 0.04447333142161369
+ },
+ {
+  "known_id": 1139,
+  "prompt": "Panathenaic Stadium is located in the heart of the city of",
+  "subject": "Panathenaic Stadium",
+  "attribute": "Athens",
+  "p": 0.04431702196598053
+ },
+ {
+  "known_id": 911,
+  "prompt": "Pius III died in the city of",
+  "subject": "Pius III",
+  "attribute": "Rome",
+  "p": 0.04383401200175285
+ },
+ {
+  "known_id": 1106,
+  "prompt": "Yitzhak Ben-Zvi worked in the city of",
+  "subject": "Yitzhak Ben-Zvi",
+  "attribute": "Jerusalem",
+  "p": 0.04247669503092766
+ },
+ {
+  "known_id": 173,
+  "prompt": "Hugh Cairns, 1st Earl Cairns worked in the city of",
+  "subject": "Hugh Cairns, 1st Earl Cairns",
+  "attribute": "London",
+  "p": 0.0413290336728096
+ },
+ {
+  "known_id": 1086,
+  "prompt": "Valdemarsvik is located in the country of",
+  "subject": "Valdemarsvik",
+  "attribute": "Sweden",
+  "p": 0.041204970329999924
+ },
+ {
+  "known_id": 203,
+  "prompt": "Santo Stefano d'Aveto is located in the country of",
+  "subject": "Santo Stefano d'Aveto",
+  "attribute": "Italy",
+  "p": 0.04080888256430626
+ },
+ {
+  "known_id": 471,
+  "prompt": "Microsoap premiered on the",
+  "subject": "Microsoap",
+  "attribute": "BBC",
+  "p": 0.04042740538716316
+ },
+ {
+  "known_id": 978,
+  "prompt": "The original language of Sadratnamala is a",
+  "subject": "Sadratnamala",
+  "attribute": "Sanskrit",
+  "p": 0.03930836543440819
+ },
+ {
+  "known_id": 274,
+  "prompt": "Show Me a Hero premieres on",
+  "subject": "Show Me a Hero",
+  "attribute": "HBO",
+  "p": 0.038743432611227036
+ },
+ {
+  "known_id": 291,
+  "prompt": "Quirinus of Sescia, who has the position of a",
+  "subject": "Quirinus of Sescia",
+  "attribute": "bishop",
+  "p": 0.03824928030371666
+ },
+ {
+  "known_id": 80,
+  "prompt": "Saint Domnius, who has the position of the",
+  "subject": "Saint Domnius",
+  "attribute": "bishop",
+  "p": 0.03737526759505272
+ },
+ {
+  "known_id": 1133,
+  "prompt": "Eusebius of Vercelli, who has the position of a",
+  "subject": "Eusebius of Vercelli",
+  "attribute": "bishop",
+  "p": 0.03704964742064476
+ },
+ {
+  "known_id": 721,
+  "prompt": "Vierlingsbeek, in the",
+  "subject": "Vierlingsbeek",
+  "attribute": "Netherlands",
+  "p": 0.036119069904088974
+ },
+ {
+  "known_id": 942,
+  "prompt": "The language used by Pedro Caro, 3rd Marquis of la Romana is a clear reference to the",
+  "subject": "Pedro Caro, 3rd Marquis of la Romana",
+  "attribute": "Spanish",
+  "p": 0.03539955988526344
+ },
+ {
+  "known_id": 1205,
+  "prompt": "Gregory XVI, whose position is that of a \"superior\"",
+  "subject": "Gregory XVI",
+  "attribute": "pope",
+  "p": 0.03508738428354263
+ },
+ {
+  "known_id": 417,
+  "prompt": "Sir Francis Baring, 1st Baronet worked in the city of",
+  "subject": "Sir Francis Baring, 1st Baronet",
+  "attribute": "London",
+  "p": 0.034281354397535324
+ },
+ {
+  "known_id": 269,
+  "prompt": "Jacobo Zabludovsky, who works as a",
+  "subject": "Jacobo Zabludovsky",
+  "attribute": "journalist",
+  "p": 0.03357334062457085
+ },
+ {
+  "known_id": 413,
+  "prompt": "Julian Huxley died in the city of",
+  "subject": "Julian Huxley",
+  "attribute": "London",
+  "p": 0.03298750892281532
+ },
+ {
+  "known_id": 818,
+  "prompt": "Criminal Minds premieres on",
+  "subject": "Criminal Minds",
+  "attribute": "CBS",
+  "p": 0.03232767805457115
+ },
+ {
+  "known_id": 718,
+  "prompt": "Arnold Hermann Ludwig Heeren's domain of work is the study of the",
+  "subject": "Arnold Hermann Ludwig Heeren",
+  "attribute": "history",
+  "p": 0.03088674321770668
+ },
+ {
+  "known_id": 863,
+  "prompt": "Jean-Jacques Grunenwald worked in the city of",
+  "subject": "Jean-Jacques Grunenwald",
+  "attribute": "Paris",
+  "p": 0.03070494346320629
+ },
+ {
+  "known_id": 1190,
+  "prompt": "Teemu S\u00e4l\u00e4nn\u00e4 professionally plays the sport of",
+  "subject": "Teemu S\u00e4l\u00e4nn\u00e4",
+  "attribute": "hockey",
+  "p": 0.03053518384695053
+ },
+ {
+  "known_id": 742,
+  "prompt": "Michel Bernstein died in the city of",
+  "subject": "Michel Bernstein",
+  "attribute": "Paris",
+  "p": 0.029957547783851624
+ },
+ {
+  "known_id": 12,
+  "prompt": "Il Gazzettino was written in the early 1980s, when the",
+  "subject": "Il Gazzettino",
+  "attribute": "Italian",
+  "p": 0.02994898520410061
+ },
+ {
+  "known_id": 879,
+  "prompt": "Pointe Coupee Parish is named for the",
+  "subject": "Pointe Coupee Parish",
+  "attribute": "French",
+  "p": 0.028046438470482826
+ },
+ {
+  "known_id": 437,
+  "prompt": "Fulgentius of Ruspe, who has the position of a",
+  "subject": "Fulgentius of Ruspe",
+  "attribute": "bishop",
+  "p": 0.026621760800480843
+ },
+ {
+  "known_id": 312,
+  "prompt": "air traffic control works in the field of",
+  "subject": "air traffic control",
+  "attribute": "aviation",
+  "p": 0.02561585046350956
+ },
+ {
+  "known_id": 365,
+  "prompt": "The expertise of Paracelsus is not only in the field of",
+  "subject": "Paracelsus",
+  "attribute": "medicine",
+  "p": 0.025300392881035805
+ },
+ {
+  "known_id": 941,
+  "prompt": "Jules Moch worked in the city of",
+  "subject": "Jules Moch",
+  "attribute": "Paris",
+  "p": 0.024852875620126724
+ },
+ {
+  "known_id": 18,
+  "prompt": "Tizen is developed by a consortium of companies including",
+  "subject": "Tizen",
+  "attribute": "Samsung",
+  "p": 0.024811357259750366
+ },
+ {
+  "known_id": 928,
+  "prompt": "The language of Ni es lo mismo ni es igual was used by the",
+  "subject": "Ni es lo mismo ni es igual",
+  "attribute": "Spanish",
+  "p": 0.024735331535339355
+ },
+ {
+  "known_id": 1004,
+  "prompt": "Nancy Astor, Viscountess Astor worked in the city of",
+  "subject": "Nancy Astor, Viscountess Astor",
+  "attribute": "London",
+  "p": 0.024731000885367393
+ },
+ {
+  "known_id": 89,
+  "prompt": "Georgios Babiniotis's domain of work is the study of the history of the",
+  "subject": "Georgios Babiniotis",
+  "attribute": "Greek",
+  "p": 0.023068329319357872
+ },
+ {
+  "known_id": 784,
+  "prompt": "Peter Fincham is employed by the",
+  "subject": "Peter Fincham",
+  "attribute": "BBC",
+  "p": 0.021499982103705406
+ },
+ {
+  "known_id": 601,
+  "prompt": "Lev Vygotsky works in the field of",
+  "subject": "Lev Vygotsky",
+  "attribute": "psychology",
+  "p": 0.018594473600387573
+ },
+ {
+  "known_id": 707,
+  "prompt": "Polymath project works in the area of",
+  "subject": "Polymath project",
+  "attribute": "mathematics",
+  "p": 0.01709773577749729
+ }
+]
