@@ -16,3 +16,7 @@ with open("globals.yml", "r") as stream:
 )
 
 REMOTE_ROOT_URL = data["REMOTE_ROOT_URL"]
+
+import os
+
+DEVICE = os.environ.get("ROME_DEVICE", "cpu")

@@ -7,4 +7,5 @@ Every change made to files under third_party/rome is listed here.
 
 | File | Change | Why |
 |------|--------|-----|
-| (none yet) | | |
+| util/globals.py | Added DEVICE (env ROME_DEVICE, default cpu) | No CUDA on Mac |
+| rome/compute_u.py, compute_v.py, layer_stats.py, util/perplexity.py, experiments/py/eval_utils_*.py, experiments/causal_trace.py, experiments/evaluate.py | Replaced hardcoded "cuda" and .cuda() with DEVICE | Run on CPU or MPS |
