@@ -1,3 +1,4 @@
+from util.globals import DEVICE
 import json
 import os
 import shutil
@@ -87,7 +88,7 @@ def main(
     # Instantiate vanilla model
     print("Instantiating model")
     if type(model_name) is str:
-        model = AutoModelForCausalLM.from_pretrained(model_name).cuda()
+        model = AutoModelForCausalLM.from_pretrained(model_name).to(DEVICE)
         tok = AutoTokenizer.from_pretrained(model_name)
         tok.pad_token = tok.eos_token
     else:
@@ -109,7 +110,7 @@ def main(
             # Compute weight changes + record weights that changed
             start = time()
             args_conserve_memory = (
-                dict(return_orig_weights_device=("cpu" if conserve_memory else "cuda"))
+                dict(return_orig_weights_device=("cpu" if conserve_memory else DEVICE))
                 if conserve_memory
                 else dict()
             )
@@ -136,7 +137,7 @@ def main(
 
             with torch.no_grad():
                 for k, v in weights_copy.items():
-                    nethook.get_parameter(model, k)[...] = v.to("cuda")
+                    nethook.get_parameter(model, k)[...] = v.to(DEVICE)
             metrics["pre"] = ds_eval_method(model, tok, record, snips, vec)
 
             print("Evaluation took", time() - start)
