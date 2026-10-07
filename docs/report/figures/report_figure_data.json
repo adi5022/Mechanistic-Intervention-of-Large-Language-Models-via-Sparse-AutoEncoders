@@ -1,0 +1,321 @@
+{
+ "elig": {
+  "already_correct": 15,
+  "suppressed": 22,
+  "low_prior": 8
+ },
+ "layer12": {
+  "layer": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ],
+  "mean_rank_gain": [
+   0.083,
+   1.833,
+   1.167,
+   2.25,
+   3.75,
+   2.5,
+   6.5,
+   7.083,
+   7.333,
+   6.333,
+   4.75,
+   2.667
+  ],
+  "reached_rank1": [
+   1,
+   0,
+   1,
+   2,
+   3,
+   3,
+   2,
+   3,
+   3,
+   3,
+   1,
+   2
+  ],
+  "improved_rank": [
+   1,
+   4,
+   4,
+   4,
+   8,
+   9,
+   7,
+   8,
+   9,
+   9,
+   6,
+   4
+  ],
+  "n_prompts": 12
+ },
+ "candsrc": [
+  {
+   "prompt": "The CEO of Tesla is",
+   "baseline_rank": 335,
+   "all_final_rank": 1,
+   "last_final_rank": 1
+  },
+  {
+   "prompt": "She opened the door and saw a",
+   "baseline_rank": 152,
+   "all_final_rank": 34,
+   "last_final_rank": 62
+  },
+  {
+   "prompt": "The programming language created by Guido van Rossum is",
+   "baseline_rank": 44,
+   "all_final_rank": 1,
+   "last_final_rank": 4
+  },
+  {
+   "prompt": "The largest planet in our solar system is",
+   "baseline_rank": 30,
+   "all_final_rank": 1,
+   "last_final_rank": 2
+  },
+  {
+   "prompt": "Albert Einstein was born in",
+   "baseline_rank": 8,
+   "all_final_rank": 1,
+   "last_final_rank": 3
+  },
+  {
+   "prompt": "The Colosseum is located in",
+   "baseline_rank": 7,
+   "all_final_rank": 2,
+   "last_final_rank": 3
+  },
+  {
+   "prompt": "This is Sophia, she is a",
+   "baseline_rank": 6,
+   "all_final_rank": 1,
+   "last_final_rank": 2
+  },
+  {
+   "prompt": "Marie Curie won the Nobel Prize in",
+   "baseline_rank": 5,
+   "all_final_rank": 1,
+   "last_final_rank": 1
+  },
+  {
+   "prompt": "Barack Obama was born in",
+   "baseline_rank": 3,
+   "all_final_rank": 1,
+   "last_final_rank": 1
+  },
+  {
+   "prompt": "The doctor said that",
+   "baseline_rank": 3,
+   "all_final_rank": 2,
+   "last_final_rank": 3
+  },
+  {
+   "prompt": "Mount Everest is located in",
+   "baseline_rank": 3,
+   "all_final_rank": 1,
+   "last_final_rank": 2
+  },
+  {
+   "prompt": "Seiyu Group's headquarters are in",
+   "baseline_rank": 2,
+   "all_final_rank": 1,
+   "last_final_rank": 1
+  },
+  {
+   "prompt": "The Eiffel Tower is in the city of",
+   "baseline_rank": 2,
+   "all_final_rank": 1,
+   "last_final_rank": 2
+  }
+ ],
+ "filter": {
+  "pilot_n": 45,
+  "full_n": 131,
+  "pilot": {
+   "strict": 29,
+   "off": 19,
+   "tol5_after": 27,
+   "graded5_after": 29,
+   "graded5_inter": 29
+  },
+  "full": {
+   "strict": 41,
+   "off": 35,
+   "tol5_after": 42,
+   "graded5_after": 41,
+   "graded5_inter": 41
+  }
+ },
+ "headroom": {
+  "n": 1450,
+  "share_rank1": {
+   "sae_reach": 0.7986206896551724,
+   "sae_gentle": 0.40827586206896554,
+   "sae_naive_5": 0.06137931034482759,
+   "sae_naive_20": 0.11655172413793104,
+   "sae_naive_50": 0.1503448275862069,
+   "push_last_0.05": 0.17517241379310344,
+   "push_last_0.1": 0.4710344827586207,
+   "push_last_0.2": 0.9875862068965517,
+   "push_all_0.05": 0.5820689655172414,
+   "push_all_0.1": 0.9937931034482759,
+   "push_all_0.2": 1.0
+  },
+  "by_band": {
+   "sae_reach": [
+    0.9939393939393939,
+    0.9264305177111717,
+    0.7872340425531915,
+    0.5145888594164456
+   ],
+   "sae_gentle": [
+    0.806060606060606,
+    0.5667574931880109,
+    0.24468085106382978,
+    0.06896551724137931
+   ]
+  },
+  "band_n": {
+   "2-5": 330,
+   "6-20": 367,
+   "21-100": 376,
+   "101-1000": 377
+  }
+ },
+ "learned": {
+  "names": [
+   "fixed\n0.6 / 0.5",
+   "learned\nfixed pair",
+   "PromptNet\n(network)",
+   "per-prompt\ntuned"
+  ],
+  "rank1_of_300": [
+   75,
+   116,
+   119,
+   123
+  ],
+  "mean_kl_of_successes": [
+   0.156,
+   0.383,
+   0.379,
+   0.36
+  ]
+ },
+ "additive_control": {
+  "rank1_of_20": {
+   "multipliers only": 1,
+   "+ additive (cap 1.0)": 20,
+   "+ additive (cap 0.25)": 20
+  },
+  "median_edit_size_pct_of_norm": {
+   "multipliers only": 39.36879348317197,
+   "+ additive (cap 1.0)": 192.14656736223935,
+   "+ additive (cap 0.25)": 126.27883569067575
+  }
+ },
+ "reworded": {
+  "unedited_median_rank": {
+   "true": 93.5,
+   "random": 17504.0
+  },
+  "median_rank_edited": {
+   "true": [
+    36.0,
+    4.5,
+    11.5
+   ],
+   "random": [
+    11832.0,
+    4.0,
+    9.0
+   ]
+  },
+  "neutral_top1_changed": {
+   "true": [
+    0.05875,
+    0.2425,
+    0.17375
+   ],
+   "random": [
+    0.10375,
+    0.82125,
+    0.74125
+   ]
+  },
+  "arms": [
+   "gd",
+   "gd_add@cap=1.0",
+   "gd_add@cap=0.25"
+  ]
+ },
+ "genquality": {
+  "A": {
+   "baseline": {
+    "distinct2": 0.9342105263157894,
+    "loop_rate": 0.0,
+    "target_in_text": 0.125,
+    "target_repeats": 0.025,
+    "tail_ppl_median": 4.7336227090388245
+   },
+   "gd/keep_on": {
+    "distinct2": 0.8526315789473685,
+    "loop_rate": 0.125,
+    "target_in_text": 0.9,
+    "target_repeats": 0.675,
+    "tail_ppl_median": 4.398249220703008
+   },
+   "gd_add@cap=1.0/keep_on": {
+    "distinct2": 0.8644736842105264,
+    "loop_rate": 0.075,
+    "target_in_text": 1.0,
+    "target_repeats": 0.575,
+    "tail_ppl_median": 4.806918046637705
+   },
+   "gd_add@cap=0.25/keep_on": {
+    "distinct2": 0.8907894736842105,
+    "loop_rate": 0.025,
+    "target_in_text": 1.0,
+    "target_repeats": 0.675,
+    "tail_ppl_median": 4.8262395429232905
+   }
+  },
+  "B_top1_clean": {
+   "plain": 0.0,
+   "do_not_say": 0.45,
+   "wrong_answer": 0.3
+  },
+  "B_top1_edit": {
+   "gd": {
+    "plain": 0.9,
+    "do_not_say": 0.675,
+    "wrong_answer": 0.675
+   },
+   "gd_add@cap=1.0": {
+    "plain": 1.0,
+    "do_not_say": 0.9,
+    "wrong_answer": 0.875
+   },
+   "gd_add@cap=0.25": {
+    "plain": 1.0,
+    "do_not_say": 0.875,
+    "wrong_answer": 0.85
+   }
+  }
+ }
+}
