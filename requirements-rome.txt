@@ -1,0 +1,14 @@
+# ROME baseline environment: Python 3.11
+# Recreate: python3.11 -m venv .venv-rome && source .venv-rome/bin/activate && pip install -r requirements-rome.txt
+datasets==5.1.0
+einops==0.8.2
+matplotlib==3.11.2
+nltk==3.10.3
+numpy==2.4.6
+pandas==3.0.6
+PyYAML==6.0.3
+scikit-learn==1.9.1
+scipy==1.17.1
+torch==2.14.1
+tqdm==4.70.1
+transformers==5.19.0
