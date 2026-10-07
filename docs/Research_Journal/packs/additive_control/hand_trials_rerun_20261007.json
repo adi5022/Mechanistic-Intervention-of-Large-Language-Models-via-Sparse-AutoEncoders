@@ -1,0 +1,171 @@
+{
+ "date": "2026-10-07",
+ "device": "cuda",
+ "layer": 8,
+ "settings": {
+  "top_n": 200,
+  "positions": "all",
+  "steps": 100,
+  "add_top_m": 200,
+  "add_cap_factor": 1.0,
+  "lam_add": 0.005
+ },
+ "rows": [
+  {
+   "prompt": "My nephew is a",
+   "target": " rapist",
+   "start_rank": 1740,
+   "mult": {
+    "rank": 17,
+    "prob_pct": 0.3768,
+    "kl": 0.55632,
+    "edit_pct": 33.22,
+    "time_s": 8.6
+   },
+   "add": {
+    "rank": 1,
+    "prob_pct": 2.2736,
+    "kl": 0.20085,
+    "edit_pct": 57.5,
+    "time_s": 8.3
+   },
+   "add+klall": {
+    "rank": 1,
+    "prob_pct": 2.4948,
+    "kl": 0.17548,
+    "edit_pct": 52.77,
+    "time_s": 8.5
+   }
+  },
+  {
+   "prompt": "The sky is",
+   "target": " powder",
+   "start_rank": 2554,
+   "mult": {
+    "rank": 179,
+    "prob_pct": 0.0787,
+    "kl": 0.83573,
+    "edit_pct": 38.49,
+    "time_s": 8.0
+   },
+   "add": {
+    "rank": 1,
+    "prob_pct": 8.3551,
+    "kl": 0.36185,
+    "edit_pct": 160.82,
+    "time_s": 8.5
+   },
+   "add+klall": {
+    "rank": 1,
+    "prob_pct": 11.1844,
+    "kl": 0.23292,
+    "edit_pct": 95.9,
+    "time_s": 8.6
+   }
+  },
+  {
+   "prompt": "Hello, my name is",
+   "target": " Aryan",
+   "start_rank": 13576,
+   "mult": {
+    "rank": 2664,
+    "prob_pct": 0.0051,
+    "kl": 0.317,
+    "edit_pct": 34.19,
+    "time_s": 8.0
+   },
+   "add": {
+    "rank": 1,
+    "prob_pct": 1.3882,
+    "kl": 0.5832,
+    "edit_pct": 120.97,
+    "time_s": 8.5
+   },
+   "add+klall": {
+    "rank": 1,
+    "prob_pct": 1.2045,
+    "kl": 0.24139,
+    "edit_pct": 55.39,
+    "time_s": 8.5
+   }
+  },
+  {
+   "prompt": "Hello, my name is",
+   "target": " Rajesh",
+   "start_rank": 20214,
+   "mult": {
+    "rank": 9231,
+    "prob_pct": 0.0007,
+    "kl": 0.27747,
+    "edit_pct": 39.52,
+    "time_s": 8.1
+   },
+   "add": {
+    "rank": 1,
+    "prob_pct": 1.004,
+    "kl": 0.25937,
+    "edit_pct": 83.77,
+    "time_s": 8.6
+   },
+   "add+klall": {
+    "rank": 1,
+    "prob_pct": 0.989,
+    "kl": 0.16562,
+    "edit_pct": 78.87,
+    "time_s": 8.4
+   }
+  },
+  {
+   "prompt": "The sky is",
+   "target": " Adi",
+   "start_rank": 14149,
+   "mult": {
+    "rank": 4897,
+    "prob_pct": 0.0018,
+    "kl": 2.70689,
+    "edit_pct": 57.31,
+    "time_s": 8.6
+   },
+   "add": {
+    "rank": 1,
+    "prob_pct": 8.1846,
+    "kl": 0.44478,
+    "edit_pct": 109.13,
+    "time_s": 8.7
+   },
+   "add+klall": {
+    "rank": 1,
+    "prob_pct": 13.1352,
+    "kl": 0.19273,
+    "edit_pct": 77.11,
+    "time_s": 8.8
+   }
+  },
+  {
+   "prompt": "The capital of France is",
+   "target": " Hong",
+   "start_rank": 3419,
+   "mult": {
+    "rank": 1,
+    "prob_pct": 1.3702,
+    "kl": 4.38667,
+    "edit_pct": 37.48,
+    "time_s": 8.3
+   },
+   "add": {
+    "rank": 1,
+    "prob_pct": 4.6775,
+    "kl": 0.40998,
+    "edit_pct": 150.89,
+    "time_s": 8.7
+   },
+   "add+klall": {
+    "rank": 1,
+    "prob_pct": 4.2431,
+    "kl": 0.20343,
+    "edit_pct": 77.91,
+    "time_s": 8.8
+   }
+  }
+ ]
+}
