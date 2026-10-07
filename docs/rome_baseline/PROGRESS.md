@@ -11,7 +11,7 @@ Branch: rome-factual-editing (from gradient-descent-editing). Environment: .venv
 | 2a | Causal tracing of one prompt: src/rome_baseline/{rome_env,tracing}.py, scripts/rome/01_trace_one.py | done on 3 prompts; pipeline works; single weak or wrong facts are uninformative, need averaging (2b) |
 | 2b | Tracing over about 100 known facts, averaged heatmaps, choose edit layer | done, 97 facts traced; no sharp mid-layer MLP hotspot, see notes |
 | 3 | Covariance statistics C at the chosen layer | todo |
-| 4 | gpt2.json hparams and a single ROME edit demo | todo |
+| 4 | gpt2.json hparams and a single ROME edit demo | done: gpt2.json hparams, single edit works at layer 5 (Rome p=0.998, paraphrases flip, restore exact); Statue of Liberty p(Rome) rose 0.035 to 0.156 |
 | 5 | Edit-layer sweep on dev split | todo |
 | 6 | Frozen benchmark, shared metrics, adapters | todo |
 | 7 | Adapter for Hybrid Mute and Boost, full comparison run | todo |
@@ -27,3 +27,4 @@ Branch: rome-factual-editing (from gradient-descent-editing). Environment: .venv
 - Decision: tracing does not pin the edit layer for GPT-2 small; choose it empirically in the Step 5 sweep.
 - Known facts: GPT-2 small gets 342 of 1209 known_1000 prompts right; 97 with p>=0.2 were traced (data/comparison/gpt2_knowns.json).
 - Covariance C: wikitext-103 (Salesforce/wikitext) instead of wikipedia (script dataset no longer loads); 20,000 samples per layer, float32, CPU; same sample count for all 12 layers; stats cached in third_party/rome/data/stats (gitignored).
+- First edit (layer 5, The Eiffel Tower -> Rome): works under transformers 5.x with no extra patches. clamp_norm_factor 3 was binding (delta norm 47.7 = 3 x 15.9). hparams: v_loss_layer 11, kl 0.0625, lr 0.5, 20 steps.
