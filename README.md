@@ -30,3 +30,5 @@ bash scripts/run_app_mac.sh          # app at http://localhost:8501
 
 ## Where the work stands
 Read `docs/handoff_2026-10-05_mac.md` first (state, results, planned work), then `docs/research_roadmap.md` and the latest Research Journal entries (28 to 30).
+
+**Cross-model transfer (branch `cross-model-transfer`, from 2026-10-09):** sending the change an edit makes in GPT-2 small into GPT-2 medium (and the reverse) through a translator fitted on ordinary text, at inference time, with no weight changed. Start with `docs/handoff_2026-10-10_cross_model.md`, the runbook `docs/cross_model_transfer/PLAN.md` and Research Journal Entry 31. Done so far: translators (steps A0 to A2), a country-swap control that passes its pre-set gate (B1), and a 30-record pilot of a real edit (not a result); nothing about facts has been shown yet.

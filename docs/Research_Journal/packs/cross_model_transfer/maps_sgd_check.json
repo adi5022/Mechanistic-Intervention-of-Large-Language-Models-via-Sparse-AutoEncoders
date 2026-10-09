@@ -1,0 +1,12 @@
+{
+ "pair": [
+  2,
+  4
+ ],
+ "tokens": 60000,
+ "exact_unregularised_perdim_r2": 0.628920316696167,
+ "exact_best_ridge_perdim_r2": 0.6306249499320984,
+ "best_ridge_c": 0.01,
+ "sgd_perdim_r2": 0.628704309463501,
+ "sgd_steps": 1500
+}
