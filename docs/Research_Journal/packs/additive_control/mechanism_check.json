@@ -1,0 +1,502 @@
+{
+ "date": "2026-10-07",
+ "device": "cuda",
+ "layer": 8,
+ "neutral_prompts": [
+  "This boy is",
+  "The weather today is",
+  "She opened the door and",
+  "My favourite food is",
+  "The meeting will start at",
+  "He was born in",
+  "The best way to learn is",
+  "I think that the answer is",
+  "The company announced that",
+  "In the morning we",
+  "The old man said",
+  "Yesterday I went to the"
+ ],
+ "factors": [
+  0.0,
+  0.25,
+  0.5,
+  1.0,
+  2.0,
+  5.0,
+  20.0,
+  50.0,
+  200.0
+ ],
+ "runs": [
+  {
+   "prompt": "The capital of France is",
+   "target": " India",
+   "start_rank": 1794,
+   "add": {
+    "final_rank": 1,
+    "kl": 0.22123239934444427,
+    "edit_pct": 94.30674408204167,
+    "direction_multiplier_part": {
+     "cosine": 0.12733151018619537,
+     "cosine_percentile": 99.75724029541016,
+     "lens_rank": 138,
+     "vec_norm": 29.38963508605957
+    },
+    "direction_additive_part": {
+     "cosine": 0.16730114817619324,
+     "cosine_percentile": 99.99800872802734,
+     "lens_rank": 5,
+     "vec_norm": 83.02643585205078
+    },
+    "dose_response": [
+     {
+      "factor": 0.0,
+      "share_top1_is_target": 0.0,
+      "mean_kl": 0.013966254909367612,
+      "example_top1": [
+       " a",
+       " a",
+       " saw",
+       " the"
+      ]
+     },
+     {
+      "factor": 0.25,
+      "share_top1_is_target": 0.0,
+      "mean_kl": 0.060256794871141516,
+      "example_top1": [
+       " a",
+       " a",
+       " walked",
+       " the"
+      ]
+     },
+     {
+      "factor": 0.5,
+      "share_top1_is_target": 0.0,
+      "mean_kl": 0.18849086264769235,
+      "example_top1": [
+       " a",
+       " a",
+       " walked",
+       " the"
+      ]
+     },
+     {
+      "factor": 1.0,
+      "share_top1_is_target": 0.08333333333333333,
+      "mean_kl": 0.7460947334766388,
+      "example_top1": [
+       " a",
+       " a",
+       " was",
+       " the"
+      ]
+     },
+     {
+      "factor": 2.0,
+      "share_top1_is_target": 0.9166666666666666,
+      "mean_kl": 2.2910352647304535,
+      "example_top1": [
+       " India",
+       " India",
+       " India",
+       " India"
+      ]
+     },
+     {
+      "factor": 5.0,
+      "share_top1_is_target": 0.9166666666666666,
+      "mean_kl": 8.213507970174154,
+      "example_top1": [
+       " India",
+       " India",
+       " India",
+       " India"
+      ]
+     },
+     {
+      "factor": 20.0,
+      "share_top1_is_target": 0.0,
+      "mean_kl": 16.336665948232014,
+      "example_top1": [
+       "India",
+       "India",
+       "India",
+       "India"
+      ]
+     },
+     {
+      "factor": 50.0,
+      "share_top1_is_target": 0.0,
+      "mean_kl": 16.642552614212036,
+      "example_top1": [
+       "India",
+       "India",
+       "India",
+       "India"
+      ]
+     },
+     {
+      "factor": 200.0,
+      "share_top1_is_target": 0.0,
+      "mean_kl": 15.592419942220053,
+      "example_top1": [
+       "India",
+       "India",
+       "India",
+       "India"
+      ]
+     }
+    ]
+   },
+   "mult": {
+    "final_rank": 5,
+    "kl": 3.6101365089416504,
+    "edit_pct": 31.64975858179684,
+    "direction_multiplier_part": {
+     "cosine": 0.001763085718266666,
+     "cosine_percentile": 49.08370590209961,
+     "lens_rank": 25715,
+     "vec_norm": 31.289016723632812
+    },
+    "dose_response": [
+     {
+      "factor": 0.0,
+      "share_top1_is_target": 0.0,
+      "mean_kl": 0.0,
+      "example_top1": [
+       " a",
+       " a",
+       " saw",
+       " the"
+      ]
+     },
+     {
+      "factor": 0.25,
+      "share_top1_is_target": 0.0,
+      "mean_kl": 0.0011601142032304779,
+      "example_top1": [
+       " a",
+       " a",
+       " saw",
+       " the"
+      ]
+     },
+     {
+      "factor": 0.5,
+      "share_top1_is_target": 0.0,
+      "mean_kl": 0.004926780782019098,
+      "example_top1": [
+       " a",
+       " a",
+       " saw",
+       " the"
+      ]
+     },
+     {
+      "factor": 1.0,
+      "share_top1_is_target": 0.0,
+      "mean_kl": 0.024000987061299384,
+      "example_top1": [
+       " a",
+       " a",
+       " saw",
+       " the"
+      ]
+     },
+     {
+      "factor": 2.0,
+      "share_top1_is_target": 0.0,
+      "mean_kl": 0.05258277524262667,
+      "example_top1": [
+       " a",
+       " a",
+       " saw",
+       " the"
+      ]
+     },
+     {
+      "factor": 5.0,
+      "share_top1_is_target": 0.0,
+      "mean_kl": 0.1327048580472668,
+      "example_top1": [
+       " a",
+       " a",
+       " saw",
+       " the"
+      ]
+     },
+     {
+      "factor": 20.0,
+      "share_top1_is_target": 0.0,
+      "mean_kl": 1.0289141709605854,
+      "example_top1": [
+       " a",
+       " finally",
+       " a",
+       " China"
+      ]
+     },
+     {
+      "factor": 50.0,
+      "share_top1_is_target": 0.0,
+      "mean_kl": 2.8993828694025674,
+      "example_top1": [
+       " a",
+       " finally",
+       " the",
+       " Australia"
+      ]
+     },
+     {
+      "factor": 200.0,
+      "share_top1_is_target": 0.0,
+      "mean_kl": 6.256676097710927,
+      "example_top1": [
+       " Hillary",
+       " fireworks",
+       " Hillary",
+       " China"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "prompt": "The capital of France is",
+   "target": " powder",
+   "start_rank": 13256,
+   "add": {
+    "final_rank": 1,
+    "kl": 0.7107529640197754,
+    "edit_pct": 132.77748816253987,
+    "direction_multiplier_part": {
+     "cosine": 0.06704313308000565,
+     "cosine_percentile": 93.19099426269531,
+     "lens_rank": 3753,
+     "vec_norm": 21.922256469726562
+    },
+    "direction_additive_part": {
+     "cosine": 0.2895931005477905,
+     "cosine_percentile": 99.99800872802734,
+     "lens_rank": 1,
+     "vec_norm": 125.1375503540039
+    },
+    "dose_response": [
+     {
+      "factor": 0.0,
+      "share_top1_is_target": 0.0,
+      "mean_kl": 0.006279415286068494,
+      "example_top1": [
+       " a",
+       " getting",
+       " saw",
+       " the"
+      ]
+     },
+     {
+      "factor": 0.25,
+      "share_top1_is_target": 0.0,
+      "mean_kl": 0.12266432400792837,
+      "example_top1": [
+       " a",
+       " pretty",
+       " saw",
+       " the"
+      ]
+     },
+     {
+      "factor": 0.5,
+      "share_top1_is_target": 0.0,
+      "mean_kl": 0.5199137255549431,
+      "example_top1": [
+       " a",
+       " very",
+       " saw",
+       " chicken"
+      ]
+     },
+     {
+      "factor": 1.0,
+      "share_top1_is_target": 0.08333333333333333,
+      "mean_kl": 1.6604839066664379,
+      "example_top1": [
+       " going",
+       " very",
+       " the",
+       " the"
+      ]
+     },
+     {
+      "factor": 2.0,
+      "share_top1_is_target": 1.0,
+      "mean_kl": 3.34444526831309,
+      "example_top1": [
+       " powder",
+       " powder",
+       " powder",
+       " powder"
+      ]
+     },
+     {
+      "factor": 5.0,
+      "share_top1_is_target": 1.0,
+      "mean_kl": 8.328692118326822,
+      "example_top1": [
+       " powder",
+       " powder",
+       " powder",
+       " powder"
+      ]
+     },
+     {
+      "factor": 20.0,
+      "share_top1_is_target": 1.0,
+      "mean_kl": 19.264687220255535,
+      "example_top1": [
+       " powder",
+       " powder",
+       " powder",
+       " powder"
+      ]
+     },
+     {
+      "factor": 50.0,
+      "share_top1_is_target": 1.0,
+      "mean_kl": 21.387564659118652,
+      "example_top1": [
+       " powder",
+       " powder",
+       " powder",
+       " powder"
+      ]
+     },
+     {
+      "factor": 200.0,
+      "share_top1_is_target": 1.0,
+      "mean_kl": 21.909295082092285,
+      "example_top1": [
+       " powder",
+       " powder",
+       " powder",
+       " powder"
+      ]
+     }
+    ]
+   },
+   "mult": {
+    "final_rank": 3130,
+    "kl": 1.1645357608795166,
+    "edit_pct": 26.667047389584887,
+    "direction_multiplier_part": {
+     "cosine": 0.05139465630054474,
+     "cosine_percentile": 92.35131072998047,
+     "lens_rank": 4793,
+     "vec_norm": 26.36309814453125
+    },
+    "dose_response": [
+     {
+      "factor": 0.0,
+      "share_top1_is_target": 0.0,
+      "mean_kl": 0.0,
+      "example_top1": [
+       " a",
+       " a",
+       " saw",
+       " the"
+      ]
+     },
+     {
+      "factor": 0.25,
+      "share_top1_is_target": 0.0,
+      "mean_kl": 0.001532773768606906,
+      "example_top1": [
+       " a",
+       " pretty",
+       " saw",
+       " the"
+      ]
+     },
+     {
+      "factor": 0.5,
+      "share_top1_is_target": 0.0,
+      "mean_kl": 0.006146890062761183,
+      "example_top1": [
+       " a",
+       " pretty",
+       " saw",
+       " the"
+      ]
+     },
+     {
+      "factor": 1.0,
+      "share_top1_is_target": 0.0,
+      "mean_kl": 0.025398835268182058,
+      "example_top1": [
+       " a",
+       " getting",
+       " walked",
+       " the"
+      ]
+     },
+     {
+      "factor": 2.0,
+      "share_top1_is_target": 0.0,
+      "mean_kl": 0.040135732696702085,
+      "example_top1": [
+       " a",
+       " getting",
+       " walked",
+       " the"
+      ]
+     },
+     {
+      "factor": 5.0,
+      "share_top1_is_target": 0.0,
+      "mean_kl": 0.1380899497307837,
+      "example_top1": [
+       " a",
+       " not",
+       " walked",
+       " the"
+      ]
+     },
+     {
+      "factor": 20.0,
+      "share_top1_is_target": 0.0,
+      "mean_kl": 0.7112734590967497,
+      "example_top1": [
+       " a",
+       " not",
+       " looked",
+       " so"
+      ]
+     },
+     {
+      "factor": 50.0,
+      "share_top1_is_target": 0.0,
+      "mean_kl": 1.4687104107191165,
+      "example_top1": [
+       " a",
+       " still",
+       " the",
+       " full"
+      ]
+     },
+     {
+      "factor": 200.0,
+      "share_top1_is_target": 0.0,
+      "mean_kl": 3.449836398164431,
+      "example_top1": [
+       " a",
+       " littered",
+       " the",
+       " not"
+      ]
+     }
+    ]
+   }
+  }
+ ]
+}
