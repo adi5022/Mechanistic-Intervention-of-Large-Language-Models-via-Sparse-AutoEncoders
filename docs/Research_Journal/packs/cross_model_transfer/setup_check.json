@@ -1,0 +1,61 @@
+{
+ "time": "2026-10-09 21:32:44",
+ "all_ok": true,
+ "checks": [
+  {
+   "name": "device",
+   "ok": true,
+   "detail": "cuda (NVIDIA GeForce RTX 4050 Laptop GPU), 5.3 of 6.4 GB free"
+  },
+  {
+   "name": "models",
+   "ok": true,
+   "detail": "gpt2: 12 layers, width 768, 124.5 M params;  gpt2-medium: 24 layers, width 1024, 354.8 M params"
+  },
+  {
+   "name": "vocab_size",
+   "ok": true,
+   "detail": "50257 vs 50257"
+  },
+  {
+   "name": "wikitext-2",
+   "ok": true,
+   "detail": "train 36718 lines, validation 3760 lines; 200 sentences picked for the tokenizer check"
+  },
+  {
+   "name": "tokenizers",
+   "ok": true,
+   "detail": "same vocabulary (50257 entries), same special tokens, identical ids on 200 texts; to_tokens (with start token) identical"
+  },
+  {
+   "name": "fidelity_gpt2",
+   "ok": true,
+   "detail": "max log-prob difference 1.13e-04 (limit 0.01); next word: ' London' vs ' London'"
+  },
+  {
+   "name": "fidelity_gpt2-medium",
+   "ok": true,
+   "detail": "max log-prob difference 1.22e-04 (limit 0.01); next word: ' Paris' vs ' Paris'"
+  },
+  {
+   "name": "hooks_gpt2",
+   "ok": true,
+   "detail": "all present"
+  },
+  {
+   "name": "hooks_gpt2-medium",
+   "ok": true,
+   "detail": "all present"
+  },
+  {
+   "name": "joint_run",
+   "ok": true,
+   "detail": "batch 32 x 128 through both models, resid shapes {'gpt2': (32, 128, 768), 'gpt2-medium': (32, 128, 1024)}, peak GPU memory 4.18 GB of 6.4 GB"
+  },
+  {
+   "name": "tokens",
+   "ok": true,
+   "detail": "train: 2,391,884 tokens -> 18,833 sequences; validation: 247,289 tokens -> 1,947 sequences; saved outputs\\transfer\\wikitext2_tokens.pt"
+  }
+ ]
+}

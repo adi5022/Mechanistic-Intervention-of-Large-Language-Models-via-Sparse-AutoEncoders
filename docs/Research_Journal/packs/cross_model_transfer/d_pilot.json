@@ -1,0 +1,531 @@
+{
+ "summary": {
+  "n_records": 30,
+  "small_edit_reaches_rank1": 17,
+  "small_start_median_rank": 315,
+  "median_kl": 0.9173933267593384,
+  "median_edit_size_last_position": 0.2851306934169256,
+  "mean_share_of_change_at_last_position": 0.04572455020000537,
+  "mean_share_of_change_at_positions_between": 0.888347078859806
+ },
+ "maps": {
+  "s2m_L8_L12": {
+   "medium_baseline_median_rank": 165,
+   "arms": {
+    "translated": {
+     "1.0": {
+      "top1": 0,
+      "n": 30,
+      "median_rank": 53
+     },
+     "2.0": {
+      "top1": 2,
+      "n": 30,
+      "median_rank": 16
+     },
+     "3.0": {
+      "top1": 5,
+      "n": 30,
+      "median_rank": 104
+     },
+     "4.0": {
+      "top1": 3,
+      "n": 30,
+      "median_rank": 189
+     }
+    },
+    "random": {
+     "1.0": {
+      "top1": 0,
+      "n": 30,
+      "median_rank": 223
+     },
+     "2.0": {
+      "top1": 0,
+      "n": 30,
+      "median_rank": 275
+     },
+     "3.0": {
+      "top1": 0,
+      "n": 30,
+      "median_rank": 348
+     },
+     "4.0": {
+      "top1": 0,
+      "n": 30,
+      "median_rank": 508
+     }
+    },
+    "wrong_record": {
+     "1.0": {
+      "top1": 0,
+      "n": 30,
+      "median_rank": 151
+     },
+     "2.0": {
+      "top1": 0,
+      "n": 30,
+      "median_rank": 232
+     },
+     "3.0": {
+      "top1": 0,
+      "n": 30,
+      "median_rank": 317
+     },
+     "4.0": {
+      "top1": 0,
+      "n": 30,
+      "median_rank": 536
+     }
+    },
+    "word_push": {
+     "1.0": {
+      "top1": 0,
+      "n": 30,
+      "median_rank": 28
+     },
+     "2.0": {
+      "top1": 6,
+      "n": 30,
+      "median_rank": 3
+     },
+     "3.0": {
+      "top1": 17,
+      "n": 30,
+      "median_rank": 1
+     },
+     "4.0": {
+      "top1": 26,
+      "n": 30,
+      "median_rank": 1
+     }
+    }
+   }
+  },
+  "s2m_L8_L16": {
+   "medium_baseline_median_rank": 165,
+   "arms": {
+    "translated": {
+     "1.0": {
+      "top1": 0,
+      "n": 30,
+      "median_rank": 25
+     },
+     "2.0": {
+      "top1": 2,
+      "n": 30,
+      "median_rank": 21
+     },
+     "3.0": {
+      "top1": 6,
+      "n": 30,
+      "median_rank": 23
+     },
+     "4.0": {
+      "top1": 5,
+      "n": 30,
+      "median_rank": 89
+     }
+    },
+    "random": {
+     "1.0": {
+      "top1": 0,
+      "n": 30,
+      "median_rank": 159
+     },
+     "2.0": {
+      "top1": 1,
+      "n": 30,
+      "median_rank": 261
+     },
+     "3.0": {
+      "top1": 1,
+      "n": 30,
+      "median_rank": 378
+     },
+     "4.0": {
+      "top1": 1,
+      "n": 30,
+      "median_rank": 560
+     }
+    },
+    "wrong_record": {
+     "1.0": {
+      "top1": 0,
+      "n": 30,
+      "median_rank": 179
+     },
+     "2.0": {
+      "top1": 0,
+      "n": 30,
+      "median_rank": 272
+     },
+     "3.0": {
+      "top1": 0,
+      "n": 30,
+      "median_rank": 377
+     },
+     "4.0": {
+      "top1": 0,
+      "n": 30,
+      "median_rank": 611
+     }
+    },
+    "word_push": {
+     "1.0": {
+      "top1": 5,
+      "n": 30,
+      "median_rank": 3
+     },
+     "2.0": {
+      "top1": 26,
+      "n": 30,
+      "median_rank": 1
+     },
+     "3.0": {
+      "top1": 28,
+      "n": 30,
+      "median_rank": 1
+     },
+     "4.0": {
+      "top1": 30,
+      "n": 30,
+      "median_rank": 1
+     }
+    }
+   }
+  }
+ },
+ "records": [
+  {
+   "small_start_rank": 48,
+   "small_edit_rank": 1,
+   "kl": 0.2864093780517578,
+   "edit_size_last": 0.20633185919048425,
+   "share_last": 0.036345165222883224,
+   "peak_position_from_end": 2,
+   "prompt": "Singled Out debuted on",
+   "target": "CBS",
+   "case_id": 4402
+  },
+  {
+   "small_start_rank": 1087,
+   "small_edit_rank": 2,
+   "kl": 1.3660922050476074,
+   "edit_size_last": 0.4236774263824843,
+   "share_last": 0.14311867952346802,
+   "peak_position_from_end": 3,
+   "prompt": "Gibraltar is located in",
+   "target": "Antarctica",
+   "case_id": 18651
+  },
+  {
+   "small_start_rank": 1005,
+   "small_edit_rank": 1,
+   "kl": 0.9267038702964783,
+   "edit_size_last": 0.34093923643679125,
+   "share_last": 0.054847974330186844,
+   "peak_position_from_end": 2,
+   "prompt": "Neryungri is located in the country of",
+   "target": "Canada",
+   "case_id": 2067
+  },
+  {
+   "small_start_rank": 354,
+   "small_edit_rank": 17,
+   "kl": 0.4376021921634674,
+   "edit_size_last": 0.31451729961324076,
+   "share_last": 0.006158116273581982,
+   "peak_position_from_end": 4,
+   "prompt": "Abdullah Ibrahim plays",
+   "target": "trumpet",
+   "case_id": 8358
+  },
+  {
+   "small_start_rank": 1064,
+   "small_edit_rank": 181,
+   "kl": 1.3228719234466553,
+   "edit_size_last": 0.2851306934169256,
+   "share_last": 0.031837690621614456,
+   "peak_position_from_end": 5,
+   "prompt": "The Exploited was started in",
+   "target": "Olympia",
+   "case_id": 3863
+  },
+  {
+   "small_start_rank": 1305,
+   "small_edit_rank": 14,
+   "kl": 0.9173933267593384,
+   "edit_size_last": 0.25756344784590307,
+   "share_last": 0.015482979826629162,
+   "peak_position_from_end": 6,
+   "prompt": "Dietmar Feichtinger found employment in",
+   "target": "Ottawa",
+   "case_id": 16234
+  },
+  {
+   "small_start_rank": 19230,
+   "small_edit_rank": 368,
+   "kl": 1.0399681329727173,
+   "edit_size_last": 0.2622916333562439,
+   "share_last": 0.03657029941678047,
+   "peak_position_from_end": 7,
+   "prompt": "Hantaro Nagaoka's domain of activity is",
+   "target": "surgery",
+   "case_id": 14728
+  },
+  {
+   "small_start_rank": 410,
+   "small_edit_rank": 1,
+   "kl": 0.22023969888687134,
+   "edit_size_last": 0.1784100768949218,
+   "share_last": 0.03156626597046852,
+   "peak_position_from_end": 5,
+   "prompt": "Richard Brauer's profession is a",
+   "target": "politician",
+   "case_id": 15474
+  },
+  {
+   "small_start_rank": 2,
+   "small_edit_rank": 1,
+   "kl": 0.007653474807739258,
+   "edit_size_last": 0.03778302500683889,
+   "share_last": 0.005996922496706247,
+   "peak_position_from_end": 4,
+   "prompt": "What sport does Charles Barkley play? They play",
+   "target": "football",
+   "case_id": 21351
+  },
+  {
+   "small_start_rank": 6,
+   "small_edit_rank": 1,
+   "kl": 0.01529146172106266,
+   "edit_size_last": 0.07880503478978222,
+   "share_last": 0.00909598357975483,
+   "peak_position_from_end": 4,
+   "prompt": "In Viitasaari, the language spoken is",
+   "target": "English",
+   "case_id": 12439
+  },
+  {
+   "small_start_rank": 4,
+   "small_edit_rank": 1,
+   "kl": 0.006405111867934465,
+   "edit_size_last": 0.06733621079535429,
+   "share_last": 0.014558624476194382,
+   "peak_position_from_end": 9,
+   "prompt": "McDonald Heights is a part of the continent of",
+   "target": "Europe",
+   "case_id": 6879
+  },
+  {
+   "small_start_rank": 315,
+   "small_edit_rank": 3,
+   "kl": 0.8065847158432007,
+   "edit_size_last": 0.31175386366826136,
+   "share_last": 0.049813613295555115,
+   "peak_position_from_end": 2,
+   "prompt": "Nina van Pallandt originated from",
+   "target": "Minneapolis",
+   "case_id": 3075
+  },
+  {
+   "small_start_rank": 4105,
+   "small_edit_rank": 42,
+   "kl": 2.704451322555542,
+   "edit_size_last": 0.31127453775639735,
+   "share_last": 0.055044498294591904,
+   "peak_position_from_end": 6,
+   "prompt": "Interstate 44 in Texas is in",
+   "target": "England",
+   "case_id": 15986
+  },
+  {
+   "small_start_rank": 8,
+   "small_edit_rank": 1,
+   "kl": 0.35335102677345276,
+   "edit_size_last": 0.2621447308898668,
+   "share_last": 0.042026277631521225,
+   "peak_position_from_end": 7,
+   "prompt": "Samira Ahmed, who is employed by",
+   "target": "Google",
+   "case_id": 928
+  },
+  {
+   "small_start_rank": 7439,
+   "small_edit_rank": 319,
+   "kl": 1.4371402263641357,
+   "edit_size_last": 0.4706544460579874,
+   "share_last": 0.015414000488817692,
+   "peak_position_from_end": 4,
+   "prompt": "Jamie Cullum performs",
+   "target": "sitcom",
+   "case_id": 12773
+  },
+  {
+   "small_start_rank": 6588,
+   "small_edit_rank": 4,
+   "kl": 1.3822718858718872,
+   "edit_size_last": 0.2658209538553745,
+   "share_last": 0.038764290511608124,
+   "peak_position_from_end": 6,
+   "prompt": "Hadzhidimovo, located in",
+   "target": "Peru",
+   "case_id": 14180
+  },
+  {
+   "small_start_rank": 39,
+   "small_edit_rank": 1,
+   "kl": 0.053193267434835434,
+   "edit_size_last": 0.12113378938401474,
+   "share_last": 0.005136244464665651,
+   "peak_position_from_end": 7,
+   "prompt": "The language of Adriana Lecouvreur is",
+   "target": "French",
+   "case_id": 19904
+  },
+  {
+   "small_start_rank": 36,
+   "small_edit_rank": 1,
+   "kl": 0.14758293330669403,
+   "edit_size_last": 0.1910864538517322,
+   "share_last": 0.06352858245372772,
+   "peak_position_from_end": 2,
+   "prompt": "Dateline NBC premiered on",
+   "target": "PBS",
+   "case_id": 69
+  },
+  {
+   "small_start_rank": 2157,
+   "small_edit_rank": 5,
+   "kl": 0.9933154582977295,
+   "edit_size_last": 0.3678808645134319,
+   "share_last": 0.0934467539191246,
+   "peak_position_from_end": 3,
+   "prompt": "Bani River is located in",
+   "target": "Antarctica",
+   "case_id": 14594
+  },
+  {
+   "small_start_rank": 136,
+   "small_edit_rank": 1,
+   "kl": 1.1869807243347168,
+   "edit_size_last": 0.38618668146922225,
+   "share_last": 0.13332612812519073,
+   "peak_position_from_end": 3,
+   "prompt": "Arne Friedrich professionally plays the sport",
+   "target": "football",
+   "case_id": 8727
+  },
+  {
+   "small_start_rank": 36,
+   "small_edit_rank": 1,
+   "kl": 0.15057842433452606,
+   "edit_size_last": 0.13386960157763533,
+   "share_last": 0.011161986738443375,
+   "peak_position_from_end": 6,
+   "prompt": "Frode Fjellheim performs on the",
+   "target": "guitar",
+   "case_id": 7496
+  },
+  {
+   "small_start_rank": 4,
+   "small_edit_rank": 1,
+   "kl": 0.09306395053863525,
+   "edit_size_last": 0.16479608032155194,
+   "share_last": 0.023413479328155518,
+   "peak_position_from_end": 6,
+   "prompt": "The original language of The Fatal Eggs is",
+   "target": "French",
+   "case_id": 19370
+  },
+  {
+   "small_start_rank": 28,
+   "small_edit_rank": 1,
+   "kl": 0.08954807370901108,
+   "edit_size_last": 0.1660242416921622,
+   "share_last": 0.02660905010998249,
+   "peak_position_from_end": 5,
+   "prompt": "Space Sentinels premiered on",
+   "target": "BBC",
+   "case_id": 3349
+  },
+  {
+   "small_start_rank": 6760,
+   "small_edit_rank": 4,
+   "kl": 1.4835448265075684,
+   "edit_size_last": 0.34578949410653775,
+   "share_last": 0.09121368080377579,
+   "peak_position_from_end": 3,
+   "prompt": "The twin city of Chongqing is",
+   "target": "Amsterdam",
+   "case_id": 10401
+  },
+  {
+   "small_start_rank": 184,
+   "small_edit_rank": 1,
+   "kl": 1.2914354801177979,
+   "edit_size_last": 0.4169795728839671,
+   "share_last": 0.0659199133515358,
+   "peak_position_from_end": 4,
+   "prompt": "Michel Brault was born in",
+   "target": "Barcelona",
+   "case_id": 1002
+  },
+  {
+   "small_start_rank": 385,
+   "small_edit_rank": 1,
+   "kl": 0.45727553963661194,
+   "edit_size_last": 0.24173433825410892,
+   "share_last": 0.029220452532172203,
+   "peak_position_from_end": 8,
+   "prompt": "Chevrolet Equinox, produced by",
+   "target": "Triumph",
+   "case_id": 731
+  },
+  {
+   "small_start_rank": 4575,
+   "small_edit_rank": 5,
+   "kl": 0.9598907232284546,
+   "edit_size_last": 0.29228052890933787,
+   "share_last": 0.02998075820505619,
+   "peak_position_from_end": 9,
+   "prompt": "The domain of activity of Georg Ernst Stahl is",
+   "target": "mathematics",
+   "case_id": 833
+  },
+  {
+   "small_start_rank": 240,
+   "small_edit_rank": 1,
+   "kl": 2.2845077514648438,
+   "edit_size_last": 0.3468113252283483,
+   "share_last": 0.07063209265470505,
+   "peak_position_from_end": 1,
+   "prompt": "Miracle Fortress formed in",
+   "target": "Sydney",
+   "case_id": 21284
+  },
+  {
+   "small_start_rank": 251,
+   "small_edit_rank": 2,
+   "kl": 0.9097355604171753,
+   "edit_size_last": 0.3509695032565769,
+   "share_last": 0.06863421201705933,
+   "peak_position_from_end": 4,
+   "prompt": "Vermilion is located in",
+   "target": "Italy",
+   "case_id": 17741
+  },
+  {
+   "small_start_rank": 27,
+   "small_edit_rank": 1,
+   "kl": 1.9591491222381592,
+   "edit_size_last": 0.4129799490261021,
+   "share_last": 0.07287178933620453,
+   "peak_position_from_end": 8,
+   "prompt": "The headquarter of BSC Young Boys is in",
+   "target": "Toronto",
+   "case_id": 301
+  }
+ ]
+}
