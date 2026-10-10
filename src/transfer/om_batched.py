@@ -84,6 +84,44 @@ def score(S, ranks, subset=None):
     return float((r == 1).float().mean()), float((b.log() - r.log()).mean()), float(r.sort().values[len(r) // 2])
 
 
+def train_map_hinge(medium, W0, train, dev_set, q, lam=0.0, margin=0.3, epochs=15, lr=2e-4, reg=0.1, batch=32, seed=0, amp=False, log=None):
+    """Step D10: the D7 training (output-matching KL) plus lam * a rank-1 hinge on every training text that is a tuned prompt.
+    hinge = relu(margin - (target logit - strongest other logit)) on medium's last-position logits after the injection (the loss form of the original edit
+    and of D6). `train` needs train['tid'] (target ids, [N]) and train['tuned'] (bool, [N]). lam = 0 reproduces train_map exactly (same batches for the same seed).
+    Keeps the epoch with the best dev mean log-rank gain at dose 1. Returns (best W, best epoch, history)."""
+    W = nn.Parameter(W0.clone())
+    opt = torch.optim.Adam([W], lr=lr)
+    w0n = (W0 ** 2).sum()
+    g = torch.Generator().manual_seed(seed)
+    n = len(train["lens"])
+    best_gain, best_W, best_ep, hist = -1e9, W0.clone(), 0, []
+    for ep in range(1, epochs + 1):
+        perm = torch.randperm(n, generator=g).to(W0.device)
+        tot_kl, tot_h, nb = 0.0, 0.0, 0
+        for s in range(0, n, batch):
+            idx = perm[s:s + batch]
+            lg = batch_logits(medium, train, idx, W, 1.0, q, amp).float()
+            logp = F.log_softmax(lg, dim=-1)
+            gl = train["goal"][idx].float()
+            kl = (gl.exp() * (gl - logp)).sum(-1)
+            tid = train["tid"][idx]
+            t = lg.gather(1, tid[:, None])[:, 0]
+            other = lg.scatter(1, tid[:, None], float("-inf")).max(1).values
+            hinge = F.relu(margin - (t - other)) * train["tuned"][idx].float()
+            loss = (kl + lam * hinge).mean()
+            opt.zero_grad()
+            (loss + reg * ((W - W0) ** 2).sum() / w0n).backward()
+            opt.step()
+            tot_kl, tot_h, nb = tot_kl + float(kl.mean().item()), tot_h + float(hinge.mean().item()), nb + 1
+        top1, gain, mr = score(dev_set, eval_ranks(medium, dev_set, W.detach(), 1.0, q, amp=amp))
+        hist.append({"epoch": ep, "train_kl": tot_kl / nb, "train_hinge": tot_h / nb, "dev_top1": top1, "dev_gain": gain, "dev_median_rank": mr})
+        if gain > best_gain:
+            best_gain, best_W, best_ep = gain, W.detach().clone(), ep
+        if log:
+            log(ep, hist[-1], best_ep == ep)
+    return best_W, best_ep, hist
+
+
 def train_map_horizons(medium, W0, train, dev_set, q, epochs=40, horizons=(15, 40), lr=2e-4, reg=0.1, batch=32, seed=0, amp=False):
     """Same training as train_map (identical updates), but keeps, for each horizon h, the epoch <= h with the best dev mean log-rank gain at dose 1.
     One long run therefore also gives the shorter run: with the same seed the first h epochs are the same as a run that stops at h.
