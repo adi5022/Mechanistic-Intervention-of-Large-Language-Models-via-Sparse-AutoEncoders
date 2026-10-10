@@ -1,0 +1,7 @@
+# Post-hoc check after D10 (does the map memorise its training targets?), run by Claude on 2026-10-10 (about 22:00) with a scratch script that is now tools/transfer/17_train_vs_test.py (same code, same maps). Output copied unchanged.
+top-1 on the 289 TRAINING tuned prompts (target words the map was trained on) against top-1 on the 88 TEST records (unseen target words):
+map                           training top-1    test top-1 (primary)
+ridge map, dose 2.0                       3%                      8%
+lambda 0.0, dose 2.0                     32%                     18%
+lambda 0.1, dose 2.0                     74%                     20%
+lambda 1.0, dose 1.5                     95%                     16%
