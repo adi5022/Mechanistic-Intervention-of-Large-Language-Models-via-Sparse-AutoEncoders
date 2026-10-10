@@ -1,0 +1,54 @@
+{
+ "edits_attempted": 2894,
+ "skipped": 0,
+ "reached_rank_1_in_small": 1221,
+ "sentences_with_a_success": 749,
+ "sentences_attempted": 1447,
+ "distinct_target_words_synthetic": 759,
+ "distinct_target_words_real_training_set": 116,
+ "real_training_edits": 289,
+ "banned_words": 198,
+ "synthetic_targets_that_are_banned_words": 0,
+ "success_by_start_rank": {
+  "0-50": [
+   585,
+   628
+  ],
+  "50-150": [
+   260,
+   404
+  ],
+  "150-400": [
+   219,
+   518
+  ],
+  "400-1000": [
+   107,
+   443
+  ],
+  "1000-1000000": [
+   50,
+   901
+  ]
+ },
+ "start_rank_quartiles": {
+  "real_training": [
+   33,
+   116,
+   433
+  ],
+  "synthetic_training": [
+   16,
+   54,
+   194
+  ],
+  "test_primary": [
+   36,
+   105,
+   292
+  ]
+ },
+ "synthetic_with_start_rank_100_or_worse": 457,
+ "time_seconds": 3542,
+ "workers": 3
+}

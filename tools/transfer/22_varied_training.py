@@ -5,7 +5,8 @@ it on the unseen real counterfactual test records. The design, the data curve, G
     .venv\\Scripts\\python.exe tools/transfer/22_varied_training.py --smoke     # rehearsal (2 epochs, 1 seed, 2 data sizes; numbers mean nothing); run it AFTER 21_varied_edits.py has finished
     .venv\\Scripts\\python.exe tools/transfer/22_varied_training.py             # the real run: about an hour, progress printed all the time
 
-Training sets: the 289 real edits only (replicates D7 to D10) and with 25%, 50%, 100% of the synthetic edits (random subsets by seed). Everything else as in D7 to D10: linear map small 8 to
+Training sets: the 289 real edits only (replicates D7 to D10) and with 25%, 50%, 100% of the synthetic edits (random subsets by seed), plus one EXPLORATORY set (real + the synthetic edits whose
+target starts at rank 100 or worse in small; the synthetic edits are easier than the real ones, median start rank 54 against 116). Everything else as in D7 to D10: linear map small 8 to
 medium 16 from the ridge solution, the D7 output-matching KL loss, Adam 2e-4, batch 32, penalty 0.1, training dose 1.0, 15 epochs, 3 seeds; epoch and dose chosen on the 28 dev records by dev
 gain; judged on the same test records with the same recipes. For every run the top-1 on the TRAINING prompts is printed next to the test top-1 (the overfitting check). The full set is judged
 on rewordings, neighbours and unrelated prompts and against the baseline (real only), with Gate 9. Saves outputs/transfer/d13_training.json, the maps (d13_map_*.pt) and the log.
@@ -34,7 +35,12 @@ from src.transfer.runlog import tee_to
 OUT_DIR = os.path.join(ROOT, "outputs", "transfer")
 Q = 16
 DOSES = [0.5, 1.0, 1.5, 2.0, 3.0]
-FRACTIONS = [0.0, 0.25, 0.5, 1.0]
+FRACTIONS = [0.0, 0.25, 0.5, 1.0, -1.0]                      # -1 = EXPLORATORY: real + only the synthetic edits whose target starts at rank 100 or worse in small (the real edits start at median 116, the synthetic ones at 54)
+HARD_START_RANK = 100
+
+
+def lab(f):
+    return "real only" if f == 0 else (f"real + synthetic with start rank >= {HARD_START_RANK}" if f < 0 else f"real + {int(100 * f)}% synthetic")
 GATE_TOP1, GATE_LIFT, GATE_SPEC, READ_POINTS = 0.50, 0.80, 0.10, 0.05
 
 
@@ -155,12 +161,17 @@ def main():
     print(f"   {len(c['dev'])} dev records, {len(test)} test records ({int(rec_primary.sum())} primary)", flush=True)
 
     # ---------------- sweep ---------------------------------------------------------------------------------------------------------------
-    stage(f"2/5  sweep: training sets {[f'real + {int(100 * f)}% of the synthetic edits' if f else 'real only' for f in fractions]} x {seeds} seeds, {epochs} epochs each")
+    stage(f"2/5  sweep: training sets {[lab(f) for f in fractions]} x {seeds} seeds, {epochs} epochs each")
     runs, maps_out = [], {}
     for f in fractions:
         for seed in range(seeds):
             ts = time.time()
-            chosen = [] if f == 0 else sorted(random.Random(1000 * seed + int(100 * f)).sample(range(len(syn_keys)), max(1, round(f * len(syn_keys)))))
+            if f == 0:
+                chosen = []
+            elif f < 0:
+                chosen = [j for j, k in enumerate(syn_keys) if ed[k]["start_rank"] >= HARD_START_RANK]
+            else:
+                chosen = sorted(random.Random(1000 * seed + int(100 * f)).sample(range(len(syn_keys)), max(1, round(f * len(syn_keys)))))
             items, tids, tuned = list(c["train"]), list(real_tids), [i % 5 == 0 for i in range(len(c["train"]))]
             for j in chosen:
                 for t_, it in enumerate(syn_cache[syn_keys[j]]):
@@ -190,7 +201,7 @@ def main():
             if not a.smoke:
                 torch.save({"W": W.cpu(), "dose": best["dose"], "epoch": ep}, os.path.join(OUT_DIR, f"d13_map_f{f}_s{seed}.pt"))
             r_, w_, n_ = best["real"]["prim"], best["wrong"]["prim"], best["rand"]["prim"]
-            print(f"   real + {int(100 * f):>3}% synthetic ({len(chosen)} edits), seed {seed}: epoch {ep:>2}, dose {best['dose']}, dev gain {best['dev'][1]:.2f} | TEST (primary): top-1 {pct(r_[0])}, gain {r_[1]:.2f}, "
+            print(f"   {lab(f)} ({len(chosen)} edits), seed {seed}: epoch {ep:>2}, dose {best['dose']}, dev gain {best['dev'][1]:.2f} | TEST (primary): top-1 {pct(r_[0])}, gain {r_[1]:.2f}, "
                   f"median rank {r_[2]:.0f} | controls: wrong {pct(w_[0])}, random-word {pct(n_[0])} | TRAINING top-1: real prompts {pct(tr_real)}, synthetic {pct(tr_syn)}   [{time.time() - ts:.0f} s]", flush=True)
 
     # ---------------- summary and judging -------------------------------------------------------------------------------------------------
@@ -205,9 +216,9 @@ def main():
                    "median_rank": mean([pick(r)["real"]["prim"][2] for r in rs]), "wrong_top1": mean([pick(r)["wrong"]["prim"][0] for r in rs]), "rand_top1": mean([pick(r)["rand"]["prim"][0] for r in rs]),
                    "train_top1_real": mean([r["train_top1_real"] for r in rs]), "train_top1_syn": mean([r["train_top1_syn"] for r in rs])}
         s_ = summ[f]
-        print(f"   real + {int(100 * f):>3}% synthetic ({int(s_['n_syn']):>4}){s_['dev_score']:>11.2f}{pct(s_['top1']):>14} ({pct(s_['top1_min'])} to {pct(s_['top1_max'])}){s_['gain']:>11.2f}{s_['median_rank']:>10.1f}{pct(s_['wrong_top1']):>8}{pct(s_['rand_top1']):>13}{pct(s_['train_top1_real']):>20}")
-    full, base = max(fractions), 0.0
-    stage(f"4/5  judging the full set (real + {int(100 * full)}% synthetic) and the baseline (real only) on rewordings, neighbours and unrelated prompts")
+        print(f"   {lab(f):<42}({int(s_['n_syn']):>4}){s_['dev_score']:>11.2f}{pct(s_['top1']):>14} ({pct(s_['top1_min'])} to {pct(s_['top1_max'])}){s_['gain']:>11.2f}{s_['median_rank']:>10.1f}{pct(s_['wrong_top1']):>8}{pct(s_['rand_top1']):>13}{pct(s_['train_top1_real']):>20}")
+    full, base = 1.0, 0.0
+    stage("4/5  judging the full set (real + 100% synthetic) and the baseline (real only) on rewordings, neighbours and unrelated prompts")
     del S_real_tuned, S_syn_tuned
     torch.cuda.empty_cache()
     J = pack_judge(jitems, dev)
@@ -232,7 +243,7 @@ def main():
         for k in ("medium unchanged", "small unchanged", "small with the edit"):
             print(f"    {k:<62}{'':>7}{'':>10}{pct(rf[k]['PS']):>7}{pct(rf[k]['NS']):>7}{rf[k]['KL']:>8.3f}{pct(rf[k]['flips']):>8}")
         for f in (base, full):
-            tag_f = "real only (baseline)" if f == base else f"real + {int(100 * f)}% synthetic"
+            tag_f = "real only (baseline)" if f == base else lab(f)
             for arm, nm in (("real", "real recipe"), ("wrong", "another record's recipe"), ("rand", "random-word edit (own word)")):
                 kl = avg(f, subset, arm, "unrelated_KL") if arm == "real" else float("nan")
                 fl = avg(f, subset, arm, "unrelated_flips") if arm == "real" else float("nan")

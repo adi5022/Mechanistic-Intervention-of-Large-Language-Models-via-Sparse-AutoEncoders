@@ -1,0 +1,65 @@
+# 21_varied_edits started 2026-10-10 23:28:48; arguments: 
+log: outputs\transfer\logs\21_varied_edits_20261010_232848.log
+1447 sentences x 2 random words = 2894 edits to tune (about 3 s each), 3 workers; 198 words are banned as targets
+   [23:29:48] 30/2894 edits done, rank 1 in small on 13 (43%); about 96 min left
+   [23:30:48] 90/2894 edits done, rank 1 in small on 32 (36%); about 62 min left
+   [23:31:48] 135/2894 edits done, rank 1 in small on 47 (35%); about 61 min left
+   [23:32:48] 180/2894 edits done, rank 1 in small on 66 (37%); about 60 min left
+   [23:33:48] 210/2894 edits done, rank 1 in small on 77 (37%); about 64 min left
+   [23:34:48] 255/2894 edits done, rank 1 in small on 98 (38%); about 62 min left
+   [23:35:49] 285/2894 edits done, rank 1 in small on 110 (39%); about 64 min left
+   [23:36:49] 315/2894 edits done, rank 1 in small on 121 (38%); about 66 min left
+   [23:37:49] 345/2894 edits done, rank 1 in small on 131 (38%); about 67 min left
+   [23:38:49] 375/2894 edits done, rank 1 in small on 143 (38%); about 67 min left
+   [23:39:49] 405/2894 edits done, rank 1 in small on 157 (39%); about 68 min left
+   [23:40:49] 420/2894 edits done, rank 1 in small on 166 (40%); about 71 min left
+   [23:41:49] 450/2894 edits done, rank 1 in small on 174 (39%); about 71 min left
+   [23:42:49] 480/2894 edits done, rank 1 in small on 185 (39%); about 70 min left
+   [23:43:49] 525/2894 edits done, rank 1 in small on 204 (39%); about 68 min left
+   [23:44:49] 575/2894 edits done, rank 1 in small on 223 (39%); about 65 min left
+   [23:45:49] 630/2894 edits done, rank 1 in small on 256 (41%); about 61 min left
+   [23:46:49] 680/2894 edits done, rank 1 in small on 283 (42%); about 59 min left
+   [23:47:49] 735/2894 edits done, rank 1 in small on 307 (42%); about 56 min left
+   [23:48:49] 795/2894 edits done, rank 1 in small on 326 (41%); about 53 min left
+   [23:49:49] 840/2894 edits done, rank 1 in small on 350 (42%); about 51 min left
+   [23:50:49] 900/2894 edits done, rank 1 in small on 378 (42%); about 49 min left
+   [23:51:49] 950/2894 edits done, rank 1 in small on 395 (42%); about 47 min left
+   [23:52:49] 1005/2894 edits done, rank 1 in small on 416 (41%); about 45 min left
+   [23:53:49] 1065/2894 edits done, rank 1 in small on 444 (42%); about 43 min left
+   [23:54:49] 1115/2894 edits done, rank 1 in small on 463 (42%); about 42 min left
+   [23:55:49] 1170/2894 edits done, rank 1 in small on 489 (42%); about 40 min left
+   [23:56:49] 1225/2894 edits done, rank 1 in small on 519 (42%); about 38 min left
+   [23:57:49] 1275/2894 edits done, rank 1 in small on 541 (42%); about 37 min left
+   [23:58:49] 1335/2894 edits done, rank 1 in small on 566 (42%); about 35 min left
+   [23:59:49] 1385/2894 edits done, rank 1 in small on 588 (42%); about 34 min left
+   [00:00:49] 1440/2894 edits done, rank 1 in small on 612 (42%); about 32 min left
+   [00:01:49] 1495/2894 edits done, rank 1 in small on 623 (42%); about 31 min left
+   [00:02:49] 1545/2894 edits done, rank 1 in small on 649 (42%); about 30 min left
+   [00:03:49] 1605/2894 edits done, rank 1 in small on 678 (42%); about 28 min left
+   [00:04:49] 1650/2894 edits done, rank 1 in small on 689 (42%); about 27 min left
+   [00:05:49] 1710/2894 edits done, rank 1 in small on 715 (42%); about 26 min left
+   [00:06:49] 1760/2894 edits done, rank 1 in small on 738 (42%); about 24 min left
+   [00:07:49] 1815/2894 edits done, rank 1 in small on 773 (43%); about 23 min left
+   [00:08:50] 1875/2894 edits done, rank 1 in small on 801 (43%); about 22 min left
+   [00:09:50] 1920/2894 edits done, rank 1 in small on 823 (43%); about 21 min left
+   [00:10:50] 1980/2894 edits done, rank 1 in small on 849 (43%); about 19 min left
+   [00:11:50] 2030/2894 edits done, rank 1 in small on 875 (43%); about 18 min left
+   [00:12:50] 2085/2894 edits done, rank 1 in small on 888 (43%); about 17 min left
+   [00:13:50] 2145/2894 edits done, rank 1 in small on 909 (42%); about 16 min left
+   [00:14:50] 2195/2894 edits done, rank 1 in small on 936 (43%); about 15 min left
+   [00:15:50] 2250/2894 edits done, rank 1 in small on 957 (43%); about 13 min left
+   [00:16:50] 2300/2894 edits done, rank 1 in small on 980 (43%); about 12 min left
+   [00:17:50] 2355/2894 edits done, rank 1 in small on 1007 (43%); about 11 min left
+   [00:18:50] 2410/2894 edits done, rank 1 in small on 1033 (43%); about 10 min left
+   [00:19:50] 2460/2894 edits done, rank 1 in small on 1053 (43%); about 9 min left
+   [00:20:50] 2520/2894 edits done, rank 1 in small on 1081 (43%); about 8 min left
+   [00:21:50] 2570/2894 edits done, rank 1 in small on 1094 (43%); about 7 min left
+   [00:22:50] 2625/2894 edits done, rank 1 in small on 1120 (43%); about 6 min left
+   [00:23:50] 2680/2894 edits done, rank 1 in small on 1138 (42%); about 4 min left
+   [00:24:50] 2730/2894 edits done, rank 1 in small on 1162 (43%); about 3 min left
+   [00:25:50] 2790/2894 edits done, rank 1 in small on 1183 (42%); about 2 min left
+   [00:26:50] 2840/2894 edits done, rank 1 in small on 1202 (42%); about 1 min left
+   [00:27:50] 2894/2894 edits done, rank 1 in small on 1221 (42%); about 0 min left
+
+merged 2894 edits into outputs/transfer/d13_edits.pt; 1221 reached rank 1 in small (42%), 759 distinct target words, 749 sentences
+total time 3542 s
