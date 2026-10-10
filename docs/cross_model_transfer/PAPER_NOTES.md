@@ -1,0 +1,57 @@
+# Paper notes: cross-model transfer of an SAE-feature edit (living document; updated 2026-10-10)
+
+Purpose: everything the paper needs in one place, with pointers to the evidence. Numbers are copied from the pack files named in each row; the story of each step is in `docs/Research_Journal/31.md`, `32.md`, `33.md`. Related work: `RELATED_WORK.md`. This file is updated after every experiment (see `CLAUDE.md`).
+
+## 1. One-paragraph story
+We ask whether the change an edit makes inside one language model can be carried, at inference time and with no weight change, into another. The edit is a gradient-descent edit on SAE feature multipliers in GPT-2 small (layer 8, `gpt2-small-res-jb`) that makes a counterfactual answer the top answer (for example "The mother tongue of Danielle Darrieux is" gets " English" instead of " French"). The change is read in small, translated into GPT-2 medium's residual stream by a map fitted on ordinary text, scaled by a dose, and added to medium (no SAE, no weight change in either model). A good translator exists and keeps medium working. A control that swaps one country for another passes. But an edit tuned only in small reaches rank 1 in medium on only 5 to 8% of records, although it moves the target's rank (142 to about 14) and the rewordings above every control. Several injection layers do not help. A map trained on edits roughly doubles the rate (18 to 20%) but stays far below a working bar (50%). An edit tuned through the translator against medium's output reaches 95% (a ceiling, not a transfer). So the channel can carry a rank-1 edit; edits tuned for one model are partly incompatible with the other.
+
+## 2. Headline table (88 primary test records unless stated; top-1 = the counterfactual target becomes medium's top answer)
+| Step | Question | Setup | Result | Verdict (rule fixed before the run) | Why / reading | Evidence | Figure |
+|---|---|---|---|---|---|---|---|
+| A1, A2 | Can a translator between the residual streams exist? | Ridge maps, wikitext-2, 25 layer pairs both ways | Per-dimension R-squared 0.58 (small 8 to medium 16), 0.66 (medium 16 to small 8); stitching recovers 91 to 98%; difference cosine at the changed word 0.63 to 0.76, at the last position 0.24 to 0.31 | Gate 1: passes only for medium to small | The map carries which word changed; the last-position summary weakly | `a2_check.json`, `maps_summary.json` | |
+| B1 | Does the channel carry a known meaning change? | Country swap | 55% (small to medium), 33% (medium to small); controls 0 to 1% | Gate 2 PASS | A control of the channel (mostly the changed word's position); not an edit, not a fact | `b1_swap_primary.json` | `e32_fig1` |
+| C | Is the edit a fact or a push? (small alone) | 150 test records | Subject-only edit succeeds on 12% against 59% for all positions; rewordings gain 1.04 against 0.82 for a rank-matched random word (p = 0.032) | Read-out steering by the pre-stated rule (weak) | The edit is not dominated by the target's output direction (logit-lens rank 4,922); an earlier claim about the subject's representation was withdrawn | `c_fact_or_push_summary.json` | `e32_fig5` |
+| D1 to D4 | Does the edit tuned in small make medium say the target? | Linear map, small 8 to medium 12 and 16, doses chosen on dev | Top-1 5% (layer 12), 8% (layer 16); median rank 142 to 23 and 14; rewordings +15 and +16 points; neighbours -4 to -5 points; controls 0 to 3% | Gate 3 FAIL (15% needed) | Real, graded, specific effect; far weaker than a word push, which wrecks neighbours | `d_analysis_linear.json` | `e32_fig2`, `e32_fig3` |
+| Neural map | Does a better-fitting translator export better? | Residual MLP on text | R-squared +0.09 to +0.11, export 6 to 8% | H29 rejected | A better fit on text does not help; the limit is not the translator's capacity | `mlp_vs_linear.json`, `d_analysis_mlp.json` | `e32_fig4`, `e32_fig6` |
+| D5 | Is the single injection layer the limit? | 15 layer configurations | Best single layer 8%, best layer set 7% | Gate 4 FAIL | Layers 8, 12, 16 behave alike; layer is not the bottleneck | `d5_multilayer.json`, `d5_configs.json` | `e33_fig1` |
+| D6 | Can the channel carry a rank-1 edit at all? | Dials tuned through the translator against medium's output | 95% (original edit 8%); rewordings 60% against 42% for a random-word version; neighbours -8 points (the edit itself -9 in small) | Gate 5 FAIL on the neighbour condition only | A ceiling, not a transfer; the mismatch is between what moves small and what moves medium | `d6_b_aware.json` | `e33_fig2` |
+| D7 | Can one map trained on edits do it without looking at medium? | 289 training edits, output-matching loss, target words held out | 18% (ridge 8%), median rank 7; controls 0 and 6% | Gate 6 FAIL (50% needed; rewordings 0.74 of the edit's lift) | Real, specific improvement (p = 5e-9) but far from the bar | `d7_output_matching.json` | `e33_fig3` |
+| D8 | Does more training data help? | 25%, 50%, 100% of the edits, 3 seeds | 13%, 13%, 20% | RISING by the rule | Flat then a jump; seeds at 100% share data, so the spread understates noise | `d8_datasize.json` | `e33_fig5` |
+| D9, D9b | Does longer training help? | 40 against 15 epochs, 3 seeds; then every dose | D9 by its rule: 2% against 20%; D9b: at dose 2.0 both 20% | D9: no reproducible improvement; D9b post-hoc | The drop was the dose picked on 28 dev records (dose 1.0, 3 records); longer training neither helps nor hurts; loss keeps falling with no test gain | `d9_longer_training.json`, `d9b_dose_table.json` | `e33_fig4`, `e33_fig6` |
+| Summary | | | 8% to 20% without looking at medium; 95% with | | | | `e33_fig7` |
+
+## 3. Claims the paper may make (with the evidence needed)
+- A linear residual-stream map between GPT-2 small and medium fitted on ordinary text keeps the receiver working and carries which word changed (A2; builds on Chen et al. 2025, not new).
+- The channel carries a swapped-country meaning change far above controls (B1).
+- An SAE-multiplier edit tuned only in the source model transfers partially and specifically (target rank, rewordings above controls, neighbours spared) but rarely reaches rank 1 (D3); neither a neural translator (H29), nor several injection layers (D5), nor a map trained on edits with 289 examples (D7 to D9b) closes the gap (about 20% at best).
+- The channel itself can carry a rank-1 edit when the multipliers are tuned through it against the receiver's output (D6): the limit is the edit's compatibility, not the channel.
+- Choosing a hyper-parameter (dose) by top-1 on a very small dev set is fragile (D9, D9b); a smoother criterion avoids it.
+
+## 4. Claims NOT supported (do not make them)
+- That a fact was transferred: the channel carries pushes toward any word too (D6 random-word edit 83% top-1); the rewordings contrast is the only evidence of more than a push and has no significance test yet; Phase C leans toward read-out steering for the source edit itself.
+- That the export "works": no method that does not look at the receiver's output got past about 20%, below every bar we fixed.
+- That the Import direction (medium into small), the additive edit, generated text, other model pairs, other relations or larger models behave likewise: none were tested.
+- Novelty of the map: Chen et al. (NeurIPS 2025) use affine residual maps including GPT-2 small to medium and transfer steering vectors, probes and SAEs.
+
+## 5. Caveats and things to do before submission
+- Read Chen et al. in full and correct `RELATED_WORK.md` (it was written from a summary); search for work on cross-model knowledge editing.
+- Significance tests are missing for: D6 rewordings against the random-word edit (24 against 6 points); D8 trend; D7 against D3 is tested (p = 5e-9).
+- Test set: 88 primary records, one record is about one point; the dev set is 28 records. Seeds at 100% training data share their data. One model pair, one dataset (CounterFact), one SAE.
+- The neighbour reference in Gates 5/6 was chosen after seeing D6; the rerun bar in D5 was proposed before the author confirmed it; D9b and the dose protocol change were designed after seeing D9 (all labelled post-hoc in the plan).
+- The training set of D7 to D9b is small (289 successful edits) because holding out every dev/test target word removed most of the pool; this may be what limits the result.
+- Replicate the key numbers with more seeds and, if possible, more test records before submission.
+
+## 6. Provenance and regeneration
+- Code: `src/transfer/`, `tools/transfer/00` to `15`, `src/gradient_editing_masked.py`; older code imported unchanged.
+- Data pack (in git): `docs/Research_Journal/packs/cross_model_transfer/` (summaries, `logs/` with the raw terminal output of each run). Local only (about 1 GB, NOT in git, back it up): `outputs/transfer/` (trained maps, per-record numbers, caches).
+- Figures: `python tools/make_transfer_figures.py` (e32) and `python tools/make_transfer_figures_33.py` (e33); they read the pack only.
+- Environment: Windows 11, RTX 4050 laptop GPU (6 GB), torch 2.6.0+cu124, transformer-lens 3.5.1, sae-lens 6.45.3. Commands and run times are in the journal entries ("Reproduce").
+
+## 7. Terms for the methods section
+- **Recipe:** feature ids and multipliers of the gradient-descent edit; re-applied to any prompt it gives a change of small's layer-8 state at every position ("relay mode").
+- **Dose:** the number that multiplies the translated change before it is added to medium.
+- **Dev / test:** dev records choose layer, dose and epoch; test records are only read.
+- **Rank / top-1:** position of the target in medium's list of next words; top-1 means rank 1.
+- **Rewordings (PS), neighbours (NS):** PS is the share of reworded prompts where the new answer beats the true one; NS is the share of neighbouring prompts (other subjects, same relation) where the true answer still beats the new one.
+- **Seed:** the number fixing the shuffle of training batches (and, below 100% of the data, which records are used).
+- **Ceiling (D6):** the dials are tuned against the receiver's output for each sentence, the best the channel can do when looking at the receiver.

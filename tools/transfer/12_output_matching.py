@@ -33,6 +33,7 @@ from src.sae_utils import load_sae_for_layer
 from src.transfer.benchmark import build_benchmark
 from src.transfer.export_eval import make_recipe, plain_logits, small_change, summarise_logits
 from src.transfer.models import load_model, pick_device
+from src.transfer.runlog import tee_to
 from src.transfer.output_matching import build_item, dev_scores, item_loss
 from src.transfer.swap import NEUTRAL, run_injected
 
@@ -204,6 +205,8 @@ def gate6(summary, bench, edits, res1):
 
 # ------------------------------------------------------------------------------------------------------------------------------
 def main():
+    log_path = tee_to("12_output_matching")
+    print(f"log: {os.path.relpath(log_path, ROOT)}", flush=True)
     ap = argparse.ArgumentParser()
     ap.add_argument("--quick", action="store_true")
     ap.add_argument("--n-train", type=int, default=800)

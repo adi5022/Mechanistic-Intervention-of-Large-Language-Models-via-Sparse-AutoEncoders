@@ -1,0 +1,68 @@
+# D5 (several injection layers) terminal output, pasted by the author on 2026-10-10 (run 12:41 to 13:00). Command:
+# $env:HF_HUB_OFFLINE=1; .venv\Scripts\python.exe tools/transfer/10_multilayer_export.py
+# Library warnings removed; numbers unchanged. The per-configuration table is in d5_configs.json, the summary in d5_multilayer.json.
+200 records (50 dev, 150 test); medium layers with a map: [4, 8, 12, 16, 20]; 15 configurations
+
+[12:41:15] stage 1: tuned prompt, all configurations, all doses
+   25/200 (33 s)
+   50/200 (58 s)
+   75/200 (83 s)
+   100/200 (108 s)
+   125/200 (134 s)
+   150/200 (159 s)
+   175/200 (184 s)
+   200/200 (210 s)
+
+[12:44:39] stage 2 on test records for ['L16', '12+16 split']
+   25/150 (345 s)
+   50/150 (477 s)
+   75/150 (610 s)
+   100/150 (743 s)
+   125/150 (896 s)
+   150/150 (1108 s)
+
+============================================================================================================================================
+RESULT  step D5 (translated edit at several layers of GPT-2 medium)
+
+  STAGE 1, tuned prompt (cells are on the test records whose edit reached rank 1 in small; dose chosen per configuration on dev)
+  test records whose edit reached rank 1 in small: 88   (unchanged medium: top-1    0%, median rank of the target 142;  small with the edit: top-1  100%)
+  configuration          dev dose dev top-1 | test top-1 median rank | norm-matched top-1 median rank  | random wrong rec.   (controls at the same dose)
+  L4                          1.0        4%           0%          73                   0%         127        0%         0%
+  L8                          1.5        4%           5%          27                   5%          23        0%         0%
+  L12                         1.5        4%           5%          23                   5%          22        0%         0%
+  L16                         2.0       11%           8%          14                   6%          18        0%         0%
+  L20                         2.0        4%           1%          25                   2%          25        0%         0%
+  12+16 split                 2.0       11%           7%          11                   7%          17        0%         0%
+  8+12+16 split               3.0        7%          14%          12                   6%          19        0%         0%
+  12+16+20 split              2.0       11%           7%          14                   6%          16        0%         0%
+  8+12+16+20 split            2.0        7%           7%          16                   6%          19        0%         0%
+  4+8+12+16+20 split          2.0        4%           7%          17                   6%          21        0%         0%
+  12+16 full                  1.0       11%           7%          11                  16%          12        0%         0%
+  8+12+16 full                1.0        7%          14%          12                  14%          24        0%         0%
+  12+16+20 full               0.5       11%           2%          22                  15%          11        0%         0%
+  8+12+16+20 full             0.5        7%           7%          16                  11%          30        0%         0%
+  4+8+12+16+20 full           1.0        7%          11%          21                   8%         190        0%         0%
+
+  GATE 4 (88 records): best single layer on dev = L16 (dose 2.0, test top-1    8%);  best split set on dev = 12+16 split (dose 2.0, test top-1    7%)
+    (a) set minus single >= 10 points: -1 -> NO;   (b) paired p = 1.6e-02 < 0.01: NO;   (c) top-1 >= 15% and 10 points above random    2% and wrong recipe    0%: NO
+    ->  FAIL
+
+  STAGE 2, rewordings / neighbours / unrelated prompts
+  88 test records whose edit reached rank 1 in small; cells: PS (rewordings: new beats true) / NS (neighbours: true still beats new) / unrelated KL / unrelated top-1 flips
+    arm                                    PS     NS      KL   flips
+    medium unchanged                      36%    67%   0.000      0%
+    small unchanged                       40%    63%   0.000      0%
+    small with the edit                   67%    54%   0.014     14%
+    L16 translated (chosen dose)          52%    63%   0.032     11%
+    L16 translated (norm matched)         51%    65%   0.015      6%
+    L16 wrong_recipe (chosen dose)        36%    65%   0.031     12%
+    L16 wrong_recipe (norm matched)       36%    65%   0.015      7%
+    12+16 split translated (chosen dose)    55%    62%   0.029      9%
+    12+16 split translated (norm matched)    52%    64%   0.015      4%
+    12+16 split wrong_recipe (chosen dose)    35%    66%   0.025      8%
+    12+16 split wrong_recipe (norm matched)    36%    66%   0.012      4%
+
+  PROPOSED RERUN BAR (reported, not gated) on L16: top-1    8% (>= 50%);  rewordings lift = 0.62 of the edit's own lift in small (>= 0.8);  neighbours fall 4 points (<= 5)  ->  DOES NOT MEET the bar
+
+  total time 1113 s; saved outputs\transfer\d5_multilayer.json and the per-record numbers (d5_stage1.pt, d5_multilayer.pt)
+============================================================================================================================================

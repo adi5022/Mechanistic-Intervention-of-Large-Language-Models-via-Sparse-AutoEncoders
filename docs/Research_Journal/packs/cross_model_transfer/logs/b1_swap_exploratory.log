@@ -1,0 +1,125 @@
+
+[00:02:06] loading models, building prompts, recording what each model knows
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|##########| 148/148 [00:00<00:00, 9976.49it/s]
+Loaded pretrained model gpt2 into HookedTransformer
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights: 100%|##########| 292/292 [00:00<00:00, 8620.11it/s]
+Loaded pretrained model gpt2-medium into HookedTransformer
+   41 countries usable; capitals the receiver answers correctly (per template): small [21, 24], medium [27, 28]
+
+[00:02:11] pair s2m_L8_L12  [exploratory]
+   1458 cases (437 dev, 1021 test) from 28 countries; receiver = medium, layer 12; alpha chosen on dev: all 2.0
+   translated, all positions, alpha 2.0:   67% of test cases flip to the swapped capital; strongest control (wrong, best alpha)    1%
+
+[00:03:04] pair s2m_L6_L8  [exploratory]
+   1458 cases (437 dev, 1021 test) from 28 countries; receiver = medium, layer 8; alpha chosen on dev: all 2.0
+   translated, all positions, alpha 2.0:   71% of test cases flip to the swapped capital; strongest control (wrong, best alpha)    1%
+
+[00:03:56] pair s2m_L2_L4  [exploratory]
+   1458 cases (437 dev, 1021 test) from 28 countries; receiver = medium, layer 4; alpha chosen on dev: all 1.5
+   translated, all positions, alpha 1.5:   79% of test cases flip to the swapped capital; strongest control (random, best alpha)    1%
+
+[00:04:46] pair m2s_L12_L8  [exploratory]
+   972 cases (277 dev, 695 test) from 25 countries; receiver = small, layer 8; alpha chosen on dev: all 1.5
+   translated, all positions, alpha 1.5:   36% of test cases flip to the swapped capital; strongest control (wrong, best alpha)    1%
+
+[00:04:59] pair m2s_L8_L6  [exploratory]
+   972 cases (277 dev, 695 test) from 25 countries; receiver = small, layer 6; alpha chosen on dev: all 1.5
+   translated, all positions, alpha 1.5:   38% of test cases flip to the swapped capital; strongest control (wrong, best alpha)    1%
+
+[00:05:11] pair m2s_L4_L2  [exploratory]
+   972 cases (277 dev, 695 test) from 25 countries; receiver = small, layer 2; alpha chosen on dev: all 1.0
+   translated, all positions, alpha 1.0:   42% of test cases flip to the swapped capital; strongest control (wrong, best alpha)    1%
+
+============================================================================================================================
+RESULT  step B1 (country swap)
+  success = the receiver's top answer becomes the swapped country's capital. Cells: rate at the dose chosen on dev  (best rate over all doses on test).
+
+  s2m_L8_L12  [exploratory]   receiver medium layer 12   1021 test cases
+  arm                      all positions
+  translated              67% (  67% @2)
+  native                  68% ( 100% @1)
+  random                   0% (   0% @4)
+  randmap                  0% (   0% @4)
+  wrong                    0% (   1% @4)
+  doses chosen on dev for the translated arm: all 2.0;  clean receiver success =    0%
+  mean logit gain (swapped minus original capital) for translated, all positions: +19.22;  KL to the receiver really reading the swapped sentence: translated 0.61, random 8.07
+  where the top answer goes (translated, all positions, dose 2.0): swapped capital   67%, still the original capital    1%, a different capital    3%, not a capital   30%;   random vector: swapped    0%, original   94%, different capital    1%, not a capital    5%
+  most common top answers with the translated difference: ' Santiago' 5%, ' K' 5%, ' Seoul' 4%, ' Athens' 4%, ' Oslo' 4%, ' Jerusalem' 4%
+  median rank of the swapped capital among all words (1 = top): unchanged receiver 1431, translated 1, random 950, wrong pair 895, receiver's own real difference at dose 1 1
+
+  s2m_L6_L8  [exploratory]   receiver medium layer 8   1021 test cases
+  arm                      all positions
+  translated              71% (  71% @2)
+  native                  67% ( 100% @1)
+  random                   0% (   0% @4)
+  randmap                  0% (   1% @4)
+  wrong                    0% (   1% @4)
+  doses chosen on dev for the translated arm: all 2.0;  clean receiver success =    0%
+  mean logit gain (swapped minus original capital) for translated, all positions: +20.09;  KL to the receiver really reading the swapped sentence: translated 0.53, random 7.80
+  where the top answer goes (translated, all positions, dose 2.0): swapped capital   71%, still the original capital    0%, a different capital    3%, not a capital   25%;   random vector: swapped    0%, original   92%, different capital    1%, not a capital    8%
+  most common top answers with the translated difference: ' Santiago' 5%, ' K' 5%, ' Oslo' 4%, ' Seoul' 4%, ' Athens' 4%, ' Copenhagen' 4%
+  median rank of the swapped capital among all words (1 = top): unchanged receiver 1431, translated 1, random 1011, wrong pair 1000, receiver's own real difference at dose 1 1
+
+  s2m_L2_L4  [exploratory]   receiver medium layer 4   1021 test cases
+  arm                      all positions
+  translated            79% (  79% @1.5)
+  native                  91% ( 100% @1)
+  random                   0% (   1% @4)
+  randmap                  0% (   0% @4)
+  wrong                    0% (   1% @2)
+  doses chosen on dev for the translated arm: all 1.5;  clean receiver success =    0%
+  mean logit gain (swapped minus original capital) for translated, all positions: +20.45;  KL to the receiver really reading the swapped sentence: translated 0.40, random 8.18
+  where the top answer goes (translated, all positions, dose 1.5): swapped capital   79%, still the original capital    1%, a different capital    2%, not a capital   18%;   random vector: swapped    0%, original   92%, different capital    1%, not a capital    7%
+  most common top answers with the translated difference: ' Seoul' 4%, ' Athens' 4%, ' Santiago' 4%, ' Mexico' 4%, ' Oslo' 4%, ' Copenhagen' 4%
+  median rank of the swapped capital among all words (1 = top): unchanged receiver 1431, translated 1, random 1264, wrong pair 1010, receiver's own real difference at dose 1 1
+
+  m2s_L12_L8  [exploratory]   receiver small layer 8   695 test cases
+  arm                      all positions
+  translated            36% (  36% @1.5)
+  native                  48% ( 100% @1)
+  random                   0% (   0% @4)
+  randmap                  0% (   0% @4)
+  wrong                    0% (   1% @4)
+  doses chosen on dev for the translated arm: all 1.5;  clean receiver success =    0%
+  mean logit gain (swapped minus original capital) for translated, all positions: +15.31;  KL to the receiver really reading the swapped sentence: translated 0.32, random 2.92
+  where the top answer goes (translated, all positions, dose 1.5): swapped capital   36%, still the original capital    0%, a different capital    1%, not a capital   63%;   random vector: swapped    0%, original   67%, different capital    0%, not a capital   33%
+  most common top answers with the translated difference: ' St' 13%, ' K' 7%, ' the' 7%, ' P' 5%, ' Jerusalem' 5%, ' Dublin' 5%
+  median rank of the swapped capital among all words (1 = top): unchanged receiver 2351, translated 4, random 1573, wrong pair 2222, receiver's own real difference at dose 1 1
+
+  m2s_L8_L6  [exploratory]   receiver small layer 6   695 test cases
+  arm                      all positions
+  translated            38% (  38% @1.5)
+  native                  53% ( 100% @1)
+  random                   0% (   1% @4)
+  randmap                  0% (   0% @4)
+  wrong                    0% (   1% @4)
+  doses chosen on dev for the translated arm: all 1.5;  clean receiver success =    0%
+  mean logit gain (swapped minus original capital) for translated, all positions: +15.74;  KL to the receiver really reading the swapped sentence: translated 0.25, random 2.97
+  where the top answer goes (translated, all positions, dose 1.5): swapped capital   38%, still the original capital    0%, a different capital    1%, not a capital   61%;   random vector: swapped    0%, original   75%, different capital    0%, not a capital   25%
+  most common top answers with the translated difference: ' St' 13%, ' the' 7%, ' K' 7%, ' Jerusalem' 5%, ' P' 5%, ' Dublin' 5%
+  median rank of the swapped capital among all words (1 = top): unchanged receiver 2351, translated 3, random 1537, wrong pair 1898, receiver's own real difference at dose 1 1
+
+  m2s_L4_L2  [exploratory]   receiver small layer 2   695 test cases
+  arm                      all positions
+  translated              42% (  42% @1)
+  native                 100% ( 100% @1)
+  random                   0% (   1% @3)
+  randmap                  0% (   0% @4)
+  wrong                    0% (   1% @4)
+  doses chosen on dev for the translated arm: all 1.0;  clean receiver success =    0%
+  mean logit gain (swapped minus original capital) for translated, all positions: +13.12;  KL to the receiver really reading the swapped sentence: translated 0.25, random 3.08
+  where the top answer goes (translated, all positions, dose 1.0): swapped capital   42%, still the original capital    0%, a different capital    0%, not a capital   57%;   random vector: swapped    0%, original   78%, different capital    0%, not a capital   22%
+  most common top answers with the translated difference: ' K' 12%, ' St' 11%, ' P' 8%, ' Dublin' 5%, ' Athens' 5%, ' Jerusalem' 5%
+  median rank of the swapped capital among all words (1 = top): unchanged receiver 2351, translated 2, random 2068, wrong pair 2152, receiver's own real difference at dose 1 1
+
+  exploratory pairs (translated, all positions, dose chosen on dev; best control at its own best dose):
+     s2m_L8_L12   translated   67% @alpha 2;  strongest control wrong    1%;  native alpha 1  100%
+     s2m_L6_L8    translated   71% @alpha 2;  strongest control wrong    1%;  native alpha 1  100%
+     s2m_L2_L4    translated   79% @alpha 1.5;  strongest control random    1%;  native alpha 1  100%
+     m2s_L12_L8   translated   36% @alpha 1.5;  strongest control wrong    1%;  native alpha 1  100%
+     m2s_L8_L6    translated   38% @alpha 1.5;  strongest control wrong    1%;  native alpha 1  100%
+     m2s_L4_L2    translated   42% @alpha 1;  strongest control wrong    1%;  native alpha 1  100%
+
+  total time 198 s.  Cases share countries, so they are not independent: treat differences of a few points as noise.
+============================================================================================================================
+exploratory exit 0

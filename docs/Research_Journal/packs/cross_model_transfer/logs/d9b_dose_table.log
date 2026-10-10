@@ -1,0 +1,90 @@
+# D9b (post-hoc dose table) terminal output, pasted by the author on 2026-10-10 (run about 19:35 to 19:45). Command:
+# $env:HF_HUB_OFFLINE=1; .venv\Scripts\python.exe tools/transfer/15_dose_table.py
+# Progress bars and library warnings removed; numbers unchanged. The per-record numbers are in d9b_dose_table.json.
+Loading weights: 100%|████████████████████████████████| 292/292 [00:00<00:00, 11065.07it/s]
+Loaded pretrained model gpt2-medium into HookedTransformer
+289 training records (1445 texts), 28 dev, 150 test texts (88 primary); horizons [15, 40]
+reference, ridge map at dose 2.0: primary top-1   8%, gain 2.04, median rank 14
+
+seed 0: trained 40 epochs in 196 s; train KL 0.211 -> 0.063
+  maps up to 15 epochs (best epoch on dev: 15); every dose:
+       dose  dev top-1  dev gain  test top-1  test gain  test med rank  all-150 top-1
+        0.5         0%      0.80          0%       0.86             52             0%
+        1.0         7%      1.64          2%       1.78             21             1%
+        1.5         7%      2.20         12%       2.40             10             7%
+        2.0         7%      2.53         18%       2.64              7            11%
+        3.0         7%      2.33         18%       2.60              6            13%
+      rule A (D7/D8/D9 rule: dev top-1, then dev gain): dose 2.0 -> test top-1  18%, gain 2.64
+      rule B (best dev gain): dose 2.0 -> test top-1  18%, gain 2.64
+      rule C (fixed dose 2.0): dose 2.0 -> test top-1  18%, gain 2.64
+  maps up to 40 epochs (best epoch on dev: 40); every dose:
+       dose  dev top-1  dev gain  test top-1  test gain  test med rank  all-150 top-1
+        0.5         0%      0.79          0%       0.87             50             0%
+        1.0        11%      1.71          2%       1.81             19             1%
+        1.5         7%      2.34         18%       2.48              8            11%
+        2.0         4%      2.63         20%       2.61              7            13%
+        3.0         4%      2.28         22%       2.49              7            14%
+      rule A (D7/D8/D9 rule: dev top-1, then dev gain): dose 1.0 -> test top-1   2%, gain 1.81
+      rule B (best dev gain): dose 2.0 -> test top-1  20%, gain 2.61
+      rule C (fixed dose 2.0): dose 2.0 -> test top-1  20%, gain 2.61
+seed 1: trained 40 epochs in 194 s; train KL 0.204 -> 0.062
+  maps up to 15 epochs (best epoch on dev: 15); every dose:
+       dose  dev top-1  dev gain  test top-1  test gain  test med rank  all-150 top-1
+        0.5         0%      0.81          0%       0.87             52             0%
+        1.0         7%      1.65          2%       1.79             21             1%
+        1.5         7%      2.21         12%       2.42             10             7%
+        2.0         7%      2.54         20%       2.67              7            13%
+        3.0         7%      2.30         17%       2.62              6            12%
+      rule A (D7/D8/D9 rule: dev top-1, then dev gain): dose 2.0 -> test top-1  20%, gain 2.67
+      rule B (best dev gain): dose 2.0 -> test top-1  20%, gain 2.67
+      rule C (fixed dose 2.0): dose 2.0 -> test top-1  20%, gain 2.67
+  maps up to 40 epochs (best epoch on dev: 36); every dose:
+       dose  dev top-1  dev gain  test top-1  test gain  test med rank  all-150 top-1
+        0.5         0%      0.81          0%       0.86             50             0%
+        1.0        11%      1.70          2%       1.82             20             1%
+        1.5         7%      2.28         18%       2.48             10            11%
+        2.0         4%      2.56         19%       2.61              7            12%
+        3.0         4%      2.28         22%       2.51              6            14%
+      rule A (D7/D8/D9 rule: dev top-1, then dev gain): dose 1.0 -> test top-1   2%, gain 1.82
+      rule B (best dev gain): dose 2.0 -> test top-1  19%, gain 2.61
+      rule C (fixed dose 2.0): dose 2.0 -> test top-1  19%, gain 2.61
+seed 2: trained 40 epochs in 196 s; train KL 0.208 -> 0.062
+  maps up to 15 epochs (best epoch on dev: 15); every dose:
+       dose  dev top-1  dev gain  test top-1  test gain  test med rank  all-150 top-1
+        0.5         0%      0.81          0%       0.87             52             0%
+        1.0         7%      1.64          2%       1.79             20             1%
+        1.5         7%      2.19         14%       2.43              9             8%
+        2.0         7%      2.52         20%       2.67              7            13%
+        3.0         7%      2.31         18%       2.61              6            13%
+      rule A (D7/D8/D9 rule: dev top-1, then dev gain): dose 2.0 -> test top-1  20%, gain 2.67
+      rule B (best dev gain): dose 2.0 -> test top-1  20%, gain 2.67
+      rule C (fixed dose 2.0): dose 2.0 -> test top-1  20%, gain 2.67
+  maps up to 40 epochs (best epoch on dev: 34); every dose:
+       dose  dev top-1  dev gain  test top-1  test gain  test med rank  all-150 top-1
+        0.5         0%      0.80          0%       0.86             50             0%
+        1.0        11%      1.70          2%       1.81             19             1%
+        1.5         7%      2.27         17%       2.46              8            10%
+        2.0         4%      2.55         19%       2.61              7            12%
+        3.0         4%      2.26         22%       2.51              7            14%
+      rule A (D7/D8/D9 rule: dev top-1, then dev gain): dose 1.0 -> test top-1   2%, gain 1.81
+      rule B (best dev gain): dose 2.0 -> test top-1  19%, gain 2.61
+      rule C (fixed dose 2.0): dose 2.0 -> test top-1  19%, gain 2.61
+
+========================================================================================================================
+RESULT  step D9b (post-hoc: what was the dose doing in the longer-training test?)
+  reference: ridge map at dose 2.0, primary top-1   8%, gain 2.04
+   epochs  dose rule                                               top-1 mean (range)  gain mean  median rank mean
+       15  A (D7/D8/D9 rule: dev top-1, then dev gain)              20% ( 18% to  20%)       2.66               7.0
+       15  B (best dev gain)                                        20% ( 18% to  20%)       2.66               7.0
+       15  C (fixed dose 2.0)                                       20% ( 18% to  20%)       2.66               7.0
+       40  A (D7/D8/D9 rule: dev top-1, then dev gain)               2% (  2% to   2%)       1.81              19.3
+       40  B (best dev gain)                                        20% ( 19% to  20%)       2.61               7.0
+       40  C (fixed dose 2.0)                                       20% ( 19% to  20%)       2.61               7.0
+
+  descriptive comparison (not the D9 verdict): does the longest horizon beat the shortest by 4 points of top-1 AND 0.10 of gain, under each dose rule?
+    A (D7/D8/D9 rule: dev top-1, then dev gain)       -17 points, -0.85 gain  ->  no
+    B (best dev gain)                                  +0 points, -0.05 gain  ->  no
+    C (fixed dose 2.0)                                 +0 points, -0.05 gain  ->  no
+
+  total time 594 s; saved outputs\transfer\d9b_dose_table.json
+========================================================================================================================

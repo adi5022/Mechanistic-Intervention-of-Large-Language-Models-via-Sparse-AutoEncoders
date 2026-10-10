@@ -1,0 +1,47 @@
+# D8 (data-size check, batched training) terminal output, read from the author's terminal on 2026-10-10 (run about 16:51 to 17:03). Command:
+# $env:HF_HUB_OFFLINE=1; .venv\Scripts\python.exe tools/transfer/14_datasize_check.py
+# Reconstructed from the terminal scrollback: lines that the terminal had wrapped were re-joined, warnings removed, numbers unchanged. The epoch lines are those of the first 100% run (seed 0).
+items loaded from outputs\transfer\d8_items.pt
+289 training records with a successful edit (1445 texts), 28 dev, 150 test texts (88 primary)
+
+reference, ridge map at dose 2.0 (D3): primary top-1    8%, gain 2.04, median rank 12; all 150: top-1    5%, median rank 25
+D7 recorded (all 289 edits): primary top-1 18%, median rank 7, epoch 15, dose 2.0
+
+    25% of the edits (72 records), seed 0: epoch 13, dose 2.0: primary top-1   14%, gain 2.38, median rank 9; all 150 top-1    9%  [17 s]
+    25% of the edits (72 records), seed 1: epoch 8, dose 2.0: primary top-1   14%, gain 2.37, median rank 10; all 150 top-1    8%  [24 s]
+    25% of the edits (72 records), seed 2: epoch 15, dose 2.0: primary top-1   12%, gain 2.28, median rank 9; all 150 top-1    7%  [40 s]
+    50% of the edits (144 records), seed 0: epoch 12, dose 1.5: primary top-1    9%, gain 2.19, median rank 13; all 150 top-1    5%  [102 s]
+    50% of the edits (144 records), seed 1: epoch 12, dose 2.0: primary top-1   12%, gain 2.32, median rank 8; all 150 top-1    7%  [83 s]
+    50% of the edits (144 records), seed 2: epoch 13, dose 2.0: primary top-1   17%, gain 2.55, median rank 7; all 150 top-1   10%  [56 s]
+      epoch  1: train KL 0.2113, dev top-1    4%, gain 1.39, median rank 23  <- best
+      epoch  2: train KL 0.1653, dev top-1    4%, gain 1.48, median rank 22  <- best
+      epoch  3: train KL 0.1430, dev top-1    4%, gain 1.51, median rank 19  <- best
+      epoch  4: train KL 0.1306, dev top-1    7%, gain 1.56, median rank 18  <- best
+      epoch  5: train KL 0.1211, dev top-1    7%, gain 1.58, median rank 18  <- best
+      epoch  6: train KL 0.1140, dev top-1    7%, gain 1.59, median rank 17  <- best
+      epoch  7: train KL 0.1084, dev top-1    7%, gain 1.60, median rank 17  <- best
+      epoch  8: train KL 0.1030, dev top-1    7%, gain 1.60, median rank 17  <- best
+      epoch  9: train KL 0.0982, dev top-1    7%, gain 1.62, median rank 17  <- best
+      epoch 10: train KL 0.0955, dev top-1    7%, gain 1.62, median rank 17
+      epoch 11: train KL 0.0922, dev top-1    7%, gain 1.61, median rank 16
+      epoch 12: train KL 0.0924, dev top-1    7%, gain 1.61, median rank 15
+      epoch 13: train KL 0.0877, dev top-1    7%, gain 1.63, median rank 14  <- best
+      epoch 14: train KL 0.0839, dev top-1    7%, gain 1.63, median rank 15
+      epoch 15: train KL 0.0824, dev top-1    7%, gain 1.64, median rank 14  <- best
+   100% of the edits (289 records), seed 0: epoch 15, dose 2.0: primary top-1   18%, gain 2.64, median rank 7; all 150 top-1   11%  [130 s]
+   100% of the edits (289 records), seed 1: epoch 15, dose 2.0: primary top-1   20%, gain 2.67, median rank 7; all 150 top-1   13%  [133 s]
+   100% of the edits (289 records), seed 2: epoch 15, dose 2.0: primary top-1   20%, gain 2.67, median rank 6; all 150 top-1   13%  [132 s]
+
+========================================================================================================================
+RESULT  step D8 (does the map trained on edits improve with more training data?)
+  reference: ridge map (D3) primary top-1    8%, gain 2.04, median rank 12; D7 recorded: 18%, median rank 7
+  training edits         records    top-1 (mean, range over seeds)  mean log-rank gain  median rank (mean)
+   25%                        72           13%  (  12% to   14%)                2.34                 9.3
+   50%                       144           13%  (   9% to   17%)                2.35                 9.3
+  100%                       289           20%  (  18% to   20%)                2.66                 6.7
+
+  decision rule (fixed in the plan before the run): top-1 at 100% at least 4 points above 50%, and mean log-rank gain rising from 25% to 50% to 100%  ->  RISING: more data is worth trying
+
+  total time 726 s; saved outputs\transfer\d8_datasize.json
+========================================================================================================================
+# Note: the median-rank column of this run used the lower of the two middle values for an even count (the other tools use the upper one); the code was fixed afterwards.

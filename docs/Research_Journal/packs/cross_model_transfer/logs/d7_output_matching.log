@@ -1,0 +1,149 @@
+# D7 (translator trained on edits, output-matching loss) terminal output, pasted by the author on 2026-10-10 (run 15:11 to 16:16). Command:
+# $env:HF_HUB_OFFLINE=1; .venv\Scripts\python.exe tools/transfer/12_output_matching.py
+# Library warnings removed; numbers unchanged. Per-record numbers are local (outputs/transfer/d7_eval.pt); the summary is in d7_output_matching.json.
+
+[15:11:28] 1/5  training pool (disjoint from every dev/test/pilot/ROME-dev record and from their target words)
+   pool of 1450 candidate records; 829 dropped because their target word or subject is used by a dev/test record; using 621
+
+[15:13:23] 2/5  tuning the original edit in small for every training record
+   0 edits already done, 621 to tune (about 3 s each)
+   edits 10/621; rank 1 in small on 4 (40%); 24 s, about 25 min left
+   edits 20/621; rank 1 in small on 7 (35%); 49 s, about 24 min left
+   edits 30/621; rank 1 in small on 10 (33%); 73 s, about 24 min left
+   edits 40/621; rank 1 in small on 13 (32%); 99 s, about 24 min left
+   edits 50/621; rank 1 in small on 17 (34%); 131 s, about 25 min left
+   edits 60/621; rank 1 in small on 24 (40%); 165 s, about 26 min left
+   edits 70/621; rank 1 in small on 28 (40%); 199 s, about 26 min left
+   edits 80/621; rank 1 in small on 31 (39%); 230 s, about 26 min left
+   edits 90/621; rank 1 in small on 35 (39%); 253 s, about 25 min left
+   edits 100/621; rank 1 in small on 40 (40%); 277 s, about 24 min left
+   edits 110/621; rank 1 in small on 47 (43%); 301 s, about 23 min left
+   edits 120/621; rank 1 in small on 54 (45%); 325 s, about 23 min left
+   edits 130/621; rank 1 in small on 59 (45%); 350 s, about 22 min left
+   edits 140/621; rank 1 in small on 68 (49%); 375 s, about 21 min left
+   edits 150/621; rank 1 in small on 72 (48%); 400 s, about 21 min left
+   edits 160/621; rank 1 in small on 77 (48%); 425 s, about 20 min left
+   edits 170/621; rank 1 in small on 81 (48%); 451 s, about 20 min left
+   edits 180/621; rank 1 in small on 85 (47%); 476 s, about 19 min left
+   edits 190/621; rank 1 in small on 88 (46%); 502 s, about 19 min left
+   edits 200/621; rank 1 in small on 93 (46%); 527 s, about 18 min left
+   edits 210/621; rank 1 in small on 99 (47%); 552 s, about 18 min left
+   edits 220/621; rank 1 in small on 104 (47%); 577 s, about 18 min left
+   edits 230/621; rank 1 in small on 109 (47%); 602 s, about 17 min left
+   edits 240/621; rank 1 in small on 114 (48%); 627 s, about 17 min left
+   edits 250/621; rank 1 in small on 123 (49%); 652 s, about 16 min left
+   edits 260/621; rank 1 in small on 128 (49%); 677 s, about 16 min left
+   edits 270/621; rank 1 in small on 131 (49%); 701 s, about 15 min left
+   edits 280/621; rank 1 in small on 135 (48%); 725 s, about 15 min left
+   edits 290/621; rank 1 in small on 140 (48%); 748 s, about 14 min left
+   edits 300/621; rank 1 in small on 147 (49%); 771 s, about 14 min left
+   edits 310/621; rank 1 in small on 152 (49%); 795 s, about 13 min left
+   edits 320/621; rank 1 in small on 155 (48%); 819 s, about 13 min left
+   edits 330/621; rank 1 in small on 160 (48%); 842 s, about 12 min left
+   edits 340/621; rank 1 in small on 166 (49%); 865 s, about 12 min left
+   edits 350/621; rank 1 in small on 169 (48%); 889 s, about 11 min left
+   edits 360/621; rank 1 in small on 176 (49%); 912 s, about 11 min left
+   edits 370/621; rank 1 in small on 179 (48%); 936 s, about 11 min left
+   edits 380/621; rank 1 in small on 184 (48%); 959 s, about 10 min left
+   edits 390/621; rank 1 in small on 190 (49%); 983 s, about 10 min left
+   edits 400/621; rank 1 in small on 195 (49%); 1006 s, about 9 min left
+   edits 410/621; rank 1 in small on 199 (49%); 1029 s, about 9 min left
+   edits 420/621; rank 1 in small on 204 (49%); 1053 s, about 8 min left
+   edits 430/621; rank 1 in small on 207 (48%); 1076 s, about 8 min left
+   edits 440/621; rank 1 in small on 211 (48%); 1100 s, about 8 min left
+   edits 450/621; rank 1 in small on 216 (48%); 1123 s, about 7 min left
+   edits 460/621; rank 1 in small on 218 (47%); 1147 s, about 7 min left
+   edits 470/621; rank 1 in small on 222 (47%); 1171 s, about 6 min left
+   edits 480/621; rank 1 in small on 225 (47%); 1194 s, about 6 min left
+   edits 490/621; rank 1 in small on 229 (47%); 1218 s, about 5 min left
+   edits 500/621; rank 1 in small on 233 (47%); 1242 s, about 5 min left
+   edits 510/621; rank 1 in small on 238 (47%); 1265 s, about 5 min left
+   edits 520/621; rank 1 in small on 243 (47%); 1289 s, about 4 min left
+   edits 530/621; rank 1 in small on 249 (47%); 1312 s, about 4 min left
+   edits 540/621; rank 1 in small on 254 (47%); 1336 s, about 3 min left
+   edits 550/621; rank 1 in small on 257 (47%); 1359 s, about 3 min left
+   edits 560/621; rank 1 in small on 262 (47%); 1382 s, about 3 min left
+   edits 570/621; rank 1 in small on 267 (47%); 1406 s, about 2 min left
+   edits 580/621; rank 1 in small on 273 (47%); 1429 s, about 2 min left
+   edits 590/621; rank 1 in small on 277 (47%); 1453 s, about 1 min left
+   1445 training items from 289 records; 28 dev items
+   start (ridge map, dose 1): dev top-1    4%, mean log-rank gain 1.11, median rank 31
+
+[15:42:54] 4/5  training 15 epochs (1445 items per epoch, batch 32)
+   epoch  1/15: train KL 0.2113, map moved 4.4% from ridge; dev top-1    4%, gain 1.39, median rank 23   [80 s]  <- best so far
+   epoch  2/15: train KL 0.1653, map moved 6.2% from ridge; dev top-1    4%, gain 1.48, median rank 22   [80 s]  <- best so far
+   epoch  3/15: train KL 0.1430, map moved 7.8% from ridge; dev top-1    4%, gain 1.51, median rank 21   [80 s]  <- best so far
+   epoch  4/15: train KL 0.1306, map moved 9.3% from ridge; dev top-1    7%, gain 1.56, median rank 20   [80 s]  <- best so far
+   epoch  5/15: train KL 0.1211, map moved 10.6% from ridge; dev top-1    7%, gain 1.58, median rank 20   [80 s]  <- best so far
+   epoch  6/15: train KL 0.1140, map moved 11.7% from ridge; dev top-1    7%, gain 1.59, median rank 20   [79 s]  <- best so far
+   epoch  7/15: train KL 0.1084, map moved 12.9% from ridge; dev top-1    7%, gain 1.60, median rank 20   [80 s]  <- best so far
+   epoch  8/15: train KL 0.1030, map moved 13.9% from ridge; dev top-1    7%, gain 1.60, median rank 20   [83 s]  <- best so far
+   epoch  9/15: train KL 0.0982, map moved 14.9% from ridge; dev top-1    7%, gain 1.62, median rank 20   [81 s]  <- best so far
+   epoch 10/15: train KL 0.0955, map moved 15.8% from ridge; dev top-1    7%, gain 1.62, median rank 19   [82 s]
+   epoch 11/15: train KL 0.0922, map moved 16.6% from ridge; dev top-1    7%, gain 1.61, median rank 19   [80 s]
+   epoch 12/15: train KL 0.0924, map moved 17.4% from ridge; dev top-1    7%, gain 1.61, median rank 19   [80 s]
+   epoch 13/15: train KL 0.0877, map moved 18.2% from ridge; dev top-1    7%, gain 1.63, median rank 18   [83 s]  <- best so far
+   epoch 14/15: train KL 0.0839, map moved 18.9% from ridge; dev top-1    7%, gain 1.63, median rank 18   [80 s]
+   epoch 15/15: train KL 0.0824, map moved 19.6% from ridge; dev top-1    7%, gain 1.64, median rank 18   [80 s]  <- best so far
+
+[16:03:03] choosing the dose on the dev records (epoch 15)
+   dose 0.5: dev top-1    0%, gain 0.80, median rank 54
+   dose 1.0: dev top-1    7%, gain 1.64, median rank 18
+   dose 1.5: dev top-1    7%, gain 2.20, median rank 9
+   dose 2.0: dev top-1    7%, gain 2.53, median rank 6
+   dose 3.0: dev top-1    7%, gain 2.33, median rank 16
+   chosen: epoch 15, dose 2.0
+
+[16:03:05] 5/5  judging on the 150 test records (dose 2.0)
+   25/150 (3218 s)
+   50/150 (3331 s)
+   75/150 (3442 s)
+   100/150 (3573 s)
+   125/150 (3732 s)
+   150/150 (3892 s)
+
+============================================================================================================================================
+RESULT  step D7 (translator trained on edits with an output-matching loss)
+  training records used: 289 (target words and subjects disjoint from every dev/test record); chosen dose 2.0
+
+  ---- PRIMARY: test records whose original edit reached rank 1 in small: 88 records ----
+  tuned prompt (unchanged medium: top-1    0%, median rank of the target 142)
+    arm              top-1  median rank
+    om_real            18%            7
+    ridge_real          8%           14
+    om_wrong            0%          131
+    om_rand             6%           27   (that word's rank unchanged: 174; 88 records)
+  rewordings / neighbours / unrelated (PS: new beats true; NS: true still beats new; KL and top-1 flips on unrelated)
+    arm                        PS     NS      KL   flips
+    medium unchanged          36%    67%   0.000      0%
+    small unchanged           40%    63%   0.000      0%
+    small with the edit       67%    54%   0.014     14%
+    om_real                   56%    60%   0.034     10%
+    ridge_real                52%    63%   0.032     11%
+    om_wrong                  36%    66%   0.034     10%
+    om_rand                   43%    65%   0.033     10%
+
+  ---- ALL test records: 150 records ----
+  tuned prompt (unchanged medium: top-1    0%, median rank of the target 256)
+    arm              top-1  median rank
+    om_real            11%            12
+    ridge_real          5%            27
+    om_wrong            0%           229
+    om_rand             3%           73   (that word's rank unchanged: 438; 150 records)
+  rewordings / neighbours / unrelated (PS: new beats true; NS: true still beats new; KL and top-1 flips on unrelated)
+    arm                        PS     NS      KL   flips
+    medium unchanged          30%    73%   0.000      0%
+    small unchanged           33%    71%   0.000      0%
+    small with the edit       54%    62%   0.015     18%
+    om_real                   44%    67%   0.036     11%
+    ridge_real                41%    68%   0.032     13%
+    om_wrong                  30%    72%   0.036     11%
+    om_rand                   34%    71%   0.036     10%
+
+  GATE 6 (88 records): (a) top-1   18% >= 50%: NO;  (b) rewordings lift = 0.74 of the edit's own lift in small (>= 0.8): NO;  (c) neighbours fall 7 points, the edit itself in small 10: ok   ->  FAIL
+  reading (fixed in advance): (a) fails: output matching with this map and data does not rescue the export
+  improvement over the ridge map (paired Wilcoxon on the log-rank gain of the target): p = 4.6e-09
+  reference, D6 ceiling (edit tuned per sentence against medium): top-1   95%
+
+  total time 3896 s; saved outputs\transfer\d7_output_matching.json (+ d7_map.pt, d7_eval.pt)
+============================================================================================================================================

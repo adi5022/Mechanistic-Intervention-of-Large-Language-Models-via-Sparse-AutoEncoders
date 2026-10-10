@@ -1,0 +1,82 @@
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|##########| 148/148 [00:00<00:00, 8564.17it/s]
+Loaded pretrained model gpt2 into HookedTransformer
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights: 100%|##########| 292/292 [00:00<00:00, 8398.56it/s]
+D:\Projects\transient_steering\.venv\Lib\site-packages\sae_lens\saes\sae.py:253: UserWarning: 
+This SAE has non-empty model_from_pretrained_kwargs. 
+For optimal performance, load the model like so:
+model = HookedSAETransformer.from_pretrained_no_processing(..., **cfg.model_from_pretrained_kwargs)
+  warnings.warn(
+Loaded pretrained model gpt2-medium into HookedTransformer
+150 test records; injection layer 16, dose 2.0, translator linear
+
+[13:24:21] tuning through the translator (0 records already done)
+   tuned 10/150 (105 s)
+   tuned 20/150 (195 s)
+   tuned 30/150 (284 s)
+   tuned 40/150 (375 s)
+   tuned 50/150 (464 s)
+   tuned 60/150 (553 s)
+   tuned 70/150 (641 s)
+   tuned 80/150 (730 s)
+   tuned 90/150 (819 s)
+   tuned 100/150 (907 s)
+   tuned 110/150 (995 s)
+   tuned 120/150 (1084 s)
+   tuned 130/150 (1172 s)
+   tuned 140/150 (1260 s)
+   tuned 150/150 (1348 s)
+
+[13:46:42] judging the tuned recipes (tuned prompt, rewordings, neighbours, unrelated prompts)
+   25/150 (1464 s)
+   50/150 (1579 s)
+   75/150 (1694 s)
+   100/150 (1807 s)
+   125/150 (1950 s)
+   150/150 (2145 s)
+
+============================================================================================================================================
+RESULT  step D6 (edit tuned through the translator against medium's output)
+
+  ---- PRIMARY: test records whose original edit reached rank 1 in small: 88 records ----
+  tuned prompt (unchanged medium: top-1    0%, median rank of the target 142)
+    arm                top-1  median rank
+    b_aware              95%            1
+    small_tuned           8%           14
+    wrong_b               0%          154
+    random_word_b        83%            1   (that word's rank unchanged: 174; 88 records)
+    tuning reached rank 1 at training time on   95%; edit size in medium (share of its residual norm at the last position): median 26%
+  rewordings / neighbours / unrelated (PS: new beats true; NS: true still beats new; KL and top-1 flips on unrelated)
+    arm                        PS     NS      KL   flips
+    medium unchanged          36%    67%   0.000      0%
+    small unchanged           40%    63%   0.000      0%
+    small with the edit       67%    54%   0.014     14%
+    b_aware                   60%    59%   0.024     11%
+    small_tuned               52%    63%   0.032     11%
+    wrong_b                   34%    68%   0.026     14%
+    random_word_b             42%    64%   0.026     13%
+
+  ---- ALL test records: 150 records ----
+  tuned prompt (unchanged medium: top-1    0%, median rank of the target 256)
+    arm                top-1  median rank
+    b_aware              84%            1
+    small_tuned           5%           27
+    wrong_b               0%          248
+    random_word_b        67%            1   (that word's rank unchanged: 438; 150 records)
+    tuning reached rank 1 at training time on   84%; edit size in medium (share of its residual norm at the last position): median 30%
+  rewordings / neighbours / unrelated (PS: new beats true; NS: true still beats new; KL and top-1 flips on unrelated)
+    arm                        PS     NS      KL   flips
+    medium unchanged          30%    73%   0.000      0%
+    small unchanged           33%    71%   0.000      0%
+    small with the edit       54%    62%   0.015     18%
+    b_aware                   50%    65%   0.026     13%
+    small_tuned               41%    68%   0.032     13%
+    wrong_b                   29%    74%   0.026     13%
+    random_word_b             35%    70%   0.027     14%
+
+  GATE 5 (88 records): (a) top-1   95% >= 50%: ok;  (b) rewordings lift = 0.91 of the edit's own lift in small (>= 0.8): ok;  (c) neighbours fall 8 points (<= 5): NO   ->  FAIL
+  reading (fixed in advance): (a) holds but (b) or (c) fails: a push on the tuned prompt, not a generalising change
+  check: records that reached rank 1 at training time but not through the hook path: 0
+
+  total time 2149 s; saved outputs\transfer\d6_b_aware.json (+ d6_recipes.pt, d6_eval.pt)
+============================================================================================================================================
+d6 exit 0
