@@ -1,0 +1,80 @@
+# 18_import_count started 2026-10-10 21:52:49; arguments: 
+log: outputs\transfer\logs\18_import_count_20261010_215249.log
+Loaded pretrained model gpt2 into HookedTransformer
+Loaded pretrained model gpt2-medium into HookedTransformer
+21919 CounterFact records, 21919 with a single-token true answer
+small:
+   1/21919 prompts
+   104/21919 prompts
+   741/21919 prompts
+   2701/21919 prompts
+   6017/21919 prompts
+   10312/21919 prompts
+   14212/21919 prompts
+   17256/21919 prompts
+   19288/21919 prompts
+   20524/21919 prompts
+   21187/21919 prompts
+   21524/21919 prompts
+   21720/21919 prompts
+   21821/21919 prompts
+   21870/21919 prompts
+   21891/21919 prompts
+   21906/21919 prompts
+   21913/21919 prompts
+   21915/21919 prompts
+   21916/21919 prompts
+   21917/21919 prompts
+   21918/21919 prompts
+   21919/21919 prompts
+medium:
+   1/21919 prompts
+   104/21919 prompts
+   741/21919 prompts
+   2701/21919 prompts
+   6017/21919 prompts
+   10312/21919 prompts
+   14212/21919 prompts
+   17256/21919 prompts
+   19288/21919 prompts
+   20524/21919 prompts
+   21187/21919 prompts
+   21524/21919 prompts
+   21720/21919 prompts
+   21821/21919 prompts
+   21870/21919 prompts
+   21891/21919 prompts
+   21906/21919 prompts
+   21913/21919 prompts
+   21915/21919 prompts
+   21916/21919 prompts
+   21917/21919 prompts
+   21918/21919 prompts
+   21919/21919 prompts
+
+==============================================================================================================
+RESULT  step E1 (Import: what does medium know that small does not?)
+
+  ALL records with a single-token true answer: 21919 records
+    both right                            1380  (6.3%)
+    medium right, small wrong (IMPORT)     785  (3.6%)
+    small right, medium wrong              440  (2.0%)
+    both wrong                           19314  (88.1%)
+
+  outside the ROME dev records and the pilot records (the counts used for the decision): 21789 records
+    both right                            1372  (6.3%)
+    medium right, small wrong (IMPORT)     780  (3.6%)
+    small right, medium wrong              437  (2.0%)
+    both wrong                           19200  (88.1%)
+
+  IMPORT CANDIDATES (medium right, small wrong, outside ROME dev and pilot): 780; of them in the Export benchmark: 8
+  how far small is from right (rank of the true answer in small):  rank 2 320;  rank 3 to 5 236;  rank 6 to 20 155;  rank 21 to 100 53;  rank over 100 16
+  how sure medium is (its probability for the true answer): median 0.19; at least 0.3 on 183; at least 0.5 on 54
+  relations represented: 28; the ten most common: P27 105, P37 90, P178 87, P103 73, P176 58, P30 58, P159 41, P641 33, P140 33, P449 30
+  distinct true answers: 169; the ten most common: 'French' 64, 'Apple' 45, 'English' 38, 'Antarctica' 37, 'Islam' 31, 'Russian' 26, 'Microsoft' 23, 'France' 19, 'London' 18, 'Dutch' 17
+  distinct subjects: 771
+
+  reading rule (fixed in the plan before the run): 780 candidates -> 300 or more: IMPORT IS WORTH PLANNING IN FULL
+
+  total time 53 s; saved outputs\transfer\e1_import_count.json
+==============================================================================================================

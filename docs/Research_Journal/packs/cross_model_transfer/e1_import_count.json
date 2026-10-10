@@ -1,0 +1,7104 @@
+{
+ "n_records": 21919,
+ "n_single_token": 21919,
+ "n_outside_excluded": 21789,
+ "n_candidates": 780,
+ "verdict": "300 or more: IMPORT IS WORTH PLANNING IN FULL",
+ "categories_outside_excluded": {
+  "medium right / small right": 1372,
+  "medium wrong / small wrong": 19200,
+  "medium right / small wrong": 780,
+  "medium wrong / small right": 437
+ },
+ "small_rank_bins": {
+  "rank 2": 320,
+  "rank 3 to 5": 236,
+  "rank 6 to 20": 155,
+  "rank 21 to 100": 53,
+  "rank over 100": 16
+ },
+ "relations": {
+  "P27": 105,
+  "P37": 90,
+  "P178": 87,
+  "P103": 73,
+  "P176": 58,
+  "P30": 58,
+  "P159": 41,
+  "P641": 33,
+  "P140": 33,
+  "P449": 30,
+  "P364": 26,
+  "P495": 20,
+  "P36": 14,
+  "P127": 13,
+  "P17": 13,
+  "P19": 12,
+  "P937": 12,
+  "P108": 12,
+  "P407": 10,
+  "P39": 8,
+  "P101": 7,
+  "P276": 7,
+  "P20": 5,
+  "P131": 4,
+  "P106": 3,
+  "P463": 3,
+  "P740": 2,
+  "P1303": 1
+ },
+ "true_answers_top": {
+  "French": 64,
+  "Apple": 45,
+  "English": 38,
+  "Antarctica": 37,
+  "Islam": 31,
+  "Russian": 26,
+  "Microsoft": 23,
+  "France": 19,
+  "London": 18,
+  "Dutch": 17,
+  "Japan": 17,
+  "Italy": 16,
+  "India": 14,
+  "soccer": 13,
+  "Google": 13,
+  "Spanish": 12,
+  "Europe": 10,
+  "Adobe": 9,
+  "Paris": 9,
+  "NBC": 9,
+  "Dodge": 9,
+  "hockey": 8,
+  "Italian": 8,
+  "bishop": 8,
+  "Finland": 7,
+  "Norway": 7,
+  "IBM": 7,
+  "CBS": 6,
+  "Africa": 6,
+  "Nintendo": 6
+ },
+ "candidates": [
+  {
+   "case_id": 5,
+   "subject": "Thomas Joannes Stieltjes",
+   "relation": "P103",
+   "true": "Dutch",
+   "small_rank": 5,
+   "medium_prob": 0.15359914302825928,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 36,
+   "subject": "Symeon of Polotsk",
+   "relation": "P103",
+   "true": "Russian",
+   "small_rank": 3,
+   "medium_prob": 0.26620686054229736,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 54,
+   "subject": "Tapio Kantanen",
+   "relation": "P27",
+   "true": "Finland",
+   "small_rank": 6,
+   "medium_prob": 0.5438879132270813,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 84,
+   "subject": "Nathuram Godse",
+   "relation": "P27",
+   "true": "India",
+   "small_rank": 2,
+   "medium_prob": 0.12144853919744492,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 97,
+   "subject": "Ipsos MORI",
+   "relation": "P159",
+   "true": "London",
+   "small_rank": 14,
+   "medium_prob": 0.1279434859752655,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 137,
+   "subject": "Yamaha TZR250",
+   "relation": "P176",
+   "true": "Yamaha",
+   "small_rank": 3,
+   "medium_prob": 0.569328248500824,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 197,
+   "subject": "Magnus Carlsen",
+   "relation": "P27",
+   "true": "Norway",
+   "small_rank": 5,
+   "medium_prob": 0.21481148898601532,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 215,
+   "subject": "Haseeb Ahsan",
+   "relation": "P27",
+   "true": "Pakistan",
+   "small_rank": 2,
+   "medium_prob": 0.19527988135814667,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 311,
+   "subject": "Jalil Lespert",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 5,
+   "medium_prob": 0.07022391259670258,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 327,
+   "subject": "Jonathan Haidt",
+   "relation": "P101",
+   "true": "psychology",
+   "small_rank": 13,
+   "medium_prob": 0.13843023777008057,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 379,
+   "subject": "The Late Late Show with Craig Ferguson",
+   "relation": "P449",
+   "true": "CBS",
+   "small_rank": 5,
+   "medium_prob": 0.15712544322013855,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 385,
+   "subject": "Peter \u0160\u0165astn\u00fd",
+   "relation": "P641",
+   "true": "hockey",
+   "small_rank": 6,
+   "medium_prob": 0.15978464484214783,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 422,
+   "subject": "Apple III",
+   "relation": "P176",
+   "true": "Apple",
+   "small_rank": 2,
+   "medium_prob": 0.08000880479812622,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 424,
+   "subject": "Giovanni Pellielo",
+   "relation": "P27",
+   "true": "Italy",
+   "small_rank": 2,
+   "medium_prob": 0.23716412484645844,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 428,
+   "subject": "Adriaan van Dis",
+   "relation": "P103",
+   "true": "Dutch",
+   "small_rank": 4,
+   "medium_prob": 0.5534294247627258,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 453,
+   "subject": "R.A. Dickey",
+   "relation": "P641",
+   "true": "baseball",
+   "small_rank": 2,
+   "medium_prob": 0.22187304496765137,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 473,
+   "subject": "Final Fantasy",
+   "relation": "P178",
+   "true": "Square",
+   "small_rank": 3,
+   "medium_prob": 0.12165473401546478,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 475,
+   "subject": "Democratic Republic of Afghanistan",
+   "relation": "P36",
+   "true": "Kabul",
+   "small_rank": 145,
+   "medium_prob": 0.17706947028636932,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 479,
+   "subject": "John Travolta",
+   "relation": "P140",
+   "true": "Scientology",
+   "small_rank": 74,
+   "medium_prob": 0.16562387347221375,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 517,
+   "subject": "iBooks Author",
+   "relation": "P178",
+   "true": "Apple",
+   "small_rank": 4,
+   "medium_prob": 0.3384043872356415,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 560,
+   "subject": "British Railways Board",
+   "relation": "P159",
+   "true": "London",
+   "small_rank": 2,
+   "medium_prob": 0.07181228697299957,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 596,
+   "subject": "Albrecht Weber",
+   "relation": "P27",
+   "true": "Germany",
+   "small_rank": 2,
+   "medium_prob": 0.15924720466136932,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 600,
+   "subject": "Yazid I",
+   "relation": "P140",
+   "true": "Islam",
+   "small_rank": 2,
+   "medium_prob": 0.2695443630218506,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 634,
+   "subject": "Windows 98",
+   "relation": "P178",
+   "true": "Microsoft",
+   "small_rank": 3,
+   "medium_prob": 0.2910721004009247,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 656,
+   "subject": "True Detective",
+   "relation": "P449",
+   "true": "HBO",
+   "small_rank": 8,
+   "medium_prob": 0.5561163425445557,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 672,
+   "subject": "Mount Karisimbi",
+   "relation": "P30",
+   "true": "Africa",
+   "small_rank": 6,
+   "medium_prob": 0.13673444092273712,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 686,
+   "subject": "Douglas DC-5",
+   "relation": "P176",
+   "true": "Douglas",
+   "small_rank": 2,
+   "medium_prob": 0.15651297569274902,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 700,
+   "subject": "How I Met Your Mother",
+   "relation": "P449",
+   "true": "CBS",
+   "small_rank": 10,
+   "medium_prob": 0.2415703535079956,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 705,
+   "subject": "Ludwig Marcuse",
+   "relation": "P19",
+   "true": "Berlin",
+   "small_rank": 4,
+   "medium_prob": 0.06726480275392532,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 718,
+   "subject": "Bill Moyers Journal",
+   "relation": "P449",
+   "true": "PBS",
+   "small_rank": 26,
+   "medium_prob": 0.18020500242710114,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 745,
+   "subject": "Orestis Laskos",
+   "relation": "P27",
+   "true": "Greece",
+   "small_rank": 2,
+   "medium_prob": 0.1624228060245514,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 783,
+   "subject": "The Lead with Jake Tapper",
+   "relation": "P449",
+   "true": "CNN",
+   "small_rank": 17,
+   "medium_prob": 0.14828616380691528,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 805,
+   "subject": "Wii Balance Board",
+   "relation": "P176",
+   "true": "Nintendo",
+   "small_rank": 2,
+   "medium_prob": 0.17683425545692444,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 815,
+   "subject": "Lugano",
+   "relation": "P37",
+   "true": "Italian",
+   "small_rank": 8,
+   "medium_prob": 0.12051305174827576,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 860,
+   "subject": "Abu Sufyan ibn Harb",
+   "relation": "P140",
+   "true": "Islam",
+   "small_rank": 2,
+   "medium_prob": 0.2606533169746399,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 864,
+   "subject": "Jaishankar",
+   "relation": "P27",
+   "true": "India",
+   "small_rank": 2,
+   "medium_prob": 0.16137365996837616,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 866,
+   "subject": "Vincent van Gogh",
+   "relation": "P937",
+   "true": "Amsterdam",
+   "small_rank": 2,
+   "medium_prob": 0.08250498026609421,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 902,
+   "subject": "Freek de Jonge",
+   "relation": "P103",
+   "true": "Dutch",
+   "small_rank": 5,
+   "medium_prob": 0.14856871962547302,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 921,
+   "subject": "Companions of the Prophet",
+   "relation": "P140",
+   "true": "Islam",
+   "small_rank": 2,
+   "medium_prob": 0.35659554600715637,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 926,
+   "subject": "Miller Range",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 9,
+   "medium_prob": 0.046217627823352814,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 972,
+   "subject": "Ultraman Dyna",
+   "relation": "P495",
+   "true": "Japan",
+   "small_rank": 2,
+   "medium_prob": 0.22071680426597595,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1087,
+   "subject": "Mari\u00e1n Hossa",
+   "relation": "P641",
+   "true": "hockey",
+   "small_rank": 13,
+   "medium_prob": 0.14580127596855164,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1104,
+   "subject": "Marcelin Pleynet",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 2,
+   "medium_prob": 0.11562522500753403,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1187,
+   "subject": "Mac Pro",
+   "relation": "P176",
+   "true": "Apple",
+   "small_rank": 2,
+   "medium_prob": 0.130309596657753,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1196,
+   "subject": "Haiti",
+   "relation": "P37",
+   "true": "French",
+   "small_rank": 21,
+   "medium_prob": 0.11188927292823792,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1224,
+   "subject": "Lars Paaske",
+   "relation": "P27",
+   "true": "Denmark",
+   "small_rank": 10,
+   "medium_prob": 0.17567521333694458,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1263,
+   "subject": "DirectX",
+   "relation": "P178",
+   "true": "Microsoft",
+   "small_rank": 2,
+   "medium_prob": 0.17587357759475708,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1270,
+   "subject": "University of Oklahoma",
+   "relation": "P159",
+   "true": "Norman",
+   "small_rank": 2,
+   "medium_prob": 0.37495195865631104,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1271,
+   "subject": "Ferrari 156 F1",
+   "relation": "P176",
+   "true": "Ferrari",
+   "small_rank": 2,
+   "medium_prob": 0.14240829646587372,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1278,
+   "subject": "Saint Pierre and Miquelon",
+   "relation": "P37",
+   "true": "French",
+   "small_rank": 3,
+   "medium_prob": 0.3562420606613159,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1283,
+   "subject": "Zeev Rechter",
+   "relation": "P27",
+   "true": "Israel",
+   "small_rank": 6,
+   "medium_prob": 0.27164655923843384,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1298,
+   "subject": "Poland",
+   "relation": "P36",
+   "true": "Warsaw",
+   "small_rank": 10,
+   "medium_prob": 0.12148190289735794,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1302,
+   "subject": "Lamplugh Island",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 20,
+   "medium_prob": 0.05238281190395355,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1310,
+   "subject": "Gothenburg Municipality",
+   "relation": "P37",
+   "true": "Swedish",
+   "small_rank": 35,
+   "medium_prob": 0.22114503383636475,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1319,
+   "subject": "Core 2",
+   "relation": "P178",
+   "true": "Intel",
+   "small_rank": 92,
+   "medium_prob": 0.14709800481796265,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1347,
+   "subject": "Lars Halvor Jensen",
+   "relation": "P27",
+   "true": "Denmark",
+   "small_rank": 2,
+   "medium_prob": 0.22257542610168457,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1375,
+   "subject": "Willie Mays",
+   "relation": "P641",
+   "true": "baseball",
+   "small_rank": 6,
+   "medium_prob": 0.3062845468521118,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1385,
+   "subject": "World Trade Organization",
+   "relation": "P159",
+   "true": "Geneva",
+   "small_rank": 4,
+   "medium_prob": 0.08409643173217773,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1445,
+   "subject": "Areva",
+   "relation": "P127",
+   "true": "France",
+   "small_rank": 21,
+   "medium_prob": 0.20947401225566864,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1475,
+   "subject": "Landon Donovan",
+   "relation": "P641",
+   "true": "soccer",
+   "small_rank": 2,
+   "medium_prob": 0.2725617289543152,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1507,
+   "subject": "Petros Voulgaris",
+   "relation": "P27",
+   "true": "Greece",
+   "small_rank": 3,
+   "medium_prob": 0.19276665151119232,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1524,
+   "subject": "Jean Bobet",
+   "relation": "P27",
+   "true": "France",
+   "small_rank": 3,
+   "medium_prob": 0.20425692200660706,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1525,
+   "subject": "David Beckham",
+   "relation": "P641",
+   "true": "soccer",
+   "small_rank": 3,
+   "medium_prob": 0.25450584292411804,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1539,
+   "subject": "Kannadasan",
+   "relation": "P103",
+   "true": "Tamil",
+   "small_rank": 5,
+   "medium_prob": 0.19782660901546478,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1545,
+   "subject": "Francisco Goya",
+   "relation": "P27",
+   "true": "Spain",
+   "small_rank": 9,
+   "medium_prob": 0.14650341868400574,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1598,
+   "subject": "Christian Medical College Ludhiana",
+   "relation": "P17",
+   "true": "India",
+   "small_rank": 8,
+   "medium_prob": 0.14572833478450775,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1616,
+   "subject": "Mac OS X Lion",
+   "relation": "P178",
+   "true": "Apple",
+   "small_rank": 2,
+   "medium_prob": 0.8984720706939697,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1629,
+   "subject": "Honda Inspire",
+   "relation": "P176",
+   "true": "Honda",
+   "small_rank": 2,
+   "medium_prob": 0.11516530066728592,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1634,
+   "subject": "Aragon",
+   "relation": "P37",
+   "true": "Spanish",
+   "small_rank": 2,
+   "medium_prob": 0.3689403831958771,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1639,
+   "subject": "Xamarin",
+   "relation": "P127",
+   "true": "Microsoft",
+   "small_rank": 11,
+   "medium_prob": 0.21936152875423431,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1699,
+   "subject": "Ballydehob",
+   "relation": "P17",
+   "true": "Ireland",
+   "small_rank": 10,
+   "medium_prob": 0.34203001856803894,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1700,
+   "subject": "Mac OS X Panther",
+   "relation": "P178",
+   "true": "Apple",
+   "small_rank": 2,
+   "medium_prob": 0.4942820966243744,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1712,
+   "subject": "Terrorist Threats",
+   "relation": "P364",
+   "true": "English",
+   "small_rank": 2,
+   "medium_prob": 0.18245458602905273,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1719,
+   "subject": "Adobe Encore",
+   "relation": "P178",
+   "true": "Adobe",
+   "small_rank": 3,
+   "medium_prob": 0.37972292304039,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1745,
+   "subject": "Marcel Ichac",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 5,
+   "medium_prob": 0.18921463191509247,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1750,
+   "subject": "Windows Easy Transfer",
+   "relation": "P178",
+   "true": "Microsoft",
+   "small_rank": 5,
+   "medium_prob": 0.07605529576539993,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1812,
+   "subject": "Ferrari F430",
+   "relation": "P176",
+   "true": "Ferrari",
+   "small_rank": 2,
+   "medium_prob": 0.1850283145904541,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1922,
+   "subject": "Eddy Cue",
+   "relation": "P108",
+   "true": "Apple",
+   "small_rank": 5,
+   "medium_prob": 0.2568718492984772,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1938,
+   "subject": "Geneva",
+   "relation": "P37",
+   "true": "French",
+   "small_rank": 10,
+   "medium_prob": 0.10128509253263474,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 1982,
+   "subject": "iCloud",
+   "relation": "P178",
+   "true": "Apple",
+   "small_rank": 10,
+   "medium_prob": 0.26885098218917847,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 2053,
+   "subject": "Ericsson",
+   "relation": "P159",
+   "true": "Stockholm",
+   "small_rank": 2,
+   "medium_prob": 0.1162351742386818,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 2070,
+   "subject": "Bentley T-series",
+   "relation": "P176",
+   "true": "Bentley",
+   "small_rank": 359,
+   "medium_prob": 0.10843228548765182,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 2086,
+   "subject": "Isabelle Autissier",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 2,
+   "medium_prob": 0.7620224356651306,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 2111,
+   "subject": "Mohammad Gharib",
+   "relation": "P27",
+   "true": "Iran",
+   "small_rank": 4,
+   "medium_prob": 0.1454281359910965,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 2112,
+   "subject": "Kingdom of Libya",
+   "relation": "P36",
+   "true": "Tripoli",
+   "small_rank": 2,
+   "medium_prob": 0.7928034663200378,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 2120,
+   "subject": "Aragon",
+   "relation": "P37",
+   "true": "Catalan",
+   "small_rank": 45,
+   "medium_prob": 0.12426673620939255,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 2151,
+   "subject": "Auguste Cain",
+   "relation": "P19",
+   "true": "Paris",
+   "small_rank": 4,
+   "medium_prob": 0.10655712336301804,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 2168,
+   "subject": "American Samoa",
+   "relation": "P37",
+   "true": "English",
+   "small_rank": 4,
+   "medium_prob": 0.15364518761634827,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 2251,
+   "subject": "iWork",
+   "relation": "P127",
+   "true": "Apple",
+   "small_rank": 8,
+   "medium_prob": 0.12032920122146606,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 2271,
+   "subject": "Kindle Fire",
+   "relation": "P176",
+   "true": "Amazon",
+   "small_rank": 5,
+   "medium_prob": 0.18926317989826202,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 2277,
+   "subject": "Yahoo! News",
+   "relation": "P127",
+   "true": "Yahoo",
+   "small_rank": 23,
+   "medium_prob": 0.10911140590906143,
+   "in_benchmark": true
+  },
+  {
+   "case_id": 2367,
+   "subject": "Alessandro Nesta",
+   "relation": "P641",
+   "true": "soccer",
+   "small_rank": 7,
+   "medium_prob": 0.1798633337020874,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 2369,
+   "subject": "QuickTime",
+   "relation": "P178",
+   "true": "Apple",
+   "small_rank": 4,
+   "medium_prob": 0.22287015616893768,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 2375,
+   "subject": "Sadeq Larijani",
+   "relation": "P27",
+   "true": "Iran",
+   "small_rank": 3,
+   "medium_prob": 0.3055393397808075,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 2412,
+   "subject": "Liquor Control Board of Ontario",
+   "relation": "P159",
+   "true": "Toronto",
+   "small_rank": 9,
+   "medium_prob": 0.10439801961183548,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 2434,
+   "subject": "David Miscavige",
+   "relation": "P140",
+   "true": "Scientology",
+   "small_rank": 2,
+   "medium_prob": 0.1390078365802765,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 2450,
+   "subject": "Yiannis Latsis",
+   "relation": "P20",
+   "true": "Athens",
+   "small_rank": 20,
+   "medium_prob": 0.06055782735347748,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 2471,
+   "subject": "North Carolina",
+   "relation": "P37",
+   "true": "English",
+   "small_rank": 67,
+   "medium_prob": 0.07321186363697052,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 2489,
+   "subject": "Diabetes UK",
+   "relation": "P159",
+   "true": "London",
+   "small_rank": 4,
+   "medium_prob": 0.08370054513216019,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 2536,
+   "subject": "Adobe Creative Cloud",
+   "relation": "P178",
+   "true": "Adobe",
+   "small_rank": 2,
+   "medium_prob": 0.710827112197876,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 2566,
+   "subject": "International Organization for Standardization",
+   "relation": "P37",
+   "true": "English",
+   "small_rank": 35,
+   "medium_prob": 0.13393905758857727,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 2592,
+   "subject": "Eiffel Tower",
+   "relation": "P276",
+   "true": "Paris",
+   "small_rank": 7,
+   "medium_prob": 0.44302651286125183,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 2610,
+   "subject": "California",
+   "relation": "P37",
+   "true": "English",
+   "small_rank": 109,
+   "medium_prob": 0.158959299325943,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 2645,
+   "subject": "Visual Basic Script",
+   "relation": "P178",
+   "true": "Microsoft",
+   "small_rank": 3,
+   "medium_prob": 0.05521251633763313,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 2655,
+   "subject": "Vanderbilt University",
+   "relation": "P159",
+   "true": "Nashville",
+   "small_rank": 2,
+   "medium_prob": 0.6516473293304443,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 2682,
+   "subject": "Kingdom of Hungary",
+   "relation": "P36",
+   "true": "Budapest",
+   "small_rank": 2,
+   "medium_prob": 0.7327148914337158,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 2734,
+   "subject": "J\u00fcrgen Locadia",
+   "relation": "P641",
+   "true": "soccer",
+   "small_rank": 5,
+   "medium_prob": 0.19858318567276,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 2805,
+   "subject": "Bilbao",
+   "relation": "P17",
+   "true": "Spain",
+   "small_rank": 307,
+   "medium_prob": 0.14220692217350006,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 2816,
+   "subject": "iPod Nano",
+   "relation": "P178",
+   "true": "Apple",
+   "small_rank": 3,
+   "medium_prob": 0.4443906545639038,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 2836,
+   "subject": "IBM VisualAge",
+   "relation": "P178",
+   "true": "IBM",
+   "small_rank": 4,
+   "medium_prob": 0.08373289555311203,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 2845,
+   "subject": "Zabaykalsky Krai",
+   "relation": "P37",
+   "true": "Russian",
+   "small_rank": 2,
+   "medium_prob": 0.14813779294490814,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 2868,
+   "subject": "Biel/Bienne",
+   "relation": "P37",
+   "true": "French",
+   "small_rank": 3,
+   "medium_prob": 0.13520650565624237,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 2879,
+   "subject": "Black Narcissus",
+   "relation": "P364",
+   "true": "English",
+   "small_rank": 2,
+   "medium_prob": 0.055413369089365005,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 2940,
+   "subject": "Danish Wikipedia",
+   "relation": "P407",
+   "true": "Danish",
+   "small_rank": 5,
+   "medium_prob": 0.046417780220508575,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 2948,
+   "subject": "Yuliya Snigir",
+   "relation": "P103",
+   "true": "Russian",
+   "small_rank": 2,
+   "medium_prob": 0.19686149060726166,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 2961,
+   "subject": "Czechoslovak Television",
+   "relation": "P159",
+   "true": "Prague",
+   "small_rank": 2,
+   "medium_prob": 0.3498591482639313,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 3005,
+   "subject": "Georges Duhamel",
+   "relation": "P19",
+   "true": "Paris",
+   "small_rank": 3,
+   "medium_prob": 0.17115405201911926,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 3024,
+   "subject": "Aleksandr Ptushko",
+   "relation": "P103",
+   "true": "Russian",
+   "small_rank": 2,
+   "medium_prob": 0.3347589373588562,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 3044,
+   "subject": "Altai Republic",
+   "relation": "P37",
+   "true": "Russian",
+   "small_rank": 14,
+   "medium_prob": 0.10732291638851166,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 3052,
+   "subject": "Finnish Socialist Workers' Republic",
+   "relation": "P36",
+   "true": "Helsinki",
+   "small_rank": 162,
+   "medium_prob": 0.12023010104894638,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 3063,
+   "subject": "Krasnodar Krai",
+   "relation": "P37",
+   "true": "Russian",
+   "small_rank": 14,
+   "medium_prob": 0.08474881947040558,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 3125,
+   "subject": "Windows Media Player",
+   "relation": "P127",
+   "true": "Microsoft",
+   "small_rank": 2,
+   "medium_prob": 0.2939833402633667,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 3127,
+   "subject": "Central African Republic",
+   "relation": "P37",
+   "true": "French",
+   "small_rank": 25,
+   "medium_prob": 0.05481597036123276,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 3161,
+   "subject": "Nintendo Software Planning & Development",
+   "relation": "P159",
+   "true": "Kyoto",
+   "small_rank": 8,
+   "medium_prob": 0.10103768855333328,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 3179,
+   "subject": "Russia",
+   "relation": "P37",
+   "true": "Russian",
+   "small_rank": 6,
+   "medium_prob": 0.10116555541753769,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 3216,
+   "subject": "Schokalsky Bay",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 7,
+   "medium_prob": 0.1663433164358139,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 3276,
+   "subject": "Collonge-Bellerive",
+   "relation": "P37",
+   "true": "French",
+   "small_rank": 24,
+   "medium_prob": 0.07153723388910294,
+   "in_benchmark": true
+  },
+  {
+   "case_id": 3292,
+   "subject": "Amazon Simple Queue Service",
+   "relation": "P178",
+   "true": "Amazon",
+   "small_rank": 2,
+   "medium_prob": 0.2854968309402466,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 3308,
+   "subject": "Law & Order",
+   "relation": "P449",
+   "true": "NBC",
+   "small_rank": 6,
+   "medium_prob": 0.2952715754508972,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 3333,
+   "subject": "Mario Monti",
+   "relation": "P27",
+   "true": "Italy",
+   "small_rank": 4,
+   "medium_prob": 0.3710801303386688,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 3397,
+   "subject": "Maurice Viollette",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 2,
+   "medium_prob": 0.3726319968700409,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 3402,
+   "subject": "Hafsa bint Umar",
+   "relation": "P140",
+   "true": "Islam",
+   "small_rank": 2,
+   "medium_prob": 0.2995138168334961,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 3426,
+   "subject": "Shigeaki Ikeda",
+   "relation": "P27",
+   "true": "Japan",
+   "small_rank": 2,
+   "medium_prob": 0.3824784755706787,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 3472,
+   "subject": "South by Southwest",
+   "relation": "P276",
+   "true": "Austin",
+   "small_rank": 9,
+   "medium_prob": 0.8160727024078369,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 3486,
+   "subject": "Federated States of Micronesia",
+   "relation": "P37",
+   "true": "English",
+   "small_rank": 13,
+   "medium_prob": 0.0652962401509285,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 3491,
+   "subject": "Bentley State Limousine",
+   "relation": "P176",
+   "true": "Bentley",
+   "small_rank": 165,
+   "medium_prob": 0.22648626565933228,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 3499,
+   "subject": "AppleScript",
+   "relation": "P178",
+   "true": "Apple",
+   "small_rank": 4,
+   "medium_prob": 0.3664548695087433,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 3500,
+   "subject": "Yalkut Yosef",
+   "relation": "P364",
+   "true": "Hebrew",
+   "small_rank": 3,
+   "medium_prob": 0.18759657442569733,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 3588,
+   "subject": "Bedano",
+   "relation": "P37",
+   "true": "Italian",
+   "small_rank": 11,
+   "medium_prob": 0.13971368968486786,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 3659,
+   "subject": "Larry Doby",
+   "relation": "P641",
+   "true": "baseball",
+   "small_rank": 6,
+   "medium_prob": 0.07847747206687927,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 3664,
+   "subject": "Shane McMahon",
+   "relation": "P108",
+   "true": "WWE",
+   "small_rank": 2,
+   "medium_prob": 0.1771005094051361,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 3677,
+   "subject": "Bertil Lindblad",
+   "relation": "P27",
+   "true": "Sweden",
+   "small_rank": 3,
+   "medium_prob": 0.3729160726070404,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 3753,
+   "subject": "Henrique Maximiano Coelho Neto",
+   "relation": "P27",
+   "true": "Brazil",
+   "small_rank": 2,
+   "medium_prob": 0.1451982855796814,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 3804,
+   "subject": "Viking Age",
+   "relation": "P30",
+   "true": "Europe",
+   "small_rank": 2,
+   "medium_prob": 0.16513510048389435,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 3811,
+   "subject": "Kumiko Ogura",
+   "relation": "P27",
+   "true": "Japan",
+   "small_rank": 2,
+   "medium_prob": 0.1454782634973526,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 3870,
+   "subject": "Al-Waqidi",
+   "relation": "P140",
+   "true": "Islam",
+   "small_rank": 2,
+   "medium_prob": 0.2329290807247162,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 3904,
+   "subject": "Takeshi Urata",
+   "relation": "P27",
+   "true": "Japan",
+   "small_rank": 2,
+   "medium_prob": 0.26269441843032837,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 3912,
+   "subject": "60 Minutes",
+   "relation": "P449",
+   "true": "CBS",
+   "small_rank": 10,
+   "medium_prob": 0.21616174280643463,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 3983,
+   "subject": "Anne Fontaine",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 2,
+   "medium_prob": 0.11363154649734497,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4015,
+   "subject": "Dawid Janowski",
+   "relation": "P27",
+   "true": "Poland",
+   "small_rank": 16,
+   "medium_prob": 0.1324509084224701,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4021,
+   "subject": "Hsieh Cheng-peng",
+   "relation": "P27",
+   "true": "Taiwan",
+   "small_rank": 2,
+   "medium_prob": 0.26596882939338684,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4039,
+   "subject": "Campione d'Italia",
+   "relation": "P37",
+   "true": "Italian",
+   "small_rank": 4,
+   "medium_prob": 0.132661372423172,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4090,
+   "subject": "Michel Poniatowski",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 2,
+   "medium_prob": 0.19352304935455322,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4130,
+   "subject": "The Tonight Show with Conan O'Brien",
+   "relation": "P449",
+   "true": "NBC",
+   "small_rank": 2,
+   "medium_prob": 0.08659190684556961,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4208,
+   "subject": "Montana",
+   "relation": "P37",
+   "true": "English",
+   "small_rank": 2,
+   "medium_prob": 0.30956730246543884,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4214,
+   "subject": "Grace and Frankie",
+   "relation": "P449",
+   "true": "Netflix",
+   "small_rank": 11,
+   "medium_prob": 0.14875420928001404,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4239,
+   "subject": "Lisbon Geographic Society",
+   "relation": "P101",
+   "true": "geography",
+   "small_rank": 3,
+   "medium_prob": 0.07496817409992218,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4307,
+   "subject": "Antonis Samaras",
+   "relation": "P27",
+   "true": "Greece",
+   "small_rank": 5,
+   "medium_prob": 0.40189269185066223,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4326,
+   "subject": "Gianni Lancia",
+   "relation": "P27",
+   "true": "Italy",
+   "small_rank": 2,
+   "medium_prob": 0.40878698229789734,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4365,
+   "subject": "Blonay",
+   "relation": "P37",
+   "true": "French",
+   "small_rank": 3,
+   "medium_prob": 0.19838015735149384,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4399,
+   "subject": "The Leftovers",
+   "relation": "P449",
+   "true": "HBO",
+   "small_rank": 2,
+   "medium_prob": 0.39052116870880127,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4408,
+   "subject": "Safari",
+   "relation": "P178",
+   "true": "Apple",
+   "small_rank": 114,
+   "medium_prob": 0.3317287564277649,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4427,
+   "subject": "Paraguay",
+   "relation": "P37",
+   "true": "Spanish",
+   "small_rank": 5,
+   "medium_prob": 0.14173302054405212,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4442,
+   "subject": "Berwick Glacier",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 2,
+   "medium_prob": 0.25074756145477295,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4517,
+   "subject": "Grant Hill",
+   "relation": "P641",
+   "true": "basketball",
+   "small_rank": 6,
+   "medium_prob": 0.09543278813362122,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4537,
+   "subject": "Wii U system software",
+   "relation": "P178",
+   "true": "Nintendo",
+   "small_rank": 2,
+   "medium_prob": 0.27114564180374146,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4619,
+   "subject": "Gyles Brandreth",
+   "relation": "P937",
+   "true": "London",
+   "small_rank": 4,
+   "medium_prob": 0.03323390334844589,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4716,
+   "subject": "Belgium",
+   "relation": "P36",
+   "true": "Brussels",
+   "small_rank": 5,
+   "medium_prob": 0.22164864838123322,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4730,
+   "subject": "Wilson Piedmont Glacier",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 3,
+   "medium_prob": 0.6953437924385071,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4731,
+   "subject": "Avery Plateau",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 6,
+   "medium_prob": 0.1542503833770752,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4747,
+   "subject": "Hendrick de Keyser",
+   "relation": "P103",
+   "true": "Dutch",
+   "small_rank": 6,
+   "medium_prob": 0.12860585749149323,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4768,
+   "subject": "Bentley Continental GT",
+   "relation": "P176",
+   "true": "Bentley",
+   "small_rank": 2,
+   "medium_prob": 0.24118457734584808,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4788,
+   "subject": "Isma'il ibn Jafar",
+   "relation": "P140",
+   "true": "Islam",
+   "small_rank": 2,
+   "medium_prob": 0.19861570000648499,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4791,
+   "subject": "Sir William Dunn, 1st Baronet, of Lakenheath",
+   "relation": "P20",
+   "true": "London",
+   "small_rank": 2,
+   "medium_prob": 0.05545557662844658,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4825,
+   "subject": "Trento",
+   "relation": "P17",
+   "true": "Italy",
+   "small_rank": 7,
+   "medium_prob": 0.04212081432342529,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4830,
+   "subject": "Olga Georges-Picot",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 4,
+   "medium_prob": 0.3035394251346588,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4851,
+   "subject": "Sergey Lavrov",
+   "relation": "P19",
+   "true": "Moscow",
+   "small_rank": 3,
+   "medium_prob": 0.2385471612215042,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4912,
+   "subject": "Apple II",
+   "relation": "P176",
+   "true": "Apple",
+   "small_rank": 2,
+   "medium_prob": 0.22817601263523102,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4920,
+   "subject": "Gonzalo Higua\u00edn",
+   "relation": "P641",
+   "true": "soccer",
+   "small_rank": 3,
+   "medium_prob": 0.29221248626708984,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4933,
+   "subject": "Mikkeli",
+   "relation": "P37",
+   "true": "Finnish",
+   "small_rank": 3,
+   "medium_prob": 0.13031364977359772,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4939,
+   "subject": "Northeast Glacier",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 2,
+   "medium_prob": 0.25057631731033325,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4944,
+   "subject": "AppleTalk",
+   "relation": "P178",
+   "true": "Apple",
+   "small_rank": 3,
+   "medium_prob": 0.26262760162353516,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4965,
+   "subject": "Juliet Bravo",
+   "relation": "P364",
+   "true": "English",
+   "small_rank": 2,
+   "medium_prob": 0.10910136997699738,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4988,
+   "subject": "iOS",
+   "relation": "P178",
+   "true": "Apple",
+   "small_rank": 3,
+   "medium_prob": 0.45213815569877625,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 4991,
+   "subject": "Taobao",
+   "relation": "P364",
+   "true": "Chinese",
+   "small_rank": 2,
+   "medium_prob": 0.24520987272262573,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 5025,
+   "subject": "Sundar Pichai",
+   "relation": "P108",
+   "true": "Google",
+   "small_rank": 4,
+   "medium_prob": 0.3349089026451111,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 5040,
+   "subject": "Melitopol",
+   "relation": "P37",
+   "true": "Russian",
+   "small_rank": 3,
+   "medium_prob": 0.14139853417873383,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 5095,
+   "subject": "Gianni Versace S.p.A.",
+   "relation": "P159",
+   "true": "Milan",
+   "small_rank": 8,
+   "medium_prob": 0.3833533227443695,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 5148,
+   "subject": "Madan Lal",
+   "relation": "P27",
+   "true": "India",
+   "small_rank": 2,
+   "medium_prob": 0.18234767019748688,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 5155,
+   "subject": "Kummeli",
+   "relation": "P495",
+   "true": "Finland",
+   "small_rank": 25,
+   "medium_prob": 0.029880372807383537,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 5176,
+   "subject": "Quelli dell'intervallo",
+   "relation": "P364",
+   "true": "Italian",
+   "small_rank": 5,
+   "medium_prob": 0.10239464789628983,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 5191,
+   "subject": "Republic of Florence",
+   "relation": "P36",
+   "true": "Florence",
+   "small_rank": 136,
+   "medium_prob": 0.07900744676589966,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 5224,
+   "subject": "Arne Vidar R\u00f8ed",
+   "relation": "P27",
+   "true": "Norway",
+   "small_rank": 2,
+   "medium_prob": 0.26998329162597656,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 5227,
+   "subject": "NU.nl",
+   "relation": "P364",
+   "true": "Dutch",
+   "small_rank": 6,
+   "medium_prob": 0.08863724768161774,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 5253,
+   "subject": "ActiveSync",
+   "relation": "P178",
+   "true": "Microsoft",
+   "small_rank": 2,
+   "medium_prob": 0.12475141882896423,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 5342,
+   "subject": "Kabardino-Balkar Republic",
+   "relation": "P37",
+   "true": "Russian",
+   "small_rank": 7,
+   "medium_prob": 0.15495571494102478,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 5374,
+   "subject": "Ernst Ludwig von Gerlach",
+   "relation": "P937",
+   "true": "Berlin",
+   "small_rank": 2,
+   "medium_prob": 0.03785416856408119,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 5391,
+   "subject": "Christophe Hondelatte",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 4,
+   "medium_prob": 0.41991540789604187,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 5396,
+   "subject": "Scottish Socialist Party",
+   "relation": "P159",
+   "true": "Glasgow",
+   "small_rank": 4,
+   "medium_prob": 0.22470295429229736,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 5405,
+   "subject": "Luigi Lanzi",
+   "relation": "P27",
+   "true": "Italy",
+   "small_rank": 2,
+   "medium_prob": 0.37754639983177185,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 5482,
+   "subject": "Grossman Nunataks",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 9,
+   "medium_prob": 0.021138876676559448,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 5484,
+   "subject": "Adobe Bridge",
+   "relation": "P178",
+   "true": "Adobe",
+   "small_rank": 3,
+   "medium_prob": 0.3228783905506134,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 5489,
+   "subject": "Dodge Custom Royal",
+   "relation": "P176",
+   "true": "Dodge",
+   "small_rank": 3,
+   "medium_prob": 0.11569536477327347,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 5512,
+   "subject": "La colombe",
+   "relation": "P364",
+   "true": "French",
+   "small_rank": 4,
+   "medium_prob": 0.07200287282466888,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 5584,
+   "subject": "Vincenzo Santopadre",
+   "relation": "P27",
+   "true": "Italy",
+   "small_rank": 2,
+   "medium_prob": 0.26774996519088745,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 5619,
+   "subject": "Liberia",
+   "relation": "P37",
+   "true": "English",
+   "small_rank": 2,
+   "medium_prob": 0.34717726707458496,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 5661,
+   "subject": "Khalifa bin Zayed Al Nahyan",
+   "relation": "P140",
+   "true": "Islam",
+   "small_rank": 2,
+   "medium_prob": 0.540350079536438,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 5722,
+   "subject": "Dan Le Batard",
+   "relation": "P108",
+   "true": "ESPN",
+   "small_rank": 92,
+   "medium_prob": 0.23268301784992218,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 5782,
+   "subject": "Grand-Saconnex",
+   "relation": "P37",
+   "true": "French",
+   "small_rank": 2,
+   "medium_prob": 0.17805235087871552,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 5837,
+   "subject": "iPod",
+   "relation": "P176",
+   "true": "Apple",
+   "small_rank": 3,
+   "medium_prob": 0.6234996318817139,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 5839,
+   "subject": "Nicetius",
+   "relation": "P39",
+   "true": "bishop",
+   "small_rank": 6,
+   "medium_prob": 0.08236682415008545,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 5893,
+   "subject": "Nissan Vanette",
+   "relation": "P176",
+   "true": "Nissan",
+   "small_rank": 2,
+   "medium_prob": 0.15110817551612854,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 5925,
+   "subject": "Spanish Serenade",
+   "relation": "P364",
+   "true": "Spanish",
+   "small_rank": 2,
+   "medium_prob": 0.06258931010961533,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 5950,
+   "subject": "Annick Alane",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 2,
+   "medium_prob": 0.24961163103580475,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 5973,
+   "subject": "Contell Glacier",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 2,
+   "medium_prob": 0.1735515147447586,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 5993,
+   "subject": "Norwegian Industrial Property Office",
+   "relation": "P159",
+   "true": "Oslo",
+   "small_rank": 3,
+   "medium_prob": 0.11561805754899979,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 6068,
+   "subject": "Tamil Nadu",
+   "relation": "P37",
+   "true": "Tamil",
+   "small_rank": 4,
+   "medium_prob": 0.23834994435310364,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 6072,
+   "subject": "Nathalie Kosciusko-Morizet",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 19,
+   "medium_prob": 0.15106850862503052,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 6098,
+   "subject": "L'Abbaye",
+   "relation": "P37",
+   "true": "French",
+   "small_rank": 5,
+   "medium_prob": 0.1382404863834381,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 6122,
+   "subject": "Panega Glacier",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 3,
+   "medium_prob": 0.1941208690404892,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 6167,
+   "subject": "Scott Base",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 6,
+   "medium_prob": 0.05703103914856911,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 6186,
+   "subject": "Ignatius of Antioch",
+   "relation": "P39",
+   "true": "bishop",
+   "small_rank": 8,
+   "medium_prob": 0.09858636558055878,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 6212,
+   "subject": "Christiane Taubira",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 5,
+   "medium_prob": 0.18869763612747192,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 6215,
+   "subject": "Zelimkhan Yandarbiyev",
+   "relation": "P103",
+   "true": "Russian",
+   "small_rank": 2,
+   "medium_prob": 0.09851428121328354,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 6241,
+   "subject": "Isser Harel",
+   "relation": "P27",
+   "true": "Israel",
+   "small_rank": 2,
+   "medium_prob": 0.43759945034980774,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 6353,
+   "subject": "Paolo Chiavenna",
+   "relation": "P27",
+   "true": "Italy",
+   "small_rank": 2,
+   "medium_prob": 0.2801566421985626,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 6363,
+   "subject": "Muslim ibn al-Hajjaj",
+   "relation": "P140",
+   "true": "Islam",
+   "small_rank": 2,
+   "medium_prob": 0.17227883636951447,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 6428,
+   "subject": "Minnesota Glacier",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 3,
+   "medium_prob": 0.19904710352420807,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 6467,
+   "subject": "Pentium II",
+   "relation": "P178",
+   "true": "Intel",
+   "small_rank": 37,
+   "medium_prob": 0.1593475639820099,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 6569,
+   "subject": "Robert Garnier",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 2,
+   "medium_prob": 0.16074347496032715,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 6623,
+   "subject": "Dodge Magnum",
+   "relation": "P176",
+   "true": "Dodge",
+   "small_rank": 4,
+   "medium_prob": 0.10980848222970963,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 6641,
+   "subject": "iPod Mini",
+   "relation": "P176",
+   "true": "Apple",
+   "small_rank": 2,
+   "medium_prob": 0.6028332710266113,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 6659,
+   "subject": "Bristol & West",
+   "relation": "P159",
+   "true": "Bristol",
+   "small_rank": 7,
+   "medium_prob": 0.1641000211238861,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 6661,
+   "subject": "Hockey Night in Canada",
+   "relation": "P495",
+   "true": "Canada",
+   "small_rank": 4,
+   "medium_prob": 0.11492399871349335,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 6662,
+   "subject": "Sylvain Chauveau",
+   "relation": "P19",
+   "true": "France",
+   "small_rank": 2,
+   "medium_prob": 0.1216374933719635,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 6747,
+   "subject": "Pasi Rautiainen",
+   "relation": "P27",
+   "true": "Finland",
+   "small_rank": 4,
+   "medium_prob": 0.4583338797092438,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 6760,
+   "subject": "Triumph 1300",
+   "relation": "P176",
+   "true": "Triumph",
+   "small_rank": 2,
+   "medium_prob": 0.15192100405693054,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 6765,
+   "subject": "Lionel Messi",
+   "relation": "P103",
+   "true": "Spanish",
+   "small_rank": 2,
+   "medium_prob": 0.3686508536338806,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 6805,
+   "subject": "Russian Empire",
+   "relation": "P37",
+   "true": "Russian",
+   "small_rank": 4,
+   "medium_prob": 0.603635847568512,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 6806,
+   "subject": "Finnish Orthodox Church",
+   "relation": "P37",
+   "true": "Finnish",
+   "small_rank": 3,
+   "medium_prob": 0.46949777007102966,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 6818,
+   "subject": "Gard Nilssen",
+   "relation": "P27",
+   "true": "Norway",
+   "small_rank": 5,
+   "medium_prob": 0.1944943070411682,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 6830,
+   "subject": "Time Machine (macOS)",
+   "relation": "P178",
+   "true": "Apple",
+   "small_rank": 3,
+   "medium_prob": 0.3620160222053528,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 6902,
+   "subject": "Adobe InDesign",
+   "relation": "P178",
+   "true": "Adobe",
+   "small_rank": 2,
+   "medium_prob": 0.5222599506378174,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 6919,
+   "subject": "Volga Bulgaria",
+   "relation": "P30",
+   "true": "Europe",
+   "small_rank": 2,
+   "medium_prob": 0.2110692709684372,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 6979,
+   "subject": "Nanyang Technological University",
+   "relation": "P131",
+   "true": "Singapore",
+   "small_rank": 6,
+   "medium_prob": 0.4430432915687561,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7025,
+   "subject": "Middle East",
+   "relation": "P30",
+   "true": "Europe",
+   "small_rank": 3,
+   "medium_prob": 0.22672569751739502,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7074,
+   "subject": "C. N. Annadurai",
+   "relation": "P103",
+   "true": "Tamil",
+   "small_rank": 4,
+   "medium_prob": 0.2441367506980896,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7120,
+   "subject": "Coulommiers cheese",
+   "relation": "P495",
+   "true": "France",
+   "small_rank": 2,
+   "medium_prob": 0.24036362767219543,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7138,
+   "subject": "Pascale Ogier",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 3,
+   "medium_prob": 0.477922260761261,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7139,
+   "subject": "Sayyid Qutb",
+   "relation": "P140",
+   "true": "Islam",
+   "small_rank": 2,
+   "medium_prob": 0.19458140432834625,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7151,
+   "subject": "Al-Aqsa Mosque",
+   "relation": "P131",
+   "true": "Jerusalem",
+   "small_rank": 5,
+   "medium_prob": 0.31776130199432373,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7159,
+   "subject": "Daugava River",
+   "relation": "P30",
+   "true": "Europe",
+   "small_rank": 7,
+   "medium_prob": 0.14554300904273987,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7191,
+   "subject": "Flashdance",
+   "relation": "P364",
+   "true": "English",
+   "small_rank": 2,
+   "medium_prob": 0.06442783772945404,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7193,
+   "subject": "Swedish Empire",
+   "relation": "P37",
+   "true": "Swedish",
+   "small_rank": 4,
+   "medium_prob": 0.10814725607633591,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7194,
+   "subject": "Royal Danish Library",
+   "relation": "P276",
+   "true": "Copenhagen",
+   "small_rank": 2,
+   "medium_prob": 0.3906944990158081,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7215,
+   "subject": "Adobe Audition",
+   "relation": "P178",
+   "true": "Adobe",
+   "small_rank": 2,
+   "medium_prob": 0.48647603392601013,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7232,
+   "subject": "Luxembourg",
+   "relation": "P37",
+   "true": "French",
+   "small_rank": 4,
+   "medium_prob": 0.2685469388961792,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7278,
+   "subject": "Tim Cook",
+   "relation": "P108",
+   "true": "Apple",
+   "small_rank": 2,
+   "medium_prob": 0.6488592028617859,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7355,
+   "subject": "Quirinus of Sescia",
+   "relation": "P39",
+   "true": "bishop",
+   "small_rank": 6,
+   "medium_prob": 0.06370419263839722,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7370,
+   "subject": "Bernard Cornwell",
+   "relation": "P19",
+   "true": "London",
+   "small_rank": 2,
+   "medium_prob": 0.06392976641654968,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7374,
+   "subject": "Abolfazl Jalili",
+   "relation": "P27",
+   "true": "Iran",
+   "small_rank": 4,
+   "medium_prob": 0.2356153130531311,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7403,
+   "subject": "Claude Simon",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 2,
+   "medium_prob": 0.27349817752838135,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7415,
+   "subject": "Jahandar Shah",
+   "relation": "P140",
+   "true": "Islam",
+   "small_rank": 2,
+   "medium_prob": 0.3254140019416809,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7417,
+   "subject": "Soviet Union",
+   "relation": "P37",
+   "true": "Russian",
+   "small_rank": 2,
+   "medium_prob": 0.19233697652816772,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7425,
+   "subject": "Late Night with Jimmy Fallon",
+   "relation": "P449",
+   "true": "NBC",
+   "small_rank": 4,
+   "medium_prob": 0.06875099241733551,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7495,
+   "subject": "Venus Glacier",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 6,
+   "medium_prob": 0.09839404374361038,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7512,
+   "subject": "Renault Sport Spider",
+   "relation": "P176",
+   "true": "Renault",
+   "small_rank": 3,
+   "medium_prob": 0.4023076891899109,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7556,
+   "subject": "Satya Nadella",
+   "relation": "P108",
+   "true": "Microsoft",
+   "small_rank": 102,
+   "medium_prob": 0.7516574263572693,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7561,
+   "subject": "Umar ibn Al-Khatt\u0101b",
+   "relation": "P140",
+   "true": "Islam",
+   "small_rank": 2,
+   "medium_prob": 0.29548120498657227,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7567,
+   "subject": "ABC Futebol Clube",
+   "relation": "P17",
+   "true": "Brazil",
+   "small_rank": 2,
+   "medium_prob": 0.08579102158546448,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7597,
+   "subject": "Macintosh File System",
+   "relation": "P178",
+   "true": "Apple",
+   "small_rank": 2,
+   "medium_prob": 0.21795648336410522,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7607,
+   "subject": "Chad Basin",
+   "relation": "P30",
+   "true": "Africa",
+   "small_rank": 2,
+   "medium_prob": 0.21491652727127075,
+   "in_benchmark": true
+  },
+  {
+   "case_id": 7620,
+   "subject": "Sadr City",
+   "relation": "P17",
+   "true": "Iraq",
+   "small_rank": 10,
+   "medium_prob": 0.07894369959831238,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7690,
+   "subject": "Moscow Mathematical Society",
+   "relation": "P37",
+   "true": "Russian",
+   "small_rank": 13,
+   "medium_prob": 0.12568512558937073,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7710,
+   "subject": "Dodge Charger",
+   "relation": "P176",
+   "true": "Dodge",
+   "small_rank": 2,
+   "medium_prob": 0.156087726354599,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7758,
+   "subject": "Antonio Nocerino",
+   "relation": "P641",
+   "true": "soccer",
+   "small_rank": 6,
+   "medium_prob": 0.19889235496520996,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7778,
+   "subject": "Malik ibn Anas",
+   "relation": "P140",
+   "true": "Islam",
+   "small_rank": 2,
+   "medium_prob": 0.26775306463241577,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7802,
+   "subject": "Ukrainian News Agency",
+   "relation": "P407",
+   "true": "Ukrainian",
+   "small_rank": 6,
+   "medium_prob": 0.06396757066249847,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7808,
+   "subject": "Snezhinsk",
+   "relation": "P37",
+   "true": "Russian",
+   "small_rank": 2,
+   "medium_prob": 0.1587962508201599,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7821,
+   "subject": "Gantz",
+   "relation": "P495",
+   "true": "Japan",
+   "small_rank": 9,
+   "medium_prob": 0.05336114764213562,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7859,
+   "subject": "Wii MotionPlus",
+   "relation": "P178",
+   "true": "Nintendo",
+   "small_rank": 2,
+   "medium_prob": 0.10379871726036072,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7901,
+   "subject": "Sony Crackle",
+   "relation": "P127",
+   "true": "Sony",
+   "small_rank": 2,
+   "medium_prob": 0.25520598888397217,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7935,
+   "subject": "Adaptation",
+   "relation": "P364",
+   "true": "English",
+   "small_rank": 4,
+   "medium_prob": 0.1373165249824524,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7940,
+   "subject": "MTV Cribs",
+   "relation": "P449",
+   "true": "MTV",
+   "small_rank": 46,
+   "medium_prob": 0.1781025379896164,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7941,
+   "subject": "Herbert Edward Read",
+   "relation": "P103",
+   "true": "English",
+   "small_rank": 4,
+   "medium_prob": 0.16884124279022217,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 7956,
+   "subject": "Adobe Digital Editions",
+   "relation": "P178",
+   "true": "Adobe",
+   "small_rank": 2,
+   "medium_prob": 0.30391019582748413,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 8020,
+   "subject": "United States Army Military Government in Korea",
+   "relation": "P36",
+   "true": "Seoul",
+   "small_rank": 17,
+   "medium_prob": 0.2673064172267914,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 8046,
+   "subject": "Amazon Echo",
+   "relation": "P178",
+   "true": "Amazon",
+   "small_rank": 4,
+   "medium_prob": 0.39401885867118835,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 8068,
+   "subject": "Peter Kropotkin",
+   "relation": "P103",
+   "true": "Russian",
+   "small_rank": 2,
+   "medium_prob": 0.15322330594062805,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 8137,
+   "subject": "Microsoft Picture It!",
+   "relation": "P178",
+   "true": "Microsoft",
+   "small_rank": 2,
+   "medium_prob": 0.34372931718826294,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 8185,
+   "subject": "Fernand Ledoux",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 3,
+   "medium_prob": 0.15658825635910034,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 8199,
+   "subject": "Kanna Arihara",
+   "relation": "P27",
+   "true": "Japan",
+   "small_rank": 11,
+   "medium_prob": 0.18205440044403076,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 8248,
+   "subject": "Bulgarian Wikipedia",
+   "relation": "P407",
+   "true": "Bulgarian",
+   "small_rank": 2,
+   "medium_prob": 0.054483041167259216,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 8260,
+   "subject": "Polaire",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 4,
+   "medium_prob": 0.11919962614774704,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 8268,
+   "subject": "Bibi Andersson",
+   "relation": "P27",
+   "true": "Sweden",
+   "small_rank": 3,
+   "medium_prob": 0.22802437841892242,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 8298,
+   "subject": "Sora Ltd.",
+   "relation": "P159",
+   "true": "Tokyo",
+   "small_rank": 3,
+   "medium_prob": 0.11285454034805298,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 8383,
+   "subject": "Russian Soviet Federative Socialist Republic",
+   "relation": "P37",
+   "true": "Russian",
+   "small_rank": 4,
+   "medium_prob": 0.2282203882932663,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 8399,
+   "subject": "Edgaras Jankauskas",
+   "relation": "P641",
+   "true": "soccer",
+   "small_rank": 6,
+   "medium_prob": 0.1394706815481186,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 8429,
+   "subject": "Stonington Island",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 2,
+   "medium_prob": 0.12289582937955856,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 8472,
+   "subject": "Mykolaiv Oblast",
+   "relation": "P37",
+   "true": "Russian",
+   "small_rank": 5,
+   "medium_prob": 0.08060164749622345,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 8495,
+   "subject": "WWE",
+   "relation": "P159",
+   "true": "Stamford",
+   "small_rank": 5,
+   "medium_prob": 0.8722487092018127,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 8510,
+   "subject": "Patrik Jensen",
+   "relation": "P27",
+   "true": "Sweden",
+   "small_rank": 3,
+   "medium_prob": 0.24178776144981384,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 8520,
+   "subject": "The Andy Williams Show",
+   "relation": "P449",
+   "true": "NBC",
+   "small_rank": 8,
+   "medium_prob": 0.062764473259449,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 8531,
+   "subject": "Scottie Pippen",
+   "relation": "P641",
+   "true": "basketball",
+   "small_rank": 8,
+   "medium_prob": 0.49979135394096375,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 8557,
+   "subject": "Stephen Elop",
+   "relation": "P108",
+   "true": "Microsoft",
+   "small_rank": 9,
+   "medium_prob": 0.6109316945075989,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 8598,
+   "subject": "Russian Post",
+   "relation": "P159",
+   "true": "Moscow",
+   "small_rank": 2,
+   "medium_prob": 0.14735813438892365,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 8601,
+   "subject": "Leeds Permanent Building Society",
+   "relation": "P159",
+   "true": "Leeds",
+   "small_rank": 2,
+   "medium_prob": 0.3384360373020172,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 8631,
+   "subject": "Anguilla",
+   "relation": "P37",
+   "true": "English",
+   "small_rank": 5,
+   "medium_prob": 0.10399424284696579,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 8659,
+   "subject": "Islam Shah Suri",
+   "relation": "P140",
+   "true": "Islam",
+   "small_rank": 2,
+   "medium_prob": 0.2557506263256073,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 8780,
+   "subject": "Mario Caiano",
+   "relation": "P19",
+   "true": "Rome",
+   "small_rank": 6,
+   "medium_prob": 0.05226116627454758,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 8791,
+   "subject": "Marcin Libicki",
+   "relation": "P27",
+   "true": "Poland",
+   "small_rank": 4,
+   "medium_prob": 0.5014492869377136,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 8820,
+   "subject": "Juan Carlos I Antarctic Base",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 2,
+   "medium_prob": 0.41774895787239075,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 8829,
+   "subject": "Kazakh Khanate",
+   "relation": "P140",
+   "true": "Islam",
+   "small_rank": 2,
+   "medium_prob": 0.19601498544216156,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 8893,
+   "subject": "La clemenza di Tito",
+   "relation": "P364",
+   "true": "Italian",
+   "small_rank": 6,
+   "medium_prob": 0.06230809912085533,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 8937,
+   "subject": "CarPlay",
+   "relation": "P178",
+   "true": "Apple",
+   "small_rank": 31,
+   "medium_prob": 0.08062078058719635,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 8946,
+   "subject": "Gustave Flourens",
+   "relation": "P27",
+   "true": "France",
+   "small_rank": 4,
+   "medium_prob": 0.2832271456718445,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 8947,
+   "subject": "iPod",
+   "relation": "P178",
+   "true": "Apple",
+   "small_rank": 3,
+   "medium_prob": 0.6424928903579712,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 8953,
+   "subject": "Butler Glacier",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 3,
+   "medium_prob": 0.27042850852012634,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 8957,
+   "subject": "Kendall Waston",
+   "relation": "P641",
+   "true": "soccer",
+   "small_rank": 3,
+   "medium_prob": 0.2382422238588333,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 8969,
+   "subject": "Euromoney Institutional Investor",
+   "relation": "P159",
+   "true": "London",
+   "small_rank": 4,
+   "medium_prob": 0.1253935694694519,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 9015,
+   "subject": "Disneyland Resort",
+   "relation": "P159",
+   "true": "Anaheim",
+   "small_rank": 3,
+   "medium_prob": 0.46290719509124756,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 9085,
+   "subject": "roti",
+   "relation": "P495",
+   "true": "India",
+   "small_rank": 7,
+   "medium_prob": 0.1149861291050911,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 9098,
+   "subject": "Bihar",
+   "relation": "P30",
+   "true": "Asia",
+   "small_rank": 4,
+   "medium_prob": 0.14594030380249023,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 9100,
+   "subject": "Suzuki APV",
+   "relation": "P176",
+   "true": "Suzuki",
+   "small_rank": 3,
+   "medium_prob": 0.13047750294208527,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 9104,
+   "subject": "El Debate",
+   "relation": "P364",
+   "true": "Spanish",
+   "small_rank": 5,
+   "medium_prob": 0.14538094401359558,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 9149,
+   "subject": "The Tonight Show with Jay Leno",
+   "relation": "P449",
+   "true": "NBC",
+   "small_rank": 5,
+   "medium_prob": 0.21701529622077942,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 9205,
+   "subject": "Norwegian Museum of Cultural History",
+   "relation": "P131",
+   "true": "Oslo",
+   "small_rank": 2,
+   "medium_prob": 0.2095128893852234,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 9213,
+   "subject": "Scottish National Portrait Gallery",
+   "relation": "P276",
+   "true": "Edinburgh",
+   "small_rank": 2,
+   "medium_prob": 0.17705081403255463,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 9274,
+   "subject": "Arutz Sheva",
+   "relation": "P407",
+   "true": "Hebrew",
+   "small_rank": 156,
+   "medium_prob": 0.051734957844018936,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 9276,
+   "subject": "Alicante",
+   "relation": "P37",
+   "true": "Spanish",
+   "small_rank": 22,
+   "medium_prob": 0.09777817875146866,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 9303,
+   "subject": "Arvid Lindman",
+   "relation": "P27",
+   "true": "Sweden",
+   "small_rank": 2,
+   "medium_prob": 0.28946325182914734,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 9335,
+   "subject": "Pierre Cardin",
+   "relation": "P27",
+   "true": "France",
+   "small_rank": 2,
+   "medium_prob": 0.1691383570432663,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 9356,
+   "subject": "Cosimo de' Medici",
+   "relation": "P937",
+   "true": "Florence",
+   "small_rank": 3,
+   "medium_prob": 0.139317587018013,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 9407,
+   "subject": "Alexei Kovalev",
+   "relation": "P641",
+   "true": "hockey",
+   "small_rank": 4,
+   "medium_prob": 0.18599165976047516,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 9416,
+   "subject": "The Big Bang Theory",
+   "relation": "P449",
+   "true": "CBS",
+   "small_rank": 2,
+   "medium_prob": 0.2631106674671173,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 9452,
+   "subject": "Apple A4",
+   "relation": "P178",
+   "true": "Apple",
+   "small_rank": 2,
+   "medium_prob": 0.39269503951072693,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 9458,
+   "subject": "Atari 8-bit family",
+   "relation": "P178",
+   "true": "Atari",
+   "small_rank": 3,
+   "medium_prob": 0.3099920153617859,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 9470,
+   "subject": "Geert Lovink",
+   "relation": "P937",
+   "true": "Amsterdam",
+   "small_rank": 3,
+   "medium_prob": 0.051962755620479584,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 9506,
+   "subject": "The Legend of Zelda",
+   "relation": "P178",
+   "true": "Nintendo",
+   "small_rank": 2,
+   "medium_prob": 0.2119046449661255,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 9576,
+   "subject": "Karolinska Institute",
+   "relation": "P159",
+   "true": "Stockholm",
+   "small_rank": 3,
+   "medium_prob": 0.6760505437850952,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 9645,
+   "subject": "Pop Shalini",
+   "relation": "P27",
+   "true": "India",
+   "small_rank": 2,
+   "medium_prob": 0.28038620948791504,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 9697,
+   "subject": "Audrey Fleurot",
+   "relation": "P27",
+   "true": "France",
+   "small_rank": 3,
+   "medium_prob": 0.2117016762495041,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 9712,
+   "subject": "Roman Empire",
+   "relation": "P37",
+   "true": "Latin",
+   "small_rank": 3,
+   "medium_prob": 0.5984424352645874,
+   "in_benchmark": true
+  },
+  {
+   "case_id": 9864,
+   "subject": "Yahoo! Groups",
+   "relation": "P127",
+   "true": "Yahoo",
+   "small_rank": 31,
+   "medium_prob": 0.08672066777944565,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 9886,
+   "subject": "Mawson Glacier",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 2,
+   "medium_prob": 0.42180341482162476,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 9959,
+   "subject": "Red Grange",
+   "relation": "P641",
+   "true": "football",
+   "small_rank": 7,
+   "medium_prob": 0.09123725444078445,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 9962,
+   "subject": "Paul Allen",
+   "relation": "P108",
+   "true": "Microsoft",
+   "small_rank": 4,
+   "medium_prob": 0.4545559883117676,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 9977,
+   "subject": "Windows Movie Maker",
+   "relation": "P178",
+   "true": "Microsoft",
+   "small_rank": 2,
+   "medium_prob": 0.32920411229133606,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 10024,
+   "subject": "Centers for Disease Control and Prevention",
+   "relation": "P159",
+   "true": "Atlanta",
+   "small_rank": 5,
+   "medium_prob": 0.28622370958328247,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 10028,
+   "subject": "Whillans Ice Stream",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 4,
+   "medium_prob": 0.07811982184648514,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 10041,
+   "subject": "Tehran Times",
+   "relation": "P364",
+   "true": "English",
+   "small_rank": 5,
+   "medium_prob": 0.16338880360126495,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 10133,
+   "subject": "Marcelle Auclair",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 2,
+   "medium_prob": 0.5462456941604614,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 10136,
+   "subject": "Windows Media Audio",
+   "relation": "P178",
+   "true": "Microsoft",
+   "small_rank": 2,
+   "medium_prob": 0.10940250754356384,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 10142,
+   "subject": "A las Barricadas",
+   "relation": "P407",
+   "true": "Spanish",
+   "small_rank": 2,
+   "medium_prob": 0.12207470089197159,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 10152,
+   "subject": "United Airlines",
+   "relation": "P159",
+   "true": "Chicago",
+   "small_rank": 5,
+   "medium_prob": 0.07742410153150558,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 10212,
+   "subject": "Ibn Ishaq",
+   "relation": "P140",
+   "true": "Islam",
+   "small_rank": 2,
+   "medium_prob": 0.34318533539772034,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 10277,
+   "subject": "Google Search",
+   "relation": "P127",
+   "true": "Google",
+   "small_rank": 6,
+   "medium_prob": 0.09592298418283463,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 10314,
+   "subject": "Paul Morand",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 2,
+   "medium_prob": 0.17431724071502686,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 10318,
+   "subject": "IBM System Object Model",
+   "relation": "P178",
+   "true": "IBM",
+   "small_rank": 2,
+   "medium_prob": 0.06787793338298798,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 10383,
+   "subject": "In-Flight Safety",
+   "relation": "P495",
+   "true": "Canada",
+   "small_rank": 12,
+   "medium_prob": 0.033681049942970276,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 10397,
+   "subject": "Leo V the Armenian",
+   "relation": "P19",
+   "true": "Armenia",
+   "small_rank": 2,
+   "medium_prob": 0.3576846420764923,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 10421,
+   "subject": "Cian O'Connor",
+   "relation": "P27",
+   "true": "Ireland",
+   "small_rank": 3,
+   "medium_prob": 0.27235153317451477,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 10436,
+   "subject": "Mumbai",
+   "relation": "P30",
+   "true": "Asia",
+   "small_rank": 4,
+   "medium_prob": 0.17363975942134857,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 10498,
+   "subject": "Espen Knutsen",
+   "relation": "P27",
+   "true": "Norway",
+   "small_rank": 6,
+   "medium_prob": 0.18532714247703552,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 10514,
+   "subject": "Dodge 400",
+   "relation": "P176",
+   "true": "Dodge",
+   "small_rank": 2,
+   "medium_prob": 0.18289798498153687,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 10612,
+   "subject": "South Africa",
+   "relation": "P37",
+   "true": "English",
+   "small_rank": 11,
+   "medium_prob": 0.06753390282392502,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 10616,
+   "subject": "Ariane Labed",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 6,
+   "medium_prob": 0.27284643054008484,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 10624,
+   "subject": "Coldplay",
+   "relation": "P740",
+   "true": "London",
+   "small_rank": 2,
+   "medium_prob": 0.08710888773202896,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 10626,
+   "subject": "Valentin Conrart",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 6,
+   "medium_prob": 0.1403011828660965,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 10647,
+   "subject": "Xcode",
+   "relation": "P178",
+   "true": "Apple",
+   "small_rank": 4,
+   "medium_prob": 0.9444341063499451,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 10660,
+   "subject": "Triple H",
+   "relation": "P108",
+   "true": "WWE",
+   "small_rank": 56,
+   "medium_prob": 0.49568551778793335,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 10669,
+   "subject": "Tierney Peninsula",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 7,
+   "medium_prob": 0.11584731936454773,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 10671,
+   "subject": "Barney & Friends",
+   "relation": "P449",
+   "true": "PBS",
+   "small_rank": 10,
+   "medium_prob": 0.08988844603300095,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 10687,
+   "subject": "Mac OS",
+   "relation": "P178",
+   "true": "Apple",
+   "small_rank": 3,
+   "medium_prob": 0.4288465082645416,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 10771,
+   "subject": "BayernLB",
+   "relation": "P159",
+   "true": "Munich",
+   "small_rank": 2,
+   "medium_prob": 0.23220781981945038,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 10832,
+   "subject": "Debenham Glacier",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 2,
+   "medium_prob": 0.37835991382598877,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 10863,
+   "subject": "Nadine Morano",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 3,
+   "medium_prob": 0.11948578804731369,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 10901,
+   "subject": "Golconda Sultanate",
+   "relation": "P140",
+   "true": "Islam",
+   "small_rank": 2,
+   "medium_prob": 0.22418718039989471,
+   "in_benchmark": true
+  },
+  {
+   "case_id": 10902,
+   "subject": "Ludvig Harboe",
+   "relation": "P27",
+   "true": "Denmark",
+   "small_rank": 3,
+   "medium_prob": 0.21891270577907562,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 10931,
+   "subject": "Volvo XC90",
+   "relation": "P176",
+   "true": "Volvo",
+   "small_rank": 3,
+   "medium_prob": 0.13028600811958313,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 10946,
+   "subject": "Bentley Turbo R",
+   "relation": "P176",
+   "true": "Bentley",
+   "small_rank": 43,
+   "medium_prob": 0.21385642886161804,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 10977,
+   "subject": "Anne-Marie Idrac",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 2,
+   "medium_prob": 0.1787981241941452,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 10978,
+   "subject": "Lyndon B. Johnson Space Center",
+   "relation": "P159",
+   "true": "Houston",
+   "small_rank": 2,
+   "medium_prob": 0.1855485737323761,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 11030,
+   "subject": "Andrei Soldatov",
+   "relation": "P27",
+   "true": "Russia",
+   "small_rank": 2,
+   "medium_prob": 0.3185189366340637,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 11048,
+   "subject": "Cuban convertible peso",
+   "relation": "P17",
+   "true": "Cuba",
+   "small_rank": 2,
+   "medium_prob": 0.12845836579799652,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 11058,
+   "subject": "Knight Rider",
+   "relation": "P449",
+   "true": "NBC",
+   "small_rank": 75,
+   "medium_prob": 0.08716222643852234,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 11100,
+   "subject": "Case Western Reserve University",
+   "relation": "P159",
+   "true": "Cleveland",
+   "small_rank": 8,
+   "medium_prob": 0.8218835592269897,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 11133,
+   "subject": "wahy",
+   "relation": "P140",
+   "true": "Islam",
+   "small_rank": 2,
+   "medium_prob": 0.15785278379917145,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 11147,
+   "subject": "Sola Aoi",
+   "relation": "P27",
+   "true": "Japan",
+   "small_rank": 2,
+   "medium_prob": 0.17790700495243073,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 11210,
+   "subject": "Apple IIGS",
+   "relation": "P176",
+   "true": "Apple",
+   "small_rank": 2,
+   "medium_prob": 0.09906482696533203,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 11228,
+   "subject": "Uttar Pradesh",
+   "relation": "P30",
+   "true": "Asia",
+   "small_rank": 7,
+   "medium_prob": 0.14841756224632263,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 11238,
+   "subject": "Sully Prudhomme",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 7,
+   "medium_prob": 0.2458600401878357,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 11252,
+   "subject": "Eiko Shimamiya",
+   "relation": "P27",
+   "true": "Japan",
+   "small_rank": 2,
+   "medium_prob": 0.25407129526138306,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 11338,
+   "subject": "traditional Korean medicine",
+   "relation": "P495",
+   "true": "Korea",
+   "small_rank": 2,
+   "medium_prob": 0.22799018025398254,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 11344,
+   "subject": "Trailer Park Boys",
+   "relation": "P449",
+   "true": "Netflix",
+   "small_rank": 14,
+   "medium_prob": 0.07500041276216507,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 11347,
+   "subject": "Windows Mixed Reality",
+   "relation": "P178",
+   "true": "Microsoft",
+   "small_rank": 2,
+   "medium_prob": 0.5174984335899353,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 11396,
+   "subject": "Georges-Louis Leclerc, Comte de Buffon",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 3,
+   "medium_prob": 0.3439011871814728,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 11413,
+   "subject": "Harvard Medical School",
+   "relation": "P159",
+   "true": "Boston",
+   "small_rank": 2,
+   "medium_prob": 0.6543232202529907,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 11431,
+   "subject": "Arkansas",
+   "relation": "P37",
+   "true": "English",
+   "small_rank": 48,
+   "medium_prob": 0.12817464768886566,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 11458,
+   "subject": "Dodge 600",
+   "relation": "P176",
+   "true": "Dodge",
+   "small_rank": 2,
+   "medium_prob": 0.15999004244804382,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 11515,
+   "subject": "Robert de Flers",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 8,
+   "medium_prob": 0.1311856210231781,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 11551,
+   "subject": "Safwan ibn Umayya",
+   "relation": "P140",
+   "true": "Islam",
+   "small_rank": 2,
+   "medium_prob": 0.30543383955955505,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 11564,
+   "subject": "Project Ara",
+   "relation": "P178",
+   "true": "Google",
+   "small_rank": 3,
+   "medium_prob": 0.15730907022953033,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 11581,
+   "subject": "Android TV",
+   "relation": "P178",
+   "true": "Google",
+   "small_rank": 3,
+   "medium_prob": 0.48559191823005676,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 11590,
+   "subject": "Adobe Illustrator",
+   "relation": "P178",
+   "true": "Adobe",
+   "small_rank": 2,
+   "medium_prob": 0.7565780282020569,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 11668,
+   "subject": "Fatimah bint Asad",
+   "relation": "P140",
+   "true": "Islam",
+   "small_rank": 2,
+   "medium_prob": 0.3602731227874756,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 11671,
+   "subject": "Apple Open Directory",
+   "relation": "P178",
+   "true": "Apple",
+   "small_rank": 2,
+   "medium_prob": 0.31429195404052734,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 11672,
+   "subject": "True Blood",
+   "relation": "P449",
+   "true": "HBO",
+   "small_rank": 3,
+   "medium_prob": 0.21364378929138184,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 11680,
+   "subject": "Microsoft FrontPage",
+   "relation": "P178",
+   "true": "Microsoft",
+   "small_rank": 2,
+   "medium_prob": 0.1949179470539093,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 11696,
+   "subject": "Nuevo Santander",
+   "relation": "P37",
+   "true": "Spanish",
+   "small_rank": 2,
+   "medium_prob": 0.5170541405677795,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 11701,
+   "subject": "Edward Gibbon",
+   "relation": "P101",
+   "true": "history",
+   "small_rank": 3,
+   "medium_prob": 0.08050479739904404,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 11721,
+   "subject": "Sundbyberg Municipality",
+   "relation": "P37",
+   "true": "Swedish",
+   "small_rank": 34,
+   "medium_prob": 0.06829293817281723,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 11727,
+   "subject": "Renens",
+   "relation": "P37",
+   "true": "French",
+   "small_rank": 2,
+   "medium_prob": 0.14037594199180603,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 11730,
+   "subject": "William Pitt the Younger",
+   "relation": "P937",
+   "true": "London",
+   "small_rank": 2,
+   "medium_prob": 0.13138826191425323,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 11850,
+   "subject": "Steve Yzerman",
+   "relation": "P641",
+   "true": "hockey",
+   "small_rank": 3,
+   "medium_prob": 0.27601808309555054,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 11936,
+   "subject": "Jupiter Glacier",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 5,
+   "medium_prob": 0.2615223228931427,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 11966,
+   "subject": "Austria-Hungary",
+   "relation": "P36",
+   "true": "Vienna",
+   "small_rank": 3,
+   "medium_prob": 0.3927622139453888,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 12038,
+   "subject": "Ciboulette",
+   "relation": "P364",
+   "true": "French",
+   "small_rank": 2,
+   "medium_prob": 0.1650637984275818,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 12089,
+   "subject": "Tampere",
+   "relation": "P37",
+   "true": "Finnish",
+   "small_rank": 70,
+   "medium_prob": 0.0885181874036789,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 12120,
+   "subject": "Google Books",
+   "relation": "P127",
+   "true": "Google",
+   "small_rank": 2,
+   "medium_prob": 0.24929547309875488,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 12140,
+   "subject": "Florida",
+   "relation": "P37",
+   "true": "English",
+   "small_rank": 54,
+   "medium_prob": 0.11618831753730774,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 12214,
+   "subject": "Christiane Martel",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 4,
+   "medium_prob": 0.2633284330368042,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 12229,
+   "subject": "Scott Island",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 3,
+   "medium_prob": 0.1530325710773468,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 12306,
+   "subject": "Bearpaw Shale",
+   "relation": "P17",
+   "true": "Canada",
+   "small_rank": 6,
+   "medium_prob": 0.03474865108728409,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 12344,
+   "subject": "Union of European Football Associations",
+   "relation": "P37",
+   "true": "English",
+   "small_rank": 6,
+   "medium_prob": 0.28658923506736755,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 12410,
+   "subject": "Strom Glacier",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 3,
+   "medium_prob": 0.20640195906162262,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 12419,
+   "subject": "Jules Berry",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 4,
+   "medium_prob": 0.144585520029068,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 12447,
+   "subject": "Chancelade",
+   "relation": "P17",
+   "true": "France",
+   "small_rank": 2,
+   "medium_prob": 0.07621500641107559,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 12459,
+   "subject": "Sui dynasty",
+   "relation": "P37",
+   "true": "Chinese",
+   "small_rank": 2,
+   "medium_prob": 0.12944045662879944,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 12537,
+   "subject": "Emmitt Smith",
+   "relation": "P641",
+   "true": "football",
+   "small_rank": 2,
+   "medium_prob": 0.25659921765327454,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 12558,
+   "subject": ".af",
+   "relation": "P17",
+   "true": "Afghanistan",
+   "small_rank": 17,
+   "medium_prob": 0.020007362589240074,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 12595,
+   "subject": "Hagenow",
+   "relation": "P17",
+   "true": "Germany",
+   "small_rank": 6,
+   "medium_prob": 0.037442658096551895,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 12600,
+   "subject": "Jacobus Henricus van 't Hoff",
+   "relation": "P103",
+   "true": "Dutch",
+   "small_rank": 10,
+   "medium_prob": 0.17791295051574707,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 12609,
+   "subject": "Mertz Glacier",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 2,
+   "medium_prob": 0.14462390542030334,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 12664,
+   "subject": "College Football Scoreboard",
+   "relation": "P449",
+   "true": "ESPN",
+   "small_rank": 3,
+   "medium_prob": 0.10223285108804703,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 12679,
+   "subject": "Scotiabank",
+   "relation": "P159",
+   "true": "Toronto",
+   "small_rank": 8,
+   "medium_prob": 0.17471666634082794,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 12692,
+   "subject": "Max Weber",
+   "relation": "P101",
+   "true": "economics",
+   "small_rank": 25,
+   "medium_prob": 0.035066381096839905,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 12725,
+   "subject": "The Wire",
+   "relation": "P449",
+   "true": "HBO",
+   "small_rank": 31,
+   "medium_prob": 0.09048087894916534,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 12729,
+   "subject": "Chanel",
+   "relation": "P740",
+   "true": "Paris",
+   "small_rank": 4,
+   "medium_prob": 0.33534494042396545,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 12733,
+   "subject": "AppleWorks",
+   "relation": "P178",
+   "true": "Apple",
+   "small_rank": 2,
+   "medium_prob": 0.34623122215270996,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 12768,
+   "subject": "Newsweek Polska",
+   "relation": "P495",
+   "true": "Poland",
+   "small_rank": 2,
+   "medium_prob": 0.09792710095643997,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 12779,
+   "subject": "Mohammad-Reza Sharifinia",
+   "relation": "P103",
+   "true": "Persian",
+   "small_rank": 4,
+   "medium_prob": 0.3904627561569214,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 12790,
+   "subject": "Steve Nash",
+   "relation": "P641",
+   "true": "basketball",
+   "small_rank": 3,
+   "medium_prob": 0.1260068565607071,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 12927,
+   "subject": "Maury Bay",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 10,
+   "medium_prob": 0.1004834994673729,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 12943,
+   "subject": "Seinfeld",
+   "relation": "P449",
+   "true": "NBC",
+   "small_rank": 3,
+   "medium_prob": 0.10750222206115723,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 12967,
+   "subject": "Enzo Ferrari",
+   "relation": "P27",
+   "true": "Italy",
+   "small_rank": 2,
+   "medium_prob": 0.2688782215118408,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 12992,
+   "subject": "Senegal",
+   "relation": "P37",
+   "true": "French",
+   "small_rank": 3,
+   "medium_prob": 0.10477566719055176,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13011,
+   "subject": "Steve Wozniak",
+   "relation": "P108",
+   "true": "Apple",
+   "small_rank": 3,
+   "medium_prob": 0.2607548236846924,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13016,
+   "subject": "Theo van Doesburg",
+   "relation": "P103",
+   "true": "Dutch",
+   "small_rank": 2,
+   "medium_prob": 0.48545679450035095,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13062,
+   "subject": "New Hampshire",
+   "relation": "P37",
+   "true": "English",
+   "small_rank": 13,
+   "medium_prob": 0.21903811395168304,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13072,
+   "subject": "Babe Ruth",
+   "relation": "P641",
+   "true": "baseball",
+   "small_rank": 6,
+   "medium_prob": 0.5651064515113831,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13121,
+   "subject": "macOS Server",
+   "relation": "P178",
+   "true": "Apple",
+   "small_rank": 3,
+   "medium_prob": 0.44385719299316406,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13158,
+   "subject": "Manuale d'amore",
+   "relation": "P364",
+   "true": "Italian",
+   "small_rank": 4,
+   "medium_prob": 0.1175379753112793,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13159,
+   "subject": "Mark Messier",
+   "relation": "P641",
+   "true": "hockey",
+   "small_rank": 4,
+   "medium_prob": 0.3453080952167511,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13196,
+   "subject": "Fridtjof Frank Gundersen",
+   "relation": "P937",
+   "true": "Oslo",
+   "small_rank": 2,
+   "medium_prob": 0.031249068677425385,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13236,
+   "subject": "Emirate of Granada",
+   "relation": "P140",
+   "true": "Islam",
+   "small_rank": 3,
+   "medium_prob": 0.2636067569255829,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13252,
+   "subject": "Umber Island",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 4,
+   "medium_prob": 0.04887386038899422,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13270,
+   "subject": "Hendrik Wagenvoort",
+   "relation": "P103",
+   "true": "Dutch",
+   "small_rank": 5,
+   "medium_prob": 0.1884327381849289,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13365,
+   "subject": "Chromecast",
+   "relation": "P176",
+   "true": "Google",
+   "small_rank": 4,
+   "medium_prob": 0.26316994428634644,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13419,
+   "subject": "CTV Television Network",
+   "relation": "P159",
+   "true": "Toronto",
+   "small_rank": 2,
+   "medium_prob": 0.19346462190151215,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13427,
+   "subject": "Kaarina",
+   "relation": "P37",
+   "true": "Finnish",
+   "small_rank": 13,
+   "medium_prob": 0.06978949159383774,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13429,
+   "subject": "air traffic control",
+   "relation": "P101",
+   "true": "aviation",
+   "small_rank": 2,
+   "medium_prob": 0.1110064685344696,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13431,
+   "subject": "Marco Minghetti",
+   "relation": "P937",
+   "true": "Rome",
+   "small_rank": 2,
+   "medium_prob": 0.032572418451309204,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13432,
+   "subject": "J. Robert Oppenheimer",
+   "relation": "P103",
+   "true": "English",
+   "small_rank": 2,
+   "medium_prob": 0.14980916678905487,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13472,
+   "subject": "Ikki Kajiwara",
+   "relation": "P27",
+   "true": "Japan",
+   "small_rank": 2,
+   "medium_prob": 0.24035467207431793,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13473,
+   "subject": "Muhammad Qasim Nanotvi",
+   "relation": "P140",
+   "true": "Islam",
+   "small_rank": 2,
+   "medium_prob": 0.2155390828847885,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13592,
+   "subject": "Yoruba religion",
+   "relation": "P30",
+   "true": "Africa",
+   "small_rank": 2,
+   "medium_prob": 0.3785744309425354,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13595,
+   "subject": "Dutch name",
+   "relation": "P407",
+   "true": "Dutch",
+   "small_rank": 3,
+   "medium_prob": 0.053999628871679306,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13603,
+   "subject": "Steve Ballmer",
+   "relation": "P108",
+   "true": "Microsoft",
+   "small_rank": 155,
+   "medium_prob": 0.49226459860801697,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13626,
+   "subject": "Francesco Rutelli",
+   "relation": "P937",
+   "true": "Rome",
+   "small_rank": 2,
+   "medium_prob": 0.12769067287445068,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13632,
+   "subject": "Pasquale Di Sabatino",
+   "relation": "P27",
+   "true": "Italy",
+   "small_rank": 4,
+   "medium_prob": 0.28991687297821045,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13639,
+   "subject": "Triumph 2000",
+   "relation": "P176",
+   "true": "Triumph",
+   "small_rank": 10,
+   "medium_prob": 0.07663948088884354,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13645,
+   "subject": "Rothschild Island",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 8,
+   "medium_prob": 0.11633724719285965,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13660,
+   "subject": "Chromebook Pixel",
+   "relation": "P176",
+   "true": "Google",
+   "small_rank": 2,
+   "medium_prob": 0.1953287422657013,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13677,
+   "subject": "Nissan Navara",
+   "relation": "P176",
+   "true": "Nissan",
+   "small_rank": 2,
+   "medium_prob": 0.14704936742782593,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13707,
+   "subject": "Alain Robert",
+   "relation": "P27",
+   "true": "France",
+   "small_rank": 3,
+   "medium_prob": 0.27610912919044495,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13720,
+   "subject": "Robertson Bay",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 7,
+   "medium_prob": 0.28088003396987915,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13755,
+   "subject": "Russian Wikipedia",
+   "relation": "P407",
+   "true": "Russian",
+   "small_rank": 2,
+   "medium_prob": 0.10878884047269821,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13768,
+   "subject": "The H-Man",
+   "relation": "P495",
+   "true": "Japan",
+   "small_rank": 2,
+   "medium_prob": 0.06768251210451126,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13814,
+   "subject": "Robert Jan van Pelt",
+   "relation": "P103",
+   "true": "Dutch",
+   "small_rank": 3,
+   "medium_prob": 0.22937346994876862,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13854,
+   "subject": "Apple Lossless",
+   "relation": "P178",
+   "true": "Apple",
+   "small_rank": 3,
+   "medium_prob": 0.07802288979291916,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13866,
+   "subject": "Ferrari 246 F1",
+   "relation": "P176",
+   "true": "Ferrari",
+   "small_rank": 2,
+   "medium_prob": 0.1454070508480072,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13900,
+   "subject": "Emmanuelle Seigner",
+   "relation": "P27",
+   "true": "France",
+   "small_rank": 2,
+   "medium_prob": 0.3527524173259735,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13910,
+   "subject": "Yves Mirande",
+   "relation": "P27",
+   "true": "France",
+   "small_rank": 2,
+   "medium_prob": 0.3141237199306488,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13913,
+   "subject": "Auguste Rodin",
+   "relation": "P27",
+   "true": "France",
+   "small_rank": 4,
+   "medium_prob": 0.19093522429466248,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13943,
+   "subject": "Beijing Guoan F.C.",
+   "relation": "P159",
+   "true": "Beijing",
+   "small_rank": 2,
+   "medium_prob": 0.22147785127162933,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 13944,
+   "subject": "Ahmad Nadeem Qasmi",
+   "relation": "P27",
+   "true": "Pakistan",
+   "small_rank": 8,
+   "medium_prob": 0.12145981937646866,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14006,
+   "subject": "Belize",
+   "relation": "P37",
+   "true": "English",
+   "small_rank": 13,
+   "medium_prob": 0.057520098984241486,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14028,
+   "subject": "Dodge Charger",
+   "relation": "P176",
+   "true": "Dodge",
+   "small_rank": 2,
+   "medium_prob": 0.156087726354599,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14051,
+   "subject": "Ahmed Zewail",
+   "relation": "P140",
+   "true": "Islam",
+   "small_rank": 2,
+   "medium_prob": 0.2116282731294632,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14084,
+   "subject": "Kaliakra Glacier",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 7,
+   "medium_prob": 0.07724077254533768,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14122,
+   "subject": "Halliburton",
+   "relation": "P159",
+   "true": "Houston",
+   "small_rank": 3,
+   "medium_prob": 0.3087035119533539,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14148,
+   "subject": "Lured",
+   "relation": "P364",
+   "true": "English",
+   "small_rank": 2,
+   "medium_prob": 0.07637474685907364,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14182,
+   "subject": "Leicester Comedy Festival",
+   "relation": "P276",
+   "true": "Leicester",
+   "small_rank": 2,
+   "medium_prob": 0.2842949330806732,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14183,
+   "subject": "Final Cut Studio",
+   "relation": "P178",
+   "true": "Apple",
+   "small_rank": 110,
+   "medium_prob": 0.11956433951854706,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14201,
+   "subject": "LGA 775",
+   "relation": "P176",
+   "true": "Intel",
+   "small_rank": 2,
+   "medium_prob": 0.13196958601474762,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14211,
+   "subject": "Sonic Drift",
+   "relation": "P178",
+   "true": "Sega",
+   "small_rank": 7,
+   "medium_prob": 0.04220569133758545,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14222,
+   "subject": "Pavel Bure",
+   "relation": "P27",
+   "true": "Russia",
+   "small_rank": 3,
+   "medium_prob": 0.22538486123085022,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14241,
+   "subject": "Desi Arnaz, Jr.",
+   "relation": "P106",
+   "true": "actor",
+   "small_rank": 50,
+   "medium_prob": 0.036263931542634964,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14244,
+   "subject": "Yamaha YZR 500",
+   "relation": "P176",
+   "true": "Yamaha",
+   "small_rank": 3,
+   "medium_prob": 0.56268709897995,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14247,
+   "subject": "Georgios Papanikolaou",
+   "relation": "P27",
+   "true": "Greece",
+   "small_rank": 2,
+   "medium_prob": 0.5626717209815979,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14273,
+   "subject": "Uppsala Municipality",
+   "relation": "P37",
+   "true": "Swedish",
+   "small_rank": 7,
+   "medium_prob": 0.10240957885980606,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14277,
+   "subject": "Lexus IS",
+   "relation": "P176",
+   "true": "Toyota",
+   "small_rank": 4,
+   "medium_prob": 0.2118520736694336,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14282,
+   "subject": "Adriaan Roland Holst",
+   "relation": "P103",
+   "true": "Dutch",
+   "small_rank": 27,
+   "medium_prob": 0.30915334820747375,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14288,
+   "subject": "Republic of Venice",
+   "relation": "P37",
+   "true": "Italian",
+   "small_rank": 3,
+   "medium_prob": 0.14797192811965942,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14292,
+   "subject": "Douglas Adams",
+   "relation": "P103",
+   "true": "English",
+   "small_rank": 2,
+   "medium_prob": 0.17842818796634674,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14293,
+   "subject": "Janne Korpi",
+   "relation": "P27",
+   "true": "Finland",
+   "small_rank": 4,
+   "medium_prob": 0.12537436187267303,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14294,
+   "subject": "Slovenia",
+   "relation": "P30",
+   "true": "Europe",
+   "small_rank": 2,
+   "medium_prob": 0.35128143429756165,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14297,
+   "subject": "Leslie Moonves",
+   "relation": "P108",
+   "true": "CBS",
+   "small_rank": 162,
+   "medium_prob": 0.448199987411499,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14301,
+   "subject": "Dodge Diplomat",
+   "relation": "P176",
+   "true": "Dodge",
+   "small_rank": 98,
+   "medium_prob": 0.07312954217195511,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14311,
+   "subject": "Vera Zvonareva",
+   "relation": "P103",
+   "true": "Russian",
+   "small_rank": 2,
+   "medium_prob": 0.1930275857448578,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14320,
+   "subject": "Cumhuriyet",
+   "relation": "P407",
+   "true": "Turkish",
+   "small_rank": 12,
+   "medium_prob": 0.16610853374004364,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14327,
+   "subject": "Kingdom of France",
+   "relation": "P36",
+   "true": "Paris",
+   "small_rank": 7,
+   "medium_prob": 0.662307620048523,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14371,
+   "subject": "The Tonight Show Starring Jimmy Fallon",
+   "relation": "P449",
+   "true": "NBC",
+   "small_rank": 5,
+   "medium_prob": 0.21922048926353455,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14373,
+   "subject": "Abdul Hamid II",
+   "relation": "P140",
+   "true": "Islam",
+   "small_rank": 2,
+   "medium_prob": 0.2879798114299774,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14422,
+   "subject": "Chen Xiaoxu",
+   "relation": "P103",
+   "true": "Chinese",
+   "small_rank": 2,
+   "medium_prob": 0.09395502507686615,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14462,
+   "subject": "iPod Mini",
+   "relation": "P178",
+   "true": "Apple",
+   "small_rank": 2,
+   "medium_prob": 0.5299429297447205,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14486,
+   "subject": "iPad 4",
+   "relation": "P176",
+   "true": "Apple",
+   "small_rank": 2,
+   "medium_prob": 0.17226018011569977,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14510,
+   "subject": "A Very Private Affair",
+   "relation": "P495",
+   "true": "France",
+   "small_rank": 2,
+   "medium_prob": 0.027208536863327026,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14645,
+   "subject": "Khuda Kay Liye",
+   "relation": "P495",
+   "true": "Pakistan",
+   "small_rank": 11,
+   "medium_prob": 0.05194913223385811,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14788,
+   "subject": "War in Donbass",
+   "relation": "P17",
+   "true": "Ukraine",
+   "small_rank": 3,
+   "medium_prob": 0.16283997893333435,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14859,
+   "subject": "Aurora de Chile",
+   "relation": "P495",
+   "true": "Chile",
+   "small_rank": 2,
+   "medium_prob": 0.3031122386455536,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14862,
+   "subject": "Cadillac SRX",
+   "relation": "P176",
+   "true": "Cadillac",
+   "small_rank": 2,
+   "medium_prob": 0.12263437360525131,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14922,
+   "subject": "Kingdom of Iraq",
+   "relation": "P36",
+   "true": "Baghdad",
+   "small_rank": 54,
+   "medium_prob": 0.11670627444982529,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14943,
+   "subject": "Beppe Grillo",
+   "relation": "P27",
+   "true": "Italy",
+   "small_rank": 2,
+   "medium_prob": 0.3925595283508301,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14968,
+   "subject": "Edsger W. Dijkstra",
+   "relation": "P103",
+   "true": "Dutch",
+   "small_rank": 3,
+   "medium_prob": 0.42830824851989746,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14976,
+   "subject": "Guatemala",
+   "relation": "P37",
+   "true": "Spanish",
+   "small_rank": 6,
+   "medium_prob": 0.19834837317466736,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 14998,
+   "subject": "Microsoft Compiled HTML Help",
+   "relation": "P178",
+   "true": "Microsoft",
+   "small_rank": 2,
+   "medium_prob": 0.10950244963169098,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 15023,
+   "subject": "Ambar Roy",
+   "relation": "P27",
+   "true": "India",
+   "small_rank": 3,
+   "medium_prob": 0.19618231058120728,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 15030,
+   "subject": "Quintin Hogg, Baron Hailsham of St Marylebone",
+   "relation": "P20",
+   "true": "London",
+   "small_rank": 2,
+   "medium_prob": 0.20762664079666138,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 15105,
+   "subject": "Iran",
+   "relation": "P37",
+   "true": "Persian",
+   "small_rank": 34,
+   "medium_prob": 0.14038869738578796,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 15108,
+   "subject": "David Villa",
+   "relation": "P641",
+   "true": "soccer",
+   "small_rank": 8,
+   "medium_prob": 0.18311887979507446,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 15139,
+   "subject": "Pontifical Catholic University of Chile",
+   "relation": "P159",
+   "true": "Santiago",
+   "small_rank": 2,
+   "medium_prob": 0.6387037634849548,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 15140,
+   "subject": "Nimai Bali",
+   "relation": "P27",
+   "true": "India",
+   "small_rank": 3,
+   "medium_prob": 0.10481707751750946,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 15159,
+   "subject": "Game & Watch",
+   "relation": "P176",
+   "true": "Nintendo",
+   "small_rank": 8,
+   "medium_prob": 0.06320523470640182,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 15168,
+   "subject": "2001 Australian Open",
+   "relation": "P276",
+   "true": "Melbourne",
+   "small_rank": 2,
+   "medium_prob": 0.17679710686206818,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 15210,
+   "subject": "The Intouchables",
+   "relation": "P364",
+   "true": "French",
+   "small_rank": 3,
+   "medium_prob": 0.11095361411571503,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 15223,
+   "subject": "Chhattisgarh",
+   "relation": "P37",
+   "true": "Hindi",
+   "small_rank": 10,
+   "medium_prob": 0.07257135957479477,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 15254,
+   "subject": "IBM Lotus SmartSuite",
+   "relation": "P178",
+   "true": "IBM",
+   "small_rank": 3,
+   "medium_prob": 0.2707612216472626,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 15281,
+   "subject": "Phong Bui",
+   "relation": "P27",
+   "true": "Vietnam",
+   "small_rank": 6,
+   "medium_prob": 0.17244835197925568,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 15410,
+   "subject": "Andrew Lang",
+   "relation": "P103",
+   "true": "English",
+   "small_rank": 4,
+   "medium_prob": 0.28846266865730286,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 15418,
+   "subject": "Lenta.ru",
+   "relation": "P407",
+   "true": "Russian",
+   "small_rank": 2,
+   "medium_prob": 0.3216286897659302,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 15438,
+   "subject": "iTunes",
+   "relation": "P178",
+   "true": "Apple",
+   "small_rank": 3,
+   "medium_prob": 0.27463096380233765,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 15549,
+   "subject": "Jerzy Topolski",
+   "relation": "P27",
+   "true": "Poland",
+   "small_rank": 2,
+   "medium_prob": 0.37209615111351013,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 15574,
+   "subject": "Peter Jason",
+   "relation": "P106",
+   "true": "actor",
+   "small_rank": 16,
+   "medium_prob": 0.07843995094299316,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 15592,
+   "subject": "Michel d'Ornano",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 2,
+   "medium_prob": 0.18971297144889832,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 15606,
+   "subject": "Adel Gholami",
+   "relation": "P27",
+   "true": "Iran",
+   "small_rank": 5,
+   "medium_prob": 0.24460405111312866,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 15684,
+   "subject": "FTSE Group",
+   "relation": "P159",
+   "true": "London",
+   "small_rank": 3,
+   "medium_prob": 0.48873963952064514,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 15717,
+   "subject": "Portugal",
+   "relation": "P30",
+   "true": "Europe",
+   "small_rank": 2,
+   "medium_prob": 0.33930063247680664,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 15835,
+   "subject": "CNN Philippines",
+   "relation": "P495",
+   "true": "Philippines",
+   "small_rank": 2,
+   "medium_prob": 0.17552708089351654,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 15845,
+   "subject": "Apple Filing Protocol",
+   "relation": "P178",
+   "true": "Apple",
+   "small_rank": 2,
+   "medium_prob": 0.3564106523990631,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 15873,
+   "subject": "Nippon Cultural Broadcasting",
+   "relation": "P159",
+   "true": "Tokyo",
+   "small_rank": 5,
+   "medium_prob": 0.1891707330942154,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 15876,
+   "subject": "Intel Parallel Studio",
+   "relation": "P178",
+   "true": "Intel",
+   "small_rank": 2,
+   "medium_prob": 0.12781281769275665,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 15901,
+   "subject": "Chrono Trigger",
+   "relation": "P178",
+   "true": "Square",
+   "small_rank": 115,
+   "medium_prob": 0.09513846039772034,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 15917,
+   "subject": "Triumph GT6",
+   "relation": "P176",
+   "true": "Triumph",
+   "small_rank": 2,
+   "medium_prob": 0.1011028066277504,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 15920,
+   "subject": "Indiana",
+   "relation": "P37",
+   "true": "English",
+   "small_rank": 38,
+   "medium_prob": 0.1025603711605072,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 15931,
+   "subject": "Around the Horn",
+   "relation": "P449",
+   "true": "ESPN",
+   "small_rank": 89,
+   "medium_prob": 0.09841485321521759,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 15943,
+   "subject": "Takashi Yanase",
+   "relation": "P27",
+   "true": "Japan",
+   "small_rank": 2,
+   "medium_prob": 0.31337442994117737,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 15958,
+   "subject": "Microsoft Robotics Developer Studio",
+   "relation": "P178",
+   "true": "Microsoft",
+   "small_rank": 2,
+   "medium_prob": 0.2914215922355652,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 15962,
+   "subject": "Catalan alphabet",
+   "relation": "P407",
+   "true": "Catalan",
+   "small_rank": 4,
+   "medium_prob": 0.053919579833745956,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 15993,
+   "subject": "Picasa",
+   "relation": "P178",
+   "true": "Google",
+   "small_rank": 3,
+   "medium_prob": 0.17629384994506836,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16016,
+   "subject": "Udmurt Autonomous Soviet Socialist Republic",
+   "relation": "P37",
+   "true": "Russian",
+   "small_rank": 8,
+   "medium_prob": 0.12599864602088928,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16042,
+   "subject": "Morges",
+   "relation": "P37",
+   "true": "French",
+   "small_rank": 21,
+   "medium_prob": 0.0694970190525055,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16050,
+   "subject": "Nandamuri Balakrishna",
+   "relation": "P27",
+   "true": "India",
+   "small_rank": 2,
+   "medium_prob": 0.1482160985469818,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16114,
+   "subject": "Paul Duchesnay",
+   "relation": "P27",
+   "true": "France",
+   "small_rank": 4,
+   "medium_prob": 0.22457775473594666,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16165,
+   "subject": "KU Leuven",
+   "relation": "P30",
+   "true": "Europe",
+   "small_rank": 2,
+   "medium_prob": 0.2552863657474518,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16186,
+   "subject": "Jeff Hardy",
+   "relation": "P463",
+   "true": "WWE",
+   "small_rank": 9,
+   "medium_prob": 0.17815342545509338,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16213,
+   "subject": "IBM Rational ClearCase",
+   "relation": "P178",
+   "true": "IBM",
+   "small_rank": 2,
+   "medium_prob": 0.1476777195930481,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16215,
+   "subject": "Laos",
+   "relation": "P30",
+   "true": "Asia",
+   "small_rank": 18,
+   "medium_prob": 0.23859380185604095,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16218,
+   "subject": "Renzo Furlan",
+   "relation": "P27",
+   "true": "Italy",
+   "small_rank": 4,
+   "medium_prob": 0.17068032920360565,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16223,
+   "subject": "United States of America",
+   "relation": "P37",
+   "true": "English",
+   "small_rank": 12,
+   "medium_prob": 0.45220115780830383,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16302,
+   "subject": "Isabelle Caro",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 5,
+   "medium_prob": 0.19770218431949615,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16307,
+   "subject": "Criminal Minds",
+   "relation": "P449",
+   "true": "CBS",
+   "small_rank": 15,
+   "medium_prob": 0.18403534591197968,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16395,
+   "subject": "Husayn ibn Ali",
+   "relation": "P140",
+   "true": "Islam",
+   "small_rank": 2,
+   "medium_prob": 0.25502872467041016,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16479,
+   "subject": "Peter Forsberg",
+   "relation": "P641",
+   "true": "hockey",
+   "small_rank": 2,
+   "medium_prob": 0.2204994559288025,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16497,
+   "subject": "Christiaan Snouck Hurgronje",
+   "relation": "P103",
+   "true": "Dutch",
+   "small_rank": 6,
+   "medium_prob": 0.26378774642944336,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16506,
+   "subject": "Sega Game Gear",
+   "relation": "P176",
+   "true": "Sega",
+   "small_rank": 2,
+   "medium_prob": 0.2732088267803192,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16539,
+   "subject": "A Chinese Ghost Story",
+   "relation": "P364",
+   "true": "Chinese",
+   "small_rank": 2,
+   "medium_prob": 0.06590200215578079,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16562,
+   "subject": "Jakub Kubicki",
+   "relation": "P27",
+   "true": "Poland",
+   "small_rank": 34,
+   "medium_prob": 0.12403417378664017,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16571,
+   "subject": "United Kingdom of Great Britain and Ireland",
+   "relation": "P36",
+   "true": "London",
+   "small_rank": 84,
+   "medium_prob": 0.15523119270801544,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16592,
+   "subject": "Ontario",
+   "relation": "P37",
+   "true": "English",
+   "small_rank": 9,
+   "medium_prob": 0.3107714056968689,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16605,
+   "subject": "Sky Movies Box Office",
+   "relation": "P127",
+   "true": "Sky",
+   "small_rank": 9,
+   "medium_prob": 0.06871914863586426,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16615,
+   "subject": "Michael Albert",
+   "relation": "P103",
+   "true": "English",
+   "small_rank": 4,
+   "medium_prob": 0.15647922456264496,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16626,
+   "subject": "Boris Diaw",
+   "relation": "P641",
+   "true": "basketball",
+   "small_rank": 2,
+   "medium_prob": 0.12851817905902863,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16675,
+   "subject": "Thanh Lam",
+   "relation": "P27",
+   "true": "Vietnam",
+   "small_rank": 17,
+   "medium_prob": 0.266124427318573,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16743,
+   "subject": "Alvin and the Chipmunks",
+   "relation": "P449",
+   "true": "NBC",
+   "small_rank": 8,
+   "medium_prob": 0.11849592626094818,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16771,
+   "subject": "Coimbatore",
+   "relation": "P37",
+   "true": "Tamil",
+   "small_rank": 157,
+   "medium_prob": 0.06415048241615295,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16779,
+   "subject": "Yamaha YZF-R1",
+   "relation": "P176",
+   "true": "Yamaha",
+   "small_rank": 3,
+   "medium_prob": 0.6104552149772644,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16787,
+   "subject": "Cape Verde",
+   "relation": "P37",
+   "true": "Portuguese",
+   "small_rank": 5,
+   "medium_prob": 0.2588898837566376,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16791,
+   "subject": "Ferrari FXX",
+   "relation": "P176",
+   "true": "Ferrari",
+   "small_rank": 2,
+   "medium_prob": 0.1292167454957962,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16806,
+   "subject": "Sjogren Glacier",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 6,
+   "medium_prob": 0.19336546957492828,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16810,
+   "subject": "Intel Threading Building Blocks",
+   "relation": "P178",
+   "true": "Intel",
+   "small_rank": 2,
+   "medium_prob": 0.5423720479011536,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16811,
+   "subject": "Carlos Slim Domit",
+   "relation": "P27",
+   "true": "Mexico",
+   "small_rank": 6,
+   "medium_prob": 0.17676860094070435,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16833,
+   "subject": "Kansas",
+   "relation": "P37",
+   "true": "English",
+   "small_rank": 26,
+   "medium_prob": 0.10303127020597458,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16841,
+   "subject": "Maurice Richard",
+   "relation": "P641",
+   "true": "hockey",
+   "small_rank": 4,
+   "medium_prob": 0.10144869983196259,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16979,
+   "subject": "Amar en tiempos revueltos",
+   "relation": "P364",
+   "true": "Spanish",
+   "small_rank": 5,
+   "medium_prob": 0.10371657460927963,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 16989,
+   "subject": "occupation of Japan",
+   "relation": "P36",
+   "true": "Tokyo",
+   "small_rank": 3,
+   "medium_prob": 0.4696711599826813,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 17031,
+   "subject": "Palau",
+   "relation": "P37",
+   "true": "English",
+   "small_rank": 16,
+   "medium_prob": 0.05742599815130234,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 17059,
+   "subject": "Juninho Pernambucano",
+   "relation": "P641",
+   "true": "soccer",
+   "small_rank": 6,
+   "medium_prob": 0.28029683232307434,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 17073,
+   "subject": "Ferrari 125 F1",
+   "relation": "P176",
+   "true": "Ferrari",
+   "small_rank": 2,
+   "medium_prob": 0.2046869397163391,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 17076,
+   "subject": "Mexico",
+   "relation": "P37",
+   "true": "Spanish",
+   "small_rank": 7,
+   "medium_prob": 0.3346441984176636,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 17100,
+   "subject": "OneDrive",
+   "relation": "P178",
+   "true": "Microsoft",
+   "small_rank": 2,
+   "medium_prob": 0.7276082634925842,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 17130,
+   "subject": "Nicholas Fairbairn",
+   "relation": "P937",
+   "true": "London",
+   "small_rank": 2,
+   "medium_prob": 0.03904646262526512,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 17131,
+   "subject": "Willem Johan Kolff",
+   "relation": "P103",
+   "true": "Dutch",
+   "small_rank": 9,
+   "medium_prob": 0.22907206416130066,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 17160,
+   "subject": "Austrian Empire",
+   "relation": "P36",
+   "true": "Vienna",
+   "small_rank": 2,
+   "medium_prob": 0.3710659146308899,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 17180,
+   "subject": "Mali",
+   "relation": "P30",
+   "true": "Africa",
+   "small_rank": 2,
+   "medium_prob": 0.39699786901474,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 17216,
+   "subject": "hunting dog",
+   "relation": "P101",
+   "true": "hunting",
+   "small_rank": 2,
+   "medium_prob": 0.05871406942605972,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 17255,
+   "subject": "Magnar Solberg",
+   "relation": "P27",
+   "true": "Norway",
+   "small_rank": 4,
+   "medium_prob": 0.33397433161735535,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 17258,
+   "subject": "Arthur Dupont",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 2,
+   "medium_prob": 0.3579544425010681,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 17266,
+   "subject": "Chromecast",
+   "relation": "P178",
+   "true": "Google",
+   "small_rank": 3,
+   "medium_prob": 0.2812878489494324,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 17350,
+   "subject": "Murad Wilfried Hofmann",
+   "relation": "P140",
+   "true": "Islam",
+   "small_rank": 2,
+   "medium_prob": 0.21709248423576355,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 17390,
+   "subject": "Claude Victor-Perrin, Duc de Belluno",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 6,
+   "medium_prob": 0.2584548890590668,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 17401,
+   "subject": "The Three Musketeers",
+   "relation": "P364",
+   "true": "French",
+   "small_rank": 2,
+   "medium_prob": 0.13646970689296722,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 17402,
+   "subject": "Urdoviza Glacier",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 6,
+   "medium_prob": 0.06444701552391052,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 17449,
+   "subject": "Edmond Michelet",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 2,
+   "medium_prob": 0.3232547640800476,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 17507,
+   "subject": "Leander of Seville",
+   "relation": "P39",
+   "true": "bishop",
+   "small_rank": 23,
+   "medium_prob": 0.050094977021217346,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 17573,
+   "subject": "South Carolina",
+   "relation": "P37",
+   "true": "English",
+   "small_rank": 21,
+   "medium_prob": 0.11586704105138779,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 17585,
+   "subject": "Giacinto Brandi",
+   "relation": "P19",
+   "true": "Italy",
+   "small_rank": 2,
+   "medium_prob": 0.21289370954036713,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 17586,
+   "subject": "2011 Australian Open",
+   "relation": "P276",
+   "true": "Melbourne",
+   "small_rank": 2,
+   "medium_prob": 0.2584797143936157,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 17654,
+   "subject": "Juho Saaristo",
+   "relation": "P27",
+   "true": "Finland",
+   "small_rank": 41,
+   "medium_prob": 0.2058035135269165,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 17751,
+   "subject": "Abigail Masham, Baroness Masham",
+   "relation": "P19",
+   "true": "London",
+   "small_rank": 2,
+   "medium_prob": 0.06865682452917099,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 17761,
+   "subject": "Suzuki RGV500",
+   "relation": "P176",
+   "true": "Suzuki",
+   "small_rank": 2,
+   "medium_prob": 0.12442357838153839,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 17799,
+   "subject": "Luhansk Oblast",
+   "relation": "P37",
+   "true": "Russian",
+   "small_rank": 2,
+   "medium_prob": 0.20535284280776978,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 17817,
+   "subject": "Don Cossacks",
+   "relation": "P103",
+   "true": "Russian",
+   "small_rank": 8,
+   "medium_prob": 0.2433004379272461,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 17827,
+   "subject": "Jorum Glacier",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 2,
+   "medium_prob": 0.24571770429611206,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 17829,
+   "subject": "tofu",
+   "relation": "P495",
+   "true": "Japan",
+   "small_rank": 2,
+   "medium_prob": 0.07497464120388031,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 17841,
+   "subject": "Adi ibn Hatim",
+   "relation": "P140",
+   "true": "Islam",
+   "small_rank": 3,
+   "medium_prob": 0.173860102891922,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 17897,
+   "subject": "Tareq Al-Suwaidan",
+   "relation": "P140",
+   "true": "Islam",
+   "small_rank": 2,
+   "medium_prob": 0.31180933117866516,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 17930,
+   "subject": "Marie Fran\u00e7ois Oscar Bardy de Fourtou",
+   "relation": "P20",
+   "true": "Paris",
+   "small_rank": 2,
+   "medium_prob": 0.12630431354045868,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 17935,
+   "subject": "Ernest Blanc",
+   "relation": "P27",
+   "true": "France",
+   "small_rank": 2,
+   "medium_prob": 0.17698509991168976,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 17978,
+   "subject": "iPad Mini 3",
+   "relation": "P178",
+   "true": "Apple",
+   "small_rank": 3,
+   "medium_prob": 0.11738383024930954,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18040,
+   "subject": "Kosuke Matsuura",
+   "relation": "P27",
+   "true": "Japan",
+   "small_rank": 2,
+   "medium_prob": 0.15990383923053741,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18049,
+   "subject": "Windows Communication Foundation",
+   "relation": "P178",
+   "true": "Microsoft",
+   "small_rank": 2,
+   "medium_prob": 0.6803168654441833,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18108,
+   "subject": "Orzo",
+   "relation": "P495",
+   "true": "Italy",
+   "small_rank": 4,
+   "medium_prob": 0.053153105080127716,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18164,
+   "subject": "Jean Gallon",
+   "relation": "P20",
+   "true": "Paris",
+   "small_rank": 3,
+   "medium_prob": 0.028209460899233818,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18172,
+   "subject": "Hanuman",
+   "relation": "P495",
+   "true": "India",
+   "small_rank": 4,
+   "medium_prob": 0.225498765707016,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18206,
+   "subject": "Riyu Kosaka",
+   "relation": "P27",
+   "true": "Japan",
+   "small_rank": 2,
+   "medium_prob": 0.2893944978713989,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18284,
+   "subject": "Romania",
+   "relation": "P37",
+   "true": "Romanian",
+   "small_rank": 4,
+   "medium_prob": 0.5918009281158447,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18290,
+   "subject": "Leonard Knijff",
+   "relation": "P103",
+   "true": "Dutch",
+   "small_rank": 23,
+   "medium_prob": 0.17404864728450775,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18307,
+   "subject": "Leonardo Silva",
+   "relation": "P27",
+   "true": "Brazil",
+   "small_rank": 2,
+   "medium_prob": 0.19833339750766754,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18316,
+   "subject": "Urwah ibn Mas'ud",
+   "relation": "P140",
+   "true": "Islam",
+   "small_rank": 2,
+   "medium_prob": 0.2749935984611511,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18328,
+   "subject": "Antipope Laurentius",
+   "relation": "P39",
+   "true": "bishop",
+   "small_rank": 16,
+   "medium_prob": 0.0654551312327385,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18364,
+   "subject": "Renault Dauphine",
+   "relation": "P176",
+   "true": "Renault",
+   "small_rank": 2,
+   "medium_prob": 0.13534049689769745,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18369,
+   "subject": "Fortran",
+   "relation": "P178",
+   "true": "IBM",
+   "small_rank": 3,
+   "medium_prob": 0.16324888169765472,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18403,
+   "subject": "Largo Island",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 2,
+   "medium_prob": 0.026371171697974205,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18479,
+   "subject": "Kauniainen",
+   "relation": "P37",
+   "true": "Finnish",
+   "small_rank": 10,
+   "medium_prob": 0.19018737971782684,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18487,
+   "subject": "Peter Mark Roget",
+   "relation": "P19",
+   "true": "London",
+   "small_rank": 2,
+   "medium_prob": 0.08679823577404022,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18516,
+   "subject": "Fudan University",
+   "relation": "P159",
+   "true": "Shanghai",
+   "small_rank": 7,
+   "medium_prob": 0.36563727259635925,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18539,
+   "subject": "Dodge Power Wagon",
+   "relation": "P176",
+   "true": "Dodge",
+   "small_rank": 13,
+   "medium_prob": 0.0817277580499649,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18593,
+   "subject": "Paul Doumer",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 2,
+   "medium_prob": 0.13542965054512024,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18608,
+   "subject": "Maurice Clavel",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 2,
+   "medium_prob": 0.3151797652244568,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18642,
+   "subject": "Belgium",
+   "relation": "P37",
+   "true": "French",
+   "small_rank": 2,
+   "medium_prob": 0.3463647663593292,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18688,
+   "subject": "Douglas X-3 Stiletto",
+   "relation": "P178",
+   "true": "Douglas",
+   "small_rank": 3,
+   "medium_prob": 0.07468307763338089,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18705,
+   "subject": "Chromebook",
+   "relation": "P127",
+   "true": "Google",
+   "small_rank": 4,
+   "medium_prob": 0.13577574491500854,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18724,
+   "subject": "Kae Araki",
+   "relation": "P27",
+   "true": "Japan",
+   "small_rank": 2,
+   "medium_prob": 0.25275957584381104,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18728,
+   "subject": "Square Enix Europe",
+   "relation": "P159",
+   "true": "London",
+   "small_rank": 6,
+   "medium_prob": 0.0949174240231514,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18734,
+   "subject": "Southern Netherlands",
+   "relation": "P30",
+   "true": "Europe",
+   "small_rank": 2,
+   "medium_prob": 0.2007397711277008,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18737,
+   "subject": "Kouilou-Niari River",
+   "relation": "P30",
+   "true": "Africa",
+   "small_rank": 4,
+   "medium_prob": 0.031238622963428497,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18741,
+   "subject": "Isfahan International Airport",
+   "relation": "P17",
+   "true": "Iran",
+   "small_rank": 2,
+   "medium_prob": 0.4562448561191559,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18759,
+   "subject": "Sabeer Bhatia",
+   "relation": "P27",
+   "true": "India",
+   "small_rank": 2,
+   "medium_prob": 0.15759137272834778,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18788,
+   "subject": "Lupin III",
+   "relation": "P495",
+   "true": "Japan",
+   "small_rank": 5,
+   "medium_prob": 0.22424782812595367,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18792,
+   "subject": "Fraser Institute",
+   "relation": "P159",
+   "true": "Vancouver",
+   "small_rank": 3,
+   "medium_prob": 0.34437182545661926,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18795,
+   "subject": "Mohsen Mirdamadi",
+   "relation": "P27",
+   "true": "Iran",
+   "small_rank": 4,
+   "medium_prob": 0.18522082269191742,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18836,
+   "subject": "iPod Classic",
+   "relation": "P176",
+   "true": "Apple",
+   "small_rank": 4,
+   "medium_prob": 0.42803362011909485,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18876,
+   "subject": "Gregor Mendel",
+   "relation": "P101",
+   "true": "genetics",
+   "small_rank": 78,
+   "medium_prob": 0.09162591397762299,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18910,
+   "subject": "NOS Journaal",
+   "relation": "P364",
+   "true": "Dutch",
+   "small_rank": 21,
+   "medium_prob": 0.4646247625350952,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18951,
+   "subject": "Rahul Dev Burman",
+   "relation": "P27",
+   "true": "India",
+   "small_rank": 2,
+   "medium_prob": 0.1653507947921753,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18958,
+   "subject": "Philippe de Broca",
+   "relation": "P19",
+   "true": "Paris",
+   "small_rank": 2,
+   "medium_prob": 0.16676966845989227,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18976,
+   "subject": "George Glyn, 1st Baron Wolverton",
+   "relation": "P937",
+   "true": "London",
+   "small_rank": 2,
+   "medium_prob": 0.12718871235847473,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 18978,
+   "subject": "Versoix",
+   "relation": "P37",
+   "true": "French",
+   "small_rank": 2,
+   "medium_prob": 0.27504268288612366,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 19002,
+   "subject": "Apple Maps",
+   "relation": "P178",
+   "true": "Apple",
+   "small_rank": 3,
+   "medium_prob": 0.2831476032733917,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 19042,
+   "subject": "Adobe Creative Suite",
+   "relation": "P178",
+   "true": "Adobe",
+   "small_rank": 3,
+   "medium_prob": 0.37741363048553467,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 19051,
+   "subject": "Cape Northrop",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 7,
+   "medium_prob": 0.3669838607311249,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 19188,
+   "subject": "OS X Yosemite",
+   "relation": "P178",
+   "true": "Apple",
+   "small_rank": 2,
+   "medium_prob": 0.7257393598556519,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 19220,
+   "subject": "Kraftwerk",
+   "relation": "P495",
+   "true": "Germany",
+   "small_rank": 2,
+   "medium_prob": 0.23269809782505035,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 19230,
+   "subject": "Commerzbank",
+   "relation": "P159",
+   "true": "Frankfurt",
+   "small_rank": 3,
+   "medium_prob": 0.1708487570285797,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 19242,
+   "subject": "Prafulla Chandra Ghosh",
+   "relation": "P27",
+   "true": "India",
+   "small_rank": 2,
+   "medium_prob": 0.2514243721961975,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 19256,
+   "subject": "Octave Uzanne",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 2,
+   "medium_prob": 0.14286230504512787,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 19332,
+   "subject": "Thailand",
+   "relation": "P30",
+   "true": "Asia",
+   "small_rank": 2,
+   "medium_prob": 0.4287512004375458,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 19362,
+   "subject": "Adobe Connect",
+   "relation": "P178",
+   "true": "Adobe",
+   "small_rank": 2,
+   "medium_prob": 0.5392524003982544,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 19382,
+   "subject": "Dodge Charger",
+   "relation": "P176",
+   "true": "Dodge",
+   "small_rank": 3,
+   "medium_prob": 0.12253937125205994,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 19386,
+   "subject": "Atari DOS",
+   "relation": "P178",
+   "true": "Atari",
+   "small_rank": 2,
+   "medium_prob": 0.37508276104927063,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 19426,
+   "subject": "Kavkaz Center",
+   "relation": "P364",
+   "true": "Russian",
+   "small_rank": 3,
+   "medium_prob": 0.1965990662574768,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 19433,
+   "subject": "iPod Touch",
+   "relation": "P178",
+   "true": "Apple",
+   "small_rank": 3,
+   "medium_prob": 0.6609894037246704,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 19449,
+   "subject": "Cayman Islands",
+   "relation": "P37",
+   "true": "English",
+   "small_rank": 5,
+   "medium_prob": 0.07830731570720673,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 19468,
+   "subject": "Douglas X-3 Stiletto",
+   "relation": "P176",
+   "true": "Douglas",
+   "small_rank": 2,
+   "medium_prob": 0.31552767753601074,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 19492,
+   "subject": "Majorca",
+   "relation": "P37",
+   "true": "Spanish",
+   "small_rank": 2,
+   "medium_prob": 0.31772565841674805,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 19525,
+   "subject": "Joseph Paul-Boncour",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 2,
+   "medium_prob": 0.32470589876174927,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 19536,
+   "subject": "Chechen Republic",
+   "relation": "P37",
+   "true": "Russian",
+   "small_rank": 2,
+   "medium_prob": 0.3275972306728363,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 19598,
+   "subject": "Google Hummingbird",
+   "relation": "P178",
+   "true": "Google",
+   "small_rank": 2,
+   "medium_prob": 0.14100618660449982,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 19682,
+   "subject": "Alberta Government Telephones",
+   "relation": "P159",
+   "true": "Edmonton",
+   "small_rank": 3,
+   "medium_prob": 0.1732129156589508,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 19805,
+   "subject": "Antoine Danchet",
+   "relation": "P27",
+   "true": "France",
+   "small_rank": 3,
+   "medium_prob": 0.25706958770751953,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 19806,
+   "subject": "Gianni Ferrio",
+   "relation": "P27",
+   "true": "Italy",
+   "small_rank": 3,
+   "medium_prob": 0.25933948159217834,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 19813,
+   "subject": "Rudolf Hess",
+   "relation": "P27",
+   "true": "Germany",
+   "small_rank": 2,
+   "medium_prob": 0.3298736810684204,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 19855,
+   "subject": "United Kingdom",
+   "relation": "P30",
+   "true": "Europe",
+   "small_rank": 2,
+   "medium_prob": 0.5970544815063477,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 19888,
+   "subject": "Ted Williams",
+   "relation": "P641",
+   "true": "baseball",
+   "small_rank": 6,
+   "medium_prob": 0.6573086380958557,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 19892,
+   "subject": "Heikki Saari",
+   "relation": "P27",
+   "true": "Finland",
+   "small_rank": 4,
+   "medium_prob": 0.5190818309783936,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 19911,
+   "subject": "Douglas A2D Skyshark",
+   "relation": "P176",
+   "true": "Douglas",
+   "small_rank": 59,
+   "medium_prob": 0.03494192659854889,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 19912,
+   "subject": "Ensco plc",
+   "relation": "P159",
+   "true": "London",
+   "small_rank": 2,
+   "medium_prob": 0.11577842384576797,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 19914,
+   "subject": "Ferrari F430 Challenge",
+   "relation": "P176",
+   "true": "Ferrari",
+   "small_rank": 2,
+   "medium_prob": 0.16490435600280762,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 19921,
+   "subject": "Nebraska",
+   "relation": "P37",
+   "true": "English",
+   "small_rank": 68,
+   "medium_prob": 0.09539544582366943,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 19947,
+   "subject": "Lexus ES",
+   "relation": "P176",
+   "true": "Toyota",
+   "small_rank": 3,
+   "medium_prob": 0.1996847540140152,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 19958,
+   "subject": "Sherlock Holmes",
+   "relation": "P449",
+   "true": "BBC",
+   "small_rank": 13,
+   "medium_prob": 0.2076028436422348,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 19981,
+   "subject": "Inayat Khan",
+   "relation": "P140",
+   "true": "Islam",
+   "small_rank": 2,
+   "medium_prob": 0.3019781708717346,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 20014,
+   "subject": "Robbie Keane",
+   "relation": "P641",
+   "true": "soccer",
+   "small_rank": 4,
+   "medium_prob": 0.2539389133453369,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 20056,
+   "subject": "Pentium M",
+   "relation": "P178",
+   "true": "Intel",
+   "small_rank": 25,
+   "medium_prob": 0.23859861493110657,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 20059,
+   "subject": "Mehmet Ali Aybar",
+   "relation": "P27",
+   "true": "Turkey",
+   "small_rank": 14,
+   "medium_prob": 0.2057272344827652,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 20068,
+   "subject": "Howchin Glacier",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 2,
+   "medium_prob": 0.12517090141773224,
+   "in_benchmark": true
+  },
+  {
+   "case_id": 20101,
+   "subject": "Slovakia",
+   "relation": "P30",
+   "true": "Europe",
+   "small_rank": 3,
+   "medium_prob": 0.5387021899223328,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 20102,
+   "subject": "Bentley Mark VI",
+   "relation": "P176",
+   "true": "Bentley",
+   "small_rank": 139,
+   "medium_prob": 0.12469740957021713,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 20128,
+   "subject": "Windows Phone 7",
+   "relation": "P176",
+   "true": "Microsoft",
+   "small_rank": 3,
+   "medium_prob": 0.4915821850299835,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 20133,
+   "subject": "Ronaldinho",
+   "relation": "P27",
+   "true": "Brazil",
+   "small_rank": 2,
+   "medium_prob": 0.39289605617523193,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 20139,
+   "subject": "Teen Mom",
+   "relation": "P449",
+   "true": "MTV",
+   "small_rank": 5,
+   "medium_prob": 0.12489887326955795,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 20204,
+   "subject": "History Detectives",
+   "relation": "P449",
+   "true": "PBS",
+   "small_rank": 7,
+   "medium_prob": 0.10832994431257248,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 20206,
+   "subject": "Uthman ibn Affan",
+   "relation": "P140",
+   "true": "Islam",
+   "small_rank": 2,
+   "medium_prob": 0.26339250802993774,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 20283,
+   "subject": "Hawaii",
+   "relation": "P37",
+   "true": "Hawaiian",
+   "small_rank": 13,
+   "medium_prob": 0.10446535050868988,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 20286,
+   "subject": "Leonard Bernstein",
+   "relation": "P1303",
+   "true": "piano",
+   "small_rank": 26,
+   "medium_prob": 0.04287496954202652,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 20309,
+   "subject": "Etsuko Inoue",
+   "relation": "P27",
+   "true": "Japan",
+   "small_rank": 2,
+   "medium_prob": 0.3813227713108063,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 20320,
+   "subject": "Adam Sandler",
+   "relation": "P103",
+   "true": "English",
+   "small_rank": 3,
+   "medium_prob": 0.18700824677944183,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 20347,
+   "subject": "Henrik Zetterberg",
+   "relation": "P27",
+   "true": "Sweden",
+   "small_rank": 2,
+   "medium_prob": 0.1605972945690155,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 20383,
+   "subject": "Javier Hern\u00e1ndez",
+   "relation": "P641",
+   "true": "soccer",
+   "small_rank": 5,
+   "medium_prob": 0.2755703330039978,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 20413,
+   "subject": "Il camorrista",
+   "relation": "P364",
+   "true": "Italian",
+   "small_rank": 8,
+   "medium_prob": 0.058135759085416794,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 20464,
+   "subject": "iChat",
+   "relation": "P178",
+   "true": "Apple",
+   "small_rank": 4,
+   "medium_prob": 0.28684166073799133,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 20473,
+   "subject": "Paavo Haavikko",
+   "relation": "P27",
+   "true": "Finland",
+   "small_rank": 6,
+   "medium_prob": 0.2630425989627838,
+   "in_benchmark": true
+  },
+  {
+   "case_id": 20528,
+   "subject": "Sisowath of Cambodia",
+   "relation": "P27",
+   "true": "Cambodia",
+   "small_rank": 2,
+   "medium_prob": 0.2999470829963684,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 20549,
+   "subject": "Caterina Davinio",
+   "relation": "P27",
+   "true": "Italy",
+   "small_rank": 2,
+   "medium_prob": 0.2015422135591507,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 20579,
+   "subject": "Florent Brard",
+   "relation": "P27",
+   "true": "France",
+   "small_rank": 6,
+   "medium_prob": 0.22789008915424347,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 20614,
+   "subject": "iPod Classic",
+   "relation": "P178",
+   "true": "Apple",
+   "small_rank": 2,
+   "medium_prob": 0.6432711482048035,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 20623,
+   "subject": "Google Cloud Storage",
+   "relation": "P127",
+   "true": "Google",
+   "small_rank": 4,
+   "medium_prob": 0.2471514791250229,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 20656,
+   "subject": "Yoshi's Universal Gravitation",
+   "relation": "P178",
+   "true": "Nintendo",
+   "small_rank": 23,
+   "medium_prob": 0.08479192852973938,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 20664,
+   "subject": "Thorleif Haug",
+   "relation": "P27",
+   "true": "Norway",
+   "small_rank": 5,
+   "medium_prob": 0.22580425441265106,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 20723,
+   "subject": "The Return of Casanova",
+   "relation": "P364",
+   "true": "French",
+   "small_rank": 8,
+   "medium_prob": 0.06548198312520981,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 20730,
+   "subject": "Subodh Kant Sahay",
+   "relation": "P27",
+   "true": "India",
+   "small_rank": 2,
+   "medium_prob": 0.21604417264461517,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 20758,
+   "subject": "Roger Garaudy",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 3,
+   "medium_prob": 0.15673109889030457,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 20862,
+   "subject": "South Dakota",
+   "relation": "P37",
+   "true": "English",
+   "small_rank": 50,
+   "medium_prob": 0.061155207455158234,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 20922,
+   "subject": "Pope Heraclas of Alexandria",
+   "relation": "P39",
+   "true": "bishop",
+   "small_rank": 3,
+   "medium_prob": 0.07804244756698608,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 20929,
+   "subject": "Gerlache Strait",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 3,
+   "medium_prob": 0.08612026274204254,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 20939,
+   "subject": "Joost Swarte",
+   "relation": "P103",
+   "true": "Dutch",
+   "small_rank": 3,
+   "medium_prob": 0.2762661278247833,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 20956,
+   "subject": "Mario Lemieux",
+   "relation": "P641",
+   "true": "hockey",
+   "small_rank": 10,
+   "medium_prob": 0.30484670400619507,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 20986,
+   "subject": "Microsoft Digital Video Recording",
+   "relation": "P178",
+   "true": "Microsoft",
+   "small_rank": 2,
+   "medium_prob": 0.2808152437210083,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21008,
+   "subject": "Kennedy Space Center",
+   "relation": "P131",
+   "true": "Florida",
+   "small_rank": 5,
+   "medium_prob": 0.2608475983142853,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21009,
+   "subject": "Armand Lunel",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 7,
+   "medium_prob": 0.22089740633964539,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21029,
+   "subject": "Canton of Fribourg",
+   "relation": "P37",
+   "true": "French",
+   "small_rank": 3,
+   "medium_prob": 0.09426988661289215,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21050,
+   "subject": "Correio Braziliense",
+   "relation": "P495",
+   "true": "Brazil",
+   "small_rank": 2,
+   "medium_prob": 0.1811794936656952,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21062,
+   "subject": "Microsoft Bob",
+   "relation": "P178",
+   "true": "Microsoft",
+   "small_rank": 2,
+   "medium_prob": 0.15276649594306946,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21064,
+   "subject": "Marie Dorval",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 2,
+   "medium_prob": 0.6025074124336243,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21070,
+   "subject": "Eusebius of Nicomedia",
+   "relation": "P39",
+   "true": "bishop",
+   "small_rank": 2,
+   "medium_prob": 0.06183385103940964,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21072,
+   "subject": "App Store",
+   "relation": "P178",
+   "true": "Apple",
+   "small_rank": 2,
+   "medium_prob": 0.13043101131916046,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21131,
+   "subject": "Shebelle River",
+   "relation": "P30",
+   "true": "Africa",
+   "small_rank": 2,
+   "medium_prob": 0.030599325895309448,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21132,
+   "subject": "Bill Russell",
+   "relation": "P641",
+   "true": "basketball",
+   "small_rank": 2,
+   "medium_prob": 0.7392390370368958,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21144,
+   "subject": "Grand Duchy of Moscow",
+   "relation": "P37",
+   "true": "Russian",
+   "small_rank": 4,
+   "medium_prob": 0.14817501604557037,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21199,
+   "subject": "Renault Symbol",
+   "relation": "P176",
+   "true": "Renault",
+   "small_rank": 2,
+   "medium_prob": 0.1299641877412796,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21212,
+   "subject": "South Korea",
+   "relation": "P37",
+   "true": "Korean",
+   "small_rank": 2,
+   "medium_prob": 0.34893283247947693,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21294,
+   "subject": "Millerand Island",
+   "relation": "P30",
+   "true": "Antarctica",
+   "small_rank": 2,
+   "medium_prob": 0.07254014164209366,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21324,
+   "subject": "IBM Lotus Word Pro",
+   "relation": "P178",
+   "true": "IBM",
+   "small_rank": 3,
+   "medium_prob": 0.20398958027362823,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21331,
+   "subject": "Edmund Husserl",
+   "relation": "P27",
+   "true": "Germany",
+   "small_rank": 4,
+   "medium_prob": 0.15980665385723114,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21336,
+   "subject": "Gustave Paul Cluseret",
+   "relation": "P937",
+   "true": "Paris",
+   "small_rank": 9,
+   "medium_prob": 0.07201667129993439,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21352,
+   "subject": "Lilyhammer",
+   "relation": "P449",
+   "true": "Netflix",
+   "small_rank": 2,
+   "medium_prob": 0.10038777440786362,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21359,
+   "subject": "Mayo Clinic",
+   "relation": "P159",
+   "true": "Rochester",
+   "small_rank": 16,
+   "medium_prob": 0.21324700117111206,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21363,
+   "subject": "Julie Delpy",
+   "relation": "P103",
+   "true": "French",
+   "small_rank": 3,
+   "medium_prob": 0.14405019581317902,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21400,
+   "subject": "Akbar",
+   "relation": "P140",
+   "true": "Islam",
+   "small_rank": 2,
+   "medium_prob": 0.17148464918136597,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21412,
+   "subject": "Google Reader",
+   "relation": "P127",
+   "true": "Google",
+   "small_rank": 2,
+   "medium_prob": 0.19797104597091675,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21432,
+   "subject": "Brazilian Football Confederation",
+   "relation": "P463",
+   "true": "FIFA",
+   "small_rank": 2,
+   "medium_prob": 0.15068106353282928,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21434,
+   "subject": "IBM Lotus Symphony",
+   "relation": "P178",
+   "true": "IBM",
+   "small_rank": 2,
+   "medium_prob": 0.3709964156150818,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21457,
+   "subject": "Alain Corneau",
+   "relation": "P27",
+   "true": "France",
+   "small_rank": 3,
+   "medium_prob": 0.24527916312217712,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21535,
+   "subject": "Szymon Szymonowic",
+   "relation": "P27",
+   "true": "Poland",
+   "small_rank": 2,
+   "medium_prob": 0.3564610779285431,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21541,
+   "subject": "Bernese Jura",
+   "relation": "P37",
+   "true": "French",
+   "small_rank": 8,
+   "medium_prob": 0.35043343901634216,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21592,
+   "subject": "Do Not Disturb",
+   "relation": "P364",
+   "true": "English",
+   "small_rank": 2,
+   "medium_prob": 0.16392047703266144,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21665,
+   "subject": "Suzuki Carry",
+   "relation": "P176",
+   "true": "Suzuki",
+   "small_rank": 2,
+   "medium_prob": 0.05907342582941055,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21668,
+   "subject": "Siri",
+   "relation": "P178",
+   "true": "Apple",
+   "small_rank": 6,
+   "medium_prob": 0.7325219511985779,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21679,
+   "subject": "Nicolas Godin",
+   "relation": "P27",
+   "true": "France",
+   "small_rank": 2,
+   "medium_prob": 0.31226637959480286,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21692,
+   "subject": "Exuperius",
+   "relation": "P39",
+   "true": "bishop",
+   "small_rank": 29,
+   "medium_prob": 0.08286678045988083,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21729,
+   "subject": "Thor",
+   "relation": "P463",
+   "true": "Avengers",
+   "small_rank": 10,
+   "medium_prob": 0.05300329253077507,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21737,
+   "subject": "Gunnar Thoresen",
+   "relation": "P27",
+   "true": "Norway",
+   "small_rank": 7,
+   "medium_prob": 0.22405922412872314,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21763,
+   "subject": "Giovanni Lista",
+   "relation": "P27",
+   "true": "Italy",
+   "small_rank": 2,
+   "medium_prob": 0.2573520243167877,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21775,
+   "subject": "New Jersey",
+   "relation": "P37",
+   "true": "English",
+   "small_rank": 12,
+   "medium_prob": 0.22698676586151123,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21782,
+   "subject": "Ann Cusack",
+   "relation": "P106",
+   "true": "actor",
+   "small_rank": 38,
+   "medium_prob": 0.07356066256761551,
+   "in_benchmark": true
+  },
+  {
+   "case_id": 21818,
+   "subject": "Church of Greece",
+   "relation": "P37",
+   "true": "Greek",
+   "small_rank": 2,
+   "medium_prob": 0.2527906000614166,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21844,
+   "subject": "Megan Rapinoe",
+   "relation": "P641",
+   "true": "soccer",
+   "small_rank": 2,
+   "medium_prob": 0.3149973750114441,
+   "in_benchmark": false
+  },
+  {
+   "case_id": 21868,
+   "subject": "French Community of Belgium",
+   "relation": "P37",
+   "true": "French",
+   "small_rank": 2,
+   "medium_prob": 0.46831071376800537,
+   "in_benchmark": false
+  }
+ ]
+}
