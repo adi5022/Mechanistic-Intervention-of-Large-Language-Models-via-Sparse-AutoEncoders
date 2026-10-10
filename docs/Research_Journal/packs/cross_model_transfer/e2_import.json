@@ -1,0 +1,5566 @@
+{
+ "n_facts": 21789,
+ "groups": {
+  "candidates": 780,
+  "both_right": 1372,
+  "small_only": 437
+ },
+ "accuracy": {
+  "small": 0.0830235406756401,
+  "medium": 0.09876543283462524,
+  "R": 0.07164165377616882
+ },
+ "agreement_with_medium": {
+  "small": 0.7111386656761169,
+  "R": 0.7474413514137268
+ },
+ "R": {
+  "rescue": 0.33589744567871094,
+  "survive_bothright": 0.7827988266944885,
+  "survive_smallonly": 0.30434781312942505,
+  "accuracy": 0.07164165377616882,
+  "agreement_with_medium": 0.7474413514137268
+ },
+ "controls_rescue": {
+  "C1": 0.007692307699471712,
+  "C2": 0.0,
+  "C3": 0.0
+ },
+ "strongest_control": "C1",
+ "mcnemar_p": 4.045065302691279e-73,
+ "gate8": {
+  "a": false,
+  "b": false,
+  "c": true,
+  "d": false,
+  "passes": false,
+  "reading": "(a) fails, the agreement with medium does not rise clearly and no secondary arm does better: Import with this map does not work",
+  "halfway_accuracy": 0.09089448675513268
+ },
+ "rewordings": {
+  "small": 0.13846153846153847,
+  "medium": 0.2955128205128205,
+  "R": 0.13076923076923078
+ },
+ "unrelated": {
+  "kl": 0.1706551822523276,
+  "flips": 0.3333333333333333
+ },
+ "secondary": {
+  "F": {
+   "k": 0,
+   "alpha": 1.0,
+   "rescue": 0.3382352888584137,
+   "gain": 0.6585140824317932,
+   "median_rank": 2.0,
+   "push_rescue": NaN
+  },
+  "S": {
+   "k": 100,
+   "alpha": 0.25,
+   "rescue": 0.06323529779911041,
+   "gain": 0.08901906758546829,
+   "median_rank": 3.0,
+   "push_rescue": 0.6661764979362488
+  }
+ },
+ "pairs": {
+  "m2s_L16_L8": {
+   "rescue": 0.33589744567871094,
+   "survive_bothright": 0.7827988266944885,
+   "survive_smallonly": 0.30434781312942505,
+   "accuracy": 0.07164165377616882,
+   "agreement_with_medium": 0.7474413514137268
+  },
+  "m2s_L12_L8": {
+   "rescue": 0.0743589773774147,
+   "survive_bothright": 0.40597668290138245,
+   "survive_smallonly": 0.14416475594043732,
+   "accuracy": 0.0324016697704792,
+   "agreement_with_medium": 0.6716691851615906
+  },
+  "m2s_L8_L6": {
+   "rescue": 0.03846153989434242,
+   "survive_bothright": 0.35641399025917053,
+   "survive_smallonly": 0.1235697939991951,
+   "accuracy": 0.02749093621969223,
+   "agreement_with_medium": 0.6671715378761292
+  },
+  "m2s_L4_L2": {
+   "rescue": 0.056410256773233414,
+   "survive_bothright": 0.5758017301559448,
+   "survive_smallonly": 0.42562928795814514,
+   "accuracy": 0.04887787252664566,
+   "agreement_with_medium": 0.6785992980003357
+  },
+  "m2s_L20_L10": {
+   "rescue": 0.3602564036846161,
+   "survive_bothright": 0.6982507109642029,
+   "survive_smallonly": 0.16247139871120453,
+   "accuracy": 0.06416081637144089,
+   "agreement_with_medium": 0.7584561109542847
+  }
+ },
+ "candidates": [
+  {
+   "case_id": 5,
+   "true": "Dutch",
+   "small_rank": 5,
+   "R_rank": 5,
+   "medium_prob": 0.15359914302825928
+  },
+  {
+   "case_id": 36,
+   "true": "Russian",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.26620686054229736
+  },
+  {
+   "case_id": 54,
+   "true": "Finland",
+   "small_rank": 6,
+   "R_rank": 2,
+   "medium_prob": 0.5438879132270813
+  },
+  {
+   "case_id": 84,
+   "true": "India",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.12144853919744492
+  },
+  {
+   "case_id": 97,
+   "true": "London",
+   "small_rank": 14,
+   "R_rank": 1,
+   "medium_prob": 0.1279434859752655
+  },
+  {
+   "case_id": 137,
+   "true": "Yamaha",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.569328248500824
+  },
+  {
+   "case_id": 197,
+   "true": "Norway",
+   "small_rank": 5,
+   "R_rank": 9,
+   "medium_prob": 0.21481148898601532
+  },
+  {
+   "case_id": 215,
+   "true": "Pakistan",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.19527988135814667
+  },
+  {
+   "case_id": 311,
+   "true": "French",
+   "small_rank": 5,
+   "R_rank": 12,
+   "medium_prob": 0.07022391259670258
+  },
+  {
+   "case_id": 327,
+   "true": "psychology",
+   "small_rank": 13,
+   "R_rank": 2,
+   "medium_prob": 0.13843023777008057
+  },
+  {
+   "case_id": 379,
+   "true": "CBS",
+   "small_rank": 5,
+   "R_rank": 6,
+   "medium_prob": 0.15712544322013855
+  },
+  {
+   "case_id": 385,
+   "true": "hockey",
+   "small_rank": 6,
+   "R_rank": 1,
+   "medium_prob": 0.15978464484214783
+  },
+  {
+   "case_id": 422,
+   "true": "Apple",
+   "small_rank": 2,
+   "R_rank": 3,
+   "medium_prob": 0.08000880479812622
+  },
+  {
+   "case_id": 424,
+   "true": "Italy",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.23716412484645844
+  },
+  {
+   "case_id": 428,
+   "true": "Dutch",
+   "small_rank": 4,
+   "R_rank": 1,
+   "medium_prob": 0.5534294247627258
+  },
+  {
+   "case_id": 453,
+   "true": "baseball",
+   "small_rank": 2,
+   "R_rank": 4,
+   "medium_prob": 0.22187304496765137
+  },
+  {
+   "case_id": 473,
+   "true": "Square",
+   "small_rank": 3,
+   "R_rank": 4,
+   "medium_prob": 0.12165473401546478
+  },
+  {
+   "case_id": 475,
+   "true": "Kabul",
+   "small_rank": 145,
+   "R_rank": 14,
+   "medium_prob": 0.17706947028636932
+  },
+  {
+   "case_id": 479,
+   "true": "Scientology",
+   "small_rank": 74,
+   "R_rank": 11,
+   "medium_prob": 0.16562387347221375
+  },
+  {
+   "case_id": 517,
+   "true": "Apple",
+   "small_rank": 4,
+   "R_rank": 2,
+   "medium_prob": 0.3384043872356415
+  },
+  {
+   "case_id": 560,
+   "true": "London",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.07181228697299957
+  },
+  {
+   "case_id": 596,
+   "true": "Germany",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.15924720466136932
+  },
+  {
+   "case_id": 600,
+   "true": "Islam",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.2695443630218506
+  },
+  {
+   "case_id": 634,
+   "true": "Microsoft",
+   "small_rank": 3,
+   "R_rank": 3,
+   "medium_prob": 0.2910721004009247
+  },
+  {
+   "case_id": 656,
+   "true": "HBO",
+   "small_rank": 8,
+   "R_rank": 4,
+   "medium_prob": 0.5561163425445557
+  },
+  {
+   "case_id": 672,
+   "true": "Africa",
+   "small_rank": 6,
+   "R_rank": 5,
+   "medium_prob": 0.1367344707250595
+  },
+  {
+   "case_id": 686,
+   "true": "Douglas",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.15651297569274902
+  },
+  {
+   "case_id": 700,
+   "true": "CBS",
+   "small_rank": 10,
+   "R_rank": 3,
+   "medium_prob": 0.2415703535079956
+  },
+  {
+   "case_id": 705,
+   "true": "Berlin",
+   "small_rank": 4,
+   "R_rank": 3,
+   "medium_prob": 0.06726480275392532
+  },
+  {
+   "case_id": 718,
+   "true": "PBS",
+   "small_rank": 26,
+   "R_rank": 1,
+   "medium_prob": 0.18020500242710114
+  },
+  {
+   "case_id": 745,
+   "true": "Greece",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.1624228060245514
+  },
+  {
+   "case_id": 783,
+   "true": "CNN",
+   "small_rank": 17,
+   "R_rank": 4,
+   "medium_prob": 0.14828616380691528
+  },
+  {
+   "case_id": 805,
+   "true": "Nintendo",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.17683425545692444
+  },
+  {
+   "case_id": 815,
+   "true": "Italian",
+   "small_rank": 8,
+   "R_rank": 3,
+   "medium_prob": 0.12051303684711456
+  },
+  {
+   "case_id": 860,
+   "true": "Islam",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.2606533169746399
+  },
+  {
+   "case_id": 864,
+   "true": "India",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.16137365996837616
+  },
+  {
+   "case_id": 866,
+   "true": "Amsterdam",
+   "small_rank": 2,
+   "R_rank": 5,
+   "medium_prob": 0.08250498026609421
+  },
+  {
+   "case_id": 902,
+   "true": "Dutch",
+   "small_rank": 5,
+   "R_rank": 1,
+   "medium_prob": 0.14856871962547302
+  },
+  {
+   "case_id": 921,
+   "true": "Islam",
+   "small_rank": 2,
+   "R_rank": 3,
+   "medium_prob": 0.3565954864025116
+  },
+  {
+   "case_id": 926,
+   "true": "Antarctica",
+   "small_rank": 9,
+   "R_rank": 2,
+   "medium_prob": 0.046217627823352814
+  },
+  {
+   "case_id": 972,
+   "true": "Japan",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.22071680426597595
+  },
+  {
+   "case_id": 1087,
+   "true": "hockey",
+   "small_rank": 13,
+   "R_rank": 1,
+   "medium_prob": 0.14580127596855164
+  },
+  {
+   "case_id": 1104,
+   "true": "French",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.11562522500753403
+  },
+  {
+   "case_id": 1187,
+   "true": "Apple",
+   "small_rank": 2,
+   "R_rank": 4,
+   "medium_prob": 0.130309596657753
+  },
+  {
+   "case_id": 1196,
+   "true": "French",
+   "small_rank": 21,
+   "R_rank": 6,
+   "medium_prob": 0.11188927292823792
+  },
+  {
+   "case_id": 1224,
+   "true": "Denmark",
+   "small_rank": 10,
+   "R_rank": 1,
+   "medium_prob": 0.17567521333694458
+  },
+  {
+   "case_id": 1263,
+   "true": "Microsoft",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.17587360739707947
+  },
+  {
+   "case_id": 1270,
+   "true": "Norman",
+   "small_rank": 2,
+   "R_rank": 3,
+   "medium_prob": 0.37495195865631104
+  },
+  {
+   "case_id": 1271,
+   "true": "Ferrari",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.14240829646587372
+  },
+  {
+   "case_id": 1278,
+   "true": "French",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.3562420606613159
+  },
+  {
+   "case_id": 1283,
+   "true": "Israel",
+   "small_rank": 6,
+   "R_rank": 3,
+   "medium_prob": 0.27164655923843384
+  },
+  {
+   "case_id": 1298,
+   "true": "Warsaw",
+   "small_rank": 10,
+   "R_rank": 5,
+   "medium_prob": 0.12148188799619675
+  },
+  {
+   "case_id": 1302,
+   "true": "Antarctica",
+   "small_rank": 20,
+   "R_rank": 9,
+   "medium_prob": 0.05238281935453415
+  },
+  {
+   "case_id": 1310,
+   "true": "Swedish",
+   "small_rank": 35,
+   "R_rank": 5,
+   "medium_prob": 0.22114503383636475
+  },
+  {
+   "case_id": 1319,
+   "true": "Intel",
+   "small_rank": 92,
+   "R_rank": 4,
+   "medium_prob": 0.14709801971912384
+  },
+  {
+   "case_id": 1347,
+   "true": "Denmark",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.22257542610168457
+  },
+  {
+   "case_id": 1375,
+   "true": "baseball",
+   "small_rank": 6,
+   "R_rank": 3,
+   "medium_prob": 0.3062845766544342
+  },
+  {
+   "case_id": 1385,
+   "true": "Geneva",
+   "small_rank": 4,
+   "R_rank": 4,
+   "medium_prob": 0.08409643173217773
+  },
+  {
+   "case_id": 1445,
+   "true": "France",
+   "small_rank": 21,
+   "R_rank": 2,
+   "medium_prob": 0.20947401225566864
+  },
+  {
+   "case_id": 1475,
+   "true": "soccer",
+   "small_rank": 2,
+   "R_rank": 4,
+   "medium_prob": 0.2725616991519928
+  },
+  {
+   "case_id": 1507,
+   "true": "Greece",
+   "small_rank": 3,
+   "R_rank": 2,
+   "medium_prob": 0.19276665151119232
+  },
+  {
+   "case_id": 1524,
+   "true": "France",
+   "small_rank": 3,
+   "R_rank": 2,
+   "medium_prob": 0.20425692200660706
+  },
+  {
+   "case_id": 1525,
+   "true": "soccer",
+   "small_rank": 3,
+   "R_rank": 4,
+   "medium_prob": 0.25450581312179565
+  },
+  {
+   "case_id": 1539,
+   "true": "Tamil",
+   "small_rank": 5,
+   "R_rank": 1,
+   "medium_prob": 0.19782660901546478
+  },
+  {
+   "case_id": 1545,
+   "true": "Spain",
+   "small_rank": 9,
+   "R_rank": 1,
+   "medium_prob": 0.14650341868400574
+  },
+  {
+   "case_id": 1598,
+   "true": "India",
+   "small_rank": 8,
+   "R_rank": 4,
+   "medium_prob": 0.14572833478450775
+  },
+  {
+   "case_id": 1616,
+   "true": "Apple",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.898472011089325
+  },
+  {
+   "case_id": 1629,
+   "true": "Honda",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.11516530811786652
+  },
+  {
+   "case_id": 1634,
+   "true": "Spanish",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.3689403831958771
+  },
+  {
+   "case_id": 1639,
+   "true": "Microsoft",
+   "small_rank": 11,
+   "R_rank": 3,
+   "medium_prob": 0.21936152875423431
+  },
+  {
+   "case_id": 1699,
+   "true": "Ireland",
+   "small_rank": 10,
+   "R_rank": 1,
+   "medium_prob": 0.34203001856803894
+  },
+  {
+   "case_id": 1700,
+   "true": "Apple",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.4942820966243744
+  },
+  {
+   "case_id": 1712,
+   "true": "English",
+   "small_rank": 2,
+   "R_rank": 5,
+   "medium_prob": 0.18245460093021393
+  },
+  {
+   "case_id": 1719,
+   "true": "Adobe",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.3797228932380676
+  },
+  {
+   "case_id": 1745,
+   "true": "French",
+   "small_rank": 5,
+   "R_rank": 2,
+   "medium_prob": 0.18921463191509247
+  },
+  {
+   "case_id": 1750,
+   "true": "Microsoft",
+   "small_rank": 5,
+   "R_rank": 3,
+   "medium_prob": 0.07605529576539993
+  },
+  {
+   "case_id": 1812,
+   "true": "Ferrari",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.1850283145904541
+  },
+  {
+   "case_id": 1922,
+   "true": "Apple",
+   "small_rank": 5,
+   "R_rank": 3,
+   "medium_prob": 0.2568718492984772
+  },
+  {
+   "case_id": 1938,
+   "true": "French",
+   "small_rank": 10,
+   "R_rank": 3,
+   "medium_prob": 0.10128509998321533
+  },
+  {
+   "case_id": 1982,
+   "true": "Apple",
+   "small_rank": 10,
+   "R_rank": 3,
+   "medium_prob": 0.26885098218917847
+  },
+  {
+   "case_id": 2053,
+   "true": "Stockholm",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.1162351742386818
+  },
+  {
+   "case_id": 2070,
+   "true": "Bentley",
+   "small_rank": 359,
+   "R_rank": 3,
+   "medium_prob": 0.10843228548765182
+  },
+  {
+   "case_id": 2086,
+   "true": "French",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.7620222568511963
+  },
+  {
+   "case_id": 2111,
+   "true": "Iran",
+   "small_rank": 4,
+   "R_rank": 5,
+   "medium_prob": 0.1454281359910965
+  },
+  {
+   "case_id": 2112,
+   "true": "Tripoli",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.7928033471107483
+  },
+  {
+   "case_id": 2120,
+   "true": "Catalan",
+   "small_rank": 45,
+   "R_rank": 3,
+   "medium_prob": 0.12426673620939255
+  },
+  {
+   "case_id": 2151,
+   "true": "Paris",
+   "small_rank": 4,
+   "R_rank": 1,
+   "medium_prob": 0.10655712336301804
+  },
+  {
+   "case_id": 2168,
+   "true": "English",
+   "small_rank": 4,
+   "R_rank": 1,
+   "medium_prob": 0.15364518761634827
+  },
+  {
+   "case_id": 2251,
+   "true": "Apple",
+   "small_rank": 8,
+   "R_rank": 5,
+   "medium_prob": 0.12032919377088547
+  },
+  {
+   "case_id": 2271,
+   "true": "Amazon",
+   "small_rank": 5,
+   "R_rank": 3,
+   "medium_prob": 0.18926317989826202
+  },
+  {
+   "case_id": 2277,
+   "true": "Yahoo",
+   "small_rank": 23,
+   "R_rank": 4,
+   "medium_prob": 0.10911139845848083
+  },
+  {
+   "case_id": 2367,
+   "true": "soccer",
+   "small_rank": 7,
+   "R_rank": 2,
+   "medium_prob": 0.1798633337020874
+  },
+  {
+   "case_id": 2369,
+   "true": "Apple",
+   "small_rank": 4,
+   "R_rank": 5,
+   "medium_prob": 0.22287015616893768
+  },
+  {
+   "case_id": 2375,
+   "true": "Iran",
+   "small_rank": 3,
+   "R_rank": 3,
+   "medium_prob": 0.3055393397808075
+  },
+  {
+   "case_id": 2412,
+   "true": "Toronto",
+   "small_rank": 9,
+   "R_rank": 2,
+   "medium_prob": 0.10439801961183548
+  },
+  {
+   "case_id": 2434,
+   "true": "Scientology",
+   "small_rank": 2,
+   "R_rank": 11,
+   "medium_prob": 0.1390078216791153
+  },
+  {
+   "case_id": 2450,
+   "true": "Athens",
+   "small_rank": 20,
+   "R_rank": 6,
+   "medium_prob": 0.06055782735347748
+  },
+  {
+   "case_id": 2471,
+   "true": "English",
+   "small_rank": 67,
+   "R_rank": 8,
+   "medium_prob": 0.07321186363697052
+  },
+  {
+   "case_id": 2489,
+   "true": "London",
+   "small_rank": 4,
+   "R_rank": 1,
+   "medium_prob": 0.08370054513216019
+  },
+  {
+   "case_id": 2536,
+   "true": "Adobe",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.7108271718025208
+  },
+  {
+   "case_id": 2566,
+   "true": "English",
+   "small_rank": 35,
+   "R_rank": 2,
+   "medium_prob": 0.13393904268741608
+  },
+  {
+   "case_id": 2592,
+   "true": "Paris",
+   "small_rank": 7,
+   "R_rank": 2,
+   "medium_prob": 0.44302642345428467
+  },
+  {
+   "case_id": 2610,
+   "true": "English",
+   "small_rank": 109,
+   "R_rank": 5,
+   "medium_prob": 0.15895932912826538
+  },
+  {
+   "case_id": 2645,
+   "true": "Microsoft",
+   "small_rank": 3,
+   "R_rank": 4,
+   "medium_prob": 0.05521251633763313
+  },
+  {
+   "case_id": 2655,
+   "true": "Nashville",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.6516473293304443
+  },
+  {
+   "case_id": 2682,
+   "true": "Budapest",
+   "small_rank": 2,
+   "R_rank": 4,
+   "medium_prob": 0.7327148914337158
+  },
+  {
+   "case_id": 2734,
+   "true": "soccer",
+   "small_rank": 5,
+   "R_rank": 3,
+   "medium_prob": 0.19858318567276
+  },
+  {
+   "case_id": 2805,
+   "true": "Spain",
+   "small_rank": 307,
+   "R_rank": 12,
+   "medium_prob": 0.14220692217350006
+  },
+  {
+   "case_id": 2816,
+   "true": "Apple",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.4443907141685486
+  },
+  {
+   "case_id": 2836,
+   "true": "IBM",
+   "small_rank": 4,
+   "R_rank": 3,
+   "medium_prob": 0.08373288810253143
+  },
+  {
+   "case_id": 2845,
+   "true": "Russian",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.14813779294490814
+  },
+  {
+   "case_id": 2868,
+   "true": "French",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.13520650565624237
+  },
+  {
+   "case_id": 2879,
+   "true": "English",
+   "small_rank": 2,
+   "R_rank": 4,
+   "medium_prob": 0.055413369089365005
+  },
+  {
+   "case_id": 2940,
+   "true": "Danish",
+   "small_rank": 5,
+   "R_rank": 13,
+   "medium_prob": 0.046417780220508575
+  },
+  {
+   "case_id": 2948,
+   "true": "Russian",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.19686150550842285
+  },
+  {
+   "case_id": 2961,
+   "true": "Prague",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.3498591482639313
+  },
+  {
+   "case_id": 3005,
+   "true": "Paris",
+   "small_rank": 3,
+   "R_rank": 2,
+   "medium_prob": 0.17115406692028046
+  },
+  {
+   "case_id": 3024,
+   "true": "Russian",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.3347589373588562
+  },
+  {
+   "case_id": 3044,
+   "true": "Russian",
+   "small_rank": 14,
+   "R_rank": 2,
+   "medium_prob": 0.10732291638851166
+  },
+  {
+   "case_id": 3052,
+   "true": "Helsinki",
+   "small_rank": 162,
+   "R_rank": 20,
+   "medium_prob": 0.12023010104894638
+  },
+  {
+   "case_id": 3063,
+   "true": "Russian",
+   "small_rank": 14,
+   "R_rank": 4,
+   "medium_prob": 0.08474881947040558
+  },
+  {
+   "case_id": 3125,
+   "true": "Microsoft",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.2939833104610443
+  },
+  {
+   "case_id": 3127,
+   "true": "French",
+   "small_rank": 25,
+   "R_rank": 9,
+   "medium_prob": 0.054815974086523056
+  },
+  {
+   "case_id": 3161,
+   "true": "Kyoto",
+   "small_rank": 8,
+   "R_rank": 6,
+   "medium_prob": 0.10103768855333328
+  },
+  {
+   "case_id": 3179,
+   "true": "Russian",
+   "small_rank": 6,
+   "R_rank": 5,
+   "medium_prob": 0.10116555541753769
+  },
+  {
+   "case_id": 3216,
+   "true": "Antarctica",
+   "small_rank": 7,
+   "R_rank": 1,
+   "medium_prob": 0.1663433164358139
+  },
+  {
+   "case_id": 3276,
+   "true": "French",
+   "small_rank": 24,
+   "R_rank": 3,
+   "medium_prob": 0.07153723388910294
+  },
+  {
+   "case_id": 3292,
+   "true": "Amazon",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.2854968309402466
+  },
+  {
+   "case_id": 3308,
+   "true": "NBC",
+   "small_rank": 6,
+   "R_rank": 1,
+   "medium_prob": 0.295271635055542
+  },
+  {
+   "case_id": 3333,
+   "true": "Italy",
+   "small_rank": 4,
+   "R_rank": 1,
+   "medium_prob": 0.37108010053634644
+  },
+  {
+   "case_id": 3397,
+   "true": "French",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.3726320266723633
+  },
+  {
+   "case_id": 3402,
+   "true": "Islam",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.2995138466358185
+  },
+  {
+   "case_id": 3426,
+   "true": "Japan",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.38247838616371155
+  },
+  {
+   "case_id": 3472,
+   "true": "Austin",
+   "small_rank": 9,
+   "R_rank": 1,
+   "medium_prob": 0.816072940826416
+  },
+  {
+   "case_id": 3486,
+   "true": "English",
+   "small_rank": 13,
+   "R_rank": 4,
+   "medium_prob": 0.0652962401509285
+  },
+  {
+   "case_id": 3491,
+   "true": "Bentley",
+   "small_rank": 165,
+   "R_rank": 4,
+   "medium_prob": 0.22648626565933228
+  },
+  {
+   "case_id": 3499,
+   "true": "Apple",
+   "small_rank": 4,
+   "R_rank": 1,
+   "medium_prob": 0.3664548695087433
+  },
+  {
+   "case_id": 3500,
+   "true": "Hebrew",
+   "small_rank": 3,
+   "R_rank": 10,
+   "medium_prob": 0.18759658932685852
+  },
+  {
+   "case_id": 3588,
+   "true": "Italian",
+   "small_rank": 11,
+   "R_rank": 3,
+   "medium_prob": 0.13971368968486786
+  },
+  {
+   "case_id": 3659,
+   "true": "baseball",
+   "small_rank": 6,
+   "R_rank": 7,
+   "medium_prob": 0.07847747206687927
+  },
+  {
+   "case_id": 3664,
+   "true": "WWE",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.1771005243062973
+  },
+  {
+   "case_id": 3677,
+   "true": "Sweden",
+   "small_rank": 3,
+   "R_rank": 3,
+   "medium_prob": 0.3729161024093628
+  },
+  {
+   "case_id": 3753,
+   "true": "Brazil",
+   "small_rank": 2,
+   "R_rank": 3,
+   "medium_prob": 0.1451982855796814
+  },
+  {
+   "case_id": 3804,
+   "true": "Europe",
+   "small_rank": 2,
+   "R_rank": 6,
+   "medium_prob": 0.16513511538505554
+  },
+  {
+   "case_id": 3811,
+   "true": "Japan",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.1454782634973526
+  },
+  {
+   "case_id": 3870,
+   "true": "Islam",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.23292909562587738
+  },
+  {
+   "case_id": 3904,
+   "true": "Japan",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.262694388628006
+  },
+  {
+   "case_id": 3912,
+   "true": "CBS",
+   "small_rank": 10,
+   "R_rank": 3,
+   "medium_prob": 0.21616174280643463
+  },
+  {
+   "case_id": 3983,
+   "true": "French",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.11363156139850616
+  },
+  {
+   "case_id": 4015,
+   "true": "Poland",
+   "small_rank": 16,
+   "R_rank": 2,
+   "medium_prob": 0.1324508935213089
+  },
+  {
+   "case_id": 4021,
+   "true": "Taiwan",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.26596882939338684
+  },
+  {
+   "case_id": 4039,
+   "true": "Italian",
+   "small_rank": 4,
+   "R_rank": 2,
+   "medium_prob": 0.132661372423172
+  },
+  {
+   "case_id": 4090,
+   "true": "French",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.19352304935455322
+  },
+  {
+   "case_id": 4130,
+   "true": "NBC",
+   "small_rank": 2,
+   "R_rank": 24,
+   "medium_prob": 0.08659191429615021
+  },
+  {
+   "case_id": 4208,
+   "true": "English",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.30956730246543884
+  },
+  {
+   "case_id": 4214,
+   "true": "Netflix",
+   "small_rank": 11,
+   "R_rank": 2,
+   "medium_prob": 0.14875422418117523
+  },
+  {
+   "case_id": 4239,
+   "true": "geography",
+   "small_rank": 3,
+   "R_rank": 3,
+   "medium_prob": 0.07496817409992218
+  },
+  {
+   "case_id": 4307,
+   "true": "Greece",
+   "small_rank": 5,
+   "R_rank": 2,
+   "medium_prob": 0.4018927216529846
+  },
+  {
+   "case_id": 4326,
+   "true": "Italy",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.40878698229789734
+  },
+  {
+   "case_id": 4365,
+   "true": "French",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.19838015735149384
+  },
+  {
+   "case_id": 4399,
+   "true": "HBO",
+   "small_rank": 2,
+   "R_rank": 4,
+   "medium_prob": 0.39052116870880127
+  },
+  {
+   "case_id": 4408,
+   "true": "Apple",
+   "small_rank": 114,
+   "R_rank": 5,
+   "medium_prob": 0.3317286968231201
+  },
+  {
+   "case_id": 4427,
+   "true": "Spanish",
+   "small_rank": 5,
+   "R_rank": 2,
+   "medium_prob": 0.14173302054405212
+  },
+  {
+   "case_id": 4442,
+   "true": "Antarctica",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.25074756145477295
+  },
+  {
+   "case_id": 4517,
+   "true": "basketball",
+   "small_rank": 6,
+   "R_rank": 2,
+   "medium_prob": 0.09543278813362122
+  },
+  {
+   "case_id": 4537,
+   "true": "Nintendo",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.27114564180374146
+  },
+  {
+   "case_id": 4619,
+   "true": "London",
+   "small_rank": 4,
+   "R_rank": 1,
+   "medium_prob": 0.033233899623155594
+  },
+  {
+   "case_id": 4716,
+   "true": "Brussels",
+   "small_rank": 5,
+   "R_rank": 7,
+   "medium_prob": 0.2216486781835556
+  },
+  {
+   "case_id": 4730,
+   "true": "Antarctica",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.6953437924385071
+  },
+  {
+   "case_id": 4731,
+   "true": "Antarctica",
+   "small_rank": 6,
+   "R_rank": 2,
+   "medium_prob": 0.1542503982782364
+  },
+  {
+   "case_id": 4747,
+   "true": "Dutch",
+   "small_rank": 6,
+   "R_rank": 2,
+   "medium_prob": 0.12860584259033203
+  },
+  {
+   "case_id": 4768,
+   "true": "Bentley",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.24118457734584808
+  },
+  {
+   "case_id": 4788,
+   "true": "Islam",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.19861570000648499
+  },
+  {
+   "case_id": 4791,
+   "true": "London",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.05545557662844658
+  },
+  {
+   "case_id": 4825,
+   "true": "Italy",
+   "small_rank": 7,
+   "R_rank": 16,
+   "medium_prob": 0.04212081432342529
+  },
+  {
+   "case_id": 4830,
+   "true": "French",
+   "small_rank": 4,
+   "R_rank": 2,
+   "medium_prob": 0.3035394251346588
+  },
+  {
+   "case_id": 4851,
+   "true": "Moscow",
+   "small_rank": 3,
+   "R_rank": 2,
+   "medium_prob": 0.2385471761226654
+  },
+  {
+   "case_id": 4912,
+   "true": "Apple",
+   "small_rank": 2,
+   "R_rank": 3,
+   "medium_prob": 0.22817598283290863
+  },
+  {
+   "case_id": 4920,
+   "true": "soccer",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.29221248626708984
+  },
+  {
+   "case_id": 4933,
+   "true": "Finnish",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.13031363487243652
+  },
+  {
+   "case_id": 4939,
+   "true": "Antarctica",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.25057631731033325
+  },
+  {
+   "case_id": 4944,
+   "true": "Apple",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.26262763142585754
+  },
+  {
+   "case_id": 4965,
+   "true": "English",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.10910138487815857
+  },
+  {
+   "case_id": 4988,
+   "true": "Apple",
+   "small_rank": 3,
+   "R_rank": 3,
+   "medium_prob": 0.45213815569877625
+  },
+  {
+   "case_id": 4991,
+   "true": "Chinese",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.24520984292030334
+  },
+  {
+   "case_id": 5025,
+   "true": "Google",
+   "small_rank": 4,
+   "R_rank": 2,
+   "medium_prob": 0.3349089026451111
+  },
+  {
+   "case_id": 5040,
+   "true": "Russian",
+   "small_rank": 3,
+   "R_rank": 3,
+   "medium_prob": 0.14139853417873383
+  },
+  {
+   "case_id": 5095,
+   "true": "Milan",
+   "small_rank": 8,
+   "R_rank": 1,
+   "medium_prob": 0.3833533227443695
+  },
+  {
+   "case_id": 5148,
+   "true": "India",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.18234767019748688
+  },
+  {
+   "case_id": 5155,
+   "true": "Finland",
+   "small_rank": 25,
+   "R_rank": 79,
+   "medium_prob": 0.029880372807383537
+  },
+  {
+   "case_id": 5176,
+   "true": "Italian",
+   "small_rank": 5,
+   "R_rank": 4,
+   "medium_prob": 0.10239464789628983
+  },
+  {
+   "case_id": 5191,
+   "true": "Florence",
+   "small_rank": 136,
+   "R_rank": 65,
+   "medium_prob": 0.07900744676589966
+  },
+  {
+   "case_id": 5224,
+   "true": "Norway",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.26998329162597656
+  },
+  {
+   "case_id": 5227,
+   "true": "Dutch",
+   "small_rank": 6,
+   "R_rank": 11,
+   "medium_prob": 0.08863724768161774
+  },
+  {
+   "case_id": 5253,
+   "true": "Microsoft",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.12475143373012543
+  },
+  {
+   "case_id": 5342,
+   "true": "Russian",
+   "small_rank": 7,
+   "R_rank": 2,
+   "medium_prob": 0.15495571494102478
+  },
+  {
+   "case_id": 5374,
+   "true": "Berlin",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.03785416856408119
+  },
+  {
+   "case_id": 5391,
+   "true": "French",
+   "small_rank": 4,
+   "R_rank": 1,
+   "medium_prob": 0.4199153482913971
+  },
+  {
+   "case_id": 5396,
+   "true": "Glasgow",
+   "small_rank": 4,
+   "R_rank": 1,
+   "medium_prob": 0.22470292448997498
+  },
+  {
+   "case_id": 5405,
+   "true": "Italy",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.37754639983177185
+  },
+  {
+   "case_id": 5482,
+   "true": "Antarctica",
+   "small_rank": 9,
+   "R_rank": 3,
+   "medium_prob": 0.021138876676559448
+  },
+  {
+   "case_id": 5484,
+   "true": "Adobe",
+   "small_rank": 3,
+   "R_rank": 3,
+   "medium_prob": 0.3228783905506134
+  },
+  {
+   "case_id": 5489,
+   "true": "Dodge",
+   "small_rank": 3,
+   "R_rank": 2,
+   "medium_prob": 0.11569536477327347
+  },
+  {
+   "case_id": 5512,
+   "true": "French",
+   "small_rank": 4,
+   "R_rank": 12,
+   "medium_prob": 0.07200287282466888
+  },
+  {
+   "case_id": 5584,
+   "true": "Italy",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.26774996519088745
+  },
+  {
+   "case_id": 5619,
+   "true": "English",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.34717726707458496
+  },
+  {
+   "case_id": 5661,
+   "true": "Islam",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.540350079536438
+  },
+  {
+   "case_id": 5722,
+   "true": "ESPN",
+   "small_rank": 92,
+   "R_rank": 2,
+   "medium_prob": 0.23268301784992218
+  },
+  {
+   "case_id": 5782,
+   "true": "French",
+   "small_rank": 2,
+   "R_rank": 3,
+   "medium_prob": 0.1780523657798767
+  },
+  {
+   "case_id": 5837,
+   "true": "Apple",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.6234996318817139
+  },
+  {
+   "case_id": 5839,
+   "true": "bishop",
+   "small_rank": 6,
+   "R_rank": 2,
+   "medium_prob": 0.08236682415008545
+  },
+  {
+   "case_id": 5893,
+   "true": "Nissan",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.15110817551612854
+  },
+  {
+   "case_id": 5925,
+   "true": "Spanish",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.06258931010961533
+  },
+  {
+   "case_id": 5950,
+   "true": "French",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.24961163103580475
+  },
+  {
+   "case_id": 5973,
+   "true": "Antarctica",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.1735515147447586
+  },
+  {
+   "case_id": 5993,
+   "true": "Oslo",
+   "small_rank": 3,
+   "R_rank": 2,
+   "medium_prob": 0.11561805754899979
+  },
+  {
+   "case_id": 6068,
+   "true": "Tamil",
+   "small_rank": 4,
+   "R_rank": 1,
+   "medium_prob": 0.23834997415542603
+  },
+  {
+   "case_id": 6072,
+   "true": "French",
+   "small_rank": 19,
+   "R_rank": 12,
+   "medium_prob": 0.15106931328773499
+  },
+  {
+   "case_id": 6098,
+   "true": "French",
+   "small_rank": 5,
+   "R_rank": 1,
+   "medium_prob": 0.1382405012845993
+  },
+  {
+   "case_id": 6122,
+   "true": "Antarctica",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.1941208690404892
+  },
+  {
+   "case_id": 6167,
+   "true": "Antarctica",
+   "small_rank": 6,
+   "R_rank": 1,
+   "medium_prob": 0.05703103914856911
+  },
+  {
+   "case_id": 6186,
+   "true": "bishop",
+   "small_rank": 8,
+   "R_rank": 6,
+   "medium_prob": 0.09858636558055878
+  },
+  {
+   "case_id": 6212,
+   "true": "French",
+   "small_rank": 5,
+   "R_rank": 2,
+   "medium_prob": 0.18869763612747192
+  },
+  {
+   "case_id": 6215,
+   "true": "Russian",
+   "small_rank": 2,
+   "R_rank": 3,
+   "medium_prob": 0.09851428121328354
+  },
+  {
+   "case_id": 6241,
+   "true": "Israel",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.43759945034980774
+  },
+  {
+   "case_id": 6353,
+   "true": "Italy",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.280156672000885
+  },
+  {
+   "case_id": 6363,
+   "true": "Islam",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.17227883636951447
+  },
+  {
+   "case_id": 6428,
+   "true": "Antarctica",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.19904710352420807
+  },
+  {
+   "case_id": 6467,
+   "true": "Intel",
+   "small_rank": 37,
+   "R_rank": 2,
+   "medium_prob": 0.1593475639820099
+  },
+  {
+   "case_id": 6569,
+   "true": "French",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.16074347496032715
+  },
+  {
+   "case_id": 6623,
+   "true": "Dodge",
+   "small_rank": 4,
+   "R_rank": 2,
+   "medium_prob": 0.10980848222970963
+  },
+  {
+   "case_id": 6641,
+   "true": "Apple",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.6028332710266113
+  },
+  {
+   "case_id": 6659,
+   "true": "Bristol",
+   "small_rank": 7,
+   "R_rank": 3,
+   "medium_prob": 0.1641000211238861
+  },
+  {
+   "case_id": 6661,
+   "true": "Canada",
+   "small_rank": 4,
+   "R_rank": 3,
+   "medium_prob": 0.11492399871349335
+  },
+  {
+   "case_id": 6662,
+   "true": "France",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.1216374933719635
+  },
+  {
+   "case_id": 6747,
+   "true": "Finland",
+   "small_rank": 4,
+   "R_rank": 1,
+   "medium_prob": 0.4583338797092438
+  },
+  {
+   "case_id": 6760,
+   "true": "Triumph",
+   "small_rank": 2,
+   "R_rank": 3,
+   "medium_prob": 0.15192098915576935
+  },
+  {
+   "case_id": 6765,
+   "true": "Spanish",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.3686508536338806
+  },
+  {
+   "case_id": 6805,
+   "true": "Russian",
+   "small_rank": 4,
+   "R_rank": 1,
+   "medium_prob": 0.603635847568512
+  },
+  {
+   "case_id": 6806,
+   "true": "Finnish",
+   "small_rank": 3,
+   "R_rank": 2,
+   "medium_prob": 0.46949782967567444
+  },
+  {
+   "case_id": 6818,
+   "true": "Norway",
+   "small_rank": 5,
+   "R_rank": 3,
+   "medium_prob": 0.1944943070411682
+  },
+  {
+   "case_id": 6830,
+   "true": "Apple",
+   "small_rank": 3,
+   "R_rank": 3,
+   "medium_prob": 0.3620160222053528
+  },
+  {
+   "case_id": 6902,
+   "true": "Adobe",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.5222599506378174
+  },
+  {
+   "case_id": 6919,
+   "true": "Europe",
+   "small_rank": 2,
+   "R_rank": 3,
+   "medium_prob": 0.2110692709684372
+  },
+  {
+   "case_id": 6979,
+   "true": "Singapore",
+   "small_rank": 6,
+   "R_rank": 4,
+   "medium_prob": 0.4430433213710785
+  },
+  {
+   "case_id": 7025,
+   "true": "Europe",
+   "small_rank": 3,
+   "R_rank": 5,
+   "medium_prob": 0.22672569751739502
+  },
+  {
+   "case_id": 7074,
+   "true": "Tamil",
+   "small_rank": 4,
+   "R_rank": 2,
+   "medium_prob": 0.2441367506980896
+  },
+  {
+   "case_id": 7120,
+   "true": "France",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.24036365747451782
+  },
+  {
+   "case_id": 7138,
+   "true": "French",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.47792235016822815
+  },
+  {
+   "case_id": 7139,
+   "true": "Islam",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.19458140432834625
+  },
+  {
+   "case_id": 7151,
+   "true": "Jerusalem",
+   "small_rank": 5,
+   "R_rank": 2,
+   "medium_prob": 0.31776127219200134
+  },
+  {
+   "case_id": 7159,
+   "true": "Europe",
+   "small_rank": 7,
+   "R_rank": 15,
+   "medium_prob": 0.14554300904273987
+  },
+  {
+   "case_id": 7191,
+   "true": "English",
+   "small_rank": 2,
+   "R_rank": 4,
+   "medium_prob": 0.06442785263061523
+  },
+  {
+   "case_id": 7193,
+   "true": "Swedish",
+   "small_rank": 4,
+   "R_rank": 4,
+   "medium_prob": 0.10814725607633591
+  },
+  {
+   "case_id": 7194,
+   "true": "Copenhagen",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.3906944990158081
+  },
+  {
+   "case_id": 7215,
+   "true": "Adobe",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.48647603392601013
+  },
+  {
+   "case_id": 7232,
+   "true": "French",
+   "small_rank": 4,
+   "R_rank": 4,
+   "medium_prob": 0.2685469388961792
+  },
+  {
+   "case_id": 7278,
+   "true": "Apple",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.6488591432571411
+  },
+  {
+   "case_id": 7355,
+   "true": "bishop",
+   "small_rank": 6,
+   "R_rank": 2,
+   "medium_prob": 0.06370420008897781
+  },
+  {
+   "case_id": 7370,
+   "true": "London",
+   "small_rank": 2,
+   "R_rank": 4,
+   "medium_prob": 0.06392976641654968
+  },
+  {
+   "case_id": 7374,
+   "true": "Iran",
+   "small_rank": 4,
+   "R_rank": 3,
+   "medium_prob": 0.2356153130531311
+  },
+  {
+   "case_id": 7403,
+   "true": "French",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.27349817752838135
+  },
+  {
+   "case_id": 7415,
+   "true": "Islam",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.3254140615463257
+  },
+  {
+   "case_id": 7417,
+   "true": "Russian",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.19233697652816772
+  },
+  {
+   "case_id": 7425,
+   "true": "NBC",
+   "small_rank": 4,
+   "R_rank": 4,
+   "medium_prob": 0.06875099241733551
+  },
+  {
+   "case_id": 7495,
+   "true": "Antarctica",
+   "small_rank": 6,
+   "R_rank": 4,
+   "medium_prob": 0.09839405864477158
+  },
+  {
+   "case_id": 7512,
+   "true": "Renault",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.4023076891899109
+  },
+  {
+   "case_id": 7556,
+   "true": "Microsoft",
+   "small_rank": 102,
+   "R_rank": 3,
+   "medium_prob": 0.7516574263572693
+  },
+  {
+   "case_id": 7561,
+   "true": "Islam",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.29548120498657227
+  },
+  {
+   "case_id": 7567,
+   "true": "Brazil",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.08579102158546448
+  },
+  {
+   "case_id": 7597,
+   "true": "Apple",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.21795645356178284
+  },
+  {
+   "case_id": 7607,
+   "true": "Africa",
+   "small_rank": 2,
+   "R_rank": 8,
+   "medium_prob": 0.21491652727127075
+  },
+  {
+   "case_id": 7620,
+   "true": "Iraq",
+   "small_rank": 10,
+   "R_rank": 26,
+   "medium_prob": 0.07894369959831238
+  },
+  {
+   "case_id": 7690,
+   "true": "Russian",
+   "small_rank": 13,
+   "R_rank": 5,
+   "medium_prob": 0.12568514049053192
+  },
+  {
+   "case_id": 7710,
+   "true": "Dodge",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.156087726354599
+  },
+  {
+   "case_id": 7758,
+   "true": "soccer",
+   "small_rank": 6,
+   "R_rank": 1,
+   "medium_prob": 0.19889235496520996
+  },
+  {
+   "case_id": 7778,
+   "true": "Islam",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.26775309443473816
+  },
+  {
+   "case_id": 7802,
+   "true": "Ukrainian",
+   "small_rank": 6,
+   "R_rank": 4,
+   "medium_prob": 0.06396757066249847
+  },
+  {
+   "case_id": 7808,
+   "true": "Russian",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.1587962657213211
+  },
+  {
+   "case_id": 7821,
+   "true": "Japan",
+   "small_rank": 9,
+   "R_rank": 1,
+   "medium_prob": 0.05336115136742592
+  },
+  {
+   "case_id": 7859,
+   "true": "Nintendo",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.10379871726036072
+  },
+  {
+   "case_id": 7901,
+   "true": "Sony",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.2552059590816498
+  },
+  {
+   "case_id": 7935,
+   "true": "English",
+   "small_rank": 4,
+   "R_rank": 3,
+   "medium_prob": 0.1373165249824524
+  },
+  {
+   "case_id": 7940,
+   "true": "MTV",
+   "small_rank": 46,
+   "R_rank": 2,
+   "medium_prob": 0.1781025379896164
+  },
+  {
+   "case_id": 7941,
+   "true": "English",
+   "small_rank": 4,
+   "R_rank": 1,
+   "medium_prob": 0.16884124279022217
+  },
+  {
+   "case_id": 7956,
+   "true": "Adobe",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.30391010642051697
+  },
+  {
+   "case_id": 8020,
+   "true": "Seoul",
+   "small_rank": 17,
+   "R_rank": 4,
+   "medium_prob": 0.2673063576221466
+  },
+  {
+   "case_id": 8046,
+   "true": "Amazon",
+   "small_rank": 4,
+   "R_rank": 1,
+   "medium_prob": 0.39401885867118835
+  },
+  {
+   "case_id": 8068,
+   "true": "Russian",
+   "small_rank": 2,
+   "R_rank": 3,
+   "medium_prob": 0.15322330594062805
+  },
+  {
+   "case_id": 8137,
+   "true": "Microsoft",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.34372931718826294
+  },
+  {
+   "case_id": 8185,
+   "true": "French",
+   "small_rank": 3,
+   "R_rank": 3,
+   "medium_prob": 0.15658827126026154
+  },
+  {
+   "case_id": 8199,
+   "true": "Japan",
+   "small_rank": 11,
+   "R_rank": 2,
+   "medium_prob": 0.18205440044403076
+  },
+  {
+   "case_id": 8248,
+   "true": "Bulgarian",
+   "small_rank": 2,
+   "R_rank": 17,
+   "medium_prob": 0.054483041167259216
+  },
+  {
+   "case_id": 8260,
+   "true": "French",
+   "small_rank": 4,
+   "R_rank": 5,
+   "medium_prob": 0.11919962614774704
+  },
+  {
+   "case_id": 8268,
+   "true": "Sweden",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.22802437841892242
+  },
+  {
+   "case_id": 8298,
+   "true": "Tokyo",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.11285455524921417
+  },
+  {
+   "case_id": 8383,
+   "true": "Russian",
+   "small_rank": 4,
+   "R_rank": 1,
+   "medium_prob": 0.2282203584909439
+  },
+  {
+   "case_id": 8399,
+   "true": "soccer",
+   "small_rank": 6,
+   "R_rank": 4,
+   "medium_prob": 0.1394706666469574
+  },
+  {
+   "case_id": 8429,
+   "true": "Antarctica",
+   "small_rank": 2,
+   "R_rank": 12,
+   "medium_prob": 0.12289582937955856
+  },
+  {
+   "case_id": 8472,
+   "true": "Russian",
+   "small_rank": 5,
+   "R_rank": 2,
+   "medium_prob": 0.08060164749622345
+  },
+  {
+   "case_id": 8495,
+   "true": "Stamford",
+   "small_rank": 5,
+   "R_rank": 11,
+   "medium_prob": 0.8722488284111023
+  },
+  {
+   "case_id": 8510,
+   "true": "Sweden",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.24178776144981384
+  },
+  {
+   "case_id": 8520,
+   "true": "NBC",
+   "small_rank": 8,
+   "R_rank": 5,
+   "medium_prob": 0.062764473259449
+  },
+  {
+   "case_id": 8531,
+   "true": "basketball",
+   "small_rank": 8,
+   "R_rank": 1,
+   "medium_prob": 0.49979135394096375
+  },
+  {
+   "case_id": 8557,
+   "true": "Microsoft",
+   "small_rank": 9,
+   "R_rank": 3,
+   "medium_prob": 0.6109315752983093
+  },
+  {
+   "case_id": 8598,
+   "true": "Moscow",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.14735813438892365
+  },
+  {
+   "case_id": 8601,
+   "true": "Leeds",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.3384360373020172
+  },
+  {
+   "case_id": 8631,
+   "true": "English",
+   "small_rank": 5,
+   "R_rank": 6,
+   "medium_prob": 0.10399425029754639
+  },
+  {
+   "case_id": 8659,
+   "true": "Islam",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.2557506859302521
+  },
+  {
+   "case_id": 8780,
+   "true": "Rome",
+   "small_rank": 6,
+   "R_rank": 6,
+   "medium_prob": 0.05226116627454758
+  },
+  {
+   "case_id": 8791,
+   "true": "Poland",
+   "small_rank": 4,
+   "R_rank": 2,
+   "medium_prob": 0.5014492869377136
+  },
+  {
+   "case_id": 8820,
+   "true": "Antarctica",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.41774895787239075
+  },
+  {
+   "case_id": 8829,
+   "true": "Islam",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.19601498544216156
+  },
+  {
+   "case_id": 8893,
+   "true": "Italian",
+   "small_rank": 6,
+   "R_rank": 6,
+   "medium_prob": 0.06230809912085533
+  },
+  {
+   "case_id": 8937,
+   "true": "Apple",
+   "small_rank": 31,
+   "R_rank": 4,
+   "medium_prob": 0.08062077313661575
+  },
+  {
+   "case_id": 8946,
+   "true": "France",
+   "small_rank": 4,
+   "R_rank": 1,
+   "medium_prob": 0.28322717547416687
+  },
+  {
+   "case_id": 8947,
+   "true": "Apple",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.642492949962616
+  },
+  {
+   "case_id": 8953,
+   "true": "Antarctica",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.27042850852012634
+  },
+  {
+   "case_id": 8957,
+   "true": "soccer",
+   "small_rank": 3,
+   "R_rank": 4,
+   "medium_prob": 0.2382422238588333
+  },
+  {
+   "case_id": 8969,
+   "true": "London",
+   "small_rank": 4,
+   "R_rank": 2,
+   "medium_prob": 0.1253935545682907
+  },
+  {
+   "case_id": 9015,
+   "true": "Anaheim",
+   "small_rank": 3,
+   "R_rank": 7,
+   "medium_prob": 0.46290719509124756
+  },
+  {
+   "case_id": 9085,
+   "true": "India",
+   "small_rank": 7,
+   "R_rank": 3,
+   "medium_prob": 0.1149861291050911
+  },
+  {
+   "case_id": 9098,
+   "true": "Asia",
+   "small_rank": 4,
+   "R_rank": 11,
+   "medium_prob": 0.14594030380249023
+  },
+  {
+   "case_id": 9100,
+   "true": "Suzuki",
+   "small_rank": 3,
+   "R_rank": 2,
+   "medium_prob": 0.13047750294208527
+  },
+  {
+   "case_id": 9104,
+   "true": "Spanish",
+   "small_rank": 5,
+   "R_rank": 3,
+   "medium_prob": 0.14538095891475677
+  },
+  {
+   "case_id": 9149,
+   "true": "NBC",
+   "small_rank": 5,
+   "R_rank": 3,
+   "medium_prob": 0.21701525151729584
+  },
+  {
+   "case_id": 9205,
+   "true": "Oslo",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.2095128893852234
+  },
+  {
+   "case_id": 9213,
+   "true": "Edinburgh",
+   "small_rank": 2,
+   "R_rank": 4,
+   "medium_prob": 0.17705081403255463
+  },
+  {
+   "case_id": 9274,
+   "true": "Hebrew",
+   "small_rank": 156,
+   "R_rank": 32,
+   "medium_prob": 0.051734961569309235
+  },
+  {
+   "case_id": 9276,
+   "true": "Spanish",
+   "small_rank": 22,
+   "R_rank": 6,
+   "medium_prob": 0.09777817875146866
+  },
+  {
+   "case_id": 9303,
+   "true": "Sweden",
+   "small_rank": 2,
+   "R_rank": 3,
+   "medium_prob": 0.2894632816314697
+  },
+  {
+   "case_id": 9335,
+   "true": "France",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.1691383719444275
+  },
+  {
+   "case_id": 9356,
+   "true": "Florence",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.139317587018013
+  },
+  {
+   "case_id": 9407,
+   "true": "hockey",
+   "small_rank": 4,
+   "R_rank": 1,
+   "medium_prob": 0.18599164485931396
+  },
+  {
+   "case_id": 9416,
+   "true": "CBS",
+   "small_rank": 2,
+   "R_rank": 3,
+   "medium_prob": 0.2631106376647949
+  },
+  {
+   "case_id": 9452,
+   "true": "Apple",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.39269500970840454
+  },
+  {
+   "case_id": 9458,
+   "true": "Atari",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.3099920153617859
+  },
+  {
+   "case_id": 9470,
+   "true": "Amsterdam",
+   "small_rank": 3,
+   "R_rank": 33,
+   "medium_prob": 0.051962751895189285
+  },
+  {
+   "case_id": 9506,
+   "true": "Nintendo",
+   "small_rank": 2,
+   "R_rank": 3,
+   "medium_prob": 0.2119046151638031
+  },
+  {
+   "case_id": 9576,
+   "true": "Stockholm",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.6760504245758057
+  },
+  {
+   "case_id": 9645,
+   "true": "India",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.2803862392902374
+  },
+  {
+   "case_id": 9697,
+   "true": "France",
+   "small_rank": 3,
+   "R_rank": 2,
+   "medium_prob": 0.2117016762495041
+  },
+  {
+   "case_id": 9712,
+   "true": "Latin",
+   "small_rank": 3,
+   "R_rank": 2,
+   "medium_prob": 0.5984424352645874
+  },
+  {
+   "case_id": 9864,
+   "true": "Yahoo",
+   "small_rank": 31,
+   "R_rank": 25,
+   "medium_prob": 0.08672067523002625
+  },
+  {
+   "case_id": 9886,
+   "true": "Antarctica",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.42180338501930237
+  },
+  {
+   "case_id": 9959,
+   "true": "football",
+   "small_rank": 7,
+   "R_rank": 4,
+   "medium_prob": 0.09123726189136505
+  },
+  {
+   "case_id": 9962,
+   "true": "Microsoft",
+   "small_rank": 4,
+   "R_rank": 3,
+   "medium_prob": 0.4545558989048004
+  },
+  {
+   "case_id": 9977,
+   "true": "Microsoft",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.32920411229133606
+  },
+  {
+   "case_id": 10024,
+   "true": "Atlanta",
+   "small_rank": 5,
+   "R_rank": 3,
+   "medium_prob": 0.2862236499786377
+  },
+  {
+   "case_id": 10028,
+   "true": "Antarctica",
+   "small_rank": 4,
+   "R_rank": 1,
+   "medium_prob": 0.07811982929706573
+  },
+  {
+   "case_id": 10041,
+   "true": "English",
+   "small_rank": 5,
+   "R_rank": 6,
+   "medium_prob": 0.16338881850242615
+  },
+  {
+   "case_id": 10133,
+   "true": "French",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.5462455749511719
+  },
+  {
+   "case_id": 10136,
+   "true": "Microsoft",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.10940250754356384
+  },
+  {
+   "case_id": 10142,
+   "true": "Spanish",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.12207470089197159
+  },
+  {
+   "case_id": 10152,
+   "true": "Chicago",
+   "small_rank": 5,
+   "R_rank": 3,
+   "medium_prob": 0.07742410153150558
+  },
+  {
+   "case_id": 10212,
+   "true": "Islam",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.34318533539772034
+  },
+  {
+   "case_id": 10277,
+   "true": "Google",
+   "small_rank": 6,
+   "R_rank": 1,
+   "medium_prob": 0.09592298418283463
+  },
+  {
+   "case_id": 10314,
+   "true": "French",
+   "small_rank": 2,
+   "R_rank": 5,
+   "medium_prob": 0.17431722581386566
+  },
+  {
+   "case_id": 10318,
+   "true": "IBM",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.06787794083356857
+  },
+  {
+   "case_id": 10383,
+   "true": "Canada",
+   "small_rank": 12,
+   "R_rank": 11,
+   "medium_prob": 0.033681049942970276
+  },
+  {
+   "case_id": 10397,
+   "true": "Armenia",
+   "small_rank": 2,
+   "R_rank": 3,
+   "medium_prob": 0.35768458247184753
+  },
+  {
+   "case_id": 10421,
+   "true": "Ireland",
+   "small_rank": 3,
+   "R_rank": 2,
+   "medium_prob": 0.2723515033721924
+  },
+  {
+   "case_id": 10436,
+   "true": "Asia",
+   "small_rank": 4,
+   "R_rank": 3,
+   "medium_prob": 0.17363975942134857
+  },
+  {
+   "case_id": 10498,
+   "true": "Norway",
+   "small_rank": 6,
+   "R_rank": 4,
+   "medium_prob": 0.18532714247703552
+  },
+  {
+   "case_id": 10514,
+   "true": "Dodge",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.18289799988269806
+  },
+  {
+   "case_id": 10612,
+   "true": "English",
+   "small_rank": 11,
+   "R_rank": 1,
+   "medium_prob": 0.06753390282392502
+  },
+  {
+   "case_id": 10616,
+   "true": "French",
+   "small_rank": 6,
+   "R_rank": 2,
+   "medium_prob": 0.27284643054008484
+  },
+  {
+   "case_id": 10624,
+   "true": "London",
+   "small_rank": 2,
+   "R_rank": 3,
+   "medium_prob": 0.08710888773202896
+  },
+  {
+   "case_id": 10626,
+   "true": "French",
+   "small_rank": 6,
+   "R_rank": 6,
+   "medium_prob": 0.1403011828660965
+  },
+  {
+   "case_id": 10647,
+   "true": "Apple",
+   "small_rank": 4,
+   "R_rank": 2,
+   "medium_prob": 0.944433867931366
+  },
+  {
+   "case_id": 10660,
+   "true": "WWE",
+   "small_rank": 56,
+   "R_rank": 2,
+   "medium_prob": 0.49568551778793335
+  },
+  {
+   "case_id": 10669,
+   "true": "Antarctica",
+   "small_rank": 7,
+   "R_rank": 4,
+   "medium_prob": 0.11584731936454773
+  },
+  {
+   "case_id": 10671,
+   "true": "PBS",
+   "small_rank": 10,
+   "R_rank": 8,
+   "medium_prob": 0.08988846093416214
+  },
+  {
+   "case_id": 10687,
+   "true": "Apple",
+   "small_rank": 3,
+   "R_rank": 4,
+   "medium_prob": 0.4288465082645416
+  },
+  {
+   "case_id": 10771,
+   "true": "Munich",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.23220781981945038
+  },
+  {
+   "case_id": 10832,
+   "true": "Antarctica",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.37835991382598877
+  },
+  {
+   "case_id": 10863,
+   "true": "French",
+   "small_rank": 3,
+   "R_rank": 2,
+   "medium_prob": 0.11948578804731369
+  },
+  {
+   "case_id": 10901,
+   "true": "Islam",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.22418715059757233
+  },
+  {
+   "case_id": 10902,
+   "true": "Denmark",
+   "small_rank": 3,
+   "R_rank": 3,
+   "medium_prob": 0.21891270577907562
+  },
+  {
+   "case_id": 10931,
+   "true": "Volvo",
+   "small_rank": 3,
+   "R_rank": 3,
+   "medium_prob": 0.13028600811958313
+  },
+  {
+   "case_id": 10946,
+   "true": "Bentley",
+   "small_rank": 43,
+   "R_rank": 4,
+   "medium_prob": 0.21385642886161804
+  },
+  {
+   "case_id": 10977,
+   "true": "French",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.1787981241941452
+  },
+  {
+   "case_id": 10978,
+   "true": "Houston",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.1855485737323761
+  },
+  {
+   "case_id": 11030,
+   "true": "Russia",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.3185189664363861
+  },
+  {
+   "case_id": 11048,
+   "true": "Cuba",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.12845836579799652
+  },
+  {
+   "case_id": 11058,
+   "true": "NBC",
+   "small_rank": 75,
+   "R_rank": 20,
+   "medium_prob": 0.08716222643852234
+  },
+  {
+   "case_id": 11100,
+   "true": "Cleveland",
+   "small_rank": 8,
+   "R_rank": 5,
+   "medium_prob": 0.8218835592269897
+  },
+  {
+   "case_id": 11133,
+   "true": "Islam",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.15785278379917145
+  },
+  {
+   "case_id": 11147,
+   "true": "Japan",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.17790700495243073
+  },
+  {
+   "case_id": 11210,
+   "true": "Apple",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.09906482696533203
+  },
+  {
+   "case_id": 11228,
+   "true": "Asia",
+   "small_rank": 7,
+   "R_rank": 9,
+   "medium_prob": 0.14841756224632263
+  },
+  {
+   "case_id": 11238,
+   "true": "French",
+   "small_rank": 7,
+   "R_rank": 2,
+   "medium_prob": 0.24586006999015808
+  },
+  {
+   "case_id": 11252,
+   "true": "Japan",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.25407129526138306
+  },
+  {
+   "case_id": 11338,
+   "true": "Korea",
+   "small_rank": 2,
+   "R_rank": 3,
+   "medium_prob": 0.22799018025398254
+  },
+  {
+   "case_id": 11344,
+   "true": "Netflix",
+   "small_rank": 14,
+   "R_rank": 6,
+   "medium_prob": 0.07500040531158447
+  },
+  {
+   "case_id": 11347,
+   "true": "Microsoft",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.5174983739852905
+  },
+  {
+   "case_id": 11396,
+   "true": "French",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.3439011871814728
+  },
+  {
+   "case_id": 11413,
+   "true": "Boston",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.654323160648346
+  },
+  {
+   "case_id": 11431,
+   "true": "English",
+   "small_rank": 48,
+   "R_rank": 3,
+   "medium_prob": 0.12817464768886566
+  },
+  {
+   "case_id": 11458,
+   "true": "Dodge",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.15999004244804382
+  },
+  {
+   "case_id": 11515,
+   "true": "French",
+   "small_rank": 8,
+   "R_rank": 3,
+   "medium_prob": 0.1311856210231781
+  },
+  {
+   "case_id": 11551,
+   "true": "Islam",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.30543383955955505
+  },
+  {
+   "case_id": 11564,
+   "true": "Google",
+   "small_rank": 3,
+   "R_rank": 3,
+   "medium_prob": 0.15730907022953033
+  },
+  {
+   "case_id": 11581,
+   "true": "Google",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.48559191823005676
+  },
+  {
+   "case_id": 11590,
+   "true": "Adobe",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.7565781474113464
+  },
+  {
+   "case_id": 11668,
+   "true": "Islam",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.3602730929851532
+  },
+  {
+   "case_id": 11671,
+   "true": "Apple",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.31429195404052734
+  },
+  {
+   "case_id": 11672,
+   "true": "HBO",
+   "small_rank": 3,
+   "R_rank": 5,
+   "medium_prob": 0.21364378929138184
+  },
+  {
+   "case_id": 11680,
+   "true": "Microsoft",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.1949179470539093
+  },
+  {
+   "case_id": 11696,
+   "true": "Spanish",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.51705402135849
+  },
+  {
+   "case_id": 11701,
+   "true": "history",
+   "small_rank": 3,
+   "R_rank": 2,
+   "medium_prob": 0.08050479739904404
+  },
+  {
+   "case_id": 11721,
+   "true": "Swedish",
+   "small_rank": 34,
+   "R_rank": 5,
+   "medium_prob": 0.06829293817281723
+  },
+  {
+   "case_id": 11727,
+   "true": "French",
+   "small_rank": 2,
+   "R_rank": 3,
+   "medium_prob": 0.14037594199180603
+  },
+  {
+   "case_id": 11730,
+   "true": "London",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.13138826191425323
+  },
+  {
+   "case_id": 11850,
+   "true": "hockey",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.27601808309555054
+  },
+  {
+   "case_id": 11936,
+   "true": "Antarctica",
+   "small_rank": 5,
+   "R_rank": 4,
+   "medium_prob": 0.2615223526954651
+  },
+  {
+   "case_id": 11966,
+   "true": "Vienna",
+   "small_rank": 3,
+   "R_rank": 6,
+   "medium_prob": 0.3927622437477112
+  },
+  {
+   "case_id": 12038,
+   "true": "French",
+   "small_rank": 2,
+   "R_rank": 5,
+   "medium_prob": 0.16506381332874298
+  },
+  {
+   "case_id": 12089,
+   "true": "Finnish",
+   "small_rank": 70,
+   "R_rank": 6,
+   "medium_prob": 0.0885181874036789
+  },
+  {
+   "case_id": 12120,
+   "true": "Google",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.24929550290107727
+  },
+  {
+   "case_id": 12140,
+   "true": "English",
+   "small_rank": 54,
+   "R_rank": 5,
+   "medium_prob": 0.11618831753730774
+  },
+  {
+   "case_id": 12214,
+   "true": "French",
+   "small_rank": 4,
+   "R_rank": 5,
+   "medium_prob": 0.2633284628391266
+  },
+  {
+   "case_id": 12229,
+   "true": "Antarctica",
+   "small_rank": 3,
+   "R_rank": 7,
+   "medium_prob": 0.1530325710773468
+  },
+  {
+   "case_id": 12306,
+   "true": "Canada",
+   "small_rank": 6,
+   "R_rank": 7,
+   "medium_prob": 0.03474865481257439
+  },
+  {
+   "case_id": 12344,
+   "true": "English",
+   "small_rank": 6,
+   "R_rank": 1,
+   "medium_prob": 0.28658926486968994
+  },
+  {
+   "case_id": 12410,
+   "true": "Antarctica",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.20640195906162262
+  },
+  {
+   "case_id": 12419,
+   "true": "French",
+   "small_rank": 4,
+   "R_rank": 2,
+   "medium_prob": 0.144585520029068
+  },
+  {
+   "case_id": 12447,
+   "true": "France",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.07621500641107559
+  },
+  {
+   "case_id": 12459,
+   "true": "Chinese",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.12944045662879944
+  },
+  {
+   "case_id": 12537,
+   "true": "football",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.25659921765327454
+  },
+  {
+   "case_id": 12558,
+   "true": "Afghanistan",
+   "small_rank": 17,
+   "R_rank": 2,
+   "medium_prob": 0.020007364451885223
+  },
+  {
+   "case_id": 12595,
+   "true": "Germany",
+   "small_rank": 6,
+   "R_rank": 4,
+   "medium_prob": 0.037442658096551895
+  },
+  {
+   "case_id": 12600,
+   "true": "Dutch",
+   "small_rank": 10,
+   "R_rank": 7,
+   "medium_prob": 0.17791296541690826
+  },
+  {
+   "case_id": 12609,
+   "true": "Antarctica",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.14462389051914215
+  },
+  {
+   "case_id": 12664,
+   "true": "ESPN",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.10223285108804703
+  },
+  {
+   "case_id": 12679,
+   "true": "Toronto",
+   "small_rank": 8,
+   "R_rank": 2,
+   "medium_prob": 0.17471666634082794
+  },
+  {
+   "case_id": 12692,
+   "true": "economics",
+   "small_rank": 25,
+   "R_rank": 2,
+   "medium_prob": 0.035066381096839905
+  },
+  {
+   "case_id": 12725,
+   "true": "HBO",
+   "small_rank": 31,
+   "R_rank": 2,
+   "medium_prob": 0.09048087894916534
+  },
+  {
+   "case_id": 12729,
+   "true": "Paris",
+   "small_rank": 4,
+   "R_rank": 2,
+   "medium_prob": 0.33534494042396545
+  },
+  {
+   "case_id": 12733,
+   "true": "Apple",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.34623122215270996
+  },
+  {
+   "case_id": 12768,
+   "true": "Poland",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.09792710095643997
+  },
+  {
+   "case_id": 12779,
+   "true": "Persian",
+   "small_rank": 4,
+   "R_rank": 3,
+   "medium_prob": 0.39046281576156616
+  },
+  {
+   "case_id": 12790,
+   "true": "basketball",
+   "small_rank": 3,
+   "R_rank": 2,
+   "medium_prob": 0.1260068565607071
+  },
+  {
+   "case_id": 12927,
+   "true": "Antarctica",
+   "small_rank": 10,
+   "R_rank": 2,
+   "medium_prob": 0.1004834994673729
+  },
+  {
+   "case_id": 12943,
+   "true": "NBC",
+   "small_rank": 3,
+   "R_rank": 8,
+   "medium_prob": 0.10750222206115723
+  },
+  {
+   "case_id": 12967,
+   "true": "Italy",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.2688782215118408
+  },
+  {
+   "case_id": 12992,
+   "true": "French",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.10477565228939056
+  },
+  {
+   "case_id": 13011,
+   "true": "Apple",
+   "small_rank": 3,
+   "R_rank": 3,
+   "medium_prob": 0.2607548236846924
+  },
+  {
+   "case_id": 13016,
+   "true": "Dutch",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.4854567348957062
+  },
+  {
+   "case_id": 13062,
+   "true": "English",
+   "small_rank": 13,
+   "R_rank": 1,
+   "medium_prob": 0.21903806924819946
+  },
+  {
+   "case_id": 13072,
+   "true": "baseball",
+   "small_rank": 6,
+   "R_rank": 1,
+   "medium_prob": 0.5651065707206726
+  },
+  {
+   "case_id": 13121,
+   "true": "Apple",
+   "small_rank": 3,
+   "R_rank": 3,
+   "medium_prob": 0.4438571333885193
+  },
+  {
+   "case_id": 13158,
+   "true": "Italian",
+   "small_rank": 4,
+   "R_rank": 4,
+   "medium_prob": 0.1175379753112793
+  },
+  {
+   "case_id": 13159,
+   "true": "hockey",
+   "small_rank": 4,
+   "R_rank": 1,
+   "medium_prob": 0.3453080952167511
+  },
+  {
+   "case_id": 13196,
+   "true": "Oslo",
+   "small_rank": 2,
+   "R_rank": 23,
+   "medium_prob": 0.031249068677425385
+  },
+  {
+   "case_id": 13236,
+   "true": "Islam",
+   "small_rank": 3,
+   "R_rank": 2,
+   "medium_prob": 0.2636067569255829
+  },
+  {
+   "case_id": 13252,
+   "true": "Antarctica",
+   "small_rank": 4,
+   "R_rank": 2,
+   "medium_prob": 0.04887386038899422
+  },
+  {
+   "case_id": 13270,
+   "true": "Dutch",
+   "small_rank": 5,
+   "R_rank": 2,
+   "medium_prob": 0.1884327381849289
+  },
+  {
+   "case_id": 13365,
+   "true": "Google",
+   "small_rank": 4,
+   "R_rank": 5,
+   "medium_prob": 0.2631699740886688
+  },
+  {
+   "case_id": 13419,
+   "true": "Toronto",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.19346459209918976
+  },
+  {
+   "case_id": 13427,
+   "true": "Finnish",
+   "small_rank": 13,
+   "R_rank": 2,
+   "medium_prob": 0.06978949159383774
+  },
+  {
+   "case_id": 13429,
+   "true": "aviation",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.1110064685344696
+  },
+  {
+   "case_id": 13431,
+   "true": "Rome",
+   "small_rank": 2,
+   "R_rank": 7,
+   "medium_prob": 0.032572418451309204
+  },
+  {
+   "case_id": 13432,
+   "true": "English",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.14980916678905487
+  },
+  {
+   "case_id": 13472,
+   "true": "Japan",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.24035470187664032
+  },
+  {
+   "case_id": 13473,
+   "true": "Islam",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.21553906798362732
+  },
+  {
+   "case_id": 13592,
+   "true": "Africa",
+   "small_rank": 2,
+   "R_rank": 6,
+   "medium_prob": 0.3785744309425354
+  },
+  {
+   "case_id": 13595,
+   "true": "Dutch",
+   "small_rank": 3,
+   "R_rank": 7,
+   "medium_prob": 0.053999632596969604
+  },
+  {
+   "case_id": 13603,
+   "true": "Microsoft",
+   "small_rank": 155,
+   "R_rank": 2,
+   "medium_prob": 0.4922645390033722
+  },
+  {
+   "case_id": 13626,
+   "true": "Rome",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.12769067287445068
+  },
+  {
+   "case_id": 13632,
+   "true": "Italy",
+   "small_rank": 4,
+   "R_rank": 2,
+   "medium_prob": 0.28991687297821045
+  },
+  {
+   "case_id": 13639,
+   "true": "Triumph",
+   "small_rank": 10,
+   "R_rank": 3,
+   "medium_prob": 0.07663948088884354
+  },
+  {
+   "case_id": 13645,
+   "true": "Antarctica",
+   "small_rank": 8,
+   "R_rank": 6,
+   "medium_prob": 0.11633724719285965
+  },
+  {
+   "case_id": 13660,
+   "true": "Google",
+   "small_rank": 2,
+   "R_rank": 5,
+   "medium_prob": 0.19532877206802368
+  },
+  {
+   "case_id": 13677,
+   "true": "Nissan",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.14704936742782593
+  },
+  {
+   "case_id": 13707,
+   "true": "France",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.27610912919044495
+  },
+  {
+   "case_id": 13720,
+   "true": "Antarctica",
+   "small_rank": 7,
+   "R_rank": 5,
+   "medium_prob": 0.28088000416755676
+  },
+  {
+   "case_id": 13755,
+   "true": "Russian",
+   "small_rank": 2,
+   "R_rank": 4,
+   "medium_prob": 0.10878884047269821
+  },
+  {
+   "case_id": 13768,
+   "true": "Japan",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.06768251210451126
+  },
+  {
+   "case_id": 13814,
+   "true": "Dutch",
+   "small_rank": 3,
+   "R_rank": 5,
+   "medium_prob": 0.22937346994876862
+  },
+  {
+   "case_id": 13854,
+   "true": "Apple",
+   "small_rank": 3,
+   "R_rank": 2,
+   "medium_prob": 0.07802288979291916
+  },
+  {
+   "case_id": 13866,
+   "true": "Ferrari",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.1454070508480072
+  },
+  {
+   "case_id": 13900,
+   "true": "France",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.3527524173259735
+  },
+  {
+   "case_id": 13910,
+   "true": "France",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.3141237497329712
+  },
+  {
+   "case_id": 13913,
+   "true": "France",
+   "small_rank": 4,
+   "R_rank": 1,
+   "medium_prob": 0.19093525409698486
+  },
+  {
+   "case_id": 13943,
+   "true": "Beijing",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.22147785127162933
+  },
+  {
+   "case_id": 13944,
+   "true": "Pakistan",
+   "small_rank": 8,
+   "R_rank": 2,
+   "medium_prob": 0.12145981937646866
+  },
+  {
+   "case_id": 14006,
+   "true": "English",
+   "small_rank": 13,
+   "R_rank": 7,
+   "medium_prob": 0.057520098984241486
+  },
+  {
+   "case_id": 14028,
+   "true": "Dodge",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.156087726354599
+  },
+  {
+   "case_id": 14051,
+   "true": "Islam",
+   "small_rank": 2,
+   "R_rank": 3,
+   "medium_prob": 0.2116282731294632
+  },
+  {
+   "case_id": 14084,
+   "true": "Antarctica",
+   "small_rank": 7,
+   "R_rank": 5,
+   "medium_prob": 0.07724077254533768
+  },
+  {
+   "case_id": 14122,
+   "true": "Houston",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.3087034821510315
+  },
+  {
+   "case_id": 14148,
+   "true": "English",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.07637473195791245
+  },
+  {
+   "case_id": 14182,
+   "true": "Leicester",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.2842949330806732
+  },
+  {
+   "case_id": 14183,
+   "true": "Apple",
+   "small_rank": 110,
+   "R_rank": 12,
+   "medium_prob": 0.11956432461738586
+  },
+  {
+   "case_id": 14201,
+   "true": "Intel",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.1319696009159088
+  },
+  {
+   "case_id": 14211,
+   "true": "Sega",
+   "small_rank": 7,
+   "R_rank": 2,
+   "medium_prob": 0.04220568761229515
+  },
+  {
+   "case_id": 14222,
+   "true": "Russia",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.22538483142852783
+  },
+  {
+   "case_id": 14241,
+   "true": "actor",
+   "small_rank": 50,
+   "R_rank": 5,
+   "medium_prob": 0.036263927817344666
+  },
+  {
+   "case_id": 14244,
+   "true": "Yamaha",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.5626870393753052
+  },
+  {
+   "case_id": 14247,
+   "true": "Greece",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.5626717209815979
+  },
+  {
+   "case_id": 14273,
+   "true": "Swedish",
+   "small_rank": 7,
+   "R_rank": 4,
+   "medium_prob": 0.10240957885980606
+  },
+  {
+   "case_id": 14277,
+   "true": "Toyota",
+   "small_rank": 4,
+   "R_rank": 3,
+   "medium_prob": 0.2118520736694336
+  },
+  {
+   "case_id": 14282,
+   "true": "Dutch",
+   "small_rank": 27,
+   "R_rank": 1,
+   "medium_prob": 0.30915331840515137
+  },
+  {
+   "case_id": 14288,
+   "true": "Italian",
+   "small_rank": 3,
+   "R_rank": 3,
+   "medium_prob": 0.14797192811965942
+  },
+  {
+   "case_id": 14292,
+   "true": "English",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.17842818796634674
+  },
+  {
+   "case_id": 14293,
+   "true": "Finland",
+   "small_rank": 4,
+   "R_rank": 4,
+   "medium_prob": 0.12537436187267303
+  },
+  {
+   "case_id": 14294,
+   "true": "Europe",
+   "small_rank": 2,
+   "R_rank": 3,
+   "medium_prob": 0.35128143429756165
+  },
+  {
+   "case_id": 14297,
+   "true": "CBS",
+   "small_rank": 162,
+   "R_rank": 3,
+   "medium_prob": 0.448199987411499
+  },
+  {
+   "case_id": 14301,
+   "true": "Dodge",
+   "small_rank": 98,
+   "R_rank": 4,
+   "medium_prob": 0.07312954217195511
+  },
+  {
+   "case_id": 14311,
+   "true": "Russian",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.1930275857448578
+  },
+  {
+   "case_id": 14320,
+   "true": "Turkish",
+   "small_rank": 12,
+   "R_rank": 7,
+   "medium_prob": 0.16610850393772125
+  },
+  {
+   "case_id": 14327,
+   "true": "Paris",
+   "small_rank": 7,
+   "R_rank": 6,
+   "medium_prob": 0.662307620048523
+  },
+  {
+   "case_id": 14371,
+   "true": "NBC",
+   "small_rank": 5,
+   "R_rank": 3,
+   "medium_prob": 0.21922048926353455
+  },
+  {
+   "case_id": 14373,
+   "true": "Islam",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.28797975182533264
+  },
+  {
+   "case_id": 14422,
+   "true": "Chinese",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.09395502507686615
+  },
+  {
+   "case_id": 14462,
+   "true": "Apple",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.5299429893493652
+  },
+  {
+   "case_id": 14486,
+   "true": "Apple",
+   "small_rank": 2,
+   "R_rank": 3,
+   "medium_prob": 0.17226018011569977
+  },
+  {
+   "case_id": 14510,
+   "true": "France",
+   "small_rank": 2,
+   "R_rank": 3,
+   "medium_prob": 0.027208540588617325
+  },
+  {
+   "case_id": 14645,
+   "true": "Pakistan",
+   "small_rank": 11,
+   "R_rank": 1,
+   "medium_prob": 0.05194913223385811
+  },
+  {
+   "case_id": 14788,
+   "true": "Ukraine",
+   "small_rank": 3,
+   "R_rank": 2,
+   "medium_prob": 0.16283997893333435
+  },
+  {
+   "case_id": 14859,
+   "true": "Chile",
+   "small_rank": 2,
+   "R_rank": 3,
+   "medium_prob": 0.3031122088432312
+  },
+  {
+   "case_id": 14862,
+   "true": "Cadillac",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.12263437360525131
+  },
+  {
+   "case_id": 14922,
+   "true": "Baghdad",
+   "small_rank": 54,
+   "R_rank": 28,
+   "medium_prob": 0.11670627444982529
+  },
+  {
+   "case_id": 14943,
+   "true": "Italy",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.39255961775779724
+  },
+  {
+   "case_id": 14968,
+   "true": "Dutch",
+   "small_rank": 3,
+   "R_rank": 3,
+   "medium_prob": 0.4283081889152527
+  },
+  {
+   "case_id": 14976,
+   "true": "Spanish",
+   "small_rank": 6,
+   "R_rank": 1,
+   "medium_prob": 0.19834837317466736
+  },
+  {
+   "case_id": 14998,
+   "true": "Microsoft",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.10950246453285217
+  },
+  {
+   "case_id": 15023,
+   "true": "India",
+   "small_rank": 3,
+   "R_rank": 2,
+   "medium_prob": 0.19618229568004608
+  },
+  {
+   "case_id": 15030,
+   "true": "London",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.20762664079666138
+  },
+  {
+   "case_id": 15105,
+   "true": "Persian",
+   "small_rank": 34,
+   "R_rank": 1,
+   "medium_prob": 0.14038869738578796
+  },
+  {
+   "case_id": 15108,
+   "true": "soccer",
+   "small_rank": 8,
+   "R_rank": 5,
+   "medium_prob": 0.18311887979507446
+  },
+  {
+   "case_id": 15139,
+   "true": "Santiago",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.6387038230895996
+  },
+  {
+   "case_id": 15140,
+   "true": "India",
+   "small_rank": 3,
+   "R_rank": 2,
+   "medium_prob": 0.10481707751750946
+  },
+  {
+   "case_id": 15159,
+   "true": "Nintendo",
+   "small_rank": 8,
+   "R_rank": 1,
+   "medium_prob": 0.06320523470640182
+  },
+  {
+   "case_id": 15168,
+   "true": "Melbourne",
+   "small_rank": 2,
+   "R_rank": 3,
+   "medium_prob": 0.17679709196090698
+  },
+  {
+   "case_id": 15210,
+   "true": "French",
+   "small_rank": 3,
+   "R_rank": 7,
+   "medium_prob": 0.11095359921455383
+  },
+  {
+   "case_id": 15223,
+   "true": "Hindi",
+   "small_rank": 10,
+   "R_rank": 9,
+   "medium_prob": 0.07257135957479477
+  },
+  {
+   "case_id": 15254,
+   "true": "IBM",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.2707612216472626
+  },
+  {
+   "case_id": 15281,
+   "true": "Vietnam",
+   "small_rank": 6,
+   "R_rank": 5,
+   "medium_prob": 0.17244838178157806
+  },
+  {
+   "case_id": 15410,
+   "true": "English",
+   "small_rank": 4,
+   "R_rank": 1,
+   "medium_prob": 0.28846263885498047
+  },
+  {
+   "case_id": 15418,
+   "true": "Russian",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.32162874937057495
+  },
+  {
+   "case_id": 15438,
+   "true": "Apple",
+   "small_rank": 3,
+   "R_rank": 2,
+   "medium_prob": 0.27463096380233765
+  },
+  {
+   "case_id": 15549,
+   "true": "Poland",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.37209612131118774
+  },
+  {
+   "case_id": 15574,
+   "true": "actor",
+   "small_rank": 16,
+   "R_rank": 1,
+   "medium_prob": 0.07843995094299316
+  },
+  {
+   "case_id": 15592,
+   "true": "French",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.18971297144889832
+  },
+  {
+   "case_id": 15606,
+   "true": "Iran",
+   "small_rank": 5,
+   "R_rank": 1,
+   "medium_prob": 0.24460405111312866
+  },
+  {
+   "case_id": 15684,
+   "true": "London",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.48873963952064514
+  },
+  {
+   "case_id": 15717,
+   "true": "Europe",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.33930066227912903
+  },
+  {
+   "case_id": 15835,
+   "true": "Philippines",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.17552708089351654
+  },
+  {
+   "case_id": 15845,
+   "true": "Apple",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.3564106225967407
+  },
+  {
+   "case_id": 15873,
+   "true": "Tokyo",
+   "small_rank": 5,
+   "R_rank": 1,
+   "medium_prob": 0.1891707330942154
+  },
+  {
+   "case_id": 15876,
+   "true": "Intel",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.12781283259391785
+  },
+  {
+   "case_id": 15901,
+   "true": "Square",
+   "small_rank": 115,
+   "R_rank": 4,
+   "medium_prob": 0.09513845294713974
+  },
+  {
+   "case_id": 15917,
+   "true": "Triumph",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.1011028066277504
+  },
+  {
+   "case_id": 15920,
+   "true": "English",
+   "small_rank": 38,
+   "R_rank": 4,
+   "medium_prob": 0.1025603786110878
+  },
+  {
+   "case_id": 15931,
+   "true": "ESPN",
+   "small_rank": 89,
+   "R_rank": 2,
+   "medium_prob": 0.098414845764637
+  },
+  {
+   "case_id": 15943,
+   "true": "Japan",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.31337448954582214
+  },
+  {
+   "case_id": 15958,
+   "true": "Microsoft",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.2914215624332428
+  },
+  {
+   "case_id": 15962,
+   "true": "Catalan",
+   "small_rank": 4,
+   "R_rank": 4,
+   "medium_prob": 0.053919579833745956
+  },
+  {
+   "case_id": 15993,
+   "true": "Google",
+   "small_rank": 3,
+   "R_rank": 2,
+   "medium_prob": 0.17629383504390717
+  },
+  {
+   "case_id": 16016,
+   "true": "Russian",
+   "small_rank": 8,
+   "R_rank": 4,
+   "medium_prob": 0.12599864602088928
+  },
+  {
+   "case_id": 16042,
+   "true": "French",
+   "small_rank": 21,
+   "R_rank": 4,
+   "medium_prob": 0.0694970190525055
+  },
+  {
+   "case_id": 16050,
+   "true": "India",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.14821608364582062
+  },
+  {
+   "case_id": 16114,
+   "true": "France",
+   "small_rank": 4,
+   "R_rank": 1,
+   "medium_prob": 0.22457775473594666
+  },
+  {
+   "case_id": 16165,
+   "true": "Europe",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.2552863657474518
+  },
+  {
+   "case_id": 16186,
+   "true": "WWE",
+   "small_rank": 9,
+   "R_rank": 1,
+   "medium_prob": 0.17815342545509338
+  },
+  {
+   "case_id": 16213,
+   "true": "IBM",
+   "small_rank": 2,
+   "R_rank": 3,
+   "medium_prob": 0.1476777195930481
+  },
+  {
+   "case_id": 16215,
+   "true": "Asia",
+   "small_rank": 18,
+   "R_rank": 12,
+   "medium_prob": 0.23859380185604095
+  },
+  {
+   "case_id": 16218,
+   "true": "Italy",
+   "small_rank": 4,
+   "R_rank": 2,
+   "medium_prob": 0.17068032920360565
+  },
+  {
+   "case_id": 16223,
+   "true": "English",
+   "small_rank": 12,
+   "R_rank": 1,
+   "medium_prob": 0.4522011876106262
+  },
+  {
+   "case_id": 16302,
+   "true": "French",
+   "small_rank": 5,
+   "R_rank": 4,
+   "medium_prob": 0.19770218431949615
+  },
+  {
+   "case_id": 16307,
+   "true": "CBS",
+   "small_rank": 15,
+   "R_rank": 2,
+   "medium_prob": 0.18403534591197968
+  },
+  {
+   "case_id": 16395,
+   "true": "Islam",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.2550286650657654
+  },
+  {
+   "case_id": 16479,
+   "true": "hockey",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.22049947082996368
+  },
+  {
+   "case_id": 16497,
+   "true": "Dutch",
+   "small_rank": 6,
+   "R_rank": 2,
+   "medium_prob": 0.2637885510921478
+  },
+  {
+   "case_id": 16506,
+   "true": "Sega",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.2732088267803192
+  },
+  {
+   "case_id": 16539,
+   "true": "Chinese",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.06590200960636139
+  },
+  {
+   "case_id": 16562,
+   "true": "Poland",
+   "small_rank": 34,
+   "R_rank": 1,
+   "medium_prob": 0.12403417378664017
+  },
+  {
+   "case_id": 16571,
+   "true": "London",
+   "small_rank": 84,
+   "R_rank": 2,
+   "medium_prob": 0.15523119270801544
+  },
+  {
+   "case_id": 16592,
+   "true": "English",
+   "small_rank": 9,
+   "R_rank": 1,
+   "medium_prob": 0.3107714056968689
+  },
+  {
+   "case_id": 16605,
+   "true": "Sky",
+   "small_rank": 9,
+   "R_rank": 2,
+   "medium_prob": 0.06871914863586426
+  },
+  {
+   "case_id": 16615,
+   "true": "English",
+   "small_rank": 4,
+   "R_rank": 1,
+   "medium_prob": 0.15647922456264496
+  },
+  {
+   "case_id": 16626,
+   "true": "basketball",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.12851817905902863
+  },
+  {
+   "case_id": 16675,
+   "true": "Vietnam",
+   "small_rank": 17,
+   "R_rank": 7,
+   "medium_prob": 0.266124427318573
+  },
+  {
+   "case_id": 16743,
+   "true": "NBC",
+   "small_rank": 8,
+   "R_rank": 5,
+   "medium_prob": 0.11849592626094818
+  },
+  {
+   "case_id": 16771,
+   "true": "Tamil",
+   "small_rank": 157,
+   "R_rank": 3,
+   "medium_prob": 0.06415048241615295
+  },
+  {
+   "case_id": 16779,
+   "true": "Yamaha",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.6104552149772644
+  },
+  {
+   "case_id": 16787,
+   "true": "Portuguese",
+   "small_rank": 5,
+   "R_rank": 1,
+   "medium_prob": 0.2588898837566376
+  },
+  {
+   "case_id": 16791,
+   "true": "Ferrari",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.1292167454957962
+  },
+  {
+   "case_id": 16806,
+   "true": "Antarctica",
+   "small_rank": 6,
+   "R_rank": 4,
+   "medium_prob": 0.19336546957492828
+  },
+  {
+   "case_id": 16810,
+   "true": "Intel",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.5423719882965088
+  },
+  {
+   "case_id": 16811,
+   "true": "Mexico",
+   "small_rank": 6,
+   "R_rank": 5,
+   "medium_prob": 0.17676860094070435
+  },
+  {
+   "case_id": 16833,
+   "true": "English",
+   "small_rank": 26,
+   "R_rank": 4,
+   "medium_prob": 0.10303125530481339
+  },
+  {
+   "case_id": 16841,
+   "true": "hockey",
+   "small_rank": 4,
+   "R_rank": 1,
+   "medium_prob": 0.10144869983196259
+  },
+  {
+   "case_id": 16979,
+   "true": "Spanish",
+   "small_rank": 5,
+   "R_rank": 4,
+   "medium_prob": 0.10371657460927963
+  },
+  {
+   "case_id": 16989,
+   "true": "Tokyo",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.46967121958732605
+  },
+  {
+   "case_id": 17031,
+   "true": "English",
+   "small_rank": 16,
+   "R_rank": 8,
+   "medium_prob": 0.05742599815130234
+  },
+  {
+   "case_id": 17059,
+   "true": "soccer",
+   "small_rank": 6,
+   "R_rank": 1,
+   "medium_prob": 0.28029683232307434
+  },
+  {
+   "case_id": 17073,
+   "true": "Ferrari",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.2046869397163391
+  },
+  {
+   "case_id": 17076,
+   "true": "Spanish",
+   "small_rank": 7,
+   "R_rank": 2,
+   "medium_prob": 0.3346441686153412
+  },
+  {
+   "case_id": 17100,
+   "true": "Microsoft",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.7276081442832947
+  },
+  {
+   "case_id": 17130,
+   "true": "London",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.03904646262526512
+  },
+  {
+   "case_id": 17131,
+   "true": "Dutch",
+   "small_rank": 9,
+   "R_rank": 1,
+   "medium_prob": 0.22907206416130066
+  },
+  {
+   "case_id": 17160,
+   "true": "Vienna",
+   "small_rank": 2,
+   "R_rank": 6,
+   "medium_prob": 0.3710658848285675
+  },
+  {
+   "case_id": 17180,
+   "true": "Africa",
+   "small_rank": 2,
+   "R_rank": 3,
+   "medium_prob": 0.39699795842170715
+  },
+  {
+   "case_id": 17216,
+   "true": "hunting",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.05871406942605972
+  },
+  {
+   "case_id": 17255,
+   "true": "Norway",
+   "small_rank": 4,
+   "R_rank": 3,
+   "medium_prob": 0.33397433161735535
+  },
+  {
+   "case_id": 17258,
+   "true": "French",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.3579545021057129
+  },
+  {
+   "case_id": 17266,
+   "true": "Google",
+   "small_rank": 3,
+   "R_rank": 4,
+   "medium_prob": 0.28128781914711
+  },
+  {
+   "case_id": 17350,
+   "true": "Islam",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.21709245443344116
+  },
+  {
+   "case_id": 17390,
+   "true": "French",
+   "small_rank": 6,
+   "R_rank": 1,
+   "medium_prob": 0.2584541440010071
+  },
+  {
+   "case_id": 17401,
+   "true": "French",
+   "small_rank": 2,
+   "R_rank": 3,
+   "medium_prob": 0.13646970689296722
+  },
+  {
+   "case_id": 17402,
+   "true": "Antarctica",
+   "small_rank": 6,
+   "R_rank": 1,
+   "medium_prob": 0.06444700807332993
+  },
+  {
+   "case_id": 17449,
+   "true": "French",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.3232547342777252
+  },
+  {
+   "case_id": 17507,
+   "true": "bishop",
+   "small_rank": 23,
+   "R_rank": 2,
+   "medium_prob": 0.050094977021217346
+  },
+  {
+   "case_id": 17573,
+   "true": "English",
+   "small_rank": 21,
+   "R_rank": 3,
+   "medium_prob": 0.11586704105138779
+  },
+  {
+   "case_id": 17585,
+   "true": "Italy",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.21289370954036713
+  },
+  {
+   "case_id": 17586,
+   "true": "Melbourne",
+   "small_rank": 2,
+   "R_rank": 3,
+   "medium_prob": 0.25847968459129333
+  },
+  {
+   "case_id": 17654,
+   "true": "Finland",
+   "small_rank": 41,
+   "R_rank": 2,
+   "medium_prob": 0.2058034986257553
+  },
+  {
+   "case_id": 17751,
+   "true": "London",
+   "small_rank": 2,
+   "R_rank": 3,
+   "medium_prob": 0.06865682452917099
+  },
+  {
+   "case_id": 17761,
+   "true": "Suzuki",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.12442357838153839
+  },
+  {
+   "case_id": 17799,
+   "true": "Russian",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.20535284280776978
+  },
+  {
+   "case_id": 17817,
+   "true": "Russian",
+   "small_rank": 8,
+   "R_rank": 2,
+   "medium_prob": 0.2433004379272461
+  },
+  {
+   "case_id": 17827,
+   "true": "Antarctica",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.24571770429611206
+  },
+  {
+   "case_id": 17829,
+   "true": "Japan",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.07497464120388031
+  },
+  {
+   "case_id": 17841,
+   "true": "Islam",
+   "small_rank": 3,
+   "R_rank": 2,
+   "medium_prob": 0.173860102891922
+  },
+  {
+   "case_id": 17897,
+   "true": "Islam",
+   "small_rank": 2,
+   "R_rank": 3,
+   "medium_prob": 0.31180933117866516
+  },
+  {
+   "case_id": 17930,
+   "true": "Paris",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.12630431354045868
+  },
+  {
+   "case_id": 17935,
+   "true": "France",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.17698509991168976
+  },
+  {
+   "case_id": 17978,
+   "true": "Apple",
+   "small_rank": 3,
+   "R_rank": 3,
+   "medium_prob": 0.11738383024930954
+  },
+  {
+   "case_id": 18040,
+   "true": "Japan",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.1599038541316986
+  },
+  {
+   "case_id": 18049,
+   "true": "Microsoft",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.6803168654441833
+  },
+  {
+   "case_id": 18108,
+   "true": "Italy",
+   "small_rank": 4,
+   "R_rank": 2,
+   "medium_prob": 0.053153105080127716
+  },
+  {
+   "case_id": 18164,
+   "true": "Paris",
+   "small_rank": 3,
+   "R_rank": 2,
+   "medium_prob": 0.028209460899233818
+  },
+  {
+   "case_id": 18172,
+   "true": "India",
+   "small_rank": 4,
+   "R_rank": 2,
+   "medium_prob": 0.225498765707016
+  },
+  {
+   "case_id": 18206,
+   "true": "Japan",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.2893944978713989
+  },
+  {
+   "case_id": 18284,
+   "true": "Romanian",
+   "small_rank": 4,
+   "R_rank": 1,
+   "medium_prob": 0.5918009877204895
+  },
+  {
+   "case_id": 18290,
+   "true": "Dutch",
+   "small_rank": 23,
+   "R_rank": 3,
+   "medium_prob": 0.17404866218566895
+  },
+  {
+   "case_id": 18307,
+   "true": "Brazil",
+   "small_rank": 2,
+   "R_rank": 4,
+   "medium_prob": 0.19833344221115112
+  },
+  {
+   "case_id": 18316,
+   "true": "Islam",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.2749935984611511
+  },
+  {
+   "case_id": 18328,
+   "true": "bishop",
+   "small_rank": 16,
+   "R_rank": 2,
+   "medium_prob": 0.0654551312327385
+  },
+  {
+   "case_id": 18364,
+   "true": "Renault",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.13534052670001984
+  },
+  {
+   "case_id": 18369,
+   "true": "IBM",
+   "small_rank": 3,
+   "R_rank": 2,
+   "medium_prob": 0.16324888169765472
+  },
+  {
+   "case_id": 18403,
+   "true": "Antarctica",
+   "small_rank": 2,
+   "R_rank": 3,
+   "medium_prob": 0.026371167972683907
+  },
+  {
+   "case_id": 18479,
+   "true": "Finnish",
+   "small_rank": 10,
+   "R_rank": 1,
+   "medium_prob": 0.19018737971782684
+  },
+  {
+   "case_id": 18487,
+   "true": "London",
+   "small_rank": 2,
+   "R_rank": 4,
+   "medium_prob": 0.08679823577404022
+  },
+  {
+   "case_id": 18516,
+   "true": "Shanghai",
+   "small_rank": 7,
+   "R_rank": 3,
+   "medium_prob": 0.36563733220100403
+  },
+  {
+   "case_id": 18539,
+   "true": "Dodge",
+   "small_rank": 13,
+   "R_rank": 4,
+   "medium_prob": 0.0817277580499649
+  },
+  {
+   "case_id": 18593,
+   "true": "French",
+   "small_rank": 2,
+   "R_rank": 3,
+   "medium_prob": 0.13542965054512024
+  },
+  {
+   "case_id": 18608,
+   "true": "French",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.3151797950267792
+  },
+  {
+   "case_id": 18642,
+   "true": "French",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.3463647663593292
+  },
+  {
+   "case_id": 18688,
+   "true": "Douglas",
+   "small_rank": 3,
+   "R_rank": 4,
+   "medium_prob": 0.07468307763338089
+  },
+  {
+   "case_id": 18705,
+   "true": "Google",
+   "small_rank": 4,
+   "R_rank": 6,
+   "medium_prob": 0.13577574491500854
+  },
+  {
+   "case_id": 18724,
+   "true": "Japan",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.25275954604148865
+  },
+  {
+   "case_id": 18728,
+   "true": "London",
+   "small_rank": 6,
+   "R_rank": 3,
+   "medium_prob": 0.094917431473732
+  },
+  {
+   "case_id": 18734,
+   "true": "Europe",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.2007397711277008
+  },
+  {
+   "case_id": 18737,
+   "true": "Africa",
+   "small_rank": 4,
+   "R_rank": 28,
+   "medium_prob": 0.031238701194524765
+  },
+  {
+   "case_id": 18741,
+   "true": "Iran",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.45624488592147827
+  },
+  {
+   "case_id": 18759,
+   "true": "India",
+   "small_rank": 2,
+   "R_rank": 3,
+   "medium_prob": 0.15759137272834778
+  },
+  {
+   "case_id": 18788,
+   "true": "Japan",
+   "small_rank": 5,
+   "R_rank": 2,
+   "medium_prob": 0.22424782812595367
+  },
+  {
+   "case_id": 18792,
+   "true": "Vancouver",
+   "small_rank": 3,
+   "R_rank": 2,
+   "medium_prob": 0.3443717956542969
+  },
+  {
+   "case_id": 18795,
+   "true": "Iran",
+   "small_rank": 4,
+   "R_rank": 2,
+   "medium_prob": 0.18522082269191742
+  },
+  {
+   "case_id": 18836,
+   "true": "Apple",
+   "small_rank": 4,
+   "R_rank": 1,
+   "medium_prob": 0.42803362011909485
+  },
+  {
+   "case_id": 18876,
+   "true": "genetics",
+   "small_rank": 78,
+   "R_rank": 1,
+   "medium_prob": 0.09162592142820358
+  },
+  {
+   "case_id": 18910,
+   "true": "Dutch",
+   "small_rank": 21,
+   "R_rank": 6,
+   "medium_prob": 0.4646247625350952
+  },
+  {
+   "case_id": 18951,
+   "true": "India",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.1653507947921753
+  },
+  {
+   "case_id": 18958,
+   "true": "Paris",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.16676966845989227
+  },
+  {
+   "case_id": 18976,
+   "true": "London",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.12718871235847473
+  },
+  {
+   "case_id": 18978,
+   "true": "French",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.27504268288612366
+  },
+  {
+   "case_id": 19002,
+   "true": "Apple",
+   "small_rank": 3,
+   "R_rank": 2,
+   "medium_prob": 0.2831476032733917
+  },
+  {
+   "case_id": 19042,
+   "true": "Adobe",
+   "small_rank": 3,
+   "R_rank": 2,
+   "medium_prob": 0.37741366028785706
+  },
+  {
+   "case_id": 19051,
+   "true": "Antarctica",
+   "small_rank": 7,
+   "R_rank": 4,
+   "medium_prob": 0.36698389053344727
+  },
+  {
+   "case_id": 19188,
+   "true": "Apple",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.7257392406463623
+  },
+  {
+   "case_id": 19220,
+   "true": "Germany",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.23269811272621155
+  },
+  {
+   "case_id": 19230,
+   "true": "Frankfurt",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.1708487570285797
+  },
+  {
+   "case_id": 19242,
+   "true": "India",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.2514243721961975
+  },
+  {
+   "case_id": 19256,
+   "true": "French",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.14286230504512787
+  },
+  {
+   "case_id": 19332,
+   "true": "Asia",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.4287512004375458
+  },
+  {
+   "case_id": 19362,
+   "true": "Adobe",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.5392524003982544
+  },
+  {
+   "case_id": 19382,
+   "true": "Dodge",
+   "small_rank": 3,
+   "R_rank": 2,
+   "medium_prob": 0.12253934144973755
+  },
+  {
+   "case_id": 19386,
+   "true": "Atari",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.375082790851593
+  },
+  {
+   "case_id": 19426,
+   "true": "Russian",
+   "small_rank": 3,
+   "R_rank": 2,
+   "medium_prob": 0.1965990662574768
+  },
+  {
+   "case_id": 19433,
+   "true": "Apple",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.6609892845153809
+  },
+  {
+   "case_id": 19449,
+   "true": "English",
+   "small_rank": 5,
+   "R_rank": 3,
+   "medium_prob": 0.07830731570720673
+  },
+  {
+   "case_id": 19468,
+   "true": "Douglas",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.31552767753601074
+  },
+  {
+   "case_id": 19492,
+   "true": "Spanish",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.31772565841674805
+  },
+  {
+   "case_id": 19525,
+   "true": "French",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.32470595836639404
+  },
+  {
+   "case_id": 19536,
+   "true": "Russian",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.3275972306728363
+  },
+  {
+   "case_id": 19598,
+   "true": "Google",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.14100618660449982
+  },
+  {
+   "case_id": 19682,
+   "true": "Edmonton",
+   "small_rank": 3,
+   "R_rank": 3,
+   "medium_prob": 0.1732129156589508
+  },
+  {
+   "case_id": 19805,
+   "true": "France",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.25706958770751953
+  },
+  {
+   "case_id": 19806,
+   "true": "Italy",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.25933948159217834
+  },
+  {
+   "case_id": 19813,
+   "true": "Germany",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.3298736810684204
+  },
+  {
+   "case_id": 19855,
+   "true": "Europe",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.5970543622970581
+  },
+  {
+   "case_id": 19888,
+   "true": "baseball",
+   "small_rank": 6,
+   "R_rank": 2,
+   "medium_prob": 0.6573086380958557
+  },
+  {
+   "case_id": 19892,
+   "true": "Finland",
+   "small_rank": 4,
+   "R_rank": 1,
+   "medium_prob": 0.5190818309783936
+  },
+  {
+   "case_id": 19911,
+   "true": "Douglas",
+   "small_rank": 59,
+   "R_rank": 21,
+   "medium_prob": 0.03494192659854889
+  },
+  {
+   "case_id": 19912,
+   "true": "London",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.11577842384576797
+  },
+  {
+   "case_id": 19914,
+   "true": "Ferrari",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.16490435600280762
+  },
+  {
+   "case_id": 19921,
+   "true": "English",
+   "small_rank": 68,
+   "R_rank": 5,
+   "medium_prob": 0.09539543837308884
+  },
+  {
+   "case_id": 19947,
+   "true": "Toyota",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.1996847540140152
+  },
+  {
+   "case_id": 19958,
+   "true": "BBC",
+   "small_rank": 13,
+   "R_rank": 1,
+   "medium_prob": 0.2076028436422348
+  },
+  {
+   "case_id": 19981,
+   "true": "Islam",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.3019781708717346
+  },
+  {
+   "case_id": 20014,
+   "true": "soccer",
+   "small_rank": 4,
+   "R_rank": 3,
+   "medium_prob": 0.2539389133453369
+  },
+  {
+   "case_id": 20056,
+   "true": "Intel",
+   "small_rank": 25,
+   "R_rank": 2,
+   "medium_prob": 0.23859861493110657
+  },
+  {
+   "case_id": 20059,
+   "true": "Turkey",
+   "small_rank": 14,
+   "R_rank": 8,
+   "medium_prob": 0.205727219581604
+  },
+  {
+   "case_id": 20068,
+   "true": "Antarctica",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.12517090141773224
+  },
+  {
+   "case_id": 20101,
+   "true": "Europe",
+   "small_rank": 3,
+   "R_rank": 3,
+   "medium_prob": 0.5387021899223328
+  },
+  {
+   "case_id": 20102,
+   "true": "Bentley",
+   "small_rank": 139,
+   "R_rank": 3,
+   "medium_prob": 0.12469740957021713
+  },
+  {
+   "case_id": 20128,
+   "true": "Microsoft",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.49158206582069397
+  },
+  {
+   "case_id": 20133,
+   "true": "Brazil",
+   "small_rank": 2,
+   "R_rank": 4,
+   "medium_prob": 0.39289605617523193
+  },
+  {
+   "case_id": 20139,
+   "true": "MTV",
+   "small_rank": 5,
+   "R_rank": 2,
+   "medium_prob": 0.12489887326955795
+  },
+  {
+   "case_id": 20204,
+   "true": "PBS",
+   "small_rank": 7,
+   "R_rank": 2,
+   "medium_prob": 0.10832994431257248
+  },
+  {
+   "case_id": 20206,
+   "true": "Islam",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.26339250802993774
+  },
+  {
+   "case_id": 20283,
+   "true": "Hawaiian",
+   "small_rank": 13,
+   "R_rank": 4,
+   "medium_prob": 0.10446535050868988
+  },
+  {
+   "case_id": 20286,
+   "true": "piano",
+   "small_rank": 26,
+   "R_rank": 8,
+   "medium_prob": 0.04287497326731682
+  },
+  {
+   "case_id": 20309,
+   "true": "Japan",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.3813227713108063
+  },
+  {
+   "case_id": 20320,
+   "true": "English",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.18700824677944183
+  },
+  {
+   "case_id": 20347,
+   "true": "Sweden",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.1605972945690155
+  },
+  {
+   "case_id": 20383,
+   "true": "soccer",
+   "small_rank": 5,
+   "R_rank": 1,
+   "medium_prob": 0.2755703330039978
+  },
+  {
+   "case_id": 20413,
+   "true": "Italian",
+   "small_rank": 8,
+   "R_rank": 4,
+   "medium_prob": 0.058135755360126495
+  },
+  {
+   "case_id": 20464,
+   "true": "Apple",
+   "small_rank": 4,
+   "R_rank": 1,
+   "medium_prob": 0.2868416905403137
+  },
+  {
+   "case_id": 20473,
+   "true": "Finland",
+   "small_rank": 6,
+   "R_rank": 2,
+   "medium_prob": 0.26304128766059875
+  },
+  {
+   "case_id": 20528,
+   "true": "Cambodia",
+   "small_rank": 2,
+   "R_rank": 3,
+   "medium_prob": 0.2999470829963684
+  },
+  {
+   "case_id": 20549,
+   "true": "Italy",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.2015421986579895
+  },
+  {
+   "case_id": 20579,
+   "true": "France",
+   "small_rank": 6,
+   "R_rank": 1,
+   "medium_prob": 0.22789038717746735
+  },
+  {
+   "case_id": 20614,
+   "true": "Apple",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.6432711482048035
+  },
+  {
+   "case_id": 20623,
+   "true": "Google",
+   "small_rank": 4,
+   "R_rank": 1,
+   "medium_prob": 0.2471514791250229
+  },
+  {
+   "case_id": 20656,
+   "true": "Nintendo",
+   "small_rank": 23,
+   "R_rank": 2,
+   "medium_prob": 0.08479192852973938
+  },
+  {
+   "case_id": 20664,
+   "true": "Norway",
+   "small_rank": 5,
+   "R_rank": 1,
+   "medium_prob": 0.22580425441265106
+  },
+  {
+   "case_id": 20723,
+   "true": "French",
+   "small_rank": 8,
+   "R_rank": 8,
+   "medium_prob": 0.06548198312520981
+  },
+  {
+   "case_id": 20730,
+   "true": "India",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.21604418754577637
+  },
+  {
+   "case_id": 20758,
+   "true": "French",
+   "small_rank": 3,
+   "R_rank": 3,
+   "medium_prob": 0.15673109889030457
+  },
+  {
+   "case_id": 20862,
+   "true": "English",
+   "small_rank": 50,
+   "R_rank": 4,
+   "medium_prob": 0.061155207455158234
+  },
+  {
+   "case_id": 20922,
+   "true": "bishop",
+   "small_rank": 3,
+   "R_rank": 2,
+   "medium_prob": 0.07804244756698608
+  },
+  {
+   "case_id": 20929,
+   "true": "Antarctica",
+   "small_rank": 3,
+   "R_rank": 3,
+   "medium_prob": 0.08612042665481567
+  },
+  {
+   "case_id": 20939,
+   "true": "Dutch",
+   "small_rank": 3,
+   "R_rank": 2,
+   "medium_prob": 0.2762661278247833
+  },
+  {
+   "case_id": 20956,
+   "true": "hockey",
+   "small_rank": 10,
+   "R_rank": 1,
+   "medium_prob": 0.3048478960990906
+  },
+  {
+   "case_id": 20986,
+   "true": "Microsoft",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.2808151841163635
+  },
+  {
+   "case_id": 21008,
+   "true": "Florida",
+   "small_rank": 5,
+   "R_rank": 7,
+   "medium_prob": 0.2608475983142853
+  },
+  {
+   "case_id": 21009,
+   "true": "French",
+   "small_rank": 7,
+   "R_rank": 2,
+   "medium_prob": 0.22089740633964539
+  },
+  {
+   "case_id": 21029,
+   "true": "French",
+   "small_rank": 3,
+   "R_rank": 4,
+   "medium_prob": 0.09426988661289215
+  },
+  {
+   "case_id": 21050,
+   "true": "Brazil",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.18118040263652802
+  },
+  {
+   "case_id": 21062,
+   "true": "Microsoft",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.15276648104190826
+  },
+  {
+   "case_id": 21064,
+   "true": "French",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.6025072932243347
+  },
+  {
+   "case_id": 21070,
+   "true": "bishop",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.06183385103940964
+  },
+  {
+   "case_id": 21072,
+   "true": "Apple",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.13043101131916046
+  },
+  {
+   "case_id": 21131,
+   "true": "Africa",
+   "small_rank": 2,
+   "R_rank": 8,
+   "medium_prob": 0.030599236488342285
+  },
+  {
+   "case_id": 21132,
+   "true": "basketball",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.739238977432251
+  },
+  {
+   "case_id": 21144,
+   "true": "Russian",
+   "small_rank": 4,
+   "R_rank": 9,
+   "medium_prob": 0.14817501604557037
+  },
+  {
+   "case_id": 21199,
+   "true": "Renault",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.1299641877412796
+  },
+  {
+   "case_id": 21212,
+   "true": "Korean",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.34893283247947693
+  },
+  {
+   "case_id": 21294,
+   "true": "Antarctica",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.07254071533679962
+  },
+  {
+   "case_id": 21324,
+   "true": "IBM",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.20398959517478943
+  },
+  {
+   "case_id": 21331,
+   "true": "Germany",
+   "small_rank": 4,
+   "R_rank": 2,
+   "medium_prob": 0.15980716049671173
+  },
+  {
+   "case_id": 21336,
+   "true": "Paris",
+   "small_rank": 9,
+   "R_rank": 1,
+   "medium_prob": 0.07201667129993439
+  },
+  {
+   "case_id": 21352,
+   "true": "Netflix",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.10038777440786362
+  },
+  {
+   "case_id": 21359,
+   "true": "Rochester",
+   "small_rank": 16,
+   "R_rank": 26,
+   "medium_prob": 0.21324656903743744
+  },
+  {
+   "case_id": 21363,
+   "true": "French",
+   "small_rank": 3,
+   "R_rank": 3,
+   "medium_prob": 0.14404970407485962
+  },
+  {
+   "case_id": 21400,
+   "true": "Islam",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.17148494720458984
+  },
+  {
+   "case_id": 21412,
+   "true": "Google",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.19797104597091675
+  },
+  {
+   "case_id": 21432,
+   "true": "FIFA",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.15068106353282928
+  },
+  {
+   "case_id": 21434,
+   "true": "IBM",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.3709928095340729
+  },
+  {
+   "case_id": 21457,
+   "true": "France",
+   "small_rank": 3,
+   "R_rank": 1,
+   "medium_prob": 0.2452791929244995
+  },
+  {
+   "case_id": 21535,
+   "true": "Poland",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.3564610779285431
+  },
+  {
+   "case_id": 21541,
+   "true": "French",
+   "small_rank": 8,
+   "R_rank": 3,
+   "medium_prob": 0.3504337966442108
+  },
+  {
+   "case_id": 21592,
+   "true": "English",
+   "small_rank": 2,
+   "R_rank": 4,
+   "medium_prob": 0.16392140090465546
+  },
+  {
+   "case_id": 21665,
+   "true": "Suzuki",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.059072867035865784
+  },
+  {
+   "case_id": 21668,
+   "true": "Apple",
+   "small_rank": 6,
+   "R_rank": 4,
+   "medium_prob": 0.7325215339660645
+  },
+  {
+   "case_id": 21679,
+   "true": "France",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.3122660219669342
+  },
+  {
+   "case_id": 21692,
+   "true": "bishop",
+   "small_rank": 29,
+   "R_rank": 3,
+   "medium_prob": 0.08286699652671814
+  },
+  {
+   "case_id": 21729,
+   "true": "Avengers",
+   "small_rank": 10,
+   "R_rank": 4,
+   "medium_prob": 0.05300328508019447
+  },
+  {
+   "case_id": 21737,
+   "true": "Norway",
+   "small_rank": 7,
+   "R_rank": 2,
+   "medium_prob": 0.22405938804149628
+  },
+  {
+   "case_id": 21763,
+   "true": "Italy",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.25735199451446533
+  },
+  {
+   "case_id": 21775,
+   "true": "English",
+   "small_rank": 12,
+   "R_rank": 1,
+   "medium_prob": 0.22698794305324554
+  },
+  {
+   "case_id": 21782,
+   "true": "actor",
+   "small_rank": 38,
+   "R_rank": 3,
+   "medium_prob": 0.07356047630310059
+  },
+  {
+   "case_id": 21818,
+   "true": "Greek",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.2527918219566345
+  },
+  {
+   "case_id": 21844,
+   "true": "soccer",
+   "small_rank": 2,
+   "R_rank": 2,
+   "medium_prob": 0.31499892473220825
+  },
+  {
+   "case_id": 21868,
+   "true": "French",
+   "small_rank": 2,
+   "R_rank": 1,
+   "medium_prob": 0.46831008791923523
+  }
+ ]
+}

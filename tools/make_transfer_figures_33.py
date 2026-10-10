@@ -11,6 +11,8 @@ e33_fig4_dose_curves.*  step D9b: dev and test top-1 against the dose for maps t
 e33_fig5_datasize.*     step D8: top-1 and rank gain against the amount of training data
 e33_fig6_training_curve.*  step D9: training loss and dev curves over 40 epochs (parsed from the saved terminal log)
 e33_fig7_ladder.*       summary: top-1 of every export variant on the same 88 test records, with the 15% and 50% lines
+e33_fig8_rank1_term.*   step D10: training shortfall, test top-1 and dev score against the weight of the rank-1 term
+e35_fig1_import.*       steps E2 to E4 (Entry 35): Import by replacement: rescue by arm, what happens to each group of facts, net accuracy
 
 Static light-surface images, same palette and conventions as e32 (colour follows the entity; every bar is direct-labelled with its number).
 """
@@ -309,7 +311,62 @@ def fig8():
     save(fig, "e33_fig8_rank1_term")
 
 
+def fig9():
+    d = load("e2_import.json")
+    g, R = d["groups"], d["R"]
+    fig, axes = plt.subplots(1, 3, figsize=(13.4, 4.6))
+    # A: rescue of the 780 candidates by arm
+    rows = [("replace small's state with\nmedium's translated state", R["rescue"], AQUA),
+            ("control: state from a\nwrong sentence", d["controls_rescue"]["C1"], GREY),
+            ("control: average medium state", d["controls_rescue"]["C2"], GREY),
+            ("control: random translator", d["controls_rescue"]["C3"], GREY),
+            ("SAE-filtered difference\n(680 test facts)", d["secondary"]["S"]["rescue"], MAGENTA),
+            ("word push toward the answer\n(uses the answer; 680 test facts)", d["secondary"]["S"]["push_rescue"], YELLOW)]
+    for i, (name, v, color) in enumerate(rows):
+        axes[0].barh(i, 100 * v, color=color, height=0.6)
+        axes[0].text(100 * v + 1.2, i, f"{100 * v:.1f}%", va="center", fontsize=9.5, color=INK, zorder=5, bbox=dict(facecolor=SURFACE, edgecolor="none", pad=1.0))
+    axes[0].set_yticks(range(len(rows)))
+    axes[0].set_yticklabels([r[0] for r in rows], fontsize=8.8)
+    axes[0].invert_yaxis()
+    axes[0].set_xlim(0, 85)
+    axes[0].set_xlabel("% of the 780 facts small got wrong\nthat become small's top answer")
+    axes[0].set_title("Real information crosses over...", loc="left", fontsize=10, color=INK)
+    axes[0].grid(axis="y", visible=False)
+    # B: what replacement does to each group
+    rows = [("small wrong, medium right (780)\nnow right", R["rescue"], AQUA), ("both right (1,372)\nstill right", R["survive_bothright"], AQUA), ("small right, medium wrong (437)\nstill right", R["survive_smallonly"], AQUA)]
+    for i, (name, v, color) in enumerate(rows):
+        axes[1].barh(i, 100 * v, color=color, height=0.6)
+        axes[1].text(100 * v + 1.2, i, f"{100 * v:.1f}%", va="center", fontsize=9.5, color=INK, zorder=5, bbox=dict(facecolor=SURFACE, edgecolor="none", pad=1.0))
+    axes[1].set_yticks(range(len(rows)))
+    axes[1].set_yticklabels([r[0] for r in rows], fontsize=8.8)
+    axes[1].invert_yaxis()
+    axes[1].set_xlim(0, 100)
+    axes[1].set_xlabel("% of the facts in each group")
+    axes[1].set_title("...but it also breaks what small knew", loc="left", fontsize=10, color=INK)
+    axes[1].grid(axis="y", visible=False)
+    # C: overall accuracy
+    acc = d["accuracy"]
+    rows = [("small alone", acc["small"], DGREY), ("medium alone", acc["medium"], GREY), ("small with medium's\ntranslated state", acc["R"], AQUA)]
+    for i, (name, v, color) in enumerate(rows):
+        axes[2].barh(i, 100 * v, color=color, height=0.6)
+        axes[2].text(100 * v + 0.15, i, f"{100 * v:.1f}%", va="center", fontsize=9.5, color=INK, zorder=5, bbox=dict(facecolor=SURFACE, edgecolor="none", pad=1.0))
+    axes[2].axvline(100 * (acc["small"] + 0.5 * (acc["medium"] - acc["small"])), color=MUTED, linestyle=(0, (4, 3)), linewidth=1.2)
+    axes[2].text(100 * (acc["small"] + 0.5 * (acc["medium"] - acc["small"])) + 0.1, -0.62, "Gate 8 line (halfway)", fontsize=8, color=INK2, va="bottom")
+    axes[2].set_yticks(range(len(rows)))
+    axes[2].set_yticklabels([r[0] for r in rows], fontsize=8.8)
+    axes[2].invert_yaxis()
+    axes[2].set_xlim(0, 12.5)
+    axes[2].set_xlabel("% of all 21,789 facts answered correctly")
+    axes[2].set_title("Net: slightly worse than small alone", loc="left", fontsize=10, color=INK)
+    axes[2].grid(axis="y", visible=False)
+    fig.suptitle("Import by replacement: medium's translated state rescues one in three of the facts small got wrong, but costs more than it gains", x=0.01, ha="left", fontsize=11, color=INK)
+    fig.text(0.01, -0.03, "Pair m2s_L16_L8, no training. It rescues 262 facts and gains 92 more among the facts both models got wrong, and loses 602 that small answered correctly (net -248 of 21,789). Controls: a wrong sentence's state, the average state, a random translator.",
+             fontsize=8.5, color=INK2, va="top")
+    fig.tight_layout(rect=(0, 0.02, 1, 0.92))
+    save(fig, "e35_fig1_import")
+
+
 if __name__ == "__main__":
-    which = sys.argv[1:] or ["1", "2", "3", "4", "5", "6", "7", "8"]
+    which = sys.argv[1:] or ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
     for w in which:
-        {"1": fig1, "2": fig2, "3": fig3, "4": fig4, "5": fig5, "6": fig6, "7": fig7, "8": fig8}[w]()
+        {"1": fig1, "2": fig2, "3": fig3, "4": fig4, "5": fig5, "6": fig6, "7": fig7, "8": fig8, "9": fig9}[w]()
