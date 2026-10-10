@@ -1,11 +1,20 @@
 # Handoff (2026-10-10, updated after the overnight runs): cross-model transfer study. START HERE for this branch
 
-Repository: `Mechanistic-Intervention-of-Large-Language-Models-via-Sparse-AutoEncoders`. Branch: **`cross-model-transfer`** (from `main` at `bc35482`; the first commit `405aadc` is pushed, the overnight work after it is on disk and NOT committed or pushed). The older long handoff for the gradient-descent work is `docs/handoff_2026-10-05_mac.md`. This file covers only the new study. Branch `rome-factual-editing` is worked on by another team member: do not delete or rebase it.
+Repository: `Mechanistic-Intervention-of-Large-Language-Models-via-Sparse-AutoEncoders`. Branch: **`cross-model-transfer`** (from `main` at `bc35482`; `405aadc` and `a8683b0` are pushed; the later daytime work of 2026-10-10 (Entry 33, steps D5 to D7, related-work note) is on disk and NOT committed or pushed). The older long handoff for the gradient-descent work is `docs/handoff_2026-10-05_mac.md`. This file covers only the new study. Branch `rome-factual-editing` is worked on by another team member: do not delete or rebase it.
 
 ## The study in one paragraph
 Take the change an edit makes inside GPT-2 small (layer 8) and add it, translated, to GPT-2 medium while it reads the same sentence (**Export**), or take medium's state and add it, translated, to small (**Import**), with no weight changed in either model. A translator fitted on ordinary text maps one model's residual stream (`blocks.L.hook_resid_pre`) to the other's. Direction names follow the information: "small to medium" = read in small, written into medium.
 
+## Update, later on 2026-10-10 (Entry 33): READ THIS FIRST
+- **D5 (several injection layers): Gate 4 fails.** Best single layer 8% top-1, best split set 7%. The injection layer is not the bottleneck.
+- **D6 (ceiling test: the edit tuned THROUGH the translator against medium's output): top-1 95%** (the original small-tuned edit: 8%) on the 88 primary test records; rewordings 60% (random-word version 42%, unchanged medium 36%); neighbours fall 8 points (the edit itself falls 9 inside small). **Gate 5 fails on the neighbour condition only** (5 points allowed). Reading: the channel can carry a rank-1 edit; the mismatch is between what moves small and what moves medium. It is a ceiling, not a transfer (medium's output is used for every sentence).
+- **D7 (a map trained on edits with an output-matching loss; Gate 6 in `PLAN.md`)**: tool `tools/transfer/12_output_matching.py` built and started; about 2 hours, resumable, saves `outputs/transfer/d7_*`. **Its result was not known when this was written**: read the RESULT block it prints (or `outputs/transfer/d7_output_matching.json`) and add it to Entry 33 as a new section, the plan's status table, `research/hypothesis_log.md` H32 and `research/experiment_index.md` EXP-032.
+- Clarified with the author: the edit in all of this is the multiplier edit (200 small layer-8 SAE features), not the additive one (additive transfer untested); medium has no SAE; only the translated change is added to medium; medium's median rank of the target is 142 on the 88 test records (165 was the 30-record pilot).
+- Related work: `docs/cross_model_transfer/RELATED_WORK.md` (Chen et al., NeurIPS 2025, affine residual stitching including GPT-2 small and medium, no fact edits; written from a summary, check against the paper). The map is not claimed as new.
+- New commands: `tools/transfer/10_multilayer_export.py` (1,113 s), `11_b_aware_edit.py` (2,149 s), `12_output_matching.py` (about 2 h), `13_pack_d5_table.py`, `tools/make_transfer_figures_33.py`.
+
 ## Read in this order
+0. `docs/Research_Journal/33.md` (steps D5 to D7, figures `docs/Research_Journal/images/e33_fig*`) and `docs/cross_model_transfer/RELATED_WORK.md`.
 1. `docs/Research_Journal/32.md`: the overnight results (controlled export, neural translator, fact-or-push test), with figures `docs/Research_Journal/images/e32_fig*`.
 2. `docs/Research_Journal/31.md`: translators, country swap, 30-record pilot (one statement in it is withdrawn, see section 3.5 there).
 3. `docs/cross_model_transfer/PLAN.md`: runbook, status table, results log, gates; `DESIGN.md` is the earlier reasoning.
