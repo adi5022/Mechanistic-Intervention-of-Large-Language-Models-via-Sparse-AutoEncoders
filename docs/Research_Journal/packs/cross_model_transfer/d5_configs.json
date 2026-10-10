@@ -1,0 +1,174 @@
+{
+ "n_test_records": 88,
+ "unchanged_medium": {
+  "top1": 0.0,
+  "median_rank": 142.0
+ },
+ "configs": {
+  "L4": {
+   "dose": 1.0,
+   "dev_top1": 0.035714,
+   "dev_gain": 0.6672148374541705,
+   "test_top1": 0.0,
+   "test_median_rank": 73.0,
+   "norm_matched_top1": 0.0,
+   "norm_matched_median_rank": 127.0,
+   "random_top1_same_dose": 0.0,
+   "wrong_recipe_top1_same_dose": 0.0
+  },
+  "L8": {
+   "dose": 1.5,
+   "dev_top1": 0.035714,
+   "dev_gain": 1.1228677281912194,
+   "test_top1": 0.045454545454545456,
+   "test_median_rank": 27.0,
+   "norm_matched_top1": 0.045454545454545456,
+   "norm_matched_median_rank": 23.0,
+   "random_top1_same_dose": 0.0,
+   "wrong_recipe_top1_same_dose": 0.0
+  },
+  "L12": {
+   "dose": 1.5,
+   "dev_top1": 0.035714,
+   "dev_gain": 1.5780436635475976,
+   "test_top1": 0.045454545454545456,
+   "test_median_rank": 23.0,
+   "norm_matched_top1": 0.045454545454545456,
+   "norm_matched_median_rank": 22.0,
+   "random_top1_same_dose": 0.0,
+   "wrong_recipe_top1_same_dose": 0.0
+  },
+  "L16": {
+   "dose": 2.0,
+   "dev_top1": 0.107143,
+   "dev_gain": 1.8080933842232536,
+   "test_top1": 0.07954545454545454,
+   "test_median_rank": 14.0,
+   "norm_matched_top1": 0.056818181818181816,
+   "norm_matched_median_rank": 18.0,
+   "random_top1_same_dose": 0.0,
+   "wrong_recipe_top1_same_dose": 0.0
+  },
+  "L20": {
+   "dose": 2.0,
+   "dev_top1": 0.035714,
+   "dev_gain": 0.699626284127448,
+   "test_top1": 0.011363636363636364,
+   "test_median_rank": 25.0,
+   "norm_matched_top1": 0.022727272727272728,
+   "norm_matched_median_rank": 25.0,
+   "random_top1_same_dose": 0.0,
+   "wrong_recipe_top1_same_dose": 0.0
+  },
+  "12+16 split": {
+   "dose": 2.0,
+   "dev_top1": 0.107143,
+   "dev_gain": 1.89808884999021,
+   "test_top1": 0.06818181818181818,
+   "test_median_rank": 11.0,
+   "norm_matched_top1": 0.06818181818181818,
+   "norm_matched_median_rank": 17.0,
+   "random_top1_same_dose": 0.0,
+   "wrong_recipe_top1_same_dose": 0.0
+  },
+  "8+12+16 split": {
+   "dose": 3.0,
+   "dev_top1": 0.071429,
+   "dev_gain": 1.4038324846749428,
+   "test_top1": 0.13636363636363635,
+   "test_median_rank": 12.0,
+   "norm_matched_top1": 0.056818181818181816,
+   "norm_matched_median_rank": 19.0,
+   "random_top1_same_dose": 0.0,
+   "wrong_recipe_top1_same_dose": 0.0
+  },
+  "12+16+20 split": {
+   "dose": 2.0,
+   "dev_top1": 0.107143,
+   "dev_gain": 1.7689155767244442,
+   "test_top1": 0.06818181818181818,
+   "test_median_rank": 14.0,
+   "norm_matched_top1": 0.056818181818181816,
+   "norm_matched_median_rank": 16.0,
+   "random_top1_same_dose": 0.0,
+   "wrong_recipe_top1_same_dose": 0.0
+  },
+  "8+12+16+20 split": {
+   "dose": 2.0,
+   "dev_top1": 0.071429,
+   "dev_gain": 1.7408046074785273,
+   "test_top1": 0.06818181818181818,
+   "test_median_rank": 16.0,
+   "norm_matched_top1": 0.056818181818181816,
+   "norm_matched_median_rank": 19.0,
+   "random_top1_same_dose": 0.0,
+   "wrong_recipe_top1_same_dose": 0.0
+  },
+  "4+8+12+16+20 split": {
+   "dose": 2.0,
+   "dev_top1": 0.035714,
+   "dev_gain": 1.6660663111339937,
+   "test_top1": 0.06818181818181818,
+   "test_median_rank": 17.0,
+   "norm_matched_top1": 0.056818181818181816,
+   "norm_matched_median_rank": 21.0,
+   "random_top1_same_dose": 0.0,
+   "wrong_recipe_top1_same_dose": 0.0
+  },
+  "12+16 full": {
+   "dose": 1.0,
+   "dev_top1": 0.107143,
+   "dev_gain": 1.89808884999021,
+   "test_top1": 0.06818181818181818,
+   "test_median_rank": 11.0,
+   "norm_matched_top1": 0.1590909090909091,
+   "norm_matched_median_rank": 12.0,
+   "random_top1_same_dose": 0.0,
+   "wrong_recipe_top1_same_dose": 0.0
+  },
+  "8+12+16 full": {
+   "dose": 1.0,
+   "dev_top1": 0.071429,
+   "dev_gain": 1.4038324846749428,
+   "test_top1": 0.13636363636363635,
+   "test_median_rank": 12.0,
+   "norm_matched_top1": 0.13636363636363635,
+   "norm_matched_median_rank": 24.0,
+   "random_top1_same_dose": 0.0,
+   "wrong_recipe_top1_same_dose": 0.0
+  },
+  "12+16+20 full": {
+   "dose": 0.5,
+   "dev_top1": 0.107143,
+   "dev_gain": 1.4629096620130577,
+   "test_top1": 0.022727272727272728,
+   "test_median_rank": 22.0,
+   "norm_matched_top1": 0.14772727272727273,
+   "norm_matched_median_rank": 11.0,
+   "random_top1_same_dose": 0.0,
+   "wrong_recipe_top1_same_dose": 0.0
+  },
+  "8+12+16+20 full": {
+   "dose": 0.5,
+   "dev_top1": 0.071429,
+   "dev_gain": 1.7408046074785273,
+   "test_top1": 0.06818181818181818,
+   "test_median_rank": 16.0,
+   "norm_matched_top1": 0.11363636363636363,
+   "norm_matched_median_rank": 30.0,
+   "random_top1_same_dose": 0.0,
+   "wrong_recipe_top1_same_dose": 0.0
+  },
+  "4+8+12+16+20 full": {
+   "dose": 1.0,
+   "dev_top1": 0.071429,
+   "dev_gain": -0.36509264689164,
+   "test_top1": 0.11363636363636363,
+   "test_median_rank": 21.0,
+   "norm_matched_top1": 0.07954545454545454,
+   "norm_matched_median_rank": 190.0,
+   "random_top1_same_dose": 0.0,
+   "wrong_recipe_top1_same_dose": 0.0
+  }
+ }
+}

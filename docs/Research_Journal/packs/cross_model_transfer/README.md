@@ -1,4 +1,4 @@
-# Data pack: cross-model transfer (Journal Entries 31 and 32)
+# Data pack: cross-model transfer (Journal Entries 31, 32 and 33)
 
 Copies of the result files written by `tools/transfer/*.py` into `outputs/transfer/` (which git ignores). Made 2026-10-10 on the RTX 4050 laptop GPU, torch 2.6.0+cu124, transformer-lens 3.5.1. Not included because of size: the fitted translators (`maps_gpt2_to_gpt2-medium.pt`, 160 MB; rebuild with `01_fit_maps.py`, 138 s) and the per-pair caches of step B1.
 
@@ -14,7 +14,10 @@ Copies of the result files written by `tools/transfer/*.py` into `outputs/transf
 | `d_benchmark.json`, `d_edits.json` | `05_export_edits.py` | step D1/D2 (Entry 32): the 200 benchmark records (50 dev, 150 test) and, per record, the two gradient-descent edits tuned in small (feature ids and a_k) with their ranks and KL |
 | `d_eval_linear.json`, `d_eval_mlp.json` | `06_export_eval.py` | the dose chosen on dev and the Gate 3 verdict (as printed by the first run; the random-word arm's rank gain there used the wrong baseline, see Entry 32 section 5) |
 | `d_analysis_linear.json`, `d_analysis_mlp.json` | `09_analyse_export.py` | the corrected paired analysis of the controlled export: tuned prompt, dose curves, rewordings, neighbours, unrelated prompts, transfer efficiency, plausible target against random word |
+| `d5_multilayer.json` | `10_multilayer_export.py` | step D5: dose chosen per configuration on dev, Gate 4 verdict, stage 2 summary and the proposed rerun bar for adding the translated edit at one or several layers of medium |
+| `d5_configs.json` | `13_pack_d5_table.py` | step D5 per configuration: dose chosen on dev, dev top-1, test top-1 and median rank at that dose and at the norm-matched dose, and the two controls at the same dose (for Entry 33 Figure 1) |
+| `d6_b_aware.json` | `11_b_aware_edit.py` | step D6 (ceiling test): edit tuned through the translator against medium's output; per-arm top-1 and rank, rewordings / neighbours / unrelated summary, Gate 5 verdict |
 | `mlp_vs_linear.json` | `07_fit_mlp_maps.py` | neural against linear translator: R-squared, stitching, difference cosine at the changed word and the last position |
 | `c_fact_or_push.json`, `c_fact_or_push_summary.json` | `08_fact_or_push.py` | Phase C per record and summarised (Entry 32 section 3.6) |
 
-Reading guide: `docs/Research_Journal/31.md` and `32.md` (results and caveats) and `docs/cross_model_transfer/PLAN.md` (runbook, pre-stated gates). All numbers are exploratory proxies; B1 test cases share countries and are not independent; the pilot has no train/test split.
+Reading guide: `docs/Research_Journal/31.md`, `32.md` and `33.md` (results and caveats) and `docs/cross_model_transfer/PLAN.md` (runbook, pre-stated gates). All numbers are exploratory proxies; B1 test cases share countries and are not independent; the pilot has no train/test split.
