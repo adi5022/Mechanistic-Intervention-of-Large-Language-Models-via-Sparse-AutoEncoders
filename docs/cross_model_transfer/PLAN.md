@@ -24,9 +24,9 @@ The first thing to find out is whether a **translator** between two models' inte
 | A1 | Fit translators on ordinary text, score them | **done 2026-10-09** (138 s). 50 maps saved. Per-dim R2: small 8 -> medium 16 = 0.58, medium 16 -> small 8 = 0.66; best overall small 2 -> medium 4 = 0.65; medium -> small is easier by 0.03-0.08; gradient descent matches the exact solution (0.6287 vs 0.6289), so the exact fit is used |
 | A2 | Stitching and difference checks, **Gate 1** | **done 2026-10-09**. 8 pairs tested. Stitching recovered 0.91-0.98 on all 8. Last-position difference cosine 0.24-0.31, above the within-template chance 95th percentile on all 8; **2 of 8 reach the proposed 0.3 line, both medium -> small** (m2s_L16_L8 0.314, m2s_L8_L6 0.308). Gate 1 passes for Import; Export (small -> medium) is above chance but under the line (best s2m_L8_L16 0.275). See results log below |
 | B1 | Positive control: transfer a "Germany instead of France" change, **Gate 2** | **primary pairs done 2026-10-10, Gate 2 PASSES in both directions** (Export s2m_L8_L16 55%, Import m2s_L16_L8 33%, all controls 0-1%); the six exploratory pairs are done too (36-79%, controls at most 1%). Details in the results log. A first full run was lost to a too-short background time limit (50 min); the tool now saves each pair as it finishes |
-| C1-C5 | Is the gradient-descent edit a fact edit or a word push? (GPT-2 small alone) | todo (can run in parallel with A and B) |
-| D1-D4 | Export: edit in small, transfer to medium | **30-record pilot done 2026-10-10 (a look, not a result)**: translated edit raises the target in medium from median rank 165 to about 22, top-1 up to 20%, controls 0-3%, but a plain word push reaches 87-100%. Controlled run designed (Phase D section), Gate 3 proposed, **waiting for the author to confirm the numbers** |
-| E1-E4 | Import: medium's state into small, small's SAE filters | todo |
+| C1-C5 | Is the gradient-descent edit a fact edit or a word push? (GPT-2 small alone) | **done 2026-10-10** (150 test records): the pre-stated rule, applied as written, gives **read-out steering** (rewordings gain not above the random word's at p < 0.01: p = 0.032; subject-only edit succeeds on 12% against 59% for all positions); the edit is NOT dominated by the target's output direction (lens rank 4,922). Weak evidence either way; caveats in Entry 32 section 3.6. Withdraws the Entry 31 statement that the edit is mainly a change of the subject's representation |
+| D1-D4 | Export: edit in small, transfer to medium | **done 2026-10-10** (50 dev + 150 test records, linear and neural translator, norm-matched dose check, 4 controls, rewordings, neighbours, unrelated prompts). **Gate 3 FAILS** (a) top-1 5% and 8% against 15%; (b) strongest control 5%, margin 0 and 3 points against 10; (c) holds. Graded effect is real and specific: rank of the target 142 -> 23 and 14, rewordings +15 and +16 points, neighbours -4 to -5 points; a word push is far stronger at top-1 and far less specific. The neural translator fits better but transfers no better. Details in Entry 32 and the results log below |
+| E1-E4 | Import: medium's state into small, small's SAE filters | todo (the next step on the plan; uses medium -> small, the better translator direction) |
 | F | Combined analysis, journal entry | todo |
 | G | Replication on Gemma 3 270M and 1B (SAEs on both sides) | todo |
 | H | Tester app (`transfer_app.py`) | todo |
@@ -80,6 +80,26 @@ Gate 2: (a) rate >= 20%, (b) margin over the best control >= 15 points, (c) pair
 
 Pattern: the earlier the layer the receiver is fed at, the better the swap works. That fits the swap being mostly a change in *which word was named* (token identity dominates early layers and translates best); it is a reason not to read B1 as evidence about facts. For fact edits made at small layer 8 the relevant rows are small 8 -> medium 12 and 16.
 
+**D controlled export** (50 dev + 150 test counterfactual records, single-token targets, neither model answers the target; edits tuned in small with the unchanged gradient-descent tool; files in `packs/cross_model_transfer/`: `d_benchmark.json`, `d_edits.json`, `d_eval_linear.json`, `d_analysis_linear.json`, `d_eval_mlp.json`, `d_analysis_mlp.json`). The edit reaches rank 1 in small on 116 of 200 records (58%); a rank-matched random-word edit on 87 (44%). Numbers below: the 88 test records whose edit reached rank 1 in small, dose chosen on dev (linear translator unless stated); medium unchanged: median rank of the target 142, PS 36%, NS 67% (PS = new beats true on paraphrases, NS = true still beats new on neighbours).
+
+| | small 8 -> medium 12 (dose 1.5) | small 8 -> medium 16 (dose 2.0) |
+|---|---|---|
+| translated edit: top-1 / median rank / PS / NS | 5% / 23 / 51% / 62% | 8% / 14 / 52% / 63% |
+| neural translator | 6% / 19 / 54% / 62% | 8% / 14 / 49% / 63% |
+| random vector | 0% / 137 / 36% / 66% | 0% / 157 / 38% / 66% |
+| another record's edit | 0% / 132 / 35% / 67% | 0% / 128 / 36% / 65% |
+| random-word edit (own word) | 0% / 53 | 3% / 31 |
+| word push | 10% / 6 / 55% / 49% | 83% / 1 / 82% / 23% |
+| fact stated in medium's prompt | PS 97%, NS 44% | same |
+| small with the edit itself | PS 67% (unchanged 40%), NS 54% (unchanged 63%) | same |
+| norm-matched dose (no tuning), top-1 / PS / NS | 5% / 55% / 62% | 6% / 51% / 65% |
+
+Gate 3 (proposed in this plan before the run): FAIL for both translators and both layers on (a) top-1 at least 15% and (b) margin of at least 10 points over the strongest control (the random-word edit at its best dose: 5% linear, 6% neural); (c) paired test holds. Paired tests: the translated edit's rank gain beats the random vector, the wrong recipe (p < 1e-12) and the random-word edit (p = 0.003 and 0.002); paraphrase lift +15 and +16 points over unchanged medium (p < 1e-4); neighbour loss 4 to 5 points against 18 and 44 for the word push; unrelated prompts: another record's edit disturbs as much as the translated edit (KL 0.031 against 0.032 at layer 16). All 150 test records: top-1 3% and 5%, paraphrase lift +11 points.
+
+**Neural against linear translator** (held-out wikitext, 400,000 fitting tokens, residual MLP started at the linear solution): per-dimension R-squared 0.590 -> 0.698 (small 8 -> medium 12), 0.579 -> 0.681 (small 8 -> 16), 0.659 -> 0.747 (medium 16 -> small 8); difference cosine at the changed word 0.65 -> 0.76, 0.63 -> 0.75, 0.69 -> 0.78; at the last position 0.24 -> 0.26, 0.28 -> 0.29, 0.31 -> 0.32 (chance level rises as much). A better fit does not export the edit better.
+
+**C fact or word push** (small alone, 150 test records; `c_fact_or_push*.json`): edit reaches rank 1 on 59% (all positions), 12% (subject tokens only), 7% (last position only), 45% (random word). Rewordings (PS on the records where the variant succeeded): 67%, 81%, 65%, 51% (unedited 33%); carry to rewordings (gain on rewordings / gain on the tuned prompt): 0.26, 0.34, 0.02, 0.15. Real target against the random word, rewordings gain on 58 records where both succeeded: 1.04 against 0.82, p = 0.032. Direction: median cosine with the target's output direction 0.051, logit-lens rank 4,922 (random-word edit 12,605). Pre-stated rule as written: read-out steering; caveats and the withdrawn Entry 31 statement in Entry 32 section 3.6.
+
 ## Decisions already made
 - The translator is fitted on the **residual stream directly**, not on SAE features. SAE features are used afterwards to read and explain what arrived.
 - Start inside the **GPT-2 family** (shared tokenizer, no porting). Partner model: **GPT-2 medium** (24 layers, 1024 wide). GPT-2 small is 12 layers, 768 wide.
@@ -87,10 +107,12 @@ Pattern: the earlier the layer the receiver is fed at, the better the swap works
 - Map-fitting text: **wikitext-2** (about 2.4 million tokens, 7.8 MB). Facts: CounterFact (already in `datasets/`).
 - Directions: **Export** first (small to bigger), **Import** second (bigger to small).
 - The ROME dev records (`random.Random(0).sample(range(len(ds)), 100)` over CounterFact) are excluded from every test set here.
+- Dose in the controlled export (author, 2026-10-10): dev-split sweep as the main result plus one norm-matched dose as a robustness check (the two agreed).
+- Gate 3 as proposed in this plan was treated as final for the overnight run (the author had asked for everything to be run; the numbers were written before the run).
 
 ## Still open (not needed until the step named)
-- Gate numbers (proposed below, confirm after A2).
-- Test-set size, proposed 150 records per fact set (before D1).
+- Whether to keep Gate 3's numbers for any rerun of the export (it failed as written; a graded effect exists).
+- What to try after the failed export (Entry 32 section 7): a translator fitted on edit differences or with an output-matching loss, several injection layers, other edit forms.
 - Whether a GPT-2 large donor is worth it (decide after counting, in E1).
 - Phase G route (Gemma 3 pair, or training a GPT-2 medium SAE).
 
@@ -203,6 +225,7 @@ A real edit is made in GPT-2 small with the project's gradient-descent tool, for
 ### Proposed design of the controlled run
 - Records: CounterFact, single-token counterfactual target, neither model answers it at baseline, excluding the 100 ROME dev records and the 30 pilot records; 50 dev (choose layer and dose), 150 test (frozen first). Primary analysis on records where the edit reaches rank 1 in small (otherwise there is nothing to transfer); all records also reported.
 - Maps: small 8 to medium 12 and small 8 to medium 16 only (the layers where the edit lives).
+- Dose (decided by the author 2026-10-10): the main result uses the dev-split sweep (doses 0.5 to 6, chosen on the 50 dev records, reported on the 150 test records; controls at the same dose and at their own best dose). In addition one **norm-matched** dose is run as a robustness check, chosen without looking at the outcome: at every position the injected change in medium is scaled to the same share of medium's residual norm as the original edit has of small's residual norm at that position. If the two agree, the dose is not driving the result.
 - Modes: relay (the same multipliers are re-applied in small to each reworded prompt and the new change is translated) and vector (one fixed change from the edit prompt).
 - Measures on medium: target is the top answer; median rank of the target; same on CounterFact's paraphrase prompts; on the neighbourhood prompts (the target should not rise); on the 12 unrelated prompts (KL, top-1 flips); 20-word continuations with the transfer kept on.
 - Controls at matched size: random vector; another record's translated edit; push along the target word's own output direction; edits toward rank-matched random words tuned in small and transferred; the fact stated in medium's prompt (the plain prompting baseline).
@@ -217,7 +240,7 @@ On the test records whose edit reaches rank 1 in small, relay mode, dose chosen 
 
 ### Step D: pilot and analysis (2026-10-10; 30 CounterFact records, no split, no gate; `packs/cross_model_transfer/d_pilot.json`)
 - The gradient-descent edit reaches rank 1 in small on 17 of 30 counterfactual targets (median start rank 315, median same-prompt KL 0.92, edit size at the last position 29% of the residual norm).
-- **89% of the edit's squared size is at positions between the start token and the last token (the subject and relation words); 5% is at the last position.** The multiplier edit is mainly a change of the subject's representation. This is where B1 found the translator strongest (the word's position) and the last position weakest, so the edit lives where the channel is best. It is also compatible with an association edit (ROME's locus is the last subject token) but does not show one: that is Phase C.
+- **89% of the edit's squared size is at positions between the start token and the last token (the subject and relation words); 5% is at the last position.** [WITHDRAWN 2026-10-10: the sentence that followed here, that the multiplier edit is mainly a change of the subject's representation, is not supported: those positions include the relation words, and an edit restricted to the subject's tokens alone reaches rank 1 on only 12% of records (59% for all positions); Entry 32 section 3.6.] This is where B1 found the translator strongest (the word's position) and the last position weakest, so the edit lives where the channel is best. It is also compatible with an association edit (ROME's locus is the last subject token) but does not show one: that is Phase C.
 - Transfer to medium (medium's median rank of the target before anything: 165). Small 8 to medium 16, target is medium's top answer / median rank: translated 0, 2, 6, 5 of 30 / 25, 21, 23, 89 at doses 1, 2, 3, 4; random vector 0, 1, 1, 1 / 159 to 560; another record's edit 0 of 30 / 179 to 611; push along the target word's output direction 5, 26, 28, 30 of 30 / rank 3 then 1. Small 8 to medium 12: translated 0, 2, 5, 3 of 30; push 0, 6, 17, 26 of 30.
 - Reading: the translated edit does something real (rank 165 to about 22, top-1 up to 20%, controls 0 to 3%), but it is far weaker than a trivial push, and it degrades at the highest dose (the translated change is off the map's training distribution). Success at top-1 alone cannot separate fact from word push, which is why Gate 3 is judged on controls, paraphrases, neighbours and unrelated prompts.
 - Expected from B1 and A2 (a prediction, to be checked): edits that live at the last position (the additive edit) transfer worse than the multiplier edit, because the last-position summary state translates weakly (0.24 to 0.31).

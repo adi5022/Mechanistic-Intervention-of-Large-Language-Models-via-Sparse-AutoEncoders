@@ -1,0 +1,64 @@
+{
+ "s2m_L8_L12": {
+  "alpha_star": 1.5,
+  "gate3": {
+   "n": 88,
+   "dose": 1.5,
+   "translated_top1": 0.045454545454545456,
+   "controls": {
+    "random": {
+     "dose": 3.0,
+     "top1": 0.011363636363636364,
+     "n": 88
+    },
+    "wrong_recipe": {
+     "dose": 0.5,
+     "top1": 0.0,
+     "n": 88
+    },
+    "randtarget": {
+     "dose": 4.0,
+     "top1": 0.045454545454545456,
+     "n": 88
+    }
+   },
+   "strongest_control": "randtarget",
+   "wilcoxon_p": 1.7838180901529956e-05,
+   "a_rate": false,
+   "b_margin": false,
+   "c_paired": true,
+   "passes": false
+  }
+ },
+ "s2m_L8_L16": {
+  "alpha_star": 2.0,
+  "gate3": {
+   "n": 88,
+   "dose": 2.0,
+   "translated_top1": 0.07954545454545454,
+   "controls": {
+    "random": {
+     "dose": 0.5,
+     "top1": 0.0,
+     "n": 88
+    },
+    "wrong_recipe": {
+     "dose": 1.5,
+     "top1": 0.0,
+     "n": 88
+    },
+    "randtarget": {
+     "dose": 4.0,
+     "top1": 0.045454545454545456,
+     "n": 88
+    }
+   },
+   "strongest_control": "randtarget",
+   "wilcoxon_p": 3.361368691593189e-06,
+   "a_rate": false,
+   "b_margin": false,
+   "c_paired": true,
+   "passes": false
+  }
+ }
+}

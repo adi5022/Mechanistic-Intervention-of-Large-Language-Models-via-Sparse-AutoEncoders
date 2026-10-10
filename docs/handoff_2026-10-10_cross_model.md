@@ -1,52 +1,61 @@
-# Handoff (2026-10-10): cross-model transfer study. START HERE for this branch
+# Handoff (2026-10-10, updated after the overnight runs): cross-model transfer study. START HERE for this branch
 
-Repository: `Mechanistic-Intervention-of-Large-Language-Models-via-Sparse-AutoEncoders`. Branch: **`cross-model-transfer`** (from `main` at `bc35482`). `main` equals the old `gradient-descent-editing` branch plus four preserved documents; the older long handoff for that work is `docs/handoff_2026-10-05_mac.md`. This file covers only the new study. Branch `rome-factual-editing` is worked on by another team member: do not delete or rebase it.
+Repository: `Mechanistic-Intervention-of-Large-Language-Models-via-Sparse-AutoEncoders`. Branch: **`cross-model-transfer`** (from `main` at `bc35482`; the first commit `405aadc` is pushed, the overnight work after it is on disk and NOT committed or pushed). The older long handoff for the gradient-descent work is `docs/handoff_2026-10-05_mac.md`. This file covers only the new study. Branch `rome-factual-editing` is worked on by another team member: do not delete or rebase it.
 
 ## The study in one paragraph
-Take the change an edit makes inside GPT-2 small (layer 8) and add it, translated, to GPT-2 medium while it reads the same sentence (**Export**), or take medium's state and add it, translated, to small (**Import**), with no weight changed in either model. A linear translator fitted on ordinary text maps one model's residual stream (`blocks.L.hook_resid_pre`) to the other's. Direction names follow the information: "small to medium" = read in small, written into medium.
+Take the change an edit makes inside GPT-2 small (layer 8) and add it, translated, to GPT-2 medium while it reads the same sentence (**Export**), or take medium's state and add it, translated, to small (**Import**), with no weight changed in either model. A translator fitted on ordinary text maps one model's residual stream (`blocks.L.hook_resid_pre`) to the other's. Direction names follow the information: "small to medium" = read in small, written into medium.
 
 ## Read in this order
-1. `docs/cross_model_transfer/PLAN.md`: runbook with a status table, results log, the pre-stated gates, and the proposed design of the controlled step D.
-2. `docs/Research_Journal/31.md`: results of steps A0 to B1 and the D pilot, mistakes made, limits.
-3. `docs/cross_model_transfer/DESIGN.md`: the earlier long reasoning (banner at its top lists what changed since).
-4. `docs/cross_model_patching_idea.md`: a design note written by a cloud session; it calls Import "Direction 1" and Export "Direction 2" (the reverse of the numbering in the first draft of the plan).
+1. `docs/Research_Journal/32.md`: the overnight results (controlled export, neural translator, fact-or-push test), with figures `docs/Research_Journal/images/e32_fig*`.
+2. `docs/Research_Journal/31.md`: translators, country swap, 30-record pilot (one statement in it is withdrawn, see section 3.5 there).
+3. `docs/cross_model_transfer/PLAN.md`: runbook, status table, results log, gates; `DESIGN.md` is the earlier reasoning.
+4. `docs/cross_model_patching_idea.md`: a design note from a cloud session (its "Direction 1" is Import, "Direction 2" is Export).
 5. Data: `docs/Research_Journal/packs/cross_model_transfer/` (README inside).
 
 ## Where it stands (plain words)
-- A translator between small and medium exists and keeps the receiving model working (stitching recovers 91 to 98%), but it carries a sentence-to-sentence difference well only at the changed word's position (cosine 0.63 to 0.76) and weakly at the last position (0.24 to 0.31). Medium to small is easier than small to medium.
-- Country swap (B1, Gate 2 fixed beforehand): the translated "France became Germany" difference flips the receiver to the swapped capital on 55% (small to medium) and 33% (medium to small) of test cases, controls 0 to 1%. This is a control of the channel; it is not a fact and not an edit.
-- Pilot of a real edit (30 records, not a result): the gradient-descent edit puts 89% of its change at the subject's positions; translated into medium it raises the target from median rank 165 to about 22 (top-1 up to 20%, controls 0 to 3%), but pushing the target word's own output direction does it in 87 to 100%. So top-1 cannot show a fact; the controlled step D must be judged on rewordings, neighbours and unrelated prompts.
-- Nothing about facts has been shown. Phases C, D (controlled) and E have not been run.
+- A linear translator keeps the receiving model working and carries which word changed well; the last-position summary weakly. Medium to small is easier than small to medium. A neural translator fits clearly better but exports an edit no better.
+- Country swap (B1, Gate 2 fixed beforehand): passes, 55% (small to medium) and 33% (medium to small), controls 0 to 1%. A control of the channel, not a fact.
+- **Controlled export of the real gradient-descent edit (D, Gate 3 fixed beforehand): FAILS** on top-1 (5% and 8% against 15%) and on the margin over the strongest control (0 and 3 points against 10). But the graded effect is real and specific: the target's rank in medium goes 142 to 23 and 14, "new beats true" on rewordings rises 15 to 16 points (about 60% of what the edit does in small itself), neighbours lose 4 to 5 points, random vector and another record's edit do nothing, and the norm-matched dose agrees. A plain word push makes the target the top answer in most records but destroys neighbours (23% kept at layer 16); stating the fact in medium's prompt moves rewordings to 97% but costs neighbours 23 points. In the athlete picture: the big player picks up the trick partly, without forgetting his game, but rarely does the move cleanly.
+- **Phase C (small alone):** the pre-stated rule, applied as written, gives read-out steering (rewordings gain 1.04 against 0.82 for a rank-matched random-word edit, p = 0.032; an edit restricted to the subject's tokens succeeds on 12% of records against 59% for all positions), but the edit is not dominated by the target's output direction (logit-lens rank 4,922) and the evidence is weak either way. The Entry 31 statement "mainly a change of the subject's representation" is withdrawn.
+- Not done: Import of real facts (E), the Gemma replication (G), the tester app (H), text quality over generated continuations, any other relation or model pair.
 
 ## Run things (Windows, repository root, `.venv\Scripts\python.exe`; the first A0 run downloads GPT-2 medium 1.5 GB and wikitext-2 8 MB)
 ```
-tools/transfer/00_setup_check.py [--quick]            about 25 s once cached
-tools/transfer/01_fit_maps.py [--quick|--selftest] --sgd-check     138 s, writes outputs/transfer/maps_gpt2_to_gpt2-medium.pt (160 MB)
-tools/transfer/02_check_maps.py [--quick] --feature-view           59 s
-tools/transfer/03_swap_control.py --pairs s2m_L8_L16,m2s_L16_L8 --tag primary     279 s (saves each pair as it finishes; --fresh recomputes)
-tools/transfer/04_export_pilot.py [--n 6]                          158 s for 30 records
+tools/transfer/00_setup_check.py [--quick]                          about 25 s once cached
+tools/transfer/01_fit_maps.py [--quick|--selftest] --sgd-check      138 s -> outputs/transfer/maps_gpt2_to_gpt2-medium.pt (160 MB)
+tools/transfer/02_check_maps.py [--quick] --feature-view            59 s
+tools/transfer/03_swap_control.py --pairs ... --tag primary         279 s (saves each pair; --fresh recomputes)
+tools/transfer/04_export_pilot.py                                   158 s (30-record pilot)
+tools/transfer/05_export_edits.py                                   1,263 s: 200 records x 2 edits in small (resumable)
+tools/transfer/07_fit_mlp_maps.py                                   380 s: neural translators (needs step A1 maps)
+tools/transfer/06_export_eval.py [--translator mlp]                 about 54 min each: controlled export (stage 1 and 2)
+tools/transfer/09_analyse_export.py [--translator mlp]              seconds: the corrected paired analysis (use THIS for numbers)
+tools/transfer/08_fact_or_push.py                                   1,230 s: Phase C
+tools/make_transfer_figures.py [1 2 3 4 5 6]                        figures from the committed pack only
 ```
-Timings are for the RTX 4050 laptop GPU (6 GB). Set `HF_HUB_OFFLINE=1` to avoid network calls once everything is cached. Everything lands in `outputs/transfer/` (a `.gitignore` there keeps it out of git); the committed copies of small results are in the data pack.
+Times: RTX 4050 laptop GPU (6 GB). Set `HF_HUB_OFFLINE=1` once everything is cached. Everything lands in `outputs/transfer/` (ignored by git); per-record numbers of the export are in `d_eval_*.pt` there (80 MB each, local); committed summaries are in the data pack.
 
 ## Gotchas learned the hard way
 - `tokenizer.encode(...)` in this transformers version adds the start token; count word tokens with `tokenizer(w, add_special_tokens=False)`.
 - The plain prompt "The capital of X is" makes GPT-2 answer "the" or "a"; use "The capital of X is the city of".
-- Background jobs: give a generous time limit (a 50-minute limit killed a 75-minute run and, before the fix, lost everything). The B1 tool now saves per pair; `tools/transfer/*` print one line per stage, not a progress bar inside a pair.
-- GPU memory: 6.4 GB total, about 5.3 GB free; the two models need about 2 GB; do not run two GPU jobs at once.
-- Sentence templates for the difference checks must continue past the changed word, or "last position" is the word itself and the cosine is inflated.
-- New code lives in `src/transfer/`, `tools/transfer/`, `src/` is otherwise untouched; the older functions are imported and called, never edited (the author's rule).
+- Background jobs: set a generous time limit for scripts AND for any queue script around them (a 50-minute limit killed a run; a 2-hour limit on a queue script stopped the queue while the Python job survived). Tools save per unit of work; the export and edit tools can resume.
+- **The command harness halves double backslashes** inside shell command text (a `\\n` became a real newline and broke a script). Write files with the file tools, and put patch scripts in a file.
+- In the first printed run of `06_export_eval.py` the random-word arm's rank gain used the counterfactual target's starting rank (the tool is fixed; the numbers in the journal come from `09_analyse_export.py`, which measures each word against its own start rank).
+- GPU memory: 6.4 GB total, about 5.3 GB free; the two models need about 2 GB; the export evaluation uses about 3.5 GB; do not run two heavy GPU jobs at once.
+- Sentence templates for difference checks must continue past the changed word, or "last position" is the word itself.
+- New code lives in `src/transfer/`, `src/gradient_editing_masked.py`, `tools/transfer/`; older functions are imported and called, never edited (the author's rule).
 
 ## Open decisions for the author
-1. **Gate 3** for the controlled step D (proposal in `PLAN.md`, written after the pilot): top-1 at least 15%, at least 10 points above the best non-push control, paired p < 0.01; rewordings, neighbours and unrelated prompts reported. Confirm or change the numbers before the run.
-2. Run Phase C (fact edit or word push, small alone) before, in parallel with, or after step D.
-3. Whether Phase G uses Gemma 3 270M and 1B (SAEs on both sides) or a GPT-2 medium SAE trained here.
-4. When to merge `cross-model-transfer` into `main`.
+1. What to try after the failed export (Entry 32 section 7): a translator fitted on edit differences (for example against ROME on medium, hyper-parameters exist) or with an output-matching loss; several injection layers; other edit forms. Or go to Import (E) first.
+2. Whether Gate 3's numbers stay for a rerun (they were proposed after a 30-record pilot and treated as final overnight).
+3. Phase G route: Gemma 3 270M and 1B (SAEs on both sides) or training a GPT-2 medium SAE.
+4. When to commit and push the overnight work (nothing after `405aadc` is committed), and when to merge `cross-model-transfer` into `main`.
 
-## Next steps, in order
-1. D1: build the CounterFact benchmark (dev 50, test 150, excluding the ROME dev records and the pilot records) and the relay-mode export; run with the controls.
-2. Phase C on the same benchmark (also serves the ROME comparison, steps 6 and 7 of `docs/rome_baseline/PROGRESS.md`).
-3. Phase E, import.
-4. Entry 32 with figures from the real data; paper draft last.
+## Next steps, in order (proposal)
+1. Commit and push the overnight work to `cross-model-transfer` when the author agrees.
+2. Phase E, Import of real facts (medium's state into small, filtered by small's SAE, target-free arms first).
+3. A better translator for the export (edit-difference or output-matching training) if the author wants another run at Export.
+4. Entry 33 with figures from real data; paper draft last.
 
 ## How the author likes to work (still applies)
 Plain words first, then detail; one concrete example when something is unclear; do exactly what is asked and propose extras; document everything with dated entries; figures and tables only from real data; label things honestly (exploratory, pilot, proxy); say plainly when something failed. The author runs long jobs and may watch them in their own terminal.
