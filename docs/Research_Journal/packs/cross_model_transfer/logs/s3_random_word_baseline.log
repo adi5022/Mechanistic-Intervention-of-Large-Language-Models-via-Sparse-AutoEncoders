@@ -1,0 +1,24 @@
+# 27_random_word_baseline started 2026-10-11 02:21:56; arguments: --device cpu
+log: outputs\transfer\logs\27_random_word_baseline_20261011_022156.log
+Loaded pretrained model gpt2-medium into HookedTransformer
+150 test records (88 primary), 2400 judge texts (real arm and random-word arm; tuned prompt, rewordings, neighbours)
+
+======================================================================================================================
+RESULT  step S3: d7_map.pt (dose 2.0); each arm against its own unchanged level
+
+  ---- PRIMARY (original edit reached rank 1 in small): 88 records ----
+                                 top-1   rewordings: unchanged   with map    lift    neighbours kept: unchanged   with map    fall
+    real target                  18.2%                   35.8%      55.7%   19.9p                         67.0%      59.8%    7.3p
+    random word (own)             5.7%                   25.0%      43.2%   18.2p                         77.3%      65.0%   12.3p
+    difference of the rewordings lifts (real minus random word) +1.7 points (bootstrap 95% interval -6.8 to +10.2); records with the real lift larger / equal / smaller: 21 / 49 / 18; one-sided Wilcoxon p = 3.6e-01
+    reading (fixed in the plan before the run): NOT SHOWN at this sample size
+
+  ---- ALL test records with a random-word arm: 150 records ----
+                                 top-1   rewordings: unchanged   with map    lift    neighbours kept: unchanged   with map    fall
+    real target                  11.3%                   30.0%      43.7%   13.7p                         73.1%      66.5%    6.5p
+    random word (own)             3.3%                   19.7%      34.3%   14.7p                         81.9%      71.1%   10.8p
+    difference of the rewordings lifts (real minus random word) -1.0 points (bootstrap 95% interval -7.0 to +5.0); records with the real lift larger / equal / smaller: 26 / 98 / 26; one-sided Wilcoxon p = 6.5e-01
+    reading (fixed in the plan before the run): NOT SHOWN at this sample size
+
+  total time 240 s; saved outputs\transfer\s3_random_word_baseline.json
+======================================================================================================================
