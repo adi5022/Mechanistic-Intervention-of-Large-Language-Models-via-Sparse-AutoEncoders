@@ -1,0 +1,83 @@
+{
+ "reference_ridge_primary": {
+  "top1": 0.07954545319080353,
+  "gain": 2.0431876182556152,
+  "median_rank": 14.0
+ },
+ "runs": {
+  "1.0": [
+   {
+    "seed": 0,
+    "n_records": 289,
+    "epoch": 40,
+    "dose": 1.0,
+    "primary": {
+     "top1": 0.022727273404598236,
+     "gain": 1.810530662536621,
+     "median_rank": 19.0
+    },
+    "all": {
+     "top1": 0.013333333656191826,
+     "gain": 1.8328646421432495,
+     "median_rank": 37.0
+    }
+   },
+   {
+    "seed": 1,
+    "n_records": 289,
+    "epoch": 36,
+    "dose": 1.0,
+    "primary": {
+     "top1": 0.022727273404598236,
+     "gain": 1.815457820892334,
+     "median_rank": 20.0
+    },
+    "all": {
+     "top1": 0.013333333656191826,
+     "gain": 1.8260606527328491,
+     "median_rank": 38.0
+    }
+   },
+   {
+    "seed": 2,
+    "n_records": 289,
+    "epoch": 34,
+    "dose": 1.0,
+    "primary": {
+     "top1": 0.022727273404598236,
+     "gain": 1.8144183158874512,
+     "median_rank": 19.0
+    },
+    "all": {
+     "top1": 0.013333333656191826,
+     "gain": 1.828729510307312,
+     "median_rank": 36.0
+    }
+   }
+  ]
+ },
+ "summary": {
+  "1.0": {
+   "records": 289,
+   "top1_mean": 0.022727273404598236,
+   "top1_min": 0.022727273404598236,
+   "top1_max": 0.022727273404598236,
+   "gain_mean": 1.8134689331054688,
+   "median_rank_mean": 19.333333333333332
+  }
+ },
+ "verdict": "n/a (needs the 50% and 100% fractions)",
+ "longer_training": {
+  "epochs": 40,
+  "top1_15_epochs": 0.19696970780690512,
+  "gain_15_epochs": 2.6614681084950766,
+  "top1_now": 0.022727273404598236,
+  "gain_now": 1.8134689331054688,
+  "chosen_epochs": [
+   40,
+   36,
+   34
+  ],
+  "verdict": "NO REPRODUCIBLE IMPROVEMENT FROM LONGER TRAINING"
+ }
+}

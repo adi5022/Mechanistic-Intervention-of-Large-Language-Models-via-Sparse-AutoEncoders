@@ -1,0 +1,25 @@
+
+[23:05:10] loading models, building prompts, recording what each model knows
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|##########| 148/148 [00:00<00:00, 11109.94it/s]
+Loaded pretrained model gpt2 into HookedTransformer
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights: 100%|##########| 292/292 [00:00<00:00, 8560.88it/s]
+Loaded pretrained model gpt2-medium into HookedTransformer
+   41 countries usable; capitals the receiver answers correctly (per template): small [21, 24], medium [27, 28]
+
+[23:05:15] pair s2m_L8_L16  [Export (small edit -> medium)]
+   1458 cases (437 dev, 1021 test) from 28 countries; receiver = medium, layer 16; alpha chosen on dev: all 3.0, word 3.0, last 6.0
+   translated, all positions, alpha 3.0:   55% of test cases flip to the swapped capital; strongest control (wrong, best alpha)    0%
+
+[23:17:58] pair m2s_L16_L8  [Import (medium state -> small)]
+   972 cases (277 dev, 695 test) from 25 countries; receiver = small, layer 8; alpha chosen on dev: all 1.5, word 1.5, last 6.0
+   translated, all positions, alpha 1.5:   33% of test cases flip to the swapped capital; strongest control (randmap, best alpha)    0%
+
+[23:23:53] pair s2m_L8_L12  [exploratory]
+   1458 cases (437 dev, 1021 test) from 28 countries; receiver = medium, layer 12; alpha chosen on dev: all 2.0, word 2.0, last 6.0
+   translated, all positions, alpha 2.0:   67% of test cases flip to the swapped capital; strongest control (wrong, best alpha)    1%
+
+[23:38:03] pair s2m_L6_L8  [exploratory]
+   1458 cases (437 dev, 1021 test) from 28 countries; receiver = medium, layer 8; alpha chosen on dev: all 2.0, word 2.0, last 6.0
+   translated, all positions, alpha 2.0:   71% of test cases flip to the swapped capital; strongest control (random, best alpha)    2%
+
+[23:52:03] pair s2m_L2_L4  [exploratory]

@@ -32,6 +32,7 @@ import torch
 from src.sae_utils import load_sae_for_layer
 from src.transfer.export_eval import LinearTranslator, make_arms, make_recipe, norm_match_factors, plain_logits, small_change, summarise_logits
 from src.transfer.models import load_model, pick_device
+from src.transfer.runlog import tee_to
 from src.transfer.multilayer import layer_share, make_configs, run_injected_multi
 from src.transfer.swap import NEUTRAL, run_injected
 
@@ -263,6 +264,8 @@ def rerun_bar(g, res1, bench, edits, s2sum, chosen):
 
 # ------------------------------------------------------------------------------------------------------------------------------
 def main():
+    log_path = tee_to("10_multilayer_export")
+    print(f"log: {os.path.relpath(log_path, ROOT)}", flush=True)
     ap = argparse.ArgumentParser()
     ap.add_argument("--quick", action="store_true")
     ap.add_argument("--resume", action="store_true", help="reuse the saved stage 1")

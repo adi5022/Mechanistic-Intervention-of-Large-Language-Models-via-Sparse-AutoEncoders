@@ -1,0 +1,72 @@
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|##########| 148/148 [00:00<00:00, 10024.82it/s]
+Loaded pretrained model gpt2 into HookedTransformer
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights: 100%|##########| 292/292 [00:00<00:00, 7329.32it/s]
+Loaded pretrained model gpt2-medium into HookedTransformer
+
+[02:12:48] collecting states: 3150 fitting sequences, 788 held-out sequences
+   400,050 fitting tokens, 100,076 held-out tokens
+
+[02:14:41] s2m_L8_L12: train the neural map
+      epoch  1: train loss 0.3831, held-out (half A) per-dim R2 0.6545
+      epoch  2: train loss 0.3206, held-out (half A) per-dim R2 0.6797
+      epoch  3: train loss 0.3031, held-out (half A) per-dim R2 0.6869
+      epoch  4: train loss 0.2957, held-out (half A) per-dim R2 0.6909
+      epoch  5: train loss 0.2909, held-out (half A) per-dim R2 0.6939
+      epoch  6: train loss 0.2871, held-out (half A) per-dim R2 0.6963
+      epoch  7: train loss 0.2840, held-out (half A) per-dim R2 0.6983
+      epoch  8: train loss 0.2814, held-out (half A) per-dim R2 0.6999
+      epoch  9: train loss 0.2791, held-out (half A) per-dim R2 0.7012
+      epoch 10: train loss 0.2773, held-out (half A) per-dim R2 0.7020
+      epoch 11: train loss 0.2760, held-out (half A) per-dim R2 0.7024
+      epoch 12: train loss 0.2752, held-out (half A) per-dim R2 0.7025
+   held-out half B per-dimension R2: linear 0.5899   neural 0.6978
+   stitching recovered: linear 0.947, neural 0.968
+   difference cosine at the entity: linear 0.648, neural 0.760 (chance 95th pct 0.370 / 0.430)
+   difference cosine at the   last: linear 0.242, neural 0.260 (chance 95th pct 0.199 / 0.214)
+
+[02:16:38] s2m_L8_L16: train the neural map
+      epoch  1: train loss 0.3942, held-out (half A) per-dim R2 0.6390
+      epoch  2: train loss 0.3363, held-out (half A) per-dim R2 0.6624
+      epoch  3: train loss 0.3200, held-out (half A) per-dim R2 0.6693
+      epoch  4: train loss 0.3130, held-out (half A) per-dim R2 0.6733
+      epoch  5: train loss 0.3084, held-out (half A) per-dim R2 0.6763
+      epoch  6: train loss 0.3048, held-out (half A) per-dim R2 0.6786
+      epoch  7: train loss 0.3019, held-out (half A) per-dim R2 0.6805
+      epoch  8: train loss 0.2993, held-out (half A) per-dim R2 0.6821
+      epoch  9: train loss 0.2971, held-out (half A) per-dim R2 0.6833
+      epoch 10: train loss 0.2953, held-out (half A) per-dim R2 0.6841
+      epoch 11: train loss 0.2940, held-out (half A) per-dim R2 0.6845
+      epoch 12: train loss 0.2932, held-out (half A) per-dim R2 0.6846
+   held-out half B per-dimension R2: linear 0.5793   neural 0.6806
+   stitching recovered: linear 0.906, neural 0.936
+   difference cosine at the entity: linear 0.628, neural 0.745 (chance 95th pct 0.365 / 0.427)
+   difference cosine at the   last: linear 0.275, neural 0.288 (chance 95th pct 0.202 / 0.219)
+
+[02:17:45] m2s_L16_L8: train the neural map
+      epoch  1: train loss 0.3200, held-out (half A) per-dim R2 0.7071
+      epoch  2: train loss 0.2698, held-out (half A) per-dim R2 0.7292
+      epoch  3: train loss 0.2540, held-out (half A) per-dim R2 0.7353
+      epoch  4: train loss 0.2473, held-out (half A) per-dim R2 0.7389
+      epoch  5: train loss 0.2428, held-out (half A) per-dim R2 0.7418
+      epoch  6: train loss 0.2392, held-out (half A) per-dim R2 0.7440
+      epoch  7: train loss 0.2361, held-out (half A) per-dim R2 0.7460
+      epoch  8: train loss 0.2334, held-out (half A) per-dim R2 0.7475
+      epoch  9: train loss 0.2311, held-out (half A) per-dim R2 0.7487
+      epoch 10: train loss 0.2293, held-out (half A) per-dim R2 0.7495
+      epoch 11: train loss 0.2279, held-out (half A) per-dim R2 0.7499
+      epoch 12: train loss 0.2271, held-out (half A) per-dim R2 0.7500
+   held-out half B per-dimension R2: linear 0.6593   neural 0.7467
+   stitching recovered: linear 0.984, neural 0.999
+   difference cosine at the entity: linear 0.694, neural 0.780 (chance 95th pct 0.393 / 0.439)
+   difference cosine at the   last: linear 0.314, neural 0.320 (chance 95th pct 0.229 / 0.242)
+
+================================================================================================================
+RESULT  neural translator versus linear translator
+  pair          R2 lin   R2 nn |  stitch lin     nn |  word cos lin     nn |  last cos lin     nn chance p95
+  s2m_L8_L12     0.590   0.698 |       0.947  0.968 |         0.648  0.760 |         0.242  0.260      0.199
+  s2m_L8_L16     0.579   0.681 |       0.906  0.936 |         0.628  0.745 |         0.275  0.288      0.202
+  m2s_L16_L8     0.659   0.747 |       0.984  0.999 |         0.694  0.780 |         0.314  0.320      0.229
+
+  total time 380 s; weights in outputs/transfer/mlp_maps.pt
+================================================================================================================
+mlp exit 0

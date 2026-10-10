@@ -29,6 +29,7 @@ from src.sae_utils import load_sae_for_layer
 from src.transfer.b_aware_edit import tune_through_translator
 from src.transfer.export_eval import LinearTranslator, make_recipe, plain_logits, small_change, summarise_logits
 from src.transfer.models import load_model, pick_device
+from src.transfer.runlog import tee_to
 from src.transfer.swap import NEUTRAL, run_injected
 
 OUT_DIR = os.path.join(ROOT, "outputs", "transfer")
@@ -158,6 +159,8 @@ def gate5(summary):
 
 # ------------------------------------------------------------------------------------------------------------------------------
 def main():
+    log_path = tee_to("11_b_aware_edit")
+    print(f"log: {os.path.relpath(log_path, ROOT)}", flush=True)
     ap = argparse.ArgumentParser()
     ap.add_argument("--quick", action="store_true")
     ap.add_argument("--fresh", action="store_true", help="ignore saved tuned recipes")

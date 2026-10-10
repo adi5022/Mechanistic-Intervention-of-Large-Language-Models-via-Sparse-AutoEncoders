@@ -1,0 +1,66 @@
+# D9 (longer training, 40 epochs) terminal output, pasted by the author on 2026-10-10 (run about 17:58 to 18:17). Command:
+# $env:HF_HUB_OFFLINE=1; .venv\Scripts\python.exe tools/transfer/14_datasize_check.py --fractions 1.0 --epochs 40 --longer --tag longer
+# Progress bars and library warnings removed; numbers unchanged. The tool did not yet save epoch curves into its JSON, so this log is the record of the seed-0 curve (used for Entry 33 Figure 6).
+items loaded from outputs\transfer\d8_items.pt
+289 training records with a successful edit (1445 texts), 28 dev, 150 test texts (88 primary)
+
+reference, ridge map at dose 2.0 (D3): primary top-1    8%, gain 2.04, median rank 14; all 150: top-1    5%, median rank 27
+D7 recorded (all 289 edits): primary top-1 18%, median rank 7, epoch 15, dose 2.0
+
+      epoch  1: train KL 0.2113, dev top-1    4%, gain 1.39, median rank 23  <- best
+      epoch  2: train KL 0.1653, dev top-1    4%, gain 1.48, median rank 22  <- best
+      epoch  3: train KL 0.1430, dev top-1    4%, gain 1.51, median rank 21  <- best
+      epoch  4: train KL 0.1306, dev top-1    7%, gain 1.56, median rank 20  <- best
+      epoch  5: train KL 0.1211, dev top-1    7%, gain 1.58, median rank 20  <- best
+      epoch  6: train KL 0.1140, dev top-1    7%, gain 1.59, median rank 20  <- best
+      epoch  7: train KL 0.1084, dev top-1    7%, gain 1.60, median rank 20  <- best
+      epoch  8: train KL 0.1030, dev top-1    7%, gain 1.60, median rank 20  <- best
+      epoch  9: train KL 0.0982, dev top-1    7%, gain 1.62, median rank 20  <- best
+      epoch 10: train KL 0.0955, dev top-1    7%, gain 1.62, median rank 19
+      epoch 11: train KL 0.0922, dev top-1    7%, gain 1.61, median rank 19
+      epoch 12: train KL 0.0924, dev top-1    7%, gain 1.61, median rank 19
+      epoch 13: train KL 0.0877, dev top-1    7%, gain 1.63, median rank 18  <- best
+      epoch 14: train KL 0.0839, dev top-1    7%, gain 1.63, median rank 18
+      epoch 15: train KL 0.0824, dev top-1    7%, gain 1.64, median rank 18  <- best
+      epoch 16: train KL 0.0807, dev top-1    7%, gain 1.65, median rank 18  <- best
+      epoch 17: train KL 0.0797, dev top-1    7%, gain 1.65, median rank 18  <- best
+      epoch 18: train KL 0.0773, dev top-1    7%, gain 1.65, median rank 18  <- best
+      epoch 19: train KL 0.0764, dev top-1    7%, gain 1.65, median rank 18
+      epoch 20: train KL 0.0753, dev top-1    7%, gain 1.65, median rank 18
+      epoch 21: train KL 0.0737, dev top-1   11%, gain 1.67, median rank 17  <- best
+      epoch 22: train KL 0.0723, dev top-1    7%, gain 1.66, median rank 17
+      epoch 23: train KL 0.0710, dev top-1    7%, gain 1.65, median rank 18
+      epoch 24: train KL 0.0705, dev top-1    7%, gain 1.65, median rank 16
+      epoch 25: train KL 0.0700, dev top-1    7%, gain 1.66, median rank 16
+      epoch 26: train KL 0.0691, dev top-1   11%, gain 1.68, median rank 15  <- best
+      epoch 27: train KL 0.0685, dev top-1    7%, gain 1.67, median rank 15
+      epoch 28: train KL 0.0684, dev top-1    7%, gain 1.66, median rank 15
+      epoch 29: train KL 0.0674, dev top-1    7%, gain 1.66, median rank 15
+      epoch 30: train KL 0.0670, dev top-1    7%, gain 1.66, median rank 15
+      epoch 31: train KL 0.0653, dev top-1   11%, gain 1.69, median rank 15  <- best
+      epoch 32: train KL 0.0667, dev top-1    7%, gain 1.66, median rank 15
+      epoch 33: train KL 0.0679, dev top-1   11%, gain 1.71, median rank 15  <- best
+      epoch 34: train KL 0.0658, dev top-1    7%, gain 1.68, median rank 15
+      epoch 35: train KL 0.0642, dev top-1   11%, gain 1.70, median rank 15
+      epoch 36: train KL 0.0625, dev top-1   11%, gain 1.69, median rank 15
+      epoch 37: train KL 0.0632, dev top-1    7%, gain 1.67, median rank 15
+      epoch 38: train KL 0.0632, dev top-1   11%, gain 1.69, median rank 15
+      epoch 39: train KL 0.0637, dev top-1   11%, gain 1.70, median rank 15
+      epoch 40: train KL 0.0626, dev top-1   11%, gain 1.71, median rank 15  <- best
+   100% of the edits (289 records), seed 0: epoch 40, dose 1.0: primary top-1    2%, gain 1.81, median rank 19; all 150 top-1    1%  [361 s]
+   100% of the edits (289 records), seed 1: epoch 36, dose 1.0: primary top-1    2%, gain 1.82, median rank 20; all 150 top-1    1%  [385 s]
+   100% of the edits (289 records), seed 2: epoch 34, dose 1.0: primary top-1    2%, gain 1.81, median rank 19; all 150 top-1    1%  [395 s]
+
+========================================================================================================================
+RESULT  step D8 (does the map trained on edits improve with more training data?)
+  reference: ridge map (D3) primary top-1    8%, gain 2.04, median rank 14; D7 recorded: 18%, median rank 7
+  training edits         records    top-1 (mean, range over seeds)  mean log-rank gain  median rank (mean)
+  100%                       289            2%  (   2% to    2%)                1.81                19.3
+
+  decision rule (fixed in the plan before the run): top-1 at 100% at least 4 points above 50%, and mean log-rank gain rising from 25% to 50% to 100%  ->  n/a (needs the 50% and 100% fractions)
+
+  step D9 (longer training, 40 epochs against 15, same 289 edits): top-1   20% ->    2% (-17 points), mean log-rank gain 2.66 -> 1.81 (-0.85); epochs chosen on dev: [40, 36, 34]
+  rule fixed in the plan before the run: top-1 at least 4 points higher AND mean log-rank gain at least 0.1 higher than the 15-epoch runs  ->  NO REPRODUCIBLE IMPROVEMENT FROM LONGER TRAINING
+
+  total time 1150 s; saved outputs\transfer\d8_longer.json
+========================================================================================================================

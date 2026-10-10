@@ -1,0 +1,60 @@
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|##########| 148/148 [00:00<00:00, 9314.10it/s]
+D:\Projects\transient_steering\.venv\Lib\site-packages\sae_lens\saes\sae.py:253: UserWarning: 
+This SAE has non-empty model_from_pretrained_kwargs. 
+For optimal performance, load the model like so:
+model = HookedSAETransformer.from_pretrained_no_processing(..., **cfg.model_from_pretrained_kwargs)
+  warnings.warn(
+Loaded pretrained model gpt2 into HookedTransformer
+150 test records; 0 already done
+   5/150 (49 s)
+   10/150 (92 s)
+   15/150 (135 s)
+   20/150 (177 s)
+   25/150 (220 s)
+   30/150 (261 s)
+   35/150 (303 s)
+   40/150 (345 s)
+   45/150 (386 s)
+   50/150 (428 s)
+   55/150 (469 s)
+   60/150 (509 s)
+   65/150 (549 s)
+   70/150 (589 s)
+   75/150 (629 s)
+   80/150 (669 s)
+   85/150 (709 s)
+   90/150 (749 s)
+   95/150 (789 s)
+   100/150 (829 s)
+   105/150 (869 s)
+   110/150 (910 s)
+   115/150 (951 s)
+   120/150 (991 s)
+   125/150 (1031 s)
+   130/150 (1071 s)
+   135/150 (1111 s)
+   140/150 (1151 s)
+   145/150 (1191 s)
+   150/150 (1229 s)
+
+======================================================================================================================
+RESULT  Phase C: fact edit or word push? (GPT-2 small alone)
+  150 test records. Edit success = the target is rank 1 on the tuned prompt. PS = P(new) > P(true) on the 2 paraphrase prompts; NS = P(true) > P(new) on the 5 neighbour prompts.
+  variant                 success     PS     NS  para gain   carry   (para gain = mean log-rank gain on paraphrases, on records where the variant succeeded; carry = para gain / tuned-prompt gain)
+  all positions               59%    67%    54%       1.20    0.26   (88 of 150 records)
+  subject tokens only         12%    81%    49%       0.75    0.34   (18 of 150 records)
+  last position only           7%    65%    34%       0.23    0.02   (10 of 150 records)
+  random word, all pos.       45%    51%    61%       0.77    0.15   (67 of 150 records)
+  unedited small: PS   33%, NS   71%
+
+  paraphrase gain, real counterfactual target vs rank-matched random word (58 records where both edits succeeded): 1.04 vs 0.82, paired Wilcoxon (real greater) p = 3.2e-02
+  direction of the existing edit's change at the last position vs the target word's output direction: median cosine 0.051, median percentile among all words 91.9, median logit-lens rank of the target 4922
+    same for the random-word edit: median cosine 0.029, median logit-lens rank 12605
+
+  pre-stated reading: paraphrase gain above the random word's: no; subject-only keeps half of the all-position effect: no; change dominated by the target's output direction (lens rank <= 10): no   ->  READ-OUT STEERING
+
+  total time 1230 s
+======================================================================================================================
+
+phase c exit 0
+phase c exit 0

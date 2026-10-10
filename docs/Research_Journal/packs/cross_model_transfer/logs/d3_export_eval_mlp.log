@@ -1,0 +1,158 @@
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|##########| 148/148 [00:00<00:00, 12664.12it/s]
+Loaded pretrained model gpt2 into HookedTransformer
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights: 100%|##########| 292/292 [00:00<00:00, 9691.37it/s]
+D:\Projects\transient_steering\.venv\Lib\site-packages\sae_lens\saes\sae.py:253: UserWarning: 
+This SAE has non-empty model_from_pretrained_kwargs. 
+For optimal performance, load the model like so:
+model = HookedSAETransformer.from_pretrained_no_processing(..., **cfg.model_from_pretrained_kwargs)
+  warnings.warn(
+Loaded pretrained model gpt2-medium into HookedTransformer
+200 records (50 dev, 150 test); translator mlp; keys s2m_L8_L12,s2m_L8_L16
+
+[03:23:40] s2m_L8_L12 (mlp): stage 1, the tuned prompt, all doses, all arms
+   50/200 (52 s)
+   100/200 (98 s)
+   150/200 (144 s)
+   200/200 (190 s)
+   dose chosen on dev: 1.5
+
+[03:26:44] s2m_L8_L12 (mlp): stage 2, rewordings, neighbours and unrelated prompts (test records)
+   25/150 (389 s)
+   50/150 (576 s)
+   75/150 (764 s)
+   100/150 (951 s)
+   125/150 (1173 s)
+   150/150 (1474 s)
+
+[03:48:12] s2m_L8_L16 (mlp): stage 1, the tuned prompt, all doses, all arms
+   50/200 (1542 s)
+   100/200 (1605 s)
+   150/200 (1669 s)
+   200/200 (1732 s)
+   dose chosen on dev: 1.5
+
+[03:52:26] s2m_L8_L16 (mlp): stage 2, rewordings, neighbours and unrelated prompts (test records)
+   25/150 (1978 s)
+   50/150 (2171 s)
+   75/150 (2363 s)
+   100/150 (2554 s)
+   125/150 (2750 s)
+   150/150 (3018 s)
+
+==================================================================================================================================
+RESULT  steps D3 and D4 (controlled export, translator: mlp)
+
+  ====== s2m_L8_L12: dose chosen on dev = 1.5 ======
+  TUNED PROMPT, test records whose edit reached rank 1 in small (primary): 88 test records
+    unchanged medium: top-1    0%, ES   34%, median rank of the target 142
+    small with the edit itself: top-1  100%, ES  100%
+    arm                         dose 0.5        dose 1.0        dose 1.5        dose 2.0        dose 3.0        dose 4.0        dose 6.0    norm matched    (cells: top-1 / median rank)
+    translated                  0%    76        2%    28        6%    19       10%    14       10%    15       10%    21        9%    43        7%    19
+    random                      0%   131        0%   141        0%   145        1%   146        0%   224        1%   472        1%  1427        0%   132
+    wrong_recipe                0%   119        0%   125        0%   126        0%   133        0%   142        0%   172        1%   232        0%   129
+    word_push                   0%    45        3%    16       16%     5       40%     2       77%     1       91%     1       99%     1       19%     5
+    randtarget                  0%   131        0%    70        1%    50        2%    34        5%    62        6%    92        5%   148        1%    47
+    translated_withbos          0%    76        2%    28        6%    19       10%    13       10%    15       10%    21        9%    43
+  TUNED PROMPT, all test records: 150 test records
+    unchanged medium: top-1    0%, ES   28%, median rank of the target 256
+    small with the edit itself: top-1   59%, ES   89%
+    arm                         dose 0.5        dose 1.0        dose 1.5        dose 2.0        dose 3.0        dose 4.0        dose 6.0    norm matched    (cells: top-1 / median rank)
+    translated                  0%   132        1%    51        3%    30        6%    29        6%    69        7%   140        7%   398        4%    30
+    random                      0%   257        0%   226        0%   226        1%   259        0%   457        1%   861        1%  3317        0%   231
+    wrong_recipe                0%   258        0%   256        0%   258        0%   262        0%   287        0%   357        1%   369        0%   258
+    word_push                   0%    69        2%    22       12%     6       35%     2       79%     1       92%     1       99%     1       15%     6
+    randtarget                  0%   285        0%   160        1%   107        1%   105        3%   181        4%   354        3%   672        1%    98
+    translated_withbos          0%   135        1%    51        3%    32        6%    32        6%    69        7%   151        7%   398
+  GATE 3 (88 records): (a) top-1    6% >= 15%: NO;  (b) strongest control randtarget at dose 4.0 =    6%, margin >= 10 points: NO;  (c) paired p = 3.2e-07 < 0.01: ok   ->  FAIL
+
+  STAGE 2, s2m_L8_L12
+  88 test records (edit reached rank 1 in small); cells: PS (paraphrases: new beats true) / NS (neighbours: true still beats new) / unrelated KL / unrelated top-1 flips
+    arm                            PS     NS      KL   flips
+    medium unchanged              36%    67%   0.000      0%
+    small unchanged               40%    63%   0.000      0%
+    small with the edit           67%    54%   0.014     14%
+    medium, fact in prompt        97%    44%                
+    translated (chosen dose)      54%    62%   0.019      6%
+    translated (norm matched)     53%    62%   0.021      4%
+    random (chosen dose)          37%    66%   0.006      4%
+    random (norm matched)         38%    66%   0.005      2%
+    wrong_recipe (chosen dose)    35%    67%   0.016      7%
+    wrong_recipe (norm matched)    35%    67%   0.013      4%
+    word_push (chosen dose)       56%    46%   0.007      3%
+    word_push (norm matched)      57%    45%   0.007      3%
+  150 test records (all); cells: PS (paraphrases: new beats true) / NS (neighbours: true still beats new) / unrelated KL / unrelated top-1 flips
+    arm                            PS     NS      KL   flips
+    medium unchanged              30%    73%   0.000      0%
+    small unchanged               33%    71%   0.000      0%
+    small with the edit           54%    62%   0.015     18%
+    medium, fact in prompt        92%    43%                
+    translated (chosen dose)      43%    68%   0.017      7%
+    translated (norm matched)     43%    69%   0.018      4%
+    random (chosen dose)          31%    72%   0.006      4%
+    random (norm matched)         32%    72%   0.005      3%
+    wrong_recipe (chosen dose)    30%    73%   0.018      7%
+    wrong_recipe (norm matched)    30%    73%   0.015      4%
+    word_push (chosen dose)       47%    50%   0.007      4%
+    word_push (norm matched)      49%    49%   0.006      3%
+
+  plausible counterfactual target vs rank-matched random word (test records with a successful real edit, dose 1.5): top-1 for the counterfactual target    6%, for the random word    1%; median rank 19 vs 50
+
+  ====== s2m_L8_L16: dose chosen on dev = 1.5 ======
+  TUNED PROMPT, test records whose edit reached rank 1 in small (primary): 88 test records
+    unchanged medium: top-1    0%, ES   34%, median rank of the target 142
+    small with the edit itself: top-1  100%, ES  100%
+    arm                         dose 0.5        dose 1.0        dose 1.5        dose 2.0        dose 3.0        dose 4.0        dose 6.0    norm matched    (cells: top-1 / median rank)
+    translated                  0%    61        0%    29        8%    14       12%    10       14%    12       17%    18       10%    23        7%    16
+    random                      0%   136        0%   149        0%   148        0%   173        0%   236        0%   393        0%  1314        0%   152
+    wrong_recipe                0%   123        0%   129        0%   123        0%   121        0%   133        0%   152        0%   194        0%   124
+    word_push                   1%    14       36%     2       74%     1       89%     1       97%     1       99%     1      100%     1       72%     1
+    randtarget                  0%   117        0%    57        1%    37        3%    37        5%    37        6%    38        6%    60        1%    43
+    translated_withbos          0%    65        0%    29        8%    14       12%    10       14%    12       17%    18       10%    23
+  TUNED PROMPT, all test records: 150 test records
+    unchanged medium: top-1    0%, ES   28%, median rank of the target 256
+    small with the edit itself: top-1   59%, ES   89%
+    arm                         dose 0.5        dose 1.0        dose 1.5        dose 2.0        dose 3.0        dose 4.0        dose 6.0    norm matched    (cells: top-1 / median rank)
+    translated                  0%   117        0%    47        5%    31        7%    22        9%    33       10%    60        6%   119        4%    33
+    random                      0%   252        0%   242        0%   259        0%   321        0%   566        0%  1098        0%  2826        0%   255
+    wrong_recipe                0%   257        0%   234        0%   246        0%   262        0%   237        0%   258        0%   331        0%   245
+    word_push                   1%    17       29%     3       74%     1       91%     1       98%     1       99%     1      100%     1       67%     1
+    randtarget                  0%   229        0%   116        1%    82        3%    72        3%   127        3%   232        3%   398        1%    84
+    translated_withbos          0%   117        0%    53        5%    32        7%    23        9%    33       10%    67        6%   125
+  GATE 3 (88 records): (a) top-1    8% >= 15%: NO;  (b) strongest control randtarget at dose 4.0 =    6%, margin >= 10 points: NO;  (c) paired p = 1.2e-05 < 0.01: ok   ->  FAIL
+
+  STAGE 2, s2m_L8_L16
+  88 test records (edit reached rank 1 in small); cells: PS (paraphrases: new beats true) / NS (neighbours: true still beats new) / unrelated KL / unrelated top-1 flips
+    arm                            PS     NS      KL   flips
+    medium unchanged              36%    67%   0.000      0%
+    small unchanged               40%    63%   0.000      0%
+    small with the edit           67%    54%   0.014     14%
+    medium, fact in prompt        97%    44%                
+    translated (chosen dose)      49%    63%   0.018      8%
+    translated (norm matched)     49%    64%   0.014      5%
+    random (chosen dose)          38%    66%   0.006      2%
+    random (norm matched)         37%    66%   0.005      2%
+    wrong_recipe (chosen dose)    36%    66%   0.019      9%
+    wrong_recipe (norm matched)    36%    66%   0.015      7%
+    word_push (chosen dose)       77%    27%   0.028      6%
+    word_push (norm matched)      77%    29%   0.022      5%
+  150 test records (all); cells: PS (paraphrases: new beats true) / NS (neighbours: true still beats new) / unrelated KL / unrelated top-1 flips
+    arm                            PS     NS      KL   flips
+    medium unchanged              30%    73%   0.000      0%
+    small unchanged               33%    71%   0.000      0%
+    small with the edit           54%    62%   0.015     18%
+    medium, fact in prompt        92%    43%                
+    translated (chosen dose)      39%    69%   0.019      9%
+    translated (norm matched)     39%    70%   0.014      6%
+    random (chosen dose)          31%    73%   0.007      3%
+    random (norm matched)         31%    73%   0.005      2%
+    wrong_recipe (chosen dose)    31%    73%   0.019      9%
+    wrong_recipe (norm matched)    30%    73%   0.015      7%
+    word_push (chosen dose)       69%    30%   0.025      6%
+    word_push (norm matched)      69%    31%   0.020      5%
+
+  plausible counterfactual target vs rank-matched random word (test records with a successful real edit, dose 1.5): top-1 for the counterfactual target    8%, for the random word    1%; median rank 14 vs 37
+
+  total time 3028 s; saved outputs\transfer\d_eval_mlp.json and d_eval_mlp.pt (per-record numbers)
+==================================================================================================================================
+eval mlp exit 0
+eval mlp exit 0 (marker written by overnight3)
