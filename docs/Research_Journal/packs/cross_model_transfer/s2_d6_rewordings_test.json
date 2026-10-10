@@ -1,0 +1,1542 @@
+{
+ "PRIMARY (original edit reached rank 1 in small)": {
+  "n": 88,
+  "mean_real_before": 0.35795454545454547,
+  "mean_real_after": 0.6022727272727273,
+  "mean_rand_before": 0.25,
+  "mean_rand_after": 0.42045454545454547,
+  "mean_real_lift": 0.24431818181818182,
+  "mean_rand_lift": 0.17045454545454544,
+  "mean_diff": 0.07386363636363637,
+  "ci95": [
+   0.0,
+   0.1534090909090909
+  ],
+  "records_real_larger": 22,
+  "records_equal": 54,
+  "records_rand_larger": 12,
+  "p_wilcoxon_one_sided": 0.03125725557721854,
+  "reading": "NOT SHOWN at this sample size"
+ },
+ "ALL test records with a random-word arm": {
+  "n": 150,
+  "mean_real_before": 0.3,
+  "mean_real_after": 0.49666666666666665,
+  "mean_rand_before": 0.19666666666666666,
+  "mean_rand_after": 0.35333333333333333,
+  "mean_real_lift": 0.19666666666666666,
+  "mean_rand_lift": 0.15666666666666668,
+  "mean_diff": 0.04,
+  "ci95": [
+   -0.02,
+   0.10333333333333333
+  ],
+  "records_real_larger": 36,
+  "records_equal": 90,
+  "records_rand_larger": 24,
+  "p_wilcoxon_one_sided": 0.1119740379351557,
+  "reading": "NOT SHOWN at this sample size"
+ },
+ "rows": [
+  {
+   "case_id": 5364,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": -0.5,
+   "real_after": 1.0,
+   "real_before": 1.0,
+   "rand_after": 0.5,
+   "rand_before": 1.0
+  },
+  {
+   "case_id": 17070,
+   "primary": false,
+   "real_lift": 0.5,
+   "rand_lift": 0.0,
+   "real_after": 0.5,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 12886,
+   "primary": true,
+   "real_lift": 0.5,
+   "rand_lift": 0.5,
+   "real_after": 1.0,
+   "real_before": 0.5,
+   "rand_after": 1.0,
+   "rand_before": 0.5
+  },
+  {
+   "case_id": 12141,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 16046,
+   "primary": false,
+   "real_lift": 0.5,
+   "rand_lift": 0.0,
+   "real_after": 0.5,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 969,
+   "primary": false,
+   "real_lift": 0.5,
+   "rand_lift": 0.0,
+   "real_after": 0.5,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 15378,
+   "primary": true,
+   "real_lift": 0.5,
+   "rand_lift": 0.0,
+   "real_after": 1.0,
+   "real_before": 0.5,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 1424,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 1.0,
+   "real_before": 1.0,
+   "rand_after": 1.0,
+   "rand_before": 1.0
+  },
+  {
+   "case_id": 10109,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 20146,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 1.0,
+   "real_before": 1.0,
+   "rand_after": 0.5,
+   "rand_before": 0.5
+  },
+  {
+   "case_id": 19437,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 18945,
+   "primary": false,
+   "real_lift": 0.5,
+   "rand_lift": 0.5,
+   "real_after": 0.5,
+   "real_before": 0.0,
+   "rand_after": 0.5,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 12897,
+   "primary": false,
+   "real_lift": 1.0,
+   "rand_lift": 0.0,
+   "real_after": 1.0,
+   "real_before": 0.0,
+   "rand_after": 1.0,
+   "rand_before": 1.0
+  },
+  {
+   "case_id": 21206,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.5,
+   "real_before": 0.5,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 5582,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 1.0,
+   "real_before": 1.0,
+   "rand_after": 1.0,
+   "rand_before": 1.0
+  },
+  {
+   "case_id": 5524,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 1.0,
+   "real_before": 1.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 16457,
+   "primary": true,
+   "real_lift": 0.5,
+   "rand_lift": 0.0,
+   "real_after": 0.5,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 7436,
+   "primary": false,
+   "real_lift": 0.5,
+   "rand_lift": 0.0,
+   "real_after": 0.5,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 403,
+   "primary": true,
+   "real_lift": 0.5,
+   "rand_lift": 0.5,
+   "real_after": 0.5,
+   "real_before": 0.0,
+   "rand_after": 0.5,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 6537,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.5,
+   "real_after": 1.0,
+   "real_before": 1.0,
+   "rand_after": 0.5,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 17682,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.5,
+   "real_before": 0.5,
+   "rand_after": 0.5,
+   "rand_before": 0.5
+  },
+  {
+   "case_id": 17967,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 7607,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 13253,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.5,
+   "real_after": 1.0,
+   "real_before": 1.0,
+   "rand_after": 1.0,
+   "rand_before": 0.5
+  },
+  {
+   "case_id": 16835,
+   "primary": false,
+   "real_lift": 0.5,
+   "rand_lift": 0.0,
+   "real_after": 0.5,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 11266,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 18933,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 11576,
+   "primary": true,
+   "real_lift": 0.5,
+   "rand_lift": 0.0,
+   "real_after": 1.0,
+   "real_before": 0.5,
+   "rand_after": 0.5,
+   "rand_before": 0.5
+  },
+  {
+   "case_id": 15044,
+   "primary": true,
+   "real_lift": 0.5,
+   "rand_lift": 0.0,
+   "real_after": 0.5,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 8823,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 21601,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 1.0,
+   "real_before": 1.0,
+   "rand_after": 1.0,
+   "rand_before": 1.0
+  },
+  {
+   "case_id": 17956,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.5,
+   "rand_before": 0.5
+  },
+  {
+   "case_id": 19953,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 1.0,
+   "real_before": 1.0,
+   "rand_after": 1.0,
+   "rand_before": 1.0
+  },
+  {
+   "case_id": 187,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 12572,
+   "primary": true,
+   "real_lift": 0.5,
+   "rand_lift": 0.5,
+   "real_after": 0.5,
+   "real_before": 0.0,
+   "rand_after": 0.5,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 16793,
+   "primary": false,
+   "real_lift": 0.5,
+   "rand_lift": 0.0,
+   "real_after": 0.5,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 4235,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.5,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.5,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 16996,
+   "primary": true,
+   "real_lift": 0.5,
+   "rand_lift": 0.0,
+   "real_after": 0.5,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 18394,
+   "primary": true,
+   "real_lift": 0.5,
+   "rand_lift": 0.5,
+   "real_after": 1.0,
+   "real_before": 0.5,
+   "rand_after": 1.0,
+   "rand_before": 0.5
+  },
+  {
+   "case_id": 6733,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 13962,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.5,
+   "real_before": 0.5,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 1839,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 15764,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 1.0,
+   "real_before": 1.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 11951,
+   "primary": true,
+   "real_lift": 1.0,
+   "rand_lift": 0.0,
+   "real_after": 1.0,
+   "real_before": 0.0,
+   "rand_after": 1.0,
+   "rand_before": 1.0
+  },
+  {
+   "case_id": 18677,
+   "primary": true,
+   "real_lift": 0.5,
+   "rand_lift": 0.0,
+   "real_after": 1.0,
+   "real_before": 0.5,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 18166,
+   "primary": true,
+   "real_lift": 0.5,
+   "rand_lift": 0.0,
+   "real_after": 1.0,
+   "real_before": 0.5,
+   "rand_after": 0.5,
+   "rand_before": 0.5
+  },
+  {
+   "case_id": 6548,
+   "primary": true,
+   "real_lift": 0.5,
+   "rand_lift": 0.5,
+   "real_after": 1.0,
+   "real_before": 0.5,
+   "rand_after": 0.5,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 16538,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 1.0,
+   "real_before": 1.0,
+   "rand_after": 0.5,
+   "rand_before": 0.5
+  },
+  {
+   "case_id": 13546,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 1.0,
+   "real_before": 1.0,
+   "rand_after": 0.5,
+   "rand_before": 0.5
+  },
+  {
+   "case_id": 15890,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.5,
+   "rand_before": 0.5
+  },
+  {
+   "case_id": 11691,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 13579,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 1.0,
+   "real_before": 1.0,
+   "rand_after": 1.0,
+   "rand_before": 1.0
+  },
+  {
+   "case_id": 11340,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.5,
+   "real_after": 0.5,
+   "real_before": 0.5,
+   "rand_after": 0.5,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 51,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 1.0,
+   "real_after": 1.0,
+   "real_before": 1.0,
+   "rand_after": 1.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 17644,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 17698,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 20430,
+   "primary": false,
+   "real_lift": 0.5,
+   "rand_lift": 1.0,
+   "real_after": 0.5,
+   "real_before": 0.0,
+   "rand_after": 1.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 20068,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 10850,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 15012,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 19656,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.5,
+   "real_before": 0.5,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 916,
+   "primary": true,
+   "real_lift": 0.5,
+   "rand_lift": 0.0,
+   "real_after": 0.5,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 7523,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 20819,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 5806,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.5,
+   "real_after": 0.5,
+   "real_before": 0.5,
+   "rand_after": 1.0,
+   "rand_before": 0.5
+  },
+  {
+   "case_id": 18047,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.5,
+   "real_after": 1.0,
+   "real_before": 1.0,
+   "rand_after": 1.0,
+   "rand_before": 0.5
+  },
+  {
+   "case_id": 19151,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 1.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 1.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 5923,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.5,
+   "real_before": 0.5,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 3001,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 18056,
+   "primary": true,
+   "real_lift": 0.5,
+   "rand_lift": 0.0,
+   "real_after": 1.0,
+   "real_before": 0.5,
+   "rand_after": 1.0,
+   "rand_before": 1.0
+  },
+  {
+   "case_id": 8365,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 1063,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 1.0,
+   "real_before": 1.0,
+   "rand_after": 1.0,
+   "rand_before": 1.0
+  },
+  {
+   "case_id": 2308,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 2727,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 1.0,
+   "real_before": 1.0,
+   "rand_after": 1.0,
+   "rand_before": 1.0
+  },
+  {
+   "case_id": 546,
+   "primary": true,
+   "real_lift": 1.0,
+   "rand_lift": 0.0,
+   "real_after": 1.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 14843,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 477,
+   "primary": true,
+   "real_lift": 0.5,
+   "rand_lift": 0.0,
+   "real_after": 1.0,
+   "real_before": 0.5,
+   "rand_after": 0.5,
+   "rand_before": 0.5
+  },
+  {
+   "case_id": 9214,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.5,
+   "real_after": 1.0,
+   "real_before": 1.0,
+   "rand_after": 0.5,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 8177,
+   "primary": true,
+   "real_lift": 0.5,
+   "rand_lift": 1.0,
+   "real_after": 0.5,
+   "real_before": 0.0,
+   "rand_after": 1.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 8802,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.5,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.5,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 3587,
+   "primary": true,
+   "real_lift": 0.5,
+   "rand_lift": 0.0,
+   "real_after": 0.5,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 20473,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 6049,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.5,
+   "rand_before": 0.5
+  },
+  {
+   "case_id": 11286,
+   "primary": true,
+   "real_lift": 0.5,
+   "rand_lift": 0.0,
+   "real_after": 0.5,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 9512,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": -0.5,
+   "real_after": 1.0,
+   "real_before": 1.0,
+   "rand_after": 0.0,
+   "rand_before": 0.5
+  },
+  {
+   "case_id": 2277,
+   "primary": true,
+   "real_lift": 0.5,
+   "rand_lift": 0.5,
+   "real_after": 0.5,
+   "real_before": 0.0,
+   "rand_after": 0.5,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 5487,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.5,
+   "rand_before": 0.5
+  },
+  {
+   "case_id": 5230,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 8362,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 1.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 1.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 17281,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 5509,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 1.0,
+   "real_before": 1.0,
+   "rand_after": 0.5,
+   "rand_before": 0.5
+  },
+  {
+   "case_id": 8942,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 21240,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.5,
+   "real_before": 0.5,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 9649,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 14899,
+   "primary": true,
+   "real_lift": 0.5,
+   "rand_lift": 0.5,
+   "real_after": 0.5,
+   "real_before": 0.0,
+   "rand_after": 0.5,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 10551,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.5,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.5,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 16269,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.5,
+   "real_after": 1.0,
+   "real_before": 1.0,
+   "rand_after": 0.5,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 15524,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 3741,
+   "primary": true,
+   "real_lift": 0.5,
+   "rand_lift": 0.5,
+   "real_after": 0.5,
+   "real_before": 0.0,
+   "rand_after": 1.0,
+   "rand_before": 0.5
+  },
+  {
+   "case_id": 774,
+   "primary": true,
+   "real_lift": 0.5,
+   "rand_lift": 0.0,
+   "real_after": 0.5,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 10223,
+   "primary": true,
+   "real_lift": 0.5,
+   "rand_lift": 0.5,
+   "real_after": 1.0,
+   "real_before": 0.5,
+   "rand_after": 1.0,
+   "rand_before": 0.5
+  },
+  {
+   "case_id": 12666,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 1.0,
+   "rand_before": 1.0
+  },
+  {
+   "case_id": 11250,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.5,
+   "real_after": 1.0,
+   "real_before": 1.0,
+   "rand_after": 1.0,
+   "rand_before": 0.5
+  },
+  {
+   "case_id": 13792,
+   "primary": true,
+   "real_lift": 0.5,
+   "rand_lift": 0.5,
+   "real_after": 1.0,
+   "real_before": 0.5,
+   "rand_after": 1.0,
+   "rand_before": 0.5
+  },
+  {
+   "case_id": 6161,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.5,
+   "real_before": 0.5,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 8467,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 3563,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.5,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 1.0,
+   "rand_before": 0.5
+  },
+  {
+   "case_id": 8305,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.5,
+   "real_before": 0.5,
+   "rand_after": 1.0,
+   "rand_before": 1.0
+  },
+  {
+   "case_id": 16715,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 6851,
+   "primary": true,
+   "real_lift": 0.5,
+   "rand_lift": 0.0,
+   "real_after": 1.0,
+   "real_before": 0.5,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 19845,
+   "primary": false,
+   "real_lift": 0.5,
+   "rand_lift": 0.0,
+   "real_after": 0.5,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 14144,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 682,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.5,
+   "real_after": 1.0,
+   "real_before": 1.0,
+   "rand_after": 0.5,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 7385,
+   "primary": false,
+   "real_lift": 0.5,
+   "rand_lift": 0.0,
+   "real_after": 1.0,
+   "real_before": 0.5,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 585,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 1.0,
+   "real_before": 1.0,
+   "rand_after": 0.5,
+   "rand_before": 0.5
+  },
+  {
+   "case_id": 13019,
+   "primary": true,
+   "real_lift": 1.0,
+   "rand_lift": 0.0,
+   "real_after": 1.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 4799,
+   "primary": false,
+   "real_lift": 0.5,
+   "rand_lift": 0.0,
+   "real_after": 0.5,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 1157,
+   "primary": true,
+   "real_lift": 0.5,
+   "rand_lift": 1.0,
+   "real_after": 1.0,
+   "real_before": 0.5,
+   "rand_after": 1.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 5250,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.5,
+   "real_after": 1.0,
+   "real_before": 1.0,
+   "rand_after": 0.5,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 14603,
+   "primary": true,
+   "real_lift": 0.5,
+   "rand_lift": 0.5,
+   "real_after": 0.5,
+   "real_before": 0.0,
+   "rand_after": 0.5,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 16590,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 13980,
+   "primary": true,
+   "real_lift": 0.5,
+   "rand_lift": 0.0,
+   "real_after": 0.5,
+   "real_before": 0.0,
+   "rand_after": 0.5,
+   "rand_before": 0.5
+  },
+  {
+   "case_id": 17848,
+   "primary": false,
+   "real_lift": 0.5,
+   "rand_lift": 0.0,
+   "real_after": 0.5,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 7228,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.5,
+   "real_after": 1.0,
+   "real_before": 1.0,
+   "rand_after": 1.0,
+   "rand_before": 0.5
+  },
+  {
+   "case_id": 20669,
+   "primary": true,
+   "real_lift": 0.5,
+   "rand_lift": 0.0,
+   "real_after": 0.5,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 16927,
+   "primary": true,
+   "real_lift": 0.5,
+   "rand_lift": 0.5,
+   "real_after": 0.5,
+   "real_before": 0.0,
+   "rand_after": 0.5,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 14773,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 7313,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 1.0,
+   "real_before": 1.0,
+   "rand_after": 1.0,
+   "rand_before": 1.0
+  },
+  {
+   "case_id": 17167,
+   "primary": true,
+   "real_lift": 1.0,
+   "rand_lift": 0.0,
+   "real_after": 1.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 21250,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 1005,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 1.0,
+   "real_before": 1.0,
+   "rand_after": 1.0,
+   "rand_before": 1.0
+  },
+  {
+   "case_id": 12940,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 18869,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 10526,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 1.0,
+   "real_before": 1.0,
+   "rand_after": 1.0,
+   "rand_before": 1.0
+  },
+  {
+   "case_id": 21621,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.5,
+   "real_before": 0.5,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 20674,
+   "primary": true,
+   "real_lift": 1.0,
+   "rand_lift": 1.0,
+   "real_after": 1.0,
+   "real_before": 0.0,
+   "rand_after": 1.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 13968,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 1.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 1.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 1926,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 9784,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 4118,
+   "primary": false,
+   "real_lift": 0.5,
+   "rand_lift": 0.0,
+   "real_after": 0.5,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 6951,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 1.0,
+   "real_after": 1.0,
+   "real_before": 1.0,
+   "rand_after": 1.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 1554,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 10039,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.5,
+   "real_after": 0.5,
+   "real_before": 0.5,
+   "rand_after": 1.0,
+   "rand_before": 0.5
+  },
+  {
+   "case_id": 2317,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 2504,
+   "primary": true,
+   "real_lift": 0.5,
+   "rand_lift": 0.0,
+   "real_after": 1.0,
+   "real_before": 0.5,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 10169,
+   "primary": true,
+   "real_lift": 0.5,
+   "rand_lift": 0.5,
+   "real_after": 0.5,
+   "real_before": 0.0,
+   "rand_after": 0.5,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 9760,
+   "primary": true,
+   "real_lift": 0.5,
+   "rand_lift": 0.5,
+   "real_after": 0.5,
+   "real_before": 0.0,
+   "rand_after": 0.5,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 5184,
+   "primary": false,
+   "real_lift": 0.5,
+   "rand_lift": 0.0,
+   "real_after": 1.0,
+   "real_before": 0.5,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 21872,
+   "primary": false,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 0.0,
+   "real_before": 0.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  },
+  {
+   "case_id": 18511,
+   "primary": true,
+   "real_lift": 0.0,
+   "rand_lift": 0.0,
+   "real_after": 1.0,
+   "real_before": 1.0,
+   "rand_after": 0.0,
+   "rand_before": 0.0
+  }
+ ]
+}
