@@ -1,0 +1,79 @@
+# 16_rank1_term started 2026-10-10 20:31:52; arguments: 
+log: outputs\transfer\logs\16_rank1_term_20261010_203152.log
+Loaded pretrained model gpt2-medium into HookedTransformer
+
+[20:31:55] 1/5  judge items for the test records (another record's recipe and the random-word edit as controls; cached)
+Loaded pretrained model gpt2 into HookedTransformer
+   25/150 test records (69 s)
+   50/150 test records (128 s)
+   75/150 test records (184 s)
+   100/150 test records (240 s)
+   125/150 test records (295 s)
+   150/150 test records (352 s)
+   built 5400 items (352 s)
+289 training records (1445 texts, 289 tuned prompts), 28 dev records, 150 test records (88 primary)
+
+[20:37:45] 2/5  sweep: lambda [0.0, 0.01, 0.03, 0.1, 0.3, 1.0] x 3 seeds, 15 epochs each (dose and epoch chosen on the 28 dev records by dev gain)
+   lambda 0.0   seed 0: epoch 15, dose 2.0, dev gain 2.53 | test (primary records): top-1  18%, gain 2.64, median rank 7 | controls: wrong recipe   0%, random-word   6%   [78 s]
+   lambda 0.0   seed 1: epoch 15, dose 2.0, dev gain 2.54 | test (primary records): top-1  20%, gain 2.67, median rank 7 | controls: wrong recipe   0%, random-word   6%   [78 s]
+   lambda 0.0   seed 2: epoch 15, dose 2.0, dev gain 2.52 | test (primary records): top-1  20%, gain 2.67, median rank 7 | controls: wrong recipe   0%, random-word   6%   [78 s]
+   lambda 0.01  seed 0: epoch  9, dose 2.0, dev gain 2.50 | test (primary records): top-1  16%, gain 2.62, median rank 7 | controls: wrong recipe   0%, random-word   6%   [78 s]
+   lambda 0.01  seed 1: epoch 15, dose 2.0, dev gain 2.53 | test (primary records): top-1  20%, gain 2.69, median rank 7 | controls: wrong recipe   0%, random-word   6%   [78 s]
+   lambda 0.01  seed 2: epoch 14, dose 2.0, dev gain 2.51 | test (primary records): top-1  20%, gain 2.68, median rank 7 | controls: wrong recipe   0%, random-word   6%   [78 s]
+   lambda 0.03  seed 0: epoch 14, dose 2.0, dev gain 2.47 | test (primary records): top-1  18%, gain 2.67, median rank 7 | controls: wrong recipe   0%, random-word   6%   [78 s]
+   lambda 0.03  seed 1: epoch 15, dose 2.0, dev gain 2.47 | test (primary records): top-1  19%, gain 2.69, median rank 6 | controls: wrong recipe   0%, random-word   6%   [78 s]
+   lambda 0.03  seed 2: epoch 13, dose 2.0, dev gain 2.50 | test (primary records): top-1  19%, gain 2.72, median rank 7 | controls: wrong recipe   0%, random-word   6%   [78 s]
+   lambda 0.1   seed 0: epoch 13, dose 2.0, dev gain 2.43 | test (primary records): top-1  20%, gain 2.71, median rank 7 | controls: wrong recipe   0%, random-word   6%   [78 s]
+   lambda 0.1   seed 1: epoch 14, dose 2.0, dev gain 2.45 | test (primary records): top-1  23%, gain 2.73, median rank 7 | controls: wrong recipe   0%, random-word   6%   [78 s]
+   lambda 0.1   seed 2: epoch 15, dose 2.0, dev gain 2.44 | test (primary records): top-1  20%, gain 2.69, median rank 7 | controls: wrong recipe   0%, random-word   6%   [78 s]
+   lambda 0.3   seed 0: epoch 13, dose 2.0, dev gain 2.29 | test (primary records): top-1  20%, gain 2.65, median rank 7 | controls: wrong recipe   0%, random-word   5%   [78 s]
+   lambda 0.3   seed 1: epoch 10, dose 2.0, dev gain 2.25 | test (primary records): top-1  23%, gain 2.72, median rank 7 | controls: wrong recipe   0%, random-word   5%   [78 s]
+   lambda 0.3   seed 2: epoch 13, dose 2.0, dev gain 2.26 | test (primary records): top-1  20%, gain 2.67, median rank 7 | controls: wrong recipe   0%, random-word   5%   [78 s]
+   lambda 1.0   seed 0: epoch 12, dose 1.5, dev gain 2.10 | test (primary records): top-1  16%, gain 2.55, median rank 8 | controls: wrong recipe   0%, random-word   5%   [78 s]
+   lambda 1.0   seed 1: epoch 15, dose 1.5, dev gain 2.13 | test (primary records): top-1  15%, gain 2.50, median rank 9 | controls: wrong recipe   0%, random-word   5%   [78 s]
+   lambda 1.0   seed 2: epoch 11, dose 1.5, dev gain 2.15 | test (primary records): top-1  18%, gain 2.53, median rank 8 | controls: wrong recipe   0%, random-word   5%   [78 s]
+
+[21:01:06] 3/5  sweep summary (mean over seeds; test = primary records, read only, descriptive except lambda-star which is chosen by the dev score)
+   lambda    dev score        test top-1 (range)  test gain  median rank  wrong recipe  random word
+   0.0            2.53           20% ( 18% to  20%)       2.66          7.0            0%           6%
+   0.01           2.51           19% ( 16% to  20%)       2.67          7.0            0%           6%
+   0.03           2.48           19% ( 18% to  19%)       2.70          6.7            0%           6%
+   0.1            2.44           21% ( 20% to  23%)       2.71          7.0            0%           6%
+   0.3            2.26           21% ( 20% to  23%)       2.68          7.0            0%           5%
+   1.0            2.13           16% ( 15% to  18%)       2.53          8.3            0%           5%
+
+   replication check, lambda 0 against D8/D9b (top-1 about 20%, gain about 2.66): top-1  20%, gain 2.66
+   lambda-star (best mean dev score, ties to the smaller lambda) = 0.0
+
+[21:01:06] 4/5  judging lambda-star (0.0) and lambda 0 on rewordings, neighbours and unrelated prompts (3 seeds each)
+   lambda 0.0, seed 0 judged (1807 s)
+   lambda 0.0, seed 1 judged (1883 s)
+   lambda 0.0, seed 2 judged (1959 s)
+
+==================================================================================================================================
+RESULT  step D10 (a rank-1 term in the training loss of the map)
+
+  ---- PRIMARY: 88 test records whose original edit reached rank 1 in small (mean over 3 seeds) ----
+    arm                                                         top-1  med rank     PS     NS      KL   flips
+    medium unchanged                                                               36%    67%   0.000      0%
+    small unchanged                                                                40%    63%   0.000      0%
+    small with the edit                                                            67%    54%   0.014     14%
+    lambda 0 (D7 baseline): real recipe                           20%         7    55%    60%   0.035     10%
+    lambda 0 (D7 baseline): another record's recipe                0%       133    36%    65%     nan     n/a
+    lambda 0 (D7 baseline): random-word edit (own word)            6%        28    44%    65%     nan     n/a
+
+  ---- ALL test records (mean over 3 seeds) ----
+    arm                                                         top-1  med rank     PS     NS      KL   flips
+    medium unchanged                                                               30%    73%   0.000      0%
+    small unchanged                                                                33%    71%   0.000      0%
+    small with the edit                                                            54%    62%   0.015     18%
+    lambda 0 (D7 baseline): real recipe                           12%        12    44%    67%   0.036     11%
+    lambda 0 (D7 baseline): another record's recipe                0%       229    30%    72%     nan     n/a
+    lambda 0 (D7 baseline): random-word edit (own word)            3%        73    35%    71%     nan     n/a
+
+  GATE 7 (lambda-star = 0.0, 88 primary records, mean over 3 seeds): (a) top-1  20% >= 50%: NO;  (b) rewordings lift = 0.74 of the edit's own lift in small (>= 0.8): NO;  (c) neighbours fall 7 points, the edit itself in small 9.5: ok;  (d) real minus random-word top-1 = 14 points (>= 10): ok   ->  FAIL
+  reading (fixed in the plan before the run): (a) fails: a rank-1 term does not rescue the export with this map and data
+  improvement of lambda-star over lambda 0 in the same sweep: top-1  20% ->  20%, paired Wilcoxon on the per-record log-rank gain (88 records, seed-averaged) p = nan
+
+[21:04:31] 5/5  done in 1959 s; saved outputs\transfer\d10_rank1_term.json, the maps (d10_map_*.pt) and the log outputs\transfer\logs\16_rank1_term_20261010_203152.log
+==================================================================================================================================

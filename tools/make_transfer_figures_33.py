@@ -272,7 +272,44 @@ def fig7():
     save(fig, "e33_fig7_ladder")
 
 
+def fig8():
+    d = load("d10_rank1_term.json")
+    lams = d["lambdas"]
+    xs = list(range(len(lams)))
+    fig, axes = plt.subplots(1, 3, figsize=(13.4, 4.4))
+    # A: how well the training targets are satisfied (the hinge is averaged over all training texts; tuned prompts are one text in five)
+    for lam, color in ((0.0, GREY), (0.1, AQUA), (1.0, PURPLE)):
+        h = [r for r in d["runs"] if r["lambda"] == lam and r["seed"] == 0][0]["history"]
+        axes[0].plot([x["epoch"] for x in h], [5 * x["train_hinge"] for x in h], color=color, linewidth=2.2, label=f"lambda {lam:g}" + (" (no rank-1 term)" if lam == 0 else ""))
+    axes[0].set_xlabel("epoch")
+    axes[0].set_ylabel("shortfall from rank 1 on the training prompts\n(logits, approx.; lower = more targets on top)", fontsize=8.8)
+    axes[0].set_title("The map learns to put the 289\ntraining targets on top", loc="left", fontsize=10, color=INK)
+    axes[0].legend(frameon=False, fontsize=8.8)
+    # B: test top-1 against lambda
+    for i, lam in enumerate(lams):
+        ts = [100 * [x for x in r["rows"] if x["dose"] == r["dose"]][0]["real"]["prim"][0] for r in d["runs"] if r["lambda"] == lam]
+        axes[1].scatter([i] * len(ts), ts, color=AQUA, alpha=0.55, s=30, zorder=3)
+    axes[1].plot(xs, [100 * d["summary"][str(l)]["top1"] for l in lams], color=AQUA, linewidth=2.4, marker="o", markersize=7, markeredgecolor=SURFACE, markeredgewidth=1.2, zorder=4)
+    axes[1].axhline(50, color=MUTED, linestyle=(0, (1, 2)), linewidth=1.3)
+    axes[1].text(0, 51.5, "Gate 7 line (50%)", fontsize=8.5, color=INK2)
+    axes[1].set_ylim(0, 58)
+    axes[1].set_ylabel("target is medium's top answer on unseen test records (%)", fontsize=8.8)
+    axes[1].set_title("...but top-1 on unseen test records\ndoes not move (20% to 21%, then 16%)", loc="left", fontsize=10, color=INK)
+    # C: dev score
+    axes[2].plot(xs, [d["summary"][str(l)]["dev_score"] for l in lams], color=AQUA, linewidth=2.4, marker="o", markersize=7, markeredgecolor=SURFACE, markeredgewidth=1.2)
+    axes[2].set_ylabel("dev mean log-rank gain at the chosen dose\n(the number that picks lambda-star)", fontsize=8.8)
+    axes[2].set_title("The dev score falls as lambda grows,\nso the rule picked lambda 0", loc="left", fontsize=10, color=INK)
+    for ax in axes[1:]:
+        ax.set_xticks(xs)
+        ax.set_xticklabels([f"{l:g}" for l in lams])
+        ax.set_xlabel("weight lambda of the rank-1 term")
+    fig.suptitle("Telling the map directly to put the target on top fits the training targets but does not help on unseen ones", x=0.01, ha="left", fontsize=11, color=INK)
+    fig.text(0.01, -0.03, "3 seeds per lambda (dots), 88 primary test records, 28 dev records. Dose and epoch chosen on dev by gain. lambda 0 is the D7/D8 baseline and reproduces it (20%).", fontsize=8.5, color=INK2, va="top")
+    fig.tight_layout(rect=(0, 0.02, 1, 0.92))
+    save(fig, "e33_fig8_rank1_term")
+
+
 if __name__ == "__main__":
-    which = sys.argv[1:] or ["1", "2", "3", "4", "5", "6", "7"]
+    which = sys.argv[1:] or ["1", "2", "3", "4", "5", "6", "7", "8"]
     for w in which:
-        {"1": fig1, "2": fig2, "3": fig3, "4": fig4, "5": fig5, "6": fig6, "7": fig7}[w]()
+        {"1": fig1, "2": fig2, "3": fig3, "4": fig4, "5": fig5, "6": fig6, "7": fig7, "8": fig8}[w]()
