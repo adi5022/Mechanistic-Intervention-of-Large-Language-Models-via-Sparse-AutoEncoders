@@ -1,7 +1,7 @@
 """
 Second overnight queue (2026-10-11): waits until the first queue (tools/transfer/queue_overnight.py) has written "queue finished" to outputs/transfer/queue_status.txt, then runs step D14
-(25_regularised_map.py) first as a --smoke rehearsal and, only if that succeeds, for real; before them it runs the one-minute significance test S2 (26_d6_rewordings_test.py). The plans and
-readings are in docs/cross_model_transfer/PLAN.md (steps D14 and S2).
+(25_regularised_map.py) first as a --smoke rehearsal and, only if that succeeds, for real. The plan and readings are in docs/cross_model_transfer/PLAN.md (step D14).
+(The significance test S2, 26_d6_rewordings_test.py, was run by hand on the CPU on 2026-10-11 and is not part of this queue.)
 
     $env:HF_HUB_OFFLINE=1; .venv\\Scripts\\python.exe tools/transfer/queue_after.py
 
@@ -18,7 +18,7 @@ OUT = os.path.join(ROOT, "outputs", "transfer")
 STATUS = os.path.join(OUT, "queue_status.txt")
 STOP = os.path.join(OUT, "STOP_QUEUE")
 PY = sys.executable
-STEPS = [("S2 real", ["tools/transfer/26_d6_rewordings_test.py"]), ("D14 smoke", ["tools/transfer/25_regularised_map.py", "--smoke"]), ("D14 real", ["tools/transfer/25_regularised_map.py"])]
+STEPS = [("D14 smoke", ["tools/transfer/25_regularised_map.py", "--smoke"]), ("D14 real", ["tools/transfer/25_regularised_map.py"])]
 
 
 def say(msg):
