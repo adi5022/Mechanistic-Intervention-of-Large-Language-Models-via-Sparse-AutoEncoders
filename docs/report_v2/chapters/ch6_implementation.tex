@@ -18,5 +18,3 @@ Every fast path was checked against a slower reference before use, and the check
 \section{Reproducibility and Development Process}
 
 Every tool prints its pass rule, saves its raw output as a log and writes a result file with per-run details. Logs and results of every experiment are copied into a data pack under version control, and the figures of this report are drawn from the pack by scripts that run no model; larger local artefacts (2.6 GB) are archived with a manifest of sizes and checksums. Optimisation followed a \emph{one-bounded-step} rule: identify one bottleneck, measure the reference, make one change, verify equivalence on a fixed case, log, and only then approve the next step.
-
-The software and this report were developed with AI coding assistants (Antigravity AI earlier, Claude later) under the authors' direction. The authors chose the questions, pass bars, controls and each next experiment, and ran or approved every long job; the assistants wrote and tested code, drafted documentation and were asked to record failures as carefully as successes. \todo{confirm the wording of this statement with the project guide and the college policy}
