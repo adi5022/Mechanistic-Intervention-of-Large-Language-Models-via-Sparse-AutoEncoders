@@ -4,7 +4,7 @@ This chapter gives the mathematics of the final system as it is implemented in \
 
 \section{Setting and Notation}
 
-GPT-2 Small reads a prompt and, at the last position, gives a probability for every possible next token. The \textbf{residual stream} is the running sum that every attention and MLP block adds its output to. We write $x_p\in\mathbb{R}^{768}$ for its value at position $p$ at the hook point \texttt{blocks.L.hook\_resid\_pre}, with layer $L=8$ unless stated otherwise. For a prompt whose true answer is $t$, the \textbf{rank} of $t$ is its place in the next-token ordering (1 is first), and the \textbf{blocker} $b$ is the token currently ranked first. An edit \textbf{succeeds} when $t$ becomes first. That is a low bar (Section~\ref{sec:additive-story}), so we always read it together with side-effect measures and controls.
+GPT-2 Small reads a prompt and, at the last position, gives a probability for every possible next token. The \textbf{residual stream} is the running sum that every attention and MLP block adds its output to \cite{r53}. We write $x_p\in\mathbb{R}^{768}$ \cite{r1} for its value at position $p$ at the hook point \texttt{blocks.L.hook\_resid\_pre}, with layer $L=8$ unless stated otherwise. For a prompt whose true answer is $t$, the \textbf{rank} of $t$ is its place in the next-token ordering (1 is first), and the \textbf{blocker} $b$ is the token currently ranked first. An edit \textbf{succeeds} when $t$ becomes first. That is a low bar (Section~\ref{sec:additive-story}), so we always read it together with side-effect measures and controls.
 
 \section{SAE Features and Delta Patching}
 
@@ -16,7 +16,7 @@ where row $W_{\mathrm{dec}}[k]$ is the direction of feature $k$ in the residual 
 \begin{equation}\label{eq:delta}
 \Delta_p=\sum_{k}(s_k-1)\,f_{p,k}\,W_{\mathrm{dec}}[k],\qquad x'_p=x_p+\Delta_p ,
 \end{equation}
-at every prompt position $p$. Muting with strength $\mu\in[0,1]$ means $s_k=1-\mu$, so $\mu=1$ removes the feature, and boosting with strength $\beta\ge0$ means $s_k=1+\beta$. When every $s_k=1$ the edit is exactly zero.
+at every prompt position $p$. Muting with strength $\mu\in[0,1]$ means $s_k=1-\mu$, so $\mu=1$ removes the feature, and boosting with strength $\beta\ge0$ means $s_k=1+\beta$. When every $s_k=1$ the edit is exactly zero. The formulation was fixed in journal 12 \cite{p5}.
 
 \section{Choosing Candidates: Causal Ranking}\label{sec:selection}
 
@@ -24,7 +24,7 @@ Ranking all 24,576 features by removing each one would take as many forward pass
 \begin{equation}\label{eq:causal}
 \Delta p_k(v)=P_{\mathrm{ablate}(k)}(v)-P_{\mathrm{clean}}(v).
 \end{equation}
-For the blocker ($v=b$) the most negative values are its strongest drivers, which form the \emph{mute list}. For the target ($v=t$) the most negative values are its strongest helpers, which form the \emph{boost list}. The $N$ removals are stacked into the batch dimension of a single model call, so ranking costs two batched calls instead of $2N+1$ separate ones.
+For the blocker ($v=b$) the most negative values are its strongest drivers, which form the \emph{mute list}. For the target ($v=t$) the most negative values are its strongest helpers, which form the \emph{boost list}. The $N$ removals are stacked into the batch dimension of a single model call, so ranking costs two batched calls instead of $2N+1$ separate ones \cite{p5}.
 
 \section{The Hybrid Mute and Boost Sweep}\label{sec:sweep}
 
@@ -32,7 +32,13 @@ The \textbf{safety filter} tests every candidate alone at its strength and keeps
 \begin{equation}\label{eq:safe}
 \mathrm{safe}(k)\iff r_{k}(t)\le r_{0}(t)\;\wedge\;p_{k}(t)-p_{0}(t)\ge-10^{-6},
 \end{equation}
-where $r$ and $p$ are the target's rank and probability with feature $k$ applied alone, and $r_0,p_0$ are the baseline values. A feature that is safe on both sides is kept on one side only. The sweep then applies the first $k$ mutes and the first $k$ boosts together in one forward pass, for $k=1,2,\dots$, and stops when the target is first. It reports the best step and not the last one, because adding features that are each safe does not always help. When both pools are used up, \textbf{pool refill} keeps every feature applied so far, makes one pass to get the \emph{steered baseline} and its new blocker, and ranks and filters the remaining features again, including ones rejected earlier.
+where $r$ and $p$ are the target's rank and probability with feature $k$ applied alone, and $r_0,p_0$ are the baseline values. A feature that is safe on both sides is kept on one side only. The sweep then applies the first $k$ mutes and the first $k$ boosts together in one forward pass, for $k=1,2,\dots$, and stops when the target is first. It reports the best step and not the last one, because adding features that are each safe does not always help. When both pools are used up, \textbf{pool refill} keeps every feature applied so far, makes one pass to get the \emph{steered baseline} and its new blocker, and ranks and filters the remaining features again, including ones rejected earlier \cite{p3,p6}. Figure~\ref{fig:algo} gives the whole loop.
+
+\begin{figure}[!htb]
+\centering
+\safegraphic[width=0.78\linewidth]{figures/v4_algo}
+\caption[The hybrid sweep as a flow chart]{The hybrid sweep as a flow chart \cite{p6}. \textbf{How to read:} follow the arrows from the top. Blue boxes are the ranking and filtering steps of Equations~\ref{eq:causal} and~\ref{eq:safe}, the green box is the sweep itself, and the orange box is pool refill, which sends the loop back to the ranking step when the pools run dry. The loop stops when the target is first, or when no feature is left.}\label{fig:algo}
+\end{figure}
 
 \section{The Gradient-Descent Editor}\label{sec:gd-method}
 
@@ -48,13 +54,13 @@ We run blocks 8 to 11 from the edited state and read the logits $\ell$ at the la
 \begin{equation}\label{eq:loss}
 \mathcal{L}=\max\!\bigl(0,\;\gamma-(\ell_t-\max_{v\ne t}\ell_v)\bigr)+\lambda_{\mathrm{KL}}\,\mathbf{1}[\text{target leads}]\,\mathrm{KL}+\lambda_{\mathrm{size}}\sum_k|a_k|\,w_k ,
 \end{equation}
-with margin $\gamma=0.3$, $\lambda_{\mathrm{KL}}=3$, $\lambda_{\mathrm{size}}=0.005$, and $w_k$ the feature's share of the total maximum activation. The first term asks the target to beat every other token by $\gamma$ logits. The second penalises changes to the rest of the distribution,
+with margin $\gamma=0.3$, $\lambda_{\mathrm{KL}}=3$, $\lambda_{\mathrm{size}}=0.005$, and $w_k$ the feature's share of the total maximum activation. The first term asks the target to beat every other token by $\gamma$ logits. The second penalises changes to the rest of the distribution, measured by the Kullback-Leibler divergence \cite{r54},
 \begin{equation}\label{eq:kl}
 \mathrm{KL}=\sum_{v\notin\{t,b\}}q_v\log\frac{q_v}{\tilde p_v},\qquad q=\mathrm{softmax}\bigl(\ell^{\mathrm{clean}}_{\setminus\{t,b\}}\bigr),\ \ \tilde p=\mathrm{softmax}\bigl(\ell_{\setminus\{t,b\}}\bigr),
 \end{equation}
-taken over all tokens except the target and the blocker, so that the intended change is not penalised. It is charged only once the target leads, which matches the sweep's stopping rule. The third term prefers small edits. Only the $z_k$ are updated, by Adam \cite{r36} (learning rate 0.1, 100 steps), and GPT-2's weights and the SAE are frozen and receive no gradient. We keep the best iterate and re-check it through the same hook as the sweep in a full forward pass, so the reported rank does not depend on the shortcut used during tuning. Figure~\ref{fig:gdflow} shows the flow.
+taken over all tokens except the target and the blocker, so that the intended change is not penalised. It is charged only once the target leads, which matches the sweep's stopping rule. The third term prefers small edits. Only the $z_k$ are updated, by Adam \cite{r36} (learning rate 0.1, 100 steps), and GPT-2's weights and the SAE are frozen and receive no gradient. We keep the best iterate and re-check it through the same hook as the sweep in a full forward pass, so the reported rank does not depend on the shortcut used during tuning \cite{p13}. Figure~\ref{fig:gdflow} shows the flow.
 
-\begin{figure}[t]
+\begin{figure}[!htb]
 \centering
 \safegraphic[width=0.86\linewidth]{figures/h_gd_flow}
 \caption{The gradient-descent editor. Only the free numbers $z_k$ are updated.}\label{fig:gdflow}
@@ -68,12 +74,12 @@ A multiplier cannot switch on a silent feature, because $0\times m=0$ (Figure~\r
 \end{equation}
 The set $\mathcal{S}$ holds the 200 features that are exactly silent at the last position and have the largest positive first-order score $W_{\mathrm{dec}}[k]\cdot g$, where $g=\partial(\ell_t-\max_{v\ne t}\ell_v)/\partial x_{\mathrm{last}}$ is the gradient of the target's margin with respect to the residual. Each amount is $c_k=\mathrm{cap}\cdot(\sigma(s_k)-\sigma(s_0))$ for $s_k\ge s_0$ and 0 otherwise. Every amount starts at exactly zero, $\mathrm{cap}$ is the loudest feature on the real prompt positions, and an extra loss $0.005\sum_kc_k/\mathrm{cap}$ discourages large additions. The score is a first-order estimate of how the margin changes. That is why this edit writes the \emph{output direction of the answer} and not a representation of a fact (Section~\ref{sec:additive-story}).
 
-\begin{figure}[t]
+\begin{figure}[!htb]
 \centering
 \safegraphic[width=0.8\linewidth]{figures/h_additive}
-\caption{Why an additive edit was tried. A multiplier leaves a silent feature (f3, f5) at zero, while an additive amount $c$ switches it on.}\label{fig:addmath}
+\caption[Why an additive edit was tried]{Why an additive edit was tried. A multiplier leaves a silent feature (f3, f5) at zero, while an additive amount $c$ switches it on.}\label{fig:addmath}
 \end{figure}
 
 \section{Benchmark and Metrics}\label{sec:bench}
 
-The benchmark (16,360 CounterFact prompts, a subject-safe split, 300 test prompts) is described in Section~\ref{sec:scale}. We report the \emph{rank} and \emph{probability} of the target; the \emph{same-prompt KL} (Equation~\ref{eq:kl}); the \emph{edit size}, which is the norm of the change divided by the norm of the residual at the last position; and the effect of the same edit on 20 unrelated prompts, on CounterFact's reworded and neighbouring prompts, and on generated text. Methods are compared on the same prompts with the exact McNemar test \cite{r39} on reaching rank 1 and the Wilcoxon test \cite{r40} on KL. We made our choices on validation prompts and only read the test prompts.
+The benchmark (16,360 CounterFact prompts, a subject-safe split, 300 test prompts) is described in Section~\ref{sec:scale}. We report the \emph{rank} and \emph{probability} of the target; the \emph{same-prompt KL} (Equation~\ref{eq:kl}); the \emph{edit size}, which is the norm of the change divided by the norm of the residual at the last position; and the effect of the same edit on 20 unrelated prompts, on CounterFact's reworded and neighbouring prompts, and on generated text. The reworded and neighbour scores are ROME's paraphrase and neighbourhood scores \cite{r2} (Table~\ref{tab:metricmap}), which lets a reader compare them with the editing literature. Our success criterion, rank 1 over the whole vocabulary, is stricter than ROME's efficacy score, which compares only the new and the true answer. Methods are compared on the same prompts with the exact McNemar test \cite{r39} on reaching rank 1 and the Wilcoxon signed-rank test \cite{r40} on KL, and bootstrap intervals \cite{r57} are used where a difference of two shares is reported. We made our choices on validation prompts and only read the test prompts.

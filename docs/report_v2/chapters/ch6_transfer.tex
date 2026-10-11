@@ -1,0 +1,114 @@
+\chapter{Applied Study: Carrying an Edit to Another Model}\label{ch:transfer}
+
+This chapter describes a \emph{side study}. It is not the next version of the system from Chapters~\ref{ch:method} and~\ref{ch:evolution}. We took the tools that work had produced (the edit, the benchmark, the controls and the habit of fixing pass bars first) and applied them to a new question, to see whether the interpretability and intervention work was useful beyond one model. The scores it uses for rewordings and neighbours are ROME's (Chapter~\ref{ch:rome}). Results are cited to the project records \cite{p16,p17,p18}, and the pass bars are listed in Appendix~B.
+
+\section{The Question and the Design}
+
+\textit{Can the change an edit makes inside GPT-2 Small be translated and added to GPT-2 Medium at inference time with no weight change, and can Medium's state improve Small?} We call the first direction \textbf{Export} (small to medium) and the second \textbf{Import} (medium to small). Figure~\ref{fig:overview} shows both. The two models do not share internal coordinates (width 768 against 1024) \cite{r1}, so we need a \emph{translator}. And since Section~\ref{sec:additive-story} showed that ``the answer reaches rank 1'' is weak evidence, every test here has controls. The idea of moving representations between models by a learned map follows earlier work on model stitching \cite{r41,r42,r44}.
+
+\begin{figure}[!htb]
+\centering
+\safegraphic[width=0.72\linewidth]{figures/r_overview}
+\caption[The two directions studied]{The two directions studied. \textbf{How to read:} the left box is GPT-2 Small, the right box GPT-2 Medium, and the middle box is the translator. Red arrows: Export carries the change an edit makes in Small into Medium. Blue arrows: Import carries Medium's state into Small. No weight changes, and the SAE is used only where the edit is made \cite{p16}.}\label{fig:overview}
+\end{figure}
+
+\textbf{Models and data.} ``Small'' is GPT-2 Small with its layer-8 SAE, and ``medium'' is GPT-2 Medium (24 layers, width 1024, no SAE) \cite{r1}. They share one tokenizer. We pair small's layer 8 with medium's layer 16. The benchmark is 200 CounterFact records \cite{r2} from the hard set of Section~\ref{sec:scale}, split into 50 development (dev) records and 150 test records. Dev records are used to choose settings (layer, dose, epoch), and test records are only read. The 100 development records of the ROME baseline are excluded. The edit tuned in small reaches rank 1 on 116 of the 200 records. The \textbf{88 primary test records} are the test records where it does, because only there is there an edit to carry over. Before anything is done, medium's median rank for the target is 142 \cite{p16}.
+
+\textbf{The translator.} We translate only the \emph{change} an edit makes, so the bias of an affine map cancels and the translated change is $\Delta_S W$ (zero at the first position). We tried four ways of getting $W$. (1) A \emph{ridge map} fitted on ordinary text, $W=\arg\min\lVert(H_S-\mu_S)W-(H_M-\mu_M)\rVert^2+\lambda\lVert W\rVert^2$, over paired states of the two models on Wikitext-2 \cite{r55} (500,126 fit tokens), using ridge regression \cite{r45}. (2) A \emph{neural map}, which is the ridge map plus a one-hidden-layer correction. (3) A \emph{linear map trained on edits}, which starts from the ridge map and is trained so that medium's answers move the way small's do. Its goal is $q=\mathrm{softmax}(\ell_M+\ell_S^{\mathrm{edit}}-\ell_S)$ and its loss is $\mathrm{KL}(q\,\Vert\,p_M(h_M+\alpha\Delta_SW))$ \cite{r54} over 289 successful training edits. (4) \emph{No fixed map}: we re-tune the 200 multipliers for each sentence against \emph{medium's} output. This is a ceiling and not a transfer, since it looks at medium every time.
+
+\textbf{Export, Import and controls.} Export adds the translated change while medium reads a sentence, $h_M'=h_M+\alpha\,\Delta_S W$ at layer 16 at every position except the first. The \textbf{dose} $\alpha$ is chosen on dev. From step D10 on we chose it by the best mean log-rank gain, because choosing by dev top-1 on 28 records proved fragile. Import mixes small's state with medium's translated state, $h_S'=(1-\gamma)h_S+\gamma\,T(h_M)$, where $\gamma=1$ means full replacement. The receiving model is never shown the answer. The controls are a random vector of the same size, another record's edit, an edit toward a random word of matched starting rank, a \emph{word push} along the target's output direction, and the fact stated in medium's prompt. The word push uses the answer, so it is a comparison and not a method. For Import the controls are a state from a wrong sentence, the average state and a random map. \emph{Rewordings} and \emph{neighbours} are the share of reworded prompts on which the new answer beats the true one, and the share of other-subject prompts on which the true answer still wins (ROME's PS and NS, Table~\ref{tab:metricmap}). \textbf{Every pass bar (``gate'') was written into the project plan before the run that judged it, and none was moved.} A step designed after we saw a result is labelled post-hoc and cannot change a verdict (Appendix~B) \cite{p18}.
+
+\section{The Channel Works}\label{sec:channel}
+
+The ridge map fits well enough to keep the receiving model working. Per-dimension $R^2$ is 0.58 from small layer 8 to medium layer 16 and 0.66 from medium 16 to small 8. When we stitch one model's first layers to the other's last layers through the map, it recovers 91\% (Export) and 98\% (Import) of the receiver's own quality. The map copies \emph{which word changed} well (cosine 0.63 to 0.76) but the summary at the last position only weakly (0.24 to 0.31). The translator therefore passes its pre-set bar for Import and misses it for Export \cite{p16}.
+
+As a positive control we swap one country for another in a template sentence. We translate the difference between the source model's states, add it to the receiver, and count a hit when the receiver's top answer becomes the swapped capital. The translated change works on \textbf{55\%} of test cases for Export and \textbf{33\%} for Import, against at most 0.4\% for a random vector, a random map and another pair's difference (Figure~\ref{fig:swap}) \cite{p16}.
+
+\begin{figure}[!htb]
+\centering
+\safegraphic[width=0.88\linewidth]{figures/r_swap}
+\caption[The positive control, a country swap]{The positive control, a country swap \cite{p16}. \textbf{How to read:} each bar is the share of test cases where the receiving model's top answer becomes the capital of the swapped country after the translated change is added. The small tick shows the best control (a random vector, a random map or another pair's difference). Both bars are far above their controls, so the channel carries information in both directions.}\label{fig:swap}
+\end{figure}
+
+\section{Export: a Real but Weak Effect}\label{sec:export}
+
+For each of the 88 primary test records we take the edit tuned in small, pass it through the ridge map and add it to medium at layer 16 (Table~\ref{tab:export}, Figures~\ref{fig:doses} and~\ref{fig:exportside}). The effect is real, graded and specific. The target's median rank in medium falls from 142 to \textbf{14} and it becomes the top answer on \textbf{8\%} of records. Reworded prompts favour the new answer on 52\% against 36\% unchanged, and neighbours lose only 4 points. A plain word push makes the target first on 83\% of records, but only 23\% of neighbours keep the true answer, and stating the fact in medium's prompt costs 23 points of neighbours. The pre-set bar (top-1 of at least 15\%, and 10 points above the strongest control) was not met \cite{p16}.
+
+\begin{table}[t]
+\centering\small
+\caption{Export of the edit through the ridge map (88 primary test records; dose chosen on dev) \cite{p16}.}\label{tab:export}
+\begin{tabular}{|p{0.38\linewidth}|p{0.10\linewidth}|p{0.12\linewidth}|p{0.12\linewidth}|p{0.12\linewidth}|}
+\hline
+\textbf{Arm} & \textbf{Top-1} & \textbf{Median rank} & \textbf{Rewordings} & \textbf{Neighbours}\\ \hline
+Medium unchanged & 0\% & 142 & 36\% & 67\%\\ \hline
+\textbf{Translated edit} & \textbf{8\%} & \textbf{14} & \textbf{52\%} & \textbf{63\%}\\ \hline
+Random vector & 0\% & 157 & 38\% & 66\%\\ \hline
+Another record's edit & 0\% & 128 & 36\% & 65\%\\ \hline
+Word push (uses the answer) & 83\% & 1 & 82\% & 23\%\\ \hline
+Fact stated in medium's prompt & -- & -- & 97\% & 44\%\\ \hline
+\end{tabular}
+\end{table}
+
+\begin{figure}[!htb]
+\centering
+\safegraphic[width=0.95\linewidth]{figures/r_export_doses}
+\caption[How the effect depends on the dose]{How the effect depends on the dose \cite{p16}. \textbf{How to read:} the horizontal axis is the dose, the strength with which the translated change is added. (a) Median rank of the target (log scale, lower is better), with the dashed line showing unchanged medium. (b) Share of records where the target becomes medium's top answer. The translated edit (blue) improves clearly above the controls but stays far from the word push (red), which uses the answer itself.}\label{fig:doses}
+\end{figure}
+
+\begin{figure}[!htb]
+\centering
+\safegraphic[width=0.95\linewidth]{figures/r_export_side}
+\caption[Effect on other prompts, Export through the ridge map]{Effect on other prompts, Export through the ridge map \cite{p16}. \textbf{How to read:} (a) share of reworded prompts where the new answer beats the true one (higher means the edit carries over). (b) Share of neighbour prompts where the true answer still wins (higher means less damage). The translated edit improves rewordings (52\% against 36\%) and spares neighbours (63\% against 67\%). The word push wins on rewordings but ruins neighbours (23\%), and the fact in the prompt does so to a lesser degree.}\label{fig:exportside}
+\end{figure}
+
+\section{Searching for a Better Translator}\label{sec:search}
+
+Since the effect was real but weak, we tried seven changes, each with its pass rule written first (Figure~\ref{fig:ladder}; Appendix~B). Injecting at layers 4, 8, 12, 16 and 20 gave 0, 5, 5, 8 and 1\%, and splitting the dose over several layers did no better, so the layer is not the limit. A neural map fits ordinary text much better ($R^2$ up by 0.09 to 0.11) but exports no better (8\%), so a better fit to text does not help. A \textbf{map trained on edits} (method 3) roughly doubled the result to 18\% top-1 (median rank 14 down to 7, paired Wilcoxon test \cite{r40}, $p=5\times10^{-9}$) and stayed specific to the record. More training edits, longer training and a direct rank-1 term in the loss all left it at about 20\% \cite{p16,p17}.
+
+\textbf{Why it plateaus.} With the rank-1 term, the map learned its 289 training targets (95\% top-1 on them) but not unseen words (16\%), which means it memorises. When we gave it 1,221 more edits toward 759 random target words, the memorisation went away but unseen records got \emph{worse}, from 20\% to 14\% (Figure~\ref{fig:gap}). The loss asks medium to copy small's shift and not to reach rank 1, so a better copy does not help. \textbf{Per-sentence tuning is a ceiling.} Re-tuning the multipliers against medium's output reaches the top answer on 95\% of records (84\% on all 150), with the same neighbour cost as the source edit inside small (8 points against 9). So the channel can carry a rank-1 edit, and what fails is the compatibility of an edit tuned for small with medium. The ceiling's solution points only partly in the direction of the original edit (cosine 0.51 against 0.02 by chance), so a map that merely transforms the given edit cannot supply what is missing \cite{p16,p17}.
+
+\begin{figure}[!htb]
+\centering
+\safegraphic[width=0.88\linewidth]{figures/r_ladder}
+\caption[Top-1 of every export variant on the same 88 test records]{Top-1 of every export variant on the same 88 test records \cite{p16,p17}. \textbf{How to read:} each bar is one version of the translator, from the first (left) to the last tried (right); taller is better. Blue: map fitted on text. Green: map trained on edits. Red: per-sentence tuning against medium's output (a ceiling, not a transfer). Every transfer variant stops at about 20\%, far below the 50\% pass bar.}\label{fig:ladder}
+\end{figure}
+
+\begin{figure}[!htb]
+\centering
+\safegraphic[width=0.85\linewidth]{figures/r_training_gap}
+\caption[More and more varied training edits did not help]{More and more varied training edits did not help \cite{p17}. \textbf{How to read:} the horizontal axis is the amount of extra, synthetic training edits added to the 289 real ones. The blue line is the share of the map's own training prompts where the target becomes medium's top answer, the green line the same on unseen test records. Training performance falls from 32\% to 18\% as the memorisation disappears, but test performance does not rise: it falls from 20\% to 14\%.}\label{fig:gap}
+\end{figure}
+
+\section{What Is Carried: a Fact or a Push?}\label{sec:push}
+
+The question from Section~\ref{sec:additive-story} applies to Export too. The gain on reworded prompts has to be measured against each arm's \emph{own} unchanged level, since a random word starts lower (25\% against 36\%). Measured this way, the per-sentence multipliers gain 24.4 points for the real target and 17.0 for a random word (difference +7.4, 95\% bootstrap interval \cite{r57} 0.0 to +15.3, $p=0.031$). The map trained on edits gains 19.9 and 18.2 ($p=0.36$) (Figure~\ref{fig:push}). Neither difference passes the $p<0.01$ line we fixed beforehand. What carries over to reworded prompts is a push toward the targeted word, not something specific to the fact \cite{p17}.
+
+In one more control we repeated the per-sentence tuning with 200 random directions instead of the 200 SAE directions. The SAE directions reached 95\% and the random ones 81\% (Figure~\ref{fig:sae}). So the SAE makes the tuning more effective, but it is not what makes steering possible. This agrees with benchmarks in which simple baselines steer as well as SAEs \cite{r12}.
+
+\begin{figure}[!htb]
+\centering
+\safegraphic[width=0.88\linewidth]{figures/r_push}
+\caption[Is the gain on reworded prompts specific to the fact?]{Is the gain on reworded prompts specific to the fact? \cite{p17}. \textbf{How to read:} each bar is the gain in percentage points over the same word's unchanged level. Blue is the real counterfactual target, pink a random word. Two ways of making the edit are shown. In neither is the blue bar significantly longer than the pink one ($p=0.031$ and $p=0.36$ against a bar of $p<0.01$), so the edit pushes toward whatever word it is aimed at.}\label{fig:push}
+\end{figure}
+
+\begin{figure}[!htb]
+\centering
+\safegraphic[width=0.88\linewidth]{figures/r_sae}
+\caption[Do the SAE's directions matter?]{Do the SAE's directions matter? \cite{p17}. \textbf{How to read:} red bars use the SAE's 200 decoder directions and blue bars 200 random directions, with the same tuning. Per-sentence tuning on the 88 primary test records. The SAE directions are better at making the target the top answer (95\% against 81\%, and 83\% against 62\% for a random-word target), but rewordings and neighbours are almost the same, so most of the steering power is not in the SAE.}\label{fig:sae}
+\end{figure}
+
+\section{Import: Medium's State into Small}\label{sec:import}
+
+We use the 21,789 single-token CounterFact facts left after removing the development and pilot records. Medium alone gets 9.9\% of them right and small gets 8.3\%, and 780 facts are right in medium and wrong in small. \textbf{Full replacement} of small's layer-8 state by medium's translated state rescues 262 of those 780 (33.6\%, with controls at most 0.8\%). But it breaks 22\% of the facts both models knew and 70\% of those only small knew, so small's accuracy falls from 8.30\% to 7.17\%. The pre-set bar (50\% rescue, accuracy half-way to medium, and 90\% of known facts kept) was not met, although the controls show that real information does cross \cite{p17}.
+
+We then tried a \textbf{softer mix}, with its rule written before we built it. We chose $\gamma\in\{0.1,\dots,1\}$ on one half of the facts and report the other half (10,895 facts). Mixing in half of medium's state ($\gamma=0.5$) raises small's accuracy from 8.5\% to \textbf{9.5\%}, where medium alone gets 10.2\%. It gains 162 facts and loses 53 (exact McNemar test \cite{r39}, $p=2.5\times10^{-14}$), keeps 98\% of the facts both models knew and rescues 28.6\% of the facts small gets wrong (Figure~\ref{fig:import}). This meets the rule (a gain of at least 0.5 points, 90\% of known facts kept, $p<0.01$) and is our first net-positive Import result. It is only a one-point gain, it needs medium to run on the same sentence, and its controls were not rerun \cite{p17}.
+
+\begin{figure}[!htb]
+\centering
+\safegraphic[width=0.84\linewidth]{figures/r_import}
+\caption[Import by mixing small's own state with medium's translated state]{Import by mixing small's own state with medium's translated state \cite{p17}. \textbf{How to read:} the horizontal axis is the share of medium's state in the mix (0 is small alone, 1 is full replacement). (a) What the mix keeps and fixes. (b) Net accuracy, which is best at a 50/50 mix and falls below small alone under full replacement.}\label{fig:import}
+\end{figure}
+
+\section{What the Side Study Shows}
+
+A linear channel between GPT-2 Small and Medium exists and keeps the receiving model working. The change an edit makes in small moves medium's answers in a specific, graded way and without damaging its neighbours. But every translator that does not look at medium's output stops at about 20\% top-1, far below the 50\% bar, while looking at medium for every sentence reaches 95\%. Together with the controls, this puts the limit on the \emph{edit's compatibility} and not on the channel, the layer, the translator's capacity or the amount of data. What crosses is a push toward the targeted word and not a fact. The map follows earlier stitching work \cite{r44}, and the limits of the study are listed in Chapter~\ref{ch:conclusion}.
