@@ -12,6 +12,7 @@ Compiled with Tectonic 0.17.0 (self-contained TeX engine): no errors, no undefin
 
 ## Open items (red `[TODO: ...]` in the text)
 1. Certificate: the project guide's designation.
+2. Section 6.4: the AI-assistance statement is kept in case the college requires disclosure; check the policy and delete it if not.
 Also: the college logo `figures/mbcet_logo.png` is not in the repository; certificate and declaration dates are empty. Head of Department is Dr. Ann Alex (the first report, `docs/report/Reportmain.tex`, still says Dr. Jisha John).
 The description of Chen et al. (model stitching) was checked against the paper's abstract only.
 
