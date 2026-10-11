@@ -1,0 +1,50 @@
+\chapter{Introduction}\label{ch:introduction}
+
+\section{Background and Motivation}
+
+Large language models sometimes complete a factual prompt with a generic word while the correct answer sits a few positions lower in the output ranking. For ``The location of Massachusetts Institute of Technology is in'', GPT-2 Small \cite{r1} may rank `` the'' first and `` Cambridge'' lower. We call such cases \textbf{suppressed factual recall}; the term describes the output distribution only and makes no claim about what the model ``knows''. The usual remedies change the model: fine-tuning, or closed-form weight edits such as ROME \cite{r2} and MEMIT \cite{r3}, which are permanent and, when applied repeatedly, first erase earlier edits gradually and then collapse the model \cite{r4}. Retrieval and in-context editing \cite{r34,r31} leave the weights alone but supply the fact as extra text.
+
+Mechanistic interpretability offers a third route. A sparse autoencoder (SAE) \cite{r6,r7} re-expresses a layer's activations in a much wider, sparsely active basis whose directions, called features, often match single concepts. An SAE decoder direction is a vector in the residual stream, so a feature can be turned up or down during one forward pass and discarded afterwards. The first part of this project, \textbf{FeatureScalpel}, built such a \emph{transient edit} for GPT-2 Small: for a prompt whose true answer is outranked, one multiplier per candidate SAE feature is tuned by gradient descent so that the answer becomes the top prediction, with the model's weights untouched (Section~\ref{sec:single}). On 300 held-out CounterFact prompts it reached rank 1 on 271, against 161 for the best fixed sweep.
+
+That work left three open problems, and together they led to the second part of the project:
+\begin{enumerate}
+  \item \textbf{An edit is tied to one model with an SAE.} Trained SAEs exist only for some models and layers, so an edit made where the tooling exists cannot simply be reused elsewhere.
+  \item \textbf{GPT-2 Small is weak.} It often lacks the true answer, which larger models of the same family hold; the interesting direction may be a stronger model helping a weaker one.
+  \item \textbf{Rank 1 is a weak test.} An additive edit that switches on silent features pushed random unrelated words to rank 1 on 20 of 20 prompts (Section~\ref{sec:single}). Success under steering therefore has to be judged against controls that separate a fact from a push toward a word.
+\end{enumerate}
+These suggest a question: \emph{can the change an edit makes inside one model be carried into another model at inference time, with no weight change, and what exactly is carried?} If it can, an edit could be made once, where an SAE and tools exist, and applied elsewhere (\textbf{Export}); and a stronger model's internal state could improve a weaker one without any training (\textbf{Import}). Figure~\ref{fig:overview} shows both directions for GPT-2 Small and GPT-2 Medium, the pair studied here.
+
+\begin{figure}[t]
+\centering
+\safegraphic[width=\linewidth]{figures/r_overview}
+\caption{The two directions studied. A translator maps the residual stream of one model into the other's coordinates; no weight changes in either model, and the SAE is used only where the edit is made.}\label{fig:overview}
+\end{figure}
+
+\section{Problem Statement and Research Questions}
+
+\textit{Given an edit tuned inside GPT-2 Small, can a map between the two models' residual streams carry its effect into GPT-2 Medium (and the reverse), specifically, with limited side effects, and without the receiver being told the answer?} The work is organised around five research questions.
+\begin{enumerate}
+  \item \textbf{RQ1 (channel).} Can a linear map between the residual streams keep the receiving model working and carry a known change of meaning?
+  \item \textbf{RQ2 (export).} Does an edit tuned only in Small move Medium's answer toward the target, how specifically, and which kind of translator is best?
+  \item \textbf{RQ3 (limits).} What limits Export: the injection layer, the translator's capacity, the amount or variety of training edits, or the training signal?
+  \item \textbf{RQ4 (import).} Can Medium's state improve Small's answers without telling Small the answer?
+  \item \textbf{RQ5 (what is carried).} Is what crosses a fact or a push toward a word, and does Small's SAE matter for steering Medium?
+\end{enumerate}
+
+\section{Objectives and Scope}
+
+The objectives are to build a translator between two models and test it with a positive control; to measure Export and Import on a held-out benchmark with controls, paired statistics and pass bars fixed before each run; to search systematically for a better translator and record every failure with its evidence; and to keep every result reproducible. The study uses GPT-2 Small (12 layers, width 768, SAE \texttt{gpt2-small-res-jb} at layer 8) and GPT-2 Medium (24 layers, width 1024, no SAE, injection at layer 16), single-token CounterFact \cite{r2} facts and next-token measurements. The additive edit, generated text, other model pairs and relations, and comparison with ROME and MEMIT are outside the scope and are listed as untested.
+
+\section{Contributions}
+
+\begin{enumerate}
+  \item \textbf{A transient SAE edit with an equal-budget comparison.} Per-feature gradient descent beats a sweep given the same range (271 against 161 of 300 prompts), and an additive variant is shown to be an unreliable measure of success (Section~\ref{sec:single}).
+  \item \textbf{A translator with a positive control and a controlled Export test.} A linear map fitted on ordinary text keeps the receiver working and carries a country swap at 55\% and 33\% against controls under 0.5\%; an edit tuned in Small lifts the target's rank in Medium from 142 to 14 specifically, but rarely to rank 1 (Sections~\ref{sec:channel} and~\ref{sec:export}).
+  \item \textbf{A documented search that locates the limit.} Seven attempts to improve the export stop at about 20\% top-1 at best. The limit is not the injection layer, the translator's capacity, a missing rank-1 term in the loss, memorisation of training words or the variety of target words, and per-sentence tuning (95\%) shows that the channel itself can carry a rank-1 edit (Section~\ref{sec:search}).
+  \item \textbf{Evidence about what is carried.} The effect on reworded prompts is the same for a random word as for the true target, so Export transfers a push, not a fact (Section~\ref{sec:push}).
+  \item \textbf{A first positive Import result.} Mixing half of Medium's translated state into Small raises its accuracy on held-out facts from 8.5\% to 9.5\% while keeping 98\% of the facts both models knew (Section~\ref{sec:import}).
+\end{enumerate}
+
+\section{Organisation of the Report}
+
+Chapter~\ref{ch:literature-review} reviews related work. Chapter~\ref{ch:method} describes the edit, the translators, Export and Import, and the evaluation protocol. Chapter~\ref{ch:implementation} gives the implementation. Chapter~\ref{ch:results} reports the experiments in the order in which they were done and discusses what they show and do not show. Chapter~\ref{ch:conclusion} concludes. The appendices list every pass bar with its verdict and the commands to reproduce the results.

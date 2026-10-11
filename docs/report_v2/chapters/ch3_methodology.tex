@@ -1,0 +1,49 @@
+\chapter{Methodology}\label{ch:method}
+
+\section{Models, Data and Evaluation Records}
+
+\textbf{Models.} GPT-2 Small (``small'': 12 blocks, width 768) \cite{r1} with the pretrained SAE \texttt{gpt2-small-res-jb} (24,576 features at \texttt{blocks.8.hook\_resid\_pre}) \cite{r15}, and GPT-2 Medium (``medium'': 24 blocks, width 1024), which has no SAE. Both share one tokenizer, so token $i$ of a sentence is the same token in both models. All maps act on \texttt{hook\_resid\_pre} of a chosen block; small's layer 8 is paired with medium's layer 16 (both two thirds of the way through their stacks).
+
+\textbf{Data.} The CounterFact hard set of 16,360 prompts and a subject-safe split (Figure~\ref{fig:pipeline}) were built in the first part of the project; the transfer study uses a 200-record benchmark drawn from it, split into 50 development (dev) and 150 test records. Dev records choose settings (layer, dose, epoch); test records are only read. The edit in small reaches rank 1 on 116 of the 200 records; the \textbf{88 primary test records} are those test records on which it does, since only there is there an edit to transfer. Medium's median rank of the target before anything is done is 142. Training edits for learned maps come from a separate pool of 1,450 prompts, from which every prompt whose subject or target word belongs to a dev or test record is removed. Import is evaluated on the 21,789 single-token CounterFact facts that remain after the 130 development and pilot records are excluded.
+
+\begin{figure}[t]
+\centering
+\safegraphic[width=0.92\linewidth]{figures/fig_pipeline}
+\caption{Data pipeline of the benchmark (first part of the project): CounterFact, the hard set of prompts whose true answer starts at rank 2 to 1000, and a subject-safe split with held-out relations.}\label{fig:pipeline}
+\end{figure}
+
+\section{The Transient Edit in One Model}
+
+At layer 8 the SAE encodes the residual stream $x_p$ at position $p$ into feature activations $f_{p,k}$. The \textbf{multiplier edit} rescales feature $k$ by a multiplier $m_k$ and adds only the difference, so the SAE's reconstruction error is never injected:
+\begin{equation}\label{eq:delta}
+\Delta_p \;=\; \sum_{k\in\mathcal{K}} (m_k - 1)\, f_{p,k}\, W_{\mathrm{dec}}[k], \qquad x'_p = x_p + \Delta_p ,
+\end{equation}
+where $\mathcal{K}$ is a set of 200 candidate features chosen by a causal ranking of the active features, $W_{\mathrm{dec}}[k]$ is the decoder direction of feature $k$, and the edit acts at every position (``relay mode'': the same multipliers can be re-applied to any other sentence by feature id). Gradient descent tunes $m_k = 3\sigma(z_k)\in(0,3)$ with Adam \cite{r36} (learning rate 0.1, 100 steps) on the loss
+\begin{equation}\label{eq:loss}
+\mathcal{L} \;=\; \max\!\bigl(0,\,\gamma - (\ell_t - \max_{v\neq t}\ell_v)\bigr) \;+\; \lambda_{\mathrm{KL}}\,\mathrm{KL}\,\mathbf{1}[\text{target leads}] \;+\; \lambda_{\mathrm{size}}\sum_k |m_k-1|\,w_k ,
+\end{equation}
+with margin $\gamma=0.3$, $\lambda_{\mathrm{KL}}=3$, $\lambda_{\mathrm{size}}=0.005$, where $\ell$ are the output logits, $t$ the target and the KL term measures the change of the rest of the next-word distribution. Only the multipliers change; the model and the SAE are frozen.
+
+\section{Translators}
+
+A translator maps a state of one model into the coordinates of the other. Only the \emph{change} of an edit is translated, so the bias of an affine map cancels and the translated change is $\Delta_S W$ (zero at the first position). Four ways of obtaining $W$ were tried, from simplest to most elaborate.
+\begin{enumerate}
+  \item \textbf{Ridge map fitted on ordinary text} (the baseline): $W=\arg\min \lVert (H_S-\mu_S)W-(H_M-\mu_M)\rVert^2+\lambda\lVert W\rVert^2$ on paired states of the two models over wikitext-2 (500,126 fit tokens, 100,076 held-out) \cite{r45}. Maps were fitted in both directions for 25 layer pairs.
+  \item \textbf{Neural map fitted on text}: the ridge map plus a one-hidden-layer correction with a GELU non-linearity, trained from the ridge solution.
+  \item \textbf{Linear map trained on edits (output matching).} Starting at the ridge map, $W$ is trained so that medium's answers move the way small's answers move under an edit. With $\ell_M$ medium's clean logits and $\ell_S^{\mathrm{edit}}-\ell_S$ the shift small's edit makes, the goal is $q=\mathrm{softmax}(\ell_M+\ell_S^{\mathrm{edit}}-\ell_S)$ and the loss is $\mathrm{KL}\bigl(q\,\Vert\,p_M(h_M+\alpha\,\Delta_S W)\bigr)+\beta\lVert W-W_0\rVert^2/\lVert W_0\rVert^2$, with training texts (the tuned prompt, two rewordings, two neighbours) from 289 successful training edits. Variants: more epochs, a rank-1 hinge term on the loss, and 1,221 additional edits toward random words.
+  \item \textbf{No fixed map: per-sentence re-tuning (a ceiling).} The 200 multipliers are tuned by the loss of Equation~\ref{eq:loss} but measured on \emph{medium's} output after the translated change is injected. This looks at medium for every sentence and is therefore not a transfer; it shows what the channel can carry.
+\end{enumerate}
+
+\section{Export and Import}
+
+\textbf{Export.} While medium reads a sentence, the translated change is added at layer 16 at every position but the first: $h_M' = h_M + \alpha\,\Delta_S W$. The scalar $\alpha$, the \textbf{dose}, is chosen on the dev records (from step D10 on by the best mean log-rank gain of the target, because choosing by dev top-1 on 28 records proved fragile, Section~\ref{sec:search}). The receiver is never shown the answer.
+
+\textbf{Import.} Small's layer-8 state is mixed with medium's translated layer-16 state: $h_S'=(1-\gamma)\,h_S+\gamma\,T(h_M)$ at every position but the first, with $T(h)=(h-\mu_M)W_{M\to S}+\mu_S$; $\gamma=1$ is full replacement. Small's remaining four layers then run unchanged, and small is never told the answer.
+
+\section{Metrics, Controls and Statistics}
+
+\textbf{Metrics.} \emph{Top-1}: the target is the model's first choice; \emph{rank} of the target and the \emph{log-rank gain} over the unchanged rank; \emph{rewordings} (PS): the share of reworded prompts on which the new answer beats the true one; \emph{neighbours} (NS): the share of prompts about other subjects of the same relation on which the true answer still beats the new one (higher is fewer leaks); \emph{unrelated prompts}: KL divergence and the share of top-1 changes on 12 neutral prompts.
+
+\textbf{Controls.} A \emph{random vector} of the same size at every position; \emph{another record's edit}; an edit toward a \emph{random word} of matched starting rank, judged on its own word; a \emph{word push} along the target's output direction (uses the answer; not required to be beaten); the \emph{fact stated in medium's prompt}; for Import, a state from a wrong sentence, the average state and a random map.
+
+\textbf{Statistics and discipline.} Paired one-sided Wilcoxon tests \cite{r40} on per-record outcomes, exact McNemar-type tests \cite{r39} for paired right/wrong facts, bootstrap intervals, and seeds reported with ranges. \textbf{Every pass bar (``gate'') was written into the project plan before the run that judged it and never moved}; steps designed after seeing a result are labelled post-hoc and cannot change a verdict. The bar for a working export is 50\% top-1; the full list is in Appendix~A. Everything chosen on dev (layer, dose, epoch) is fixed before test records are read.

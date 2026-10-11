@@ -1,0 +1,176 @@
+% FeatureScalpel: updated main project report (October 2026).
+% Same format as docs/report/Reportmain.tex (first report). Compile with pdfLaTeX twice (Overleaf: upload this folder, main file Report_v2.tex).
+% Figures are in figures/ (named r_*.png are drawn by tools/make_report_v2_figures.py; three are copied from the first report).
+% A missing figure never stops the compile: it prints a red box instead (see \safegraphic below).
+\documentclass[12pt,a4paper]{report}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}                 % Times font, as in the sample report
+\usepackage{courier}                  % scalable monospace for code
+\usepackage{amsmath,amssymb}
+\usepackage[a4paper,top=1in,bottom=1in,left=1.18in,right=0.875in]{geometry}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{hyperref}                 % boxed links, as in the sample report
+
+\onehalfspacing
+\renewcommand{\contentsname}{Table of Contents}
+\setlength{\parindent}{1.5em}
+\setlength{\emergencystretch}{3em}
+\captionsetup{labelsep=colon}
+\setlist{itemsep=2pt}
+\urlstyle{same}
+
+\lstset{basicstyle=\ttfamily\footnotesize, backgroundcolor=\color[gray]{0.95},
+  frame=none, columns=fullflexible, keepspaces=true, showstringspaces=false,
+  breaklines=true, aboveskip=6pt, belowskip=10pt}
+
+\newcommand{\projecttitle}{FeatureScalpel: Transient Sparse-Autoencoder Edits and Their Transfer Between Language Models}
+\newcommand{\todo}[1]{{\color{red}[TODO: #1]}}
+% include a figure if the file exists (png or pdf), otherwise print a visible placeholder instead of stopping the compile
+\newcommand{\safegraphic}[2][width=\linewidth]{%
+  \IfFileExists{#2.png}{\includegraphics[#1]{#2.png}}{%
+  \IfFileExists{#2.pdf}{\includegraphics[#1]{#2.pdf}}{%
+  \fbox{\parbox{0.9\linewidth}{\centering\color{red}[figure file missing: \texttt{\detokenize{#2}}]}}}}}
+
+\begin{document}
+
+% ======================= COVER PAGE =======================
+\begin{titlepage}
+\centering
+{\LARGE\bfseries \projecttitle\par}
+\vspace{1.2cm}
+{\Large\bfseries A Main Project Report\par}
+\vspace{0.6cm}
+{\itshape Submitted to the APJ Abdul Kalam Technological University\par
+in partial fulfillment of requirements for the award of degree\par}
+\vspace{0.8cm}
+{\Large\bfseries Bachelor of Technology\par}
+\vspace{0.2cm}
+in\par
+\vspace{0.2cm}
+{\Large\bfseries Computer Science and Engineering(AI)\par}
+\vspace{0.2cm}
+{\itshape by\par}
+\vspace{0.2cm}
+{\large\bfseries\scshape Adithyan R S \itshape (B23CS2109)}\par
+{\large\bfseries\scshape Alona Biju \itshape (B23CS2113)}\par
+{\large\bfseries\scshape Alvin Binu \itshape (B23CS2114)}\par
+{\large\bfseries\scshape Darsan M \itshape (B23CS2125)}\par
+\vfill
+\safegraphic[width=4cm]{figures/mbcet_logo}\par
+\vspace{0.8cm}
+{\bfseries Department of Computer Science and Engineering\par
+Mar Baselios College of Engineering and Technology\par
+(Autonomous)\par
+Mar Ivanios Vidya Nagar, Nalanchira\par
+Thiruvananthapuram--695015\par}
+\vspace{0.6cm}
+{\bfseries October 2026\par}
+\end{titlepage}
+
+% ======================= CERTIFICATE =======================
+\thispagestyle{empty}
+\begin{center}
+{\bfseries DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING\\
+MAR BASELIOS COLLEGE OF ENGINEERING AND TECHNOLOGY\\
+(AUTONOMOUS)\\
+MAR IVANIOS VIDYA NAGAR, NALANCHIRA\\
+THIRUVANANTHAPURAM--695015\par}
+\vspace{1cm}
+\safegraphic[width=4cm]{figures/mbcet_logo}\par
+\vspace{1.2cm}
+{\Large\bfseries\scshape Certificate\par}
+\end{center}
+\vspace{0.4cm}
+\noindent\hspace{1.5em}This is to certify that the report entitled \textbf{\projecttitle} submitted by \textbf{Adithyan R S} (KTU Reg No: B23CS2109), \textbf{Alona Biju} (KTU Reg No: B23CS2113), \textbf{Alvin Binu} (KTU Reg No: B23CS2114) and \textbf{Darsan M} (KTU Reg No: B23CS2125) to the APJ Abdul Kalam Technological University in partial fulfillment of the B.Tech.\ degree in Computer Science and Engineering (AI) is a bonafide record of the project work carried out by them under our guidance and supervision. This report in any form has not been submitted to any other University or Institute for any purpose.
+
+\vspace{2.5cm}
+\noindent
+\begin{minipage}[t]{0.5\textwidth}
+\textbf{Ms.\ Poorna B R}\\
+(Project Guide)\\
+\todo{designation}\\
+Department of CSE
+\end{minipage}%
+\begin{minipage}[t]{0.5\textwidth}
+\textbf{Dr. Jisha John}\\
+(Head of the Department)\\
+Professor\\
+Department of CSE
+\end{minipage}
+
+\vspace{2.5cm}
+\noindent Place: Thiruvananthapuram \hfill Date: \hspace{3cm}
+\clearpage
+
+% ======================= DECLARATION =======================
+\thispagestyle{empty}
+\begin{center}{\LARGE\bfseries Declaration\par}\end{center}
+\vspace{1cm}
+We hereby declare that the project report entitled \textbf{\projecttitle}, submitted to the APJ Abdul Kalam Technological University in partial fulfillment of the requirements for the award of the degree of Bachelor of Technology in Computer Science and Engineering (AI), is a record of original work carried out by us at the Department of Computer Science and Engineering, Mar Baselios College of Engineering and Technology (Autonomous), Thiruvananthapuram. The experimental results reported here were produced by the system described in this report. Wherever the work of others has been used, it has been duly acknowledged and cited. This report has not been submitted, in whole or in part, to any other University or Institute for the award of any degree or diploma.
+
+\vspace{2.5cm}
+\noindent Place: Thiruvananthapuram \hfill \textbf{Adithyan R S} (B23CS2109)\\
+Date: \hfill \textbf{Alona Biju} (B23CS2113)\\
+\mbox{} \hfill \textbf{Alvin Binu} (B23CS2114)\\
+\mbox{} \hfill \textbf{Darsan M} (B23CS2125)
+\clearpage
+
+% ======================= FRONT MATTER =======================
+\pagenumbering{roman}
+\setcounter{page}{1}
+
+\chapter*{\centering Acknowledgement}
+\addcontentsline{toc}{chapter}{Acknowledgement}
+We express our deepest gratitude to our \textbf{Project Guide} from the Department of Computer Science and Engineering for continuous guidance, critical feedback and technical insight throughout this project. Their advice on experimental rigour and on stating results precisely shaped both the direction and the quality of this work.
+
+We sincerely thank \textbf{Dr. Jisha John}, Head of the Department of Computer Science and Engineering, for academic support, provision of resources and encouragement at every stage of the project.
+
+We acknowledge the open-source communities behind \textbf{PyTorch}, \textbf{TransformerLens}, \textbf{SAELens}, \textbf{Hugging Face} and \textbf{Streamlit}, the author of the pretrained \textbf{gpt2-small-res-jb} sparse autoencoders, and the \textbf{Neuronpedia} project. We also thank the authors of ROME, whose openly released fact datasets, including CounterFact, formed the basis of the benchmarks, and the authors of the model-stitching work on which our translators build.
+
+Finally, we are grateful to our families and friends for their patience and encouragement throughout this endeavour.
+
+\vspace{1cm}
+\begin{flushright}\textbf{Adithyan R S}\\ \textbf{Alona Biju}\\ \textbf{Alvin Binu}\\ \textbf{Darsan M}\end{flushright}
+
+\chapter*{\centering Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+Language models sometimes rank a correct completion below competing tokens. Fixing this by changing weights is permanent and degrades as edits accumulate; fixing it by adding text to the prompt does not use what the model already computes. This project, \textbf{FeatureScalpel}, studies a \textbf{transient, weight-free alternative}: during one forward pass the residual stream of GPT-2 Small is edited through the features of a pretrained \textbf{sparse autoencoder (SAE)}, and the edit disappears when the pass ends. Per-feature gradient descent on the multipliers of 200 candidate features brought the true answer to rank 1 on 271 of 300 held-out CounterFact prompts, against 161 for a sweep given the same range and 94 for the original sweep settings. Two limits of that work motivated the second part of the project: every edit needs an SAE for its own model, and reaching rank 1 by steering proved weak evidence, since an additive edit forced random unrelated words to rank 1 on 20 of 20 prompts.
+
+The second part asks whether the change an edit makes inside one model can be carried into another at inference time, with no weight change. A linear map between the residual streams of GPT-2 Small and GPT-2 Medium keeps the receiving model working (per-dimension $R^2$ 0.58 and 0.66) and carries a known meaning change far above controls (55\% and 33\%). An edit tuned only in Small, translated and added to Medium (\emph{Export}), moves the target's median rank from 142 to 14 but makes it the top answer on only 8\% of 88 test records. Seven further attempts at a better translator, injection layer, training signal or amount of training data stopped at about 20\% at best, whereas tuning the edit against Medium's output for each sentence reached 95\%, a ceiling and not a transfer. The effect on reworded prompts is the same for a random target word as for the true one, so what carries is a push toward the targeted word, not a fact. In the other direction (\emph{Import}), replacing Small's state by Medium's translated state rescues one in three of the facts Small gets wrong but lowers its overall accuracy, whereas a half-and-half mix raises accuracy on held-out facts from 8.5\% to 9.5\% (Medium alone: 10.2\%). Small's SAE directions raise the steering success from 81\% to 95\% over random directions but are not required for it.
+
+All pass bars were fixed before the runs, every result is stored with its logs, and the limits are stated: one model pair, one dataset, 88 test records, no generated-text or other-model tests.
+
+\tableofcontents
+\clearpage
+\phantomsection\addcontentsline{toc}{chapter}{List of Figures}
+\listoffigures
+\clearpage
+\phantomsection\addcontentsline{toc}{chapter}{List of Tables}
+\listoftables
+\clearpage
+
+% ======================= MAIN CHAPTERS =======================
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\input{chapters/ch1_introduction}
+\input{chapters/ch2_literature}
+\input{chapters/ch3_methodology}
+\input{chapters/ch4_implementation}
+\input{chapters/ch5_results}
+\input{chapters/ch6_conclusion}
+\input{chapters/references}
+\input{chapters/appendices}
+
+\end{document}
