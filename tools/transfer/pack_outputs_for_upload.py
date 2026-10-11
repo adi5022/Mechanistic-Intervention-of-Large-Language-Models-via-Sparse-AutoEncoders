@@ -74,8 +74,18 @@ def main():
         size = os.path.getsize(path)
         manifest[arch] = {"files": n, "bytes": size, "sha256": sha256(path)}
         print(f"{arch}: {n} files, {size / 1e6:.0f} MB, verified ({time.time() - t0:.0f} s)", flush=True)
+    # small git-ignored items that exist only on this computer (never .env, which holds API tokens)
+    extras = [("Plans/" + n, os.path.join(ROOT, "Plans", n)) for n in sorted(os.listdir(os.path.join(ROOT, "Plans")))] + [("data/counterfact_hard_set.json", os.path.join(ROOT, "data", "counterfact_hard_set.json"))]
+    path = os.path.join(DST, "project_extras.zip")
+    with zipfile.ZipFile(path, "w", zipfile.ZIP_DEFLATED, compresslevel=6) as z:
+        for arcname, full in extras:
+            z.write(full, arcname=arcname)
+    with zipfile.ZipFile(path) as z:
+        assert z.testzip() is None and len(z.namelist()) == len(extras)
+    manifest["project_extras.zip"] = {"files": [{"path": a, "bytes": os.path.getsize(f), "sha256": sha256(f)} for a, f in extras], "bytes": os.path.getsize(path), "sha256": sha256(path)}
+    print(f"project_extras.zip: {len(extras)} files, {os.path.getsize(path) / 1e6:.0f} MB, verified", flush=True)
     json.dump(manifest, open(os.path.join(DST, "MANIFEST.json"), "w"), indent=1)
-    slim = {k: v for k, v in manifest.items() if k not in ("transfer_essentials.zip", "transfer_caches.zip")}
+    slim = {k: v for k, v in manifest.items() if k not in ("transfer_essentials.zip", "transfer_caches.zip", "project_extras.zip")}
     json.dump(slim, open(PACK_MANIFEST, "w"), indent=0)
     ess, cac = manifest["transfer_essentials.zip"], manifest["transfer_caches.zip"]
     open(os.path.join(DST, "RESTORE.md"), "w", encoding="utf8").write(f"""# Restoring outputs/transfer (cross-model transfer study)
@@ -91,6 +101,8 @@ It is needed to re-run, extend or re-check experiments without recomputing about
 ## What is in the archives
 - `transfer_essentials.zip` ({ess['files']} files, {ess['bytes'] / 1e6:.0f} MB): the translators (`maps_gpt2_to_gpt2-medium.pt` refits in about 2.5 minutes, `mlp_maps.pt` in 6), the edits made in small (`d_edits.pt`, `d7_train_edits.pt`, `d13_edits.pt`, `d6_recipes.pt`; 20 minutes to 1 hour to remake), every trained map (`d7_map`, `d9b_map_*`, `d10_map_*`, `d13_map_*`; 20 minutes to 6 hours), per-sentence results (`d_eval_*`, `d5_*`, `d6_eval`, `d7_eval`; about 50 minutes each) and the small result files and logs.
 - `transfer_caches.zip` ({cac['files']} files, {cac['bytes'] / 1e6:.0f} MB): rebuildable caches (`d8_items`, `d10_judge_items`, `d13_items`, `b1_cache_*`, `wikitext2_tokens`; 10 to 40 minutes each) and rehearsal files (`*_smoke*`, `*_quick*`).
+
+- `project_extras.zip`: `Plans/` (four planning notes, git-ignored) and `data/counterfact_hard_set.json` (git-ignored). Unzip into the repo root (not into `outputs/`). `.env` (API tokens) is deliberately not included.
 
 Archive hashes: essentials `{ess['sha256']}`, caches `{cac['sha256']}`.
 """)
