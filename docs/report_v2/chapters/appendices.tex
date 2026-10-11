@@ -1,0 +1,56 @@
+\clearpage
+\chapter*{Appendices}
+\addcontentsline{toc}{chapter}{Appendices}
+
+\section*{Appendix A: Pass Bars and Verdicts}
+\addcontentsline{toc}{section}{Appendix A: Pass Bars and Verdicts}
+
+Every bar was written into the project plan, and committed, before the run that judged it; none was moved afterwards. ``Edit's own'' means the effect that the source edit has inside small itself. Verdicts are as printed by the tools.
+
+{\small
+\begin{longtable}{|p{0.07\linewidth}|p{0.40\linewidth}|p{0.30\linewidth}|p{0.10\linewidth}|}
+\caption{Pass bars (``gates'') and their verdicts.}\label{tab:gates}\\ \hline
+\textbf{Step} & \textbf{Bar fixed before the run} & \textbf{Result} & \textbf{Verdict}\\ \hline \endfirsthead
+\hline \textbf{Step} & \textbf{Bar fixed before the run} & \textbf{Result} & \textbf{Verdict}\\ \hline \endhead
+Gate 1 (A2) & Translator: difference cosine at the last position at least 0.3 & Import pairs 0.31; Export pair 0.28 & Import only\\ \hline
+Gate 2 (B1) & Country swap beats the strongest control by a margin, paired test & 55\% and 33\% against at most 0.4\% & pass\\ \hline
+Gate 3 (D) & Export top-1 at least 15\% and 10 points above the strongest control & 8\%; margin 3 points & fail\\ \hline
+Gate 4 (D5) & Best layer set at least 10 points above the best single layer, $p<0.01$, top-1 at least 15\% & 7\% against 8\%; $p=0.016$ & fail\\ \hline
+Gate 5 (D6) & Top-1 $\geq$ 50\%; rewordings lift $\geq$ 80\% of the edit's own; neighbours fall $\leq$ 5 points & 95\%; 0.91; 8 points & fail (neighbours)\\ \hline
+Gate 6 (D7) & Top-1 $\geq$ 50\%; rewordings lift $\geq$ 0.8; neighbours fall no more than the edit's own & 18\%; 0.74; 7 points & fail\\ \hline
+Gate 7 (D10) & As Gate 6, plus real target 10 points above the random word & 20\%; 0.74; met; met & fail\\ \hline
+Gate 8 (Import) & Rescue $\geq$ 50\% of the 780 facts; accuracy halfway to medium; 10 points above controls ($p<0.01$); 90\% of known facts kept & 33.6\%; 7.2\% against 9.1\%; met; 78.3\% & fail\\ \hline
+Gate 9 (D13) & Gate 7 unchanged, on the full varied training set & 14\%; 0.62; met; met & fail\\ \hline
+Rule E5 & Soft Import: gain $\geq$ 0.5 points on held-out facts, 90\% kept, $p<0.01$ & +1.0 point; 98.3\%; $p=2.5\times10^{-14}$ & met\\ \hline
+Rule S1 & SAE basis ``matters'' if top-1 is higher by 10 points or rewordings lift by 5 & +15 points; +2 points & matters\\ \hline
+Rules S2, S3 & Real target's rewordings lift larger than a random word's, $p<0.01$ & $p=0.031$ (D6); $p=0.36$ (D7) & not shown\\ \hline
+\end{longtable}
+}
+
+Two notes written after the fact do not change any verdict: the 5-point neighbour line of Gate 5 was stricter than the source edit's own loss of 9 points inside small, so Gates 6, 7 and 9 use the edit's own loss; and the dose rule (dev top-1 on 28 records) was replaced by the dev log-rank gain from step D10 on, after step D9b showed it to be fragile.
+
+\section*{Appendix B: Reproducing the Results}
+\addcontentsline{toc}{section}{Appendix B: Reproducing the Results}
+
+From the repository root on branch \texttt{cross-model-transfer}, with \texttt{HF\_HUB\_OFFLINE=1} once the models are cached. Run times are for the RTX 4050 laptop GPU.
+
+\begin{lstlisting}
+.venv\Scripts\python.exe tools/transfer/01_fit_maps.py         ridge translators, 138 s
+.venv\Scripts\python.exe tools/transfer/03_swap_control.py     country swap, 279 s
+.venv\Scripts\python.exe tools/transfer/05_export_edits.py     edits in small, 1,263 s
+.venv\Scripts\python.exe tools/transfer/06_export_eval.py      controlled export, about 54 min
+.venv\Scripts\python.exe tools/transfer/10_multilayer_export.py   several layers, 1,113 s
+.venv\Scripts\python.exe tools/transfer/11_b_aware_edit.py     per-sentence tuning (ceiling), 2,149 s
+.venv\Scripts\python.exe tools/transfer/12_output_matching.py  map trained on edits, 3,896 s
+.venv\Scripts\python.exe tools/transfer/16_rank1_term.py       rank-1 loss term, 1,959 s
+.venv\Scripts\python.exe tools/transfer/21_varied_edits.py     extra training edits, 3,542 s
+.venv\Scripts\python.exe tools/transfer/22_varied_training.py  varied-edits training
+.venv\Scripts\python.exe tools/transfer/19_import_experiment.py   Import by replacement, 249 s
+.venv\Scripts\python.exe tools/transfer/23_softer_import.py    soft Import, 304 s
+.venv\Scripts\python.exe tools/transfer/24_sae_basis_control.py   random-basis control, 1,677 s
+.venv\Scripts\python.exe tools/transfer/26_d6_rewordings_test.py  rewordings test, 221 s
+.venv\Scripts\python.exe tools/transfer/27_random_word_baseline.py   same for a trained map, 240 s
+.venv\Scripts\python.exe tools/make_report_v2_figures.py       report figures from the data pack
+\end{lstlisting}
+
+All pass bars and readings are in \texttt{docs/cross\_model\_transfer/PLAN.md}, the story of each step in the research journal (entries 31 to 37), and every result file and raw log in \texttt{docs/Research\_Journal/packs/cross\_model\_transfer/}. The large local artefacts are described by a manifest in the same folder.
