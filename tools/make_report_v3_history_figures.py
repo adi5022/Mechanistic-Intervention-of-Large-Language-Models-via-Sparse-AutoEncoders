@@ -34,9 +34,9 @@ def save(fig, name):
 
 # ------------------------------------------------------------------------------------------------ evolution timeline
 def stages():
-    fig, ax = plt.subplots(figsize=(6.4, 5.0))
+    fig, ax = plt.subplots(figsize=(6.4, 6.1))
     ax.set_xlim(0, 12.0)
-    ax.set_ylim(-0.7, 10.0)
+    ax.set_ylim(-0.7, 12.45)
     ax.axis("off")
     # (title, result, colour, journal entries)
     items = [
@@ -51,18 +51,19 @@ def stages():
         ("9  Learned strengths", "better fixed pair;\nno gain per prompt", ORANGE, "J25-27"),
         ("10  Gradient descent", "271 / 161 / 94 of 300;\n5 to 6.5 times faster", GREEN, "J28-29"),
         ("11  Additive edit", "20 of 20 random words\nat rank 1: weak test", ORANGE, "J30"),
-        ("12  Applied: transfer", "carry an edit from\nSmall to Medium", GREEN, "J31-37"),
+        ("12  ROME reference", "official code runs; our edit\nscored with ROME's PS, NS", BLUE, "ROME log"),
+        ("13  Applied: transfer", "carry an edit from\nSmall to Medium", GREEN, "J31-37"),
     ]
     w, h = 3.7, 1.95
     for n, (title, res, col, j) in enumerate(items):
         r, i = divmod(n, 3)
         x = 0.1 + i * 3.95
-        y = 10.0 - (r + 1) * 2.45 + 0.2
+        y = 12.45 - (r + 1) * 2.45 + 0.2
         ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.02,rounding_size=0.12", fc="white", ec=col, lw=1.6))
         ax.text(x + 0.14, y + h - 0.2, title, fontsize=7.8, fontweight="bold", va="top", color=INK)
         ax.text(x + 0.14, y + h - 0.8, res, fontsize=7.2, va="top", color=INK, linespacing=1.3)
         ax.text(x + w - 0.12, y + 0.1, j, fontsize=6.4, ha="right", va="bottom", color=col)
-        if i < 2:
+        if i < 2 and n < len(items) - 1:
             ax.add_patch(FancyArrowPatch((x + w + 0.02, y + h / 2), (x + 3.95 - 0.02, y + h / 2), arrowstyle="-|>", mutation_scale=7, color=INK, lw=0.9))
     for k, (col, lab) in enumerate([(GRAY, "start"), (ORANGE, "limiting result"), (BLUE, "adopted"), (GREEN, "current line")]):
         x0 = 0.1 + k * 3.0
