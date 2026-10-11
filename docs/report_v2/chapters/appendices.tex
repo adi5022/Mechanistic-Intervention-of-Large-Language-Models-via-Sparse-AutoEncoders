@@ -91,7 +91,7 @@ Journal entries 31 to 37 give each side-study tool with its run time, and \textt
 \section*{Appendix D: Where Every Figure Comes From}
 \addcontentsline{toc}{section}{Appendix D: Where Every Figure Comes From}
 
-Every figure in the report is drawn by a script in \path{tools/} from stored data, and no figure script runs a model. Diagrams contain no data. Where a figure shows numbers that were printed in a journal entry and never stored as a result file, the table says so. The data labels P1 to P19 refer to the project records in the reference list. Paths are relative to \path{docs/Research_Journal/} unless they start with \path{data/} or \path{benchmark_results/}.
+Every figure is drawn by a script in \path{tools/} from stored data, and no figure script runs a model. Diagrams contain no data. Numbers that were printed in a journal entry and never stored as a result file are marked as such. Paths are relative to \path{docs/Research_Journal/} unless they start with \path{data/} or \path{benchmark_results/}; P1 to P19 are the project records in the reference list.
 
 \setcounter{table}{0}\renewcommand{\thetable}{D.\arabic{table}}\renewcommand{\theHtable}{D.\arabic{table}}
 {\footnotesize
@@ -100,26 +100,20 @@ Every figure in the report is drawn by a script in \path{tools/} from stored dat
 \textbf{Figure file} & \textbf{Data} & \textbf{Script} \\ \hline \endfirsthead
 \hline \textbf{Figure file} & \textbf{Data} & \textbf{Script} \\ \hline \endhead
 \path{h_stages}, \path{h_early}, \path{h_speed} & Numbers printed in journal entries 1 to 15 (P1 to P5), typed into the script header & \path{make_report_v3_history_figures} \\ \hline
-\path{h_gd_flow}, \path{h_additive}, \path{v4_rome_compare}, \path{v4_rome_in_project}, \path{r_overview} & Diagrams, no data & \path{make_report_v3_history_figures}, \path{make_report_v4_figures}, \path{make_report_v2_figures} \\ \hline
-\path{v4_algo}, \path{v4_arch}, \path{v4_ui_hybrid}, \path{v4_ui_proto} & Diagrams, no data & \path{make_report_figures} (first report) \\ \hline
-\path{v4_elig}, \path{v4_pipeline} & Counts from P1 and from \path{data/counterfact_hard_set_summary.json} and \path{data/counterfact_split_summary.json} (P10) & \path{make_report_figures} \\ \hline
-\path{v4_hybrid_sophia}, \path{v4_cand_pools}, \path{fig_candsrc} & \path{benchmark_results/candidate_source_study}/ (P7) & \path{make_report_v4_figures}, \path{make_report_figures} \\ \hline
+\path{h_gd_flow}, \path{h_additive}, \path{r_overview} & Diagrams, no data & \path{make_report_v3_history_figures}, \path{make_report_v2_figures} \\ \hline
+\path{fig_candsrc} & \path{benchmark_results/candidate_source_study}/ (P7) & \path{make_report_figures} \\ \hline
 \path{v4_layer12} & \path{benchmark_results/layer_benchmark_20260909_summary.csv} (P4) & \path{make_report_figures} \\ \hline
 \path{v4_filter} & \path{packs/entry21_*/tables/arms_*.csv} (P8) & \path{make_report_figures} \\ \hline
-\path{v4_repair} & \path{packs/repair_diagnostics/merged_all_layers.json} (P9) & \path{make_report_v4_figures} \\ \hline
 \path{fig_headroom} & \path{packs/headroom/headroom_20261002_144917.json} (P10) & \path{make_report_figures} \\ \hline
 \path{fig_learned} & \path{packs/strength_models/results.json} (P12) & \path{make_report_figures} \\ \hline
-\path{v4_gd_trajectories} & \path{packs/gradient_descent/session_20261003_015115.json} (P13) & \path{make_report_v4_figures} \\ \hline
-\path{h_gd_bars}, \path{v4_gd_tradeoff} & \path{images/e29_figure_data.json} (P13) & \path{make_report_v3_history_figures}, \path{make_report_v4_figures} \\ \hline
+\path{h_gd_bars} & \path{images/e29_figure_data.json} (P13) & \path{make_report_v3_history_figures} \\ \hline
 \path{v4_gd_side} & \path{packs/sweep_vs_gradient/runs.jsonl} (P13) & \path{make_report_v4_figures} \\ \hline
-\path{fig_additive}, \path{v4_reworded}, \path{v4_genquality} & \path{packs/additive_control}/, \path{packs/generalisation}/, \path{packs/generation_quality}/ (P14) & \path{make_report_figures} \\ \hline
-\path{v4_rome_eiffel} & Original plot of the ROME branch; the underlying trace was not stored (P15) & copied unchanged \\ \hline
-\path{v4_rome_trace}, \path{v4_rome_sites} & \path{data/comparison/trace_summary.json} (P15) & \path{make_report_v4_figures} \\ \hline
+\path{fig_additive}, \path{v4_reworded} & \path{packs/additive_control}/, \path{packs/generalisation}/ (P14) & \path{make_report_figures} \\ \hline
+\path{v4_rome_trace} & \path{data/comparison/trace_summary.json} (P15) & \path{make_report_v4_figures} \\ \hline
 \path{v4_rome_sweep} & \path{benchmark_results/rome_vs_scalpel/layer_sweep_dev.csv} (P15) & \path{make_report_v4_figures} \\ \hline
-\path{v4_rome_vs_ours} & The same CSV, and \path{packs/cross_model_transfer/d_analysis_linear.json} (P15, P16) & \path{make_report_v4_figures} \\ \hline
-\path{r_swap}, \path{r_export_doses}, \path{r_export_side} & \path{b1_swap_primary.json} and \path{d_analysis_linear.json} in \path{packs/cross_model_transfer}/ (P16) & \path{make_report_v2_figures} \\ \hline
-\path{r_ladder}, \path{r_training_gap} & d5, d6, d7, d10 and d13 result files in the same pack (P16, P17) & \path{make_report_v2_figures} \\ \hline
-\path{r_push}, \path{r_sae}, \path{r_import} & s2, s3, s1 and e5 result files in the same pack (P17) & \path{make_report_v2_figures} \\ \hline
+\path{v4_rome_vs_ours} & The same CSV and \path{packs/cross_model_transfer/d_analysis_linear.json} (P15, P16) & \path{make_report_v4_figures} \\ \hline
+\path{r_ladder} & d5, d6, d7, d10 and d13 result files in \path{packs/cross_model_transfer}/ (P16, P17) & \path{make_report_v2_figures} \\ \hline
+\path{r_push}, \path{r_import} & s2, s3 and e5 result files in the same pack (P17) & \path{make_report_v2_figures} \\ \hline
 \end{longtable}
 }
 \endgroup
