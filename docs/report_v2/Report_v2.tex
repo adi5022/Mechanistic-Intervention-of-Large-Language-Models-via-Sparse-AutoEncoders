@@ -34,7 +34,7 @@
   frame=none, columns=fullflexible, keepspaces=true, showstringspaces=false,
   breaklines=true, aboveskip=6pt, belowskip=10pt}
 
-\newcommand{\projecttitle}{FeatureScalpel: Transient Sparse-Autoencoder Edits and Their Transfer Between Language Models}
+\newcommand{\projecttitle}{FeatureScalpel: Mechanistic Interpretability And Intervention Of Large Language Models via Sparse Autoencoder}
 \newcommand{\todo}[1]{{\color{red}[TODO: #1]}}
 % include a figure if the file exists (png or pdf), otherwise print a visible placeholder instead of stopping the compile
 \newcommand{\safegraphic}[2][width=\linewidth]{%
@@ -106,7 +106,7 @@ THIRUVANANTHAPURAM--695015\par}
 Department of CSE
 \end{minipage}%
 \begin{minipage}[t]{0.5\textwidth}
-\textbf{Dr. Jisha John}\\
+\textbf{Dr. Ann Alex}\\
 (Head of the Department)\\
 Professor\\
 Department of CSE
@@ -137,7 +137,7 @@ Date: \hfill \textbf{Alona Biju} (B23CS2113)\\
 \addcontentsline{toc}{chapter}{Acknowledgement}
 We express our deepest gratitude to our \textbf{Project Guide} from the Department of Computer Science and Engineering for continuous guidance, critical feedback and technical insight throughout this project. Their advice on experimental rigour and on stating results precisely shaped both the direction and the quality of this work.
 
-We sincerely thank \textbf{Dr. Jisha John}, Head of the Department of Computer Science and Engineering, for academic support, provision of resources and encouragement at every stage of the project.
+We sincerely thank \textbf{Dr. Ann Alex}, Head of the Department of Computer Science and Engineering, for academic support, provision of resources and encouragement at every stage of the project.
 
 We acknowledge the open-source communities behind \textbf{PyTorch}, \textbf{TransformerLens}, \textbf{SAELens}, \textbf{Hugging Face} and \textbf{Streamlit}, the author of the pretrained \textbf{gpt2-small-res-jb} sparse autoencoders, and the \textbf{Neuronpedia} project. We also thank the authors of ROME, whose openly released fact datasets, including CounterFact, formed the basis of the benchmarks, and the authors of the model-stitching work on which our translators build.
 
@@ -148,17 +148,12 @@ Finally, we are grateful to our families and friends for their patience and enco
 
 \chapter*{\centering Abstract}
 \addcontentsline{toc}{chapter}{Abstract}
-Language models sometimes rank a correct completion below competing tokens. Fixing this by changing weights is permanent and degrades as edits accumulate; fixing it by adding text to the prompt does not use what the model already computes. This project, \textbf{FeatureScalpel}, studies a \textbf{transient, weight-free alternative}: during one forward pass the residual stream of GPT-2 Small is edited through the features of a pretrained \textbf{sparse autoencoder (SAE)}, and the edit disappears when the pass ends. Per-feature gradient descent on the multipliers of 200 candidate features brought the true answer to rank 1 on 271 of 300 held-out CounterFact prompts, against 161 for a sweep given the same range and 94 for the original sweep settings. Two limits of that work motivated the second part of the project: every edit needs an SAE for its own model, and reaching rank 1 by steering proved weak evidence, since an additive edit forced random unrelated words to rank 1 on 20 of 20 prompts.
-
-The second part asks whether the change an edit makes inside one model can be carried into another at inference time, with no weight change. A linear map between the residual streams of GPT-2 Small and GPT-2 Medium keeps the receiving model working (per-dimension $R^2$ 0.58 and 0.66) and carries a known meaning change far above controls (55\% and 33\%). An edit tuned only in Small, translated and added to Medium (\emph{Export}), moves the target's median rank from 142 to 14 but makes it the top answer on only 8\% of 88 test records. Seven further attempts at a better translator, injection layer, training signal or amount of training data stopped at about 20\% at best, whereas tuning the edit against Medium's output for each sentence reached 95\%, a ceiling and not a transfer. The effect on reworded prompts is the same for a random target word as for the true one, so what carries is a push toward the targeted word, not a fact. In the other direction (\emph{Import}), replacing Small's state by Medium's translated state rescues one in three of the facts Small gets wrong but lowers its overall accuracy, whereas a half-and-half mix raises accuracy on held-out facts from 8.5\% to 9.5\% (Medium alone: 10.2\%). Small's SAE directions raise the steering success from 81\% to 95\% over random directions but are not required for it.
-
-All pass bars were fixed before the runs, every result is stored with its logs, and the limits are stated: one model pair, one dataset, 88 test records, no generated-text or other-model tests.
+\input{chapters/abstract_body}
 
 \tableofcontents
 \clearpage
 \phantomsection\addcontentsline{toc}{chapter}{List of Figures}
 \listoffigures
-\clearpage
 \phantomsection\addcontentsline{toc}{chapter}{List of Tables}
 \listoftables
 \clearpage
@@ -169,10 +164,11 @@ All pass bars were fixed before the runs, every result is stored with its logs, 
 
 \input{chapters/ch1_introduction}
 \input{chapters/ch2_literature}
-\input{chapters/ch3_methodology}
-\input{chapters/ch4_implementation}
-\input{chapters/ch5_results}
-\input{chapters/ch6_conclusion}
+\input{chapters/ch3_method}
+\input{chapters/ch4_evolution}
+\input{chapters/ch5_transfer}
+\input{chapters/ch6_implementation}
+\input{chapters/ch7_conclusion}
 \input{chapters/references}
 \input{chapters/appendices}
 
