@@ -1,13 +1,43 @@
 \clearpage
+\begingroup\singlespacing
 \chapter*{Appendices}
 \addcontentsline{toc}{chapter}{Appendices}
 
-\section*{Appendix A: Pass Bars and Verdicts}
-\addcontentsline{toc}{section}{Appendix A: Pass Bars and Verdicts}
+\section*{Appendix A: Research Journal and Report Sections}
+\addcontentsline{toc}{section}{Appendix A: Research Journal and Report Sections}
+
+The journal (\texttt{docs/Research\_Journal/}, entries 1 to 37) records every step with its tables, rules, mistakes and corrections. Result files and raw logs of the later entries are in \texttt{docs/Research\_Journal/packs/}.
+
+\setcounter{table}{0}\renewcommand{\thetable}{A.\arabic{table}}
+{\small
+\begin{longtable}{|p{0.11\linewidth}|p{0.60\linewidth}|p{0.17\linewidth}|}
+\caption{Journal entries and where they appear in this report.}\label{tab:journal}\\ \hline
+\textbf{Entries} & \textbf{Content} & \textbf{Section}\\ \hline \endfirsthead
+\hline \textbf{Entries} & \textbf{Content} & \textbf{Section}\\ \hline \endhead
+1 & First prototype, causal selector, eligibility rule, roadmap & \ref{sec:start}\\ \hline
+2, 3 & Target-helper and competitor ablation (1 and 3 of 22) & \ref{sec:ablation}\\ \hline
+4, 6, 7, 8 & Weighted multi-competitor muting, aggregation, decay profile, top-$K$ & \ref{sec:several}\\ \hline
+5 & Hybrid mute and boost, rank regression & \ref{sec:hybrid}\\ \hline
+9, 10, 11 & SAE audit, layer benchmark, caching and profiling & \ref{sec:depth}\\ \hline
+12, 13, 14, 15 & GPU, redundant-pass removal, batching (186 to 6 calls), batched application & \ref{sec:depth}\\ \hline
+16, 17, 18, 19 & Best-so-far, cumulative sweep, combined hook, pool refill, all-position candidates & \ref{sec:reliable}\\ \hline
+20, 21 & Candidate-source study (10 of 13 against 4 of 13); safety-filter study & \ref{sec:reliable}\\ \hline
+22 & Repair and SAE-limit diagnostics & \ref{sec:repair}\\ \hline
+23, 24 & Learned-strength plan; CounterFact hard set, split, cache, headroom & \ref{sec:scale}\\ \hline
+25 & Literature check & \ref{sec:repair}, Ch.~\ref{ch:literature-review}\\ \hline
+26, 27 & Learned strengths (PromptNet, FeatureNet) & \ref{sec:learned}\\ \hline
+28, 29 & Gradient-descent editor; equal-budget comparison (271, 161, 94 of 300) & \ref{sec:gd-enters}\\ \hline
+30 & Additive edit, random-word control, rewording, generation and instruction tests, start-token bug & \ref{sec:additive-story}, \ref{sec:beyond}\\ \hline
+31 to 37 & Cross-model transfer: translators, country swap, Export, search ladder, Import, SAE control & Ch.~\ref{ch:transfer}\\ \hline
+\end{longtable}
+}
+
+\section*{Appendix B: Pass Bars of the Side Study and Their Verdicts}
+\addcontentsline{toc}{section}{Appendix B: Pass Bars of the Side Study and Their Verdicts}
 
 Every bar was written into the project plan, and committed, before the run that judged it; none was moved afterwards. ``Edit's own'' means the effect that the source edit has inside small itself. Verdicts are as printed by the tools.
 
-\setcounter{table}{0}\renewcommand{\thetable}{A.\arabic{table}}
+\setcounter{table}{0}\renewcommand{\thetable}{B.\arabic{table}}
 {\small
 \begin{longtable}{|p{0.07\linewidth}|p{0.40\linewidth}|p{0.30\linewidth}|p{0.10\linewidth}|}
 \caption{Pass bars (``gates'') and their verdicts.}\label{tab:gates}\\ \hline
@@ -30,28 +60,26 @@ Rules S2, S3 & Real target's rewordings lift larger than a random word's, $p<0.0
 
 Two notes written after the fact do not change any verdict: the 5-point neighbour line of Gate 5 was stricter than the source edit's own loss of 9 points inside small, so Gates 6, 7 and 9 use the edit's own loss; and the dose rule (dev top-1 on 28 records) was replaced by the dev log-rank gain from step D10 on, after step D9b showed it to be fragile.
 
-\section*{Appendix B: Reproducing the Results}
-\addcontentsline{toc}{section}{Appendix B: Reproducing the Results}
+\section*{Appendix C: Reproducing the Results}
+\addcontentsline{toc}{section}{Appendix C: Reproducing the Results}
 
-From the repository root on branch \texttt{cross-model-transfer}, with \texttt{HF\_HUB\_OFFLINE=1} once the models are cached. Run times are for the RTX 4050 laptop GPU.
+From the repository root, with \texttt{HF\_HUB\_OFFLINE=1} once the models are cached. The main line is on the branches \texttt{layer-\allowbreak intervention-\allowbreak benchmark}, \texttt{pool-\allowbreak refill-\allowbreak implementation} and \texttt{gradient-\allowbreak descent-\allowbreak editing}; the side study is on \texttt{cross-\allowbreak model-\allowbreak transfer}.
 
 \begin{lstlisting}
-.venv\Scripts\python.exe tools/transfer/01_fit_maps.py         ridge translators, 138 s
-.venv\Scripts\python.exe tools/transfer/03_swap_control.py     country swap, 279 s
-.venv\Scripts\python.exe tools/transfer/05_export_edits.py     edits in small, 1,263 s
-.venv\Scripts\python.exe tools/transfer/06_export_eval.py      controlled export, about 54 min
-.venv\Scripts\python.exe tools/transfer/10_multilayer_export.py   several layers, 1,113 s
-.venv\Scripts\python.exe tools/transfer/11_b_aware_edit.py     per-sentence tuning (ceiling), 2,149 s
-.venv\Scripts\python.exe tools/transfer/12_output_matching.py  map trained on edits, 3,896 s
-.venv\Scripts\python.exe tools/transfer/16_rank1_term.py       rank-1 loss term, 1,959 s
-.venv\Scripts\python.exe tools/transfer/21_varied_edits.py     extra training edits, 3,542 s
-.venv\Scripts\python.exe tools/transfer/22_varied_training.py  varied-edits training
-.venv\Scripts\python.exe tools/transfer/19_import_experiment.py   Import by replacement, 249 s
-.venv\Scripts\python.exe tools/transfer/23_softer_import.py    soft Import, 304 s
-.venv\Scripts\python.exe tools/transfer/24_sae_basis_control.py   random-basis control, 1,677 s
-.venv\Scripts\python.exe tools/transfer/26_d6_rewordings_test.py  rewordings test, 221 s
-.venv\Scripts\python.exe tools/transfer/27_random_word_baseline.py   same for a trained map, 240 s
-.venv\Scripts\python.exe tools/make_report_v2_figures.py       report figures from the data pack
+streamlit run experiment_app.py
+python run_batch.py data/candidate_source_batch_spec.json
+python tools/build_counterfact_set.py
+python tools/split_counterfact_set.py
+python tools/build_strength_cache.py
+python tools/measure_headroom.py
+python tools/train_strength_models.py
+python tools/compare_sweep_vs_gradient.py --n-per-band 0
+python tools/control_random_targets.py
+python tools/transfer/00_setup_check.py   (then 01 to 27)
+python tools/make_report_v3_history_figures.py
 \end{lstlisting}
 
-All pass bars and readings are in \texttt{docs/cross\_model\_transfer/PLAN.md}, the story of each step in the research journal (entries 31 to 37), and every result file and raw log in \texttt{docs/Research\_Journal/packs/cross\_model\_transfer/}. The large local artefacts are described by a manifest in the same folder.
+In order: the application; the candidate-source study; the CounterFact hard set and split; the per-prompt cache and the headroom measurement; the strength networks; the 271, 161 and 94 of 300 comparison; the random-word control; the side study; and the early-stage figures.
+
+Journal entries 31 to 37 give each side-study tool with its run time, and \texttt{docs/\allowbreak cross\_\allowbreak model\_\allowbreak transfer/\allowbreak PLAN.md} holds all pass bars and readings.
+\endgroup

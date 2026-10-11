@@ -1,0 +1,26 @@
+\chapter{Discussion, Conclusion and Future Work}\label{ch:conclusion}
+
+\section{What the Work Shows}
+
+\textbf{The supply of features, not the selection rule, limited the sweep.} Candidates from all prompt positions enlarged the pool about fivefold and raised the prompts at rank 1 from 4 to 10 of 13; removing the safety filter lost prompts while relaxing it gained at most one. \textbf{The choice of features and strengths mattered more than stronger interventions.} Muting the competitor's drivers and adding boosts gave the early gains; one better global strength pair lifted a stand-in success rate from 25\% to 39\%, choosing strengths per prompt added nothing measurable, and tuning one multiplier per feature on the prompt itself reached 271 of 300 on the real model. \textbf{Rank 1 is a weak test.} The additive edit forced random words to rank 1 on 20 of 20 prompts, and an optimiser with enough freedom reaches any chosen output; reachability by steering is not evidence about what the model knows, in either direction. The edit is a push toward the answer's output direction: it carries little beyond the prompt it was tuned on and largely ignores an instruction not to say the word. \textbf{The side study} showed that a linear channel between GPT-2 Small and Medium keeps the receiver working, that an exported edit moves the target specifically but rarely to rank 1, that what crosses is a push and not a fact, and that mixing in half of Medium's state raises Small's accuracy by one point. Four habits earned their cost: controls first (the random-word control turned the best-looking result into a warning), fair comparisons (giving the sweep the same range as gradient descent cut the gap but did not close it), pass bars fixed before the run (so the side study's failures stand as failures), and corrections made in the open (the ``knowledge absent'' class, a ``four times'' random-word claim and an inflated last-position cosine are withdrawn in the journal where they were made).
+
+\section{Threats to Validity and What Is Not Shown}
+
+\begin{itemize}
+  \item One model family, one older SAE release and layer 8 in all later studies; the early studies use small, templated prompt sets (13 to 131 prompts) and, like CounterFact, treat prompts as independent without correction for multiple comparisons.
+  \item Success is rank 1 on the next token (median target probability 7.7\% for gradient descent). Side effects were measured on the same prompt, 20 unrelated prompts and 40-prompt tests, with one seed, no confidence intervals and true targets only for the generation and instruction tests.
+  \item The headroom and the learned strengths are stand-ins on cached states; the real sweep was never run with the learned strengths. The side study has 88 primary test records and settings chosen on 28 to 50 dev records.
+  \item \textbf{No comparison with ROME, MEMIT, in-context editing, prompting or difference-of-means steering has been run}, so nothing here says how the approach ranks against them.
+\end{itemize}
+
+\section{Conclusion}
+
+FeatureScalpel set out to repair suppressed factual recall in GPT-2 Small through the features of a sparse autoencoder, without changing a weight. Through attempts that mostly failed in instructive ways it arrived at a transient edit that brings the true answer to rank 1 on 271 of 300 held-out prompts, quickly and with small side effects on the same prompt. The applied side study found that the change an edit makes can be carried between models as a push, that importing a larger model's state gives a small gain, and that a fact does not cross. The results support the claim that a transient SAE-feature edit can raise a suppressed answer to the top, and that optimising a multiplier per feature does so more often, faster and with lower same-prompt side effects than a hand-built sweep. They do not support the claim that such edits recover knowledge, are specific to a fact, or outperform weight editing, in-context editing or prompting.
+
+\section{Future Work}
+
+\begin{enumerate}
+  \item \textbf{A specificity benchmark} that measures, for every method, whether the target reaches rank 1, transfers to rewordings, leaves unrelated prompts and generated text unchanged and respects an instruction (with random words of matched starting rank as controls),.
+  \item \textbf{Head-to-head comparison} with ROME, MEMIT, in-context editing and difference-of-means steering using existing implementations \cite{r32}, timed on one machine; this is the test of the project's central claim.
+  \item \textbf{Strengths, transfer and scale:} the learned strengths in the real sweep; controls for the Import mix; other model pairs (for example Gemma 3 270M and 1B, which have SAEs on both sides) and larger models with pretrained SAEs \cite{r19}.
+\end{enumerate}
