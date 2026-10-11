@@ -1,16 +1,10 @@
 \chapter{Evolution of the System: a Record of Trial and Error}\label{ch:evolution}
 
-This chapter tells how we arrived at the system described in Chapter~\ref{ch:method}. For each stage we say what we tried, what happened and why we moved on, following the order of the research journal (Appendix~A maps journal entries to sections). Every result is cited to the project record it comes from (labels P1 to P19 in the reference list), and every figure is drawn from stored data (Appendix~D). The early experiments used one prompt or 22 facts. They explain why the design looks the way it does, but they are not performance estimates.
+This chapter tells how we arrived at the system described in Chapter~\ref{ch:method}. For each stage we say what we tried, what happened and why we moved on, following the order of the research journal (Appendix~A maps journal entries to sections). Results are cited to numbered project records (P1 to P19 in the reference list). The early experiments used one prompt or 22 facts. They explain why the design looks the way it does, but they are not performance estimates.
 
 \section{The Starting Point}\label{sec:start}
 
-The first prototype (July 2026, journal 1) loaded GPT-2 Small \cite{r1} and the layer-8 SAE \cite{r15} and added a \emph{causal selector}. It took the features active on the last token of the prompt, removed each one in turn, and ranked them by how much the target's probability changed. Three things we learned there shaped the rest of the work \cite{p1}. The most active feature is not the one that changes the answer, so we rank by causal effect and not by activation. Removing a feature completely damaged other predictions, whereas a partial change (strength 0.2 to 0.3) did not on the one example we tried. And an \emph{eligibility rule}, applied to 45 fact pairs from ROME's \texttt{known\_1000} file \cite{r2,r65}, sorted the facts into three groups (Figure~\ref{fig:elig}). The roadmap we wrote then already listed a learned predictor of which features to edit, which we reached in Section~\ref{sec:learned}, and a comparison with ROME, which Chapter~\ref{ch:rome} describes and which is only half done.
-
-\begin{figure}[!htb]
-\centering
-\safegraphic[width=0.82\linewidth]{figures/v4_elig}
-\caption[Sorting 45 fact pairs by what GPT-2 Small already does with them]{Sorting 45 fact pairs by what GPT-2 Small already does with them \cite{p1}. \textbf{How to read:} each bar counts fact pairs. Grey: the true answer is already the model's first choice (15). Blue: it is not first but still receives probability above 1\% or ranks within the top 50, so an edit has something to work with (22, the \emph{suppressed} group used in the first experiments). Orange: the answer is unlikely and the pair was set aside (8).}\label{fig:elig}
-\end{figure}
+The first prototype (July 2026, journal 1) loaded GPT-2 Small and the layer-8 SAE and added a \emph{causal selector}. It took the features active on the last token of the prompt, removed each one in turn, and ranked them by how much the target's probability changed. Three things we learned there shaped the rest of the work. The most active feature is not the one that changes the answer, so we rank by causal effect and not by activation. Removing a feature completely damaged other predictions, whereas a partial change (strength 0.2 to 0.3) did not on the one example we tried. And an \emph{eligibility rule} applied to 45 fact pairs from ROME's \texttt{known\_1000} gave 15 already correct, 22 \emph{suppressed} (target not first but probable) and 8 improbable \cite{r2,p1}. The roadmap we wrote then already listed a learned predictor of which features to edit, which we reached in Section~\ref{sec:learned}, and a comparison with ROME, which Chapter~\ref{ch:rome} takes up.
 
 \section{Single-Feature Ablation}\label{sec:ablation}
 
@@ -18,134 +12,96 @@ Our first search ablated, one after another, the features that \emph{help} the t
 
 \section{Several Competitors, Spread-Out Support}\label{sec:several}
 
-For a probe prompt (``The location of Massachusetts Institute of Technology is in'', target `` Cambridge'', rank 8, with seven words above it) we muted all the competitors in proportion to their probability (journals 4 to 8). The seven competitors collapsed onto just two features: 313 for `` the'', `` a'' and `` an'', and 21169 for `` question'', `` jeopardy'', `` danger'' and `` doubt''. The target stayed at rank 8. Raising the strength on feature 313 by 73\% moved the target's probability only from 1.29\% to 1.39\%, so muting too weakly was not the problem. When we looked at each competitor's top ten features, the semantic competitors turned out to be spread over many of them, with the second feature 92 to 95\% as influential as the first. Muting the top three features per competitor reached rank 6, and five diluted the effect back to rank 7 \cite{p3}. This is what the superposition picture predicts: a concept is rarely held by one direction \cite{r5}.
+For a probe prompt (``The location of Massachusetts Institute of Technology is in'', target `` Cambridge'', rank 8, with seven words above it) we muted all the competitors in proportion to their probability (journals 4 to 8). The seven competitors collapsed onto just two features: 313 for `` the'', `` a'' and `` an'', and 21169 for `` question'', `` jeopardy'', `` danger'' and `` doubt''. The target stayed at rank 8. Raising the strength on feature 313 by 73\% moved the target's probability only from 1.29\% to 1.39\%, so muting too weakly was not the problem. When we looked at each competitor's top ten features, the semantic competitors turned out to be spread over many of them, with the second feature 92 to 95\% as influential as the first. Muting the top three features per competitor reached rank 6, and five diluted the effect back to rank 7 \cite{p3}.
 
 \section{Mute and Boost Together}\label{sec:hybrid}
 
-Adding the opposite move, boosting the features that support the target, changed things at once. Three mutes and three boosts brought the probe prompt to \textbf{rank 1} (journal 5; Figure~\ref{fig:early}b). A fourth boost pushed it back to rank 2. This was not a bug, since an isolated rerun gave the same 6.7357\%. The fourth feature supports `` the'' more than `` Cambridge'', and because probabilities pass through a softmax, more editing is not always better \cite{p3}. The lesson was to report the \emph{best} step and not the last. The hybrid edit with a safety filter (rank 2 on this prompt, safer but weaker) became our working algorithm.
+Adding the opposite move, boosting the features that support the target, changed things at once. Three mutes and three boosts brought the probe prompt to \textbf{rank 1} (journal 5; Figure~\ref{fig:early}b). A fourth boost pushed it back to rank 2. This was not a bug, since an isolated rerun gave the same 6.7357\%. The fourth feature supports `` the'' more than `` Cambridge'', and because probabilities pass through a softmax, more editing is not always better. The lesson was to report the \emph{best} step and not the last. The hybrid edit with a safety filter (rank 2 on this prompt, safer but weaker) became our working algorithm \cite{p3}.
 
 \begin{figure}[!htb]
 \centering
 \safegraphic[width=0.88\linewidth]{figures/h_early}
-\caption[The early experiments]{The early experiments \cite{p2,p3}. \textbf{How to read:} (a) for 22 suppressed facts, how many ended at rank 1: muting the target's own helpers corrected 1, muting the competitor's drivers corrected 3. (b) For the probe prompt, the rank of ``Cambridge'' under three edits (lower is better): muting alone stayed at rank 8, mute and boost reached rank 1, and a fourth boost undid it.}\label{fig:early}
-\end{figure}
-
-The sweep applies one more mute and one more boost at every step, so its progress can be watched. Figure~\ref{fig:sophia} shows a run on a prompt that needed 34 steps, from rank 6 to rank 1. The rank improves in jumps while the probability rises almost steadily, and rank 1 appears only at the very last step with 68 features changed. This is why we later asked where the sweep's supply of features comes from (Section~\ref{sec:reliable}) \cite{p7}.
-
-\begin{figure}[!htb]
-\centering
-\safegraphic[width=0.92\linewidth]{figures/v4_hybrid_sophia}
-\caption[One run of the hybrid sweep (the Sophia prompt)]{One run of the hybrid sweep on ``This is Sophia, she is a'', target `` woman'' (all prompt positions, layer 8) \cite{p7}. \textbf{How to read:} the horizontal axis is the sweep step. (a) The target's rank (1 is first place, so the line should go up). (b) The target's probability. Each step mutes one more competitor feature and boosts one more helper.}\label{fig:sophia}
+\caption{The early experiments. (a) 22 suppressed facts: muting the target's own helpers corrected 1, muting the competitor's drivers corrected 3. (b) The probe prompt: muting alone stayed at rank 8, mute and boost reached rank 1, and a fourth boost undid it.}\label{fig:early}
 \end{figure}
 
 \section{Where to Edit, and Making It Fast}\label{sec:depth}
 
-The SAE release we use has one dictionary for the residual stream before each of the twelve blocks and none for other hook points \cite{r15,p4}, so the layer is the main choice. A layer sweep on 21 prompts (12 of them eligible) showed a plateau at layers 6 to 9, with layer 8 highest (Figure~\ref{fig:layer12}). Its mean rank gain was 7.33, against 7.08, 6.50 and 6.33 at layers 7, 6 and 9, and at most 4.75 at the other layers (journals 10 and 11) \cite{p4}. We kept layer 8 as a reasonable default, not as a proven optimum.
+A layer sweep on 21 prompts (12 of them eligible) showed a plateau at layers 6 to 9, with layer 8 highest. Its mean rank gain was 7.33, against 7.08, 6.50 and 6.33 at layers 7, 6 and 9, and at most 4.75 at the other layers (journals 10 and 11). We kept layer 8 as a reasonable default, not as a proven optimum (Figure~\ref{fig:layer12}) \cite{p4}.
 
 \begin{figure}[!htb]
 \centering
-\safegraphic[width=0.92\linewidth]{figures/v4_layer12}
-\caption[Effect of the layer of the intervention on the 12 eligible prompts]{Effect of the layer of the intervention on the 12 eligible prompts \cite{p4}. \textbf{How to read:} (a) mean number of rank places gained by the target at each layer (taller is better). (b) Number of the 12 prompts whose rank improved (blue) and whose target reached rank 1 (orange). The dark bar marks layer 8, the layer used in later work. The gain is high from layers 6 to 9 and low before and after.}\label{fig:layer12}
+\safegraphic[width=0.9\linewidth]{figures/v4_layer12}
+\caption{Effect of the layer of the intervention on the 12 eligible prompts. (a) Mean number of rank places gained by the target. (b) Number of prompts whose rank improved (blue) and whose target reached rank 1 (orange). Layers 6 to 9 form a plateau, and layer 8 (dark bar) has the highest mean gain (7.3).}\label{fig:layer12}
 \end{figure}
 
-The first real engineering step was a cost audit. A single prompt at one layer needed \textbf{186 model calls}. Both safety filters were recomputing the clean baseline inside every candidate loop, and passing it in removed 60 calls with identical results. Stacking the candidates into the batch dimension of one call then brought the number down to \textbf{6}, a 21-fold reduction. The ordered feature lists, the probabilities (to $10^{-9}$) and all 60 safety decisions matched the sequential code, which we kept as the reference. A CUDA GPU gave another factor of 3.8 \cite{r22}, and in the application the whole Hybrid run fell from about 12 s to under 1 s (Figure~\ref{fig:speed}) \cite{p5}.
+
+The first real engineering step was a cost audit. A single prompt at one layer needed \textbf{186 model calls}. Both safety filters were recomputing the clean baseline inside every candidate loop, and passing it in removed 60 calls with identical results. Stacking the candidates into the batch dimension of one call then brought the number down to \textbf{6}, a 21-fold reduction. The ordered feature lists, the probabilities (to $10^{-9}$) and all 60 safety decisions matched the sequential code, which we kept as the reference. A CUDA GPU gave another factor of 3.8, and in the application the whole Hybrid run fell from about 12 s to under 1 s (Figure~\ref{fig:speed}) \cite{p5}.
 
 \begin{figure}[!htb]
 \centering
 \safegraphic[width=0.85\linewidth]{figures/h_speed}
-\caption[Making the computation fast]{Making the computation fast \cite{p5}. \textbf{How to read:} lower is better in all three panels. (a) Model calls needed per prompt and layer. (b) Whole Hybrid run with the same result, three repeats. (c) CPU against GPU on 3 prompts and 4 layers.}\label{fig:speed}
+\caption{Making the computation fast. (a) Model calls per prompt and layer. (b) Whole Hybrid run with the same result, three repeats. (c) CPU against GPU on 3 prompts and 4 layers.}\label{fig:speed}
 \end{figure}
 
 \section{Making the Sweep Reliable}\label{sec:reliable}
 
 Once the sweep was fast, its weaknesses became visible (journals 16 to 19). It reported the last step instead of the best one, which we fixed with best-so-far tracking. Applying mute and boost as two chained hooks gave rank 66 where the combined safety check gave 59, so we switched to a single combined hook. And it stopped early, because its pool held only features that had passed the filter against the \emph{clean} model. \textbf{Pool refill} fixed that by re-ranking against the edited model, and it exposed a hard limit. For ``The leading cause of death in men is'' only 67 features were active at the last token, and scaling cannot activate a feature that is off. The run used all 67 and stopped at rank 51 (from 152) \cite{p6}.
 
-The fix was to draw candidates from \textbf{all prompt positions}, since the meaning of ``Sophia'' sits on the word \emph{Sophia} and not on the last word of the prompt. On 13 comparable prompts the all-positions version reached rank 1 on \textbf{10}, against 4 for the last token. It won on 9 prompts and lost on none (exact sign test \cite{r56}, $p\approx0.004$), and in all 9 prompts where the last-token version failed, it had used every feature it could see (Figures~\ref{fig:candsrc} and~\ref{fig:pools}) \cite{p7}. On the 14 prompts that needed an edit, the all-positions version also starts with a pool about five times larger (a median of 276 candidate features against 54).
+The fix was to draw candidates from \textbf{all prompt positions}, since the meaning of ``Sophia'' sits on the word \emph{Sophia} and not on the last word of the prompt. On 13 comparable prompts the all-positions version reached rank 1 on \textbf{10}, against 4 for the last token. It won on 9 prompts and lost on none (exact sign test \cite{r56}, $p\approx0.004$), and in all 9 prompts where the last-token version failed, it had used every feature it could see (Figure~\ref{fig:candsrc}; journal 20) \cite{p7}. We then asked whether the strict safety rule was too strict. In a 45-prompt pilot, removing the filter lost 10 of 29 successes and gained none, a 5\% tolerance lost 2, and graded strengths changed nothing. On 131 last-token prompts, relaxed rules added at most one prompt. Only 2.5 to 2.9\% of features were rejected on both sides, so the supply of features, and not the filter, was the real limit, and the strict filter stayed (Figure~\ref{fig:filter}) \cite{p8}.
+
+\begin{figure}[!htb]
+\centering
+\safegraphic[width=0.9\linewidth]{figures/v4_filter}
+\caption{Prompts brought to rank 1 under five versions of the safety filter. (a) 45-prompt pilot, candidates from all prompt positions. (b) 131 prompts, last token only. Switching the filter off loses prompts (29 to 19 in (a)); relaxed versions change the count by at most one.}\label{fig:filter}
+\end{figure}
+
 
 \begin{figure}[!htb]
 \centering
 \safegraphic[width=0.76\linewidth]{figures/fig_candsrc}
-\caption[Final rank on 13 prompts, last token against all positions]{Final rank of the target on the 13 comparable prompts when candidates come from the last token only or from all prompt positions (log scale; rank 1 is the dashed line) \cite{p7}. \textbf{How to read:} each pair of points is one prompt. A point lower on the page is a better result.}\label{fig:candsrc}
-\end{figure}
-
-\begin{figure}[!htb]
-\centering
-\safegraphic[width=0.92\linewidth]{figures/v4_cand_pools}
-\caption[How many features the first round can choose from]{How many features the first round can choose from \cite{p7}. \textbf{How to read:} each row is a prompt. The circle is the pool when only the last token is used, the square the pool when all prompt positions are used. Green means the target reached rank 1, orange means it did not. The all-positions pool is larger on every prompt, and the last-token pool is small on all of them. Prompts that were already correct are not shown.}\label{fig:pools}
-\end{figure}
-
-We then asked whether the strict safety rule was too strict. In a 45-prompt pilot, removing the filter lost 10 of 29 successes and gained none, a 5\% tolerance lost 2, and graded strengths changed nothing. On 131 last-token prompts, relaxed rules added at most one prompt (Figure~\ref{fig:filter}). Only 2.5 to 2.9\% of features were rejected on both sides, so the supply of features, and not the filter, was the real limit, and the strict filter stayed \cite{p8}.
-
-\begin{figure}[!htb]
-\centering
-\safegraphic[width=0.92\linewidth]{figures/v4_filter}
-\caption[The safety-filter study]{The safety-filter study \cite{p8}. \textbf{How to read:} each bar is a version of the filter and its height the number of prompts brought to rank 1. (a) 45 prompts, candidates from all positions. (b) 131 prompts, last token only. ``Strict'' is the rule of Equation~\ref{eq:safe} and is the one we use. Switching the filter off (orange) loses prompts, and relaxing it (light blue) changes at most one.}\label{fig:filter}
+\caption{Final rank of the target on the 13 comparable prompts when candidates come from the last token only or from all prompt positions (log scale; rank 1 is the dashed line).}\label{fig:candsrc}
 \end{figure}
 
 \section{Is the Layer, or the SAE, the Limit?}\label{sec:repair}
 
-We tested three worries on the prompts that had failed in every mode (journal 22). Later layers might rebuild what the edit removes. The SAE might be more machinery than a factual edit needs. And the SAE's reconstruction error, which we never edit, might hold the missing information. The pushed direction was still 0.79 to 1.29 of its injected size at the output, and re-adding whatever fraction had been lost gave the same rank in 21 of 21 layer and prompt cells, so \textbf{we saw no repair}. A free residual edit of the same size reached rank 1 in all 21 cells, against 1 for the SAE edit (Figure~\ref{fig:repair}). We chose these prompts because the SAE edit had failed on them, so this is a yardstick and not a success rate. The tool for reading the intermediate layers is the logit lens \cite{r37}. A literature check the same week (journal 25) found mixed evidence on SAE steering \cite{r12,r24,r25,r26} and led us to compare every later result with controls \cite{p9,p11}.
-
-\begin{figure}[!htb]
-\centering
-\safegraphic[width=0.95\linewidth]{figures/v4_repair}
-\caption[Repair and SAE-limit diagnostics on four failing prompts]{Repair and SAE-limit diagnostics on four failing prompts \cite{p9}. \textbf{How to read:} (a) rank of the target after an SAE edit at each layer (dots) and after a free residual edit of the same size (crosses); the axis is reversed, so higher on the page is better and the dashed line is rank 1. The crosses sit at rank 1 everywhere, so a direction that works exists. The SAE edit reaches rank 1 in only 2 of the 22 cells shown (Colosseum at layer 7, and the probe prompt at layer 8). (b) Size of the pushed direction at each block after the edit, relative to the size injected (1.0 means unchanged). It stays between 0.8 and 1.3 of its injected size, so later layers do not undo it.}\label{fig:repair}
-\end{figure}
+We tested three worries on the prompts that had failed in every mode (journal 22). Later layers might rebuild what the edit removes. The SAE might be more machinery than a factual edit needs. And the SAE's reconstruction error, which we never edit, might hold the missing information. The pushed direction was still 0.79 to 1.29 of its injected size at the output, and re-adding whatever fraction had been lost gave the same rank in 21 of 21 layer and prompt cells, so \textbf{we saw no repair}. A free residual edit of the same size reached rank 1 in all 21 cells, against 1 for the SAE edit. We chose these prompts because the SAE edit had failed on them, so this is a yardstick and not a success rate. A literature check the same week (journal 25) found mixed evidence on SAE steering and led us to compare every later result with controls \cite{p9,p11}.
 
 \section{Scaling Up: the CounterFact Benchmark}\label{sec:scale}
 
-Our hand-assembled sets (22, 45 and 131 prompts) share templates and are too small for held-out tests, so we built a benchmark from CounterFact (journal 24) \cite{r2}. Of its 21,919 records, 16,360 have a single-token true answer that GPT-2 Small ranks between 2 and 1000. We split them so that a subject appears in only one set and five relations are held out, which gave 1,000 training, 150 validation and 300 test prompts (Figure~\ref{fig:pipeline}). For 1,450 of these prompts we cached the layer-8 states, the candidate features, their removal effects and the safety filter's verdict at ten strengths, once and for all. A \textbf{headroom} measurement then asked how much room any choice of multipliers has. Free per-feature multipliers could bring the target to rank 1 on \textbf{80\%} of the 1,450 prompts if side effects are ignored, and on 41\% with a side-effect penalty, against 6 to 15\% for crude fixed rules (Figure~\ref{fig:headroom}) \cite{p10}.
-
-\begin{figure}[!htb]
-\centering
-\safegraphic[width=0.95\linewidth]{figures/v4_pipeline}
-\caption[Building the benchmark from CounterFact]{Building the benchmark from CounterFact \cite{p10}. \textbf{How to read:} follow the arrows from the source data (top left) to the splits (green) and the studies that use them (bottom). Every subject appears in only one split, and five whole relations are kept out of training and validation.}\label{fig:pipeline}
-\end{figure}
+Our hand-assembled sets (22, 45 and 131 prompts) share templates and are too small for held-out tests, so we built a benchmark from CounterFact (journal 24). Of its 21,919 records, 16,360 have a single-token true answer that GPT-2 Small ranks between 2 and 1000. We split them so that a subject appears in only one set and five relations are held out, which gave 1,000 training, 150 validation and 300 test prompts. For 1,450 of these prompts we cached the layer-8 states, the candidate features, their removal effects and the safety filter's verdict at ten strengths, once and for all. A \textbf{headroom} measurement then asked how much room any choice of multipliers has. Free per-feature multipliers could bring the target to rank 1 on \textbf{80\%} of the 1,450 prompts if side effects are ignored, and on 41\% with a side-effect penalty, against 6 to 15\% for crude fixed rules (Figure~\ref{fig:headroom}) \cite{p10}.
 
 \begin{figure}[!htb]
 \centering
 \safegraphic[width=0.85\linewidth]{figures/fig_headroom}
-\caption[Headroom on the 1,450 cached prompts]{Headroom on the 1,450 cached prompts (one-shot edits on saved states, a stand-in for the real sweep) \cite{p10}. \textbf{How to read:} (a) share of prompts reaching rank 1 for each way of choosing multipliers; the tallest bar is free multipliers without any side-effect penalty. (b) Free multipliers by how far down the true answer started.}\label{fig:headroom}
+\caption{Headroom on the 1,450 cached prompts (one-shot edits on saved states, a stand-in for the real sweep): (a) share reaching rank 1 by method; (b) free multipliers by starting-rank band.}\label{fig:headroom}
 \end{figure}
 
 \section{Learning the Strengths}\label{sec:learned}
 
-The sweep uses one mute strength (0.6) and one boost strength (0.5) for every prompt, even though the strengths change the outcome. We trained a small network to choose them (journals 23, 26 and 27). \emph{PromptNet} reads 12 summary numbers about the prompt, such as the target's rank and probability, and outputs a mute and a boost strength. \emph{FeatureNet} outputs one multiplier per candidate. Training back-propagated through blocks 8 to 11 from the cached states, with Adam \cite{r36}. We compared them with a \emph{learned fixed pair} (two numbers shared by all prompts) and a \emph{per-prompt oracle} tuned by gradient descent at test time. On the 300 test prompts, under a stand-in measure, fixed 0.6/0.5 reached rank 1 on 75 (25.0\%), the learned pair (mute 0.98, boost 1.81) on 116 (38.7\%), PromptNet on 119 and the oracle on 123 (Figure~\ref{fig:learned}). The gain came from a better \emph{global} pair. Choosing per prompt added only 3 prompts (exact McNemar test \cite{r39}, $p=0.25$), side effects roughly doubled, and FeatureNet (31 to 32\%) stayed below the pair. We never ran the real sweep with the learned strengths. The network turned out not to be the useful part. Its \emph{teacher} was: free multipliers tuned on each prompt reached 73\% in the same stand-in, nearly twice what the network managed \cite{p12}.
+The sweep uses one mute strength (0.6) and one boost strength (0.5) for every prompt, even though the strengths change the outcome. We trained a small network to choose them (journals 23, 26 and 27). \emph{PromptNet} reads 12 summary numbers about the prompt, such as the target's rank and probability, and outputs a mute and a boost strength. \emph{FeatureNet} outputs one multiplier per candidate. Training back-propagated through blocks 8 to 11 from the cached states. We compared them with a \emph{learned fixed pair} (two numbers shared by all prompts) and a \emph{per-prompt oracle} tuned by gradient descent at test time. On the 300 test prompts, under a stand-in measure, fixed 0.6/0.5 reached rank 1 on 75 (25.0\%), the learned pair (mute 0.98, boost 1.81) on 116 (38.7\%), PromptNet on 119 and the oracle on 123 (Figure~\ref{fig:learned}). The gain came from a better \emph{global} pair. Choosing per prompt added only 3 prompts (exact McNemar $p=0.25$), side effects roughly doubled, and FeatureNet (31 to 32\%) stayed below the pair. We never ran the real sweep with the learned strengths. The network turned out not to be the useful part. Its \emph{teacher} was: free multipliers tuned on each prompt reached 73\% in the same stand-in, nearly twice what the network managed \cite{p12}.
 
 \begin{figure}[!htb]
 \centering
 \safegraphic[width=0.8\linewidth]{figures/fig_learned}
-\caption[Learned strengths on the 300 test prompts]{Learned strengths on the 300 test prompts (stand-in measure) \cite{p12}. \textbf{How to read:} (a) prompts reaching rank 1 under each way of choosing strengths. (b) Mean KL of the prompts that succeeded, a measure of side effects (lower is better).}\label{fig:learned}
+\caption{Learned strengths on the 300 test prompts (stand-in measure): (a) prompts reaching rank 1; (b) mean KL of the successes.}\label{fig:learned}
 \end{figure}
 
 \section{Gradient Descent Enters}\label{sec:gd-enters}
 
-Gradient descent was in the project for a week before it became the method. It first appeared as a measuring stick, as the bound for an edit made directly in the residual stream (journal 22, Adam on a free vector). It came back in the headroom measurement (journal 24) and in the oracle (journal 27). The oracle's 73\%, against 31 to 32\% for the network, suggested using the optimiser itself as the editor (journal 28, October 3). It gives one multiplier per candidate, tuned for the prompt by 100 Adam steps, in about 6 to 8 s per prompt. Section~\ref{sec:lit-gd} traces the idea in the literature. Figure~\ref{fig:gdtraj} shows how it behaves on the first hand-picked prompts: the target's rank climbs steadily during the 100 steps, and the three prompts it solves there are ones where the target started within about 550 places \cite{p13}.
+Gradient descent was in the project for a week before it became the method. It first appeared as a measuring stick, as the bound for an edit made directly in the residual stream (journal 22, Adam on a free vector). It came back in the headroom measurement (journal 24) and in the oracle (journal 27). The oracle's 73\%, against 31 to 32\% for the network, suggested using the optimiser itself as the editor (journal 28, October 3). It gives one multiplier per candidate, tuned for the prompt by 100 Adam steps, in about 6 to 8 s per prompt \cite{p12,p13}. Section~\ref{sec:lit-gd} traces the idea in the literature.
 
-\begin{figure}[!htb]
-\centering
-\safegraphic[width=\linewidth]{figures/v4_gd_trajectories}
-\caption[Gradient descent on six hand-picked prompts]{Gradient descent on six hand-picked prompts \cite{p13}. \textbf{How to read:} each panel is one prompt and target. The line is the target's rank (log scale, so the line should climb toward the dashed line at rank 1) during the 100 tuning steps. The label at the bottom right gives the starting and final rank. Three prompts reach rank 1. The three others (``rapist'', ``powder'' and a random name) improve a great deal but do not get there; their targets started at ranks 1,740 to 13,576.}\label{fig:gdtraj}
-\end{figure}
-
-The first hand trials favoured gradient descent but were unfair, because it could scale features from 0 to 3 times and the sweep only from 0.4 to 1.8. So the controlled comparison (journal 29) gave the sweep the same range (mute 1.0, boost 2.0) and measured all arms with one yardstick through the real hook. On the 300 test prompts gradient descent brought the true answer to rank 1 on \textbf{271} (90\%), the wide sweep on 161 and the original sweep on 94 (Figure~\ref{fig:gdband}). It solved 110 prompts the wide sweep missed and lost none. Its same-prompt KL was lower on 160 of the 161 prompts that both solved, and it needed 7.7 s per prompt against 38.5 and 49.7 s (Figures~\ref{fig:gdside} and~\ref{fig:gdtrade}) \cite{p13}. Two cautions apply. Part of the KL advantage is built in, since its loss contains a KL term and the sweep has none. And the median target probability at rank 1 is only 7.7\%.
+The first hand trials favoured gradient descent but were unfair, because it could scale features from 0 to 3 times and the sweep only from 0.4 to 1.8. So the controlled comparison (journal 29) gave the sweep the same range (mute 1.0, boost 2.0) and measured all arms with one yardstick through the real hook. On the 300 test prompts gradient descent brought the true answer to rank 1 on \textbf{271} (90\%), the wide sweep on 161 and the original sweep on 94 (Figure~\ref{fig:gdband}). It solved 110 prompts the wide sweep missed and lost none. Its same-prompt KL was lower on 160 of the 161 prompts that both solved, and it needed 7.7 s per prompt against 38.5 and 49.7 s (Figure~\ref{fig:gdside}) \cite{p13}. Two cautions apply. Part of the KL advantage is built in, since its loss contains a KL term and the sweep has none. And the median target probability at rank 1 is only 7.7\%.
 
 \begin{figure}[!htb]
 \centering
 \safegraphic[width=0.82\linewidth]{figures/h_gd_bars}
-\caption[Prompts brought to rank 1 by starting rank, 300 held-out prompts]{Prompts brought to rank 1 by starting rank of the true answer, 300 held-out prompts: the original sweep, the sweep with the same 0 to 3 range, and gradient descent (green) \cite{p13}. \textbf{How to read:} the groups are bands of the true answer's starting rank, and the last group is all 300 prompts. Taller is better.}\label{fig:gdband}
+\caption{Prompts brought to rank 1 by starting rank of the true answer, 300 held-out prompts: the original sweep, the sweep with the same 0 to 3 range, and gradient descent (green).}\label{fig:gdband}
 \end{figure}
 
 \begin{figure}[!htb]
 \centering
-\safegraphic[width=\linewidth]{figures/v4_gd_side}
-\caption[Side effects and time, gradient descent against the wide sweep]{Side effects and time, gradient descent against the wide sweep \cite{p13}. \textbf{How to read:} (a) each dot is one of the 161 prompts both methods solved. A dot below the dashed line means gradient descent disturbed the rest of the output distribution less (KL, lower is better). It is below the line for 160 of 161. (b) Each dot is one prompt's compute time for one method on a log scale, and the black bar is the median.}\label{fig:gdside}
-\end{figure}
-
-\begin{figure}[!htb]
-\centering
-\safegraphic[width=0.88\linewidth]{figures/v4_gd_tradeoff}
-\caption[Success against side effects]{Success against side effects \cite{p13}. \textbf{How to read:} each point is one band of starting ranks (labelled), for one method. Going up means more prompts solved, going left means smaller side effects, so the best methods sit in the upper left. Gradient descent (green) is above both sweeps in every band and to the left of the wide sweep in every band. In the hardest band the original sweep has the smaller side effect, but it solves only 3\% of those prompts.}\label{fig:gdtrade}
+\safegraphic[width=0.95\linewidth]{figures/v4_gd_side}
+\caption{Gradient descent against the sweep with the same range (mute 1.0, boost 2.0) on the 300 held-out prompts. (a) Same-prompt KL for the 161 prompts that both solved; gradient descent is lower on 160 (points below the dashed line). (b) Model time per prompt on a log scale, with medians of 52.6 s (original sweep), 38.2 s (wide sweep) and 7.8 s (gradient descent).}\label{fig:gdside}
 \end{figure}
 
 \section{Forcing Every Target to Rank 1: the Additive Edit}\label{sec:additive-story}
@@ -157,25 +113,17 @@ Three things followed. Rank 1 is a weak test, so every later result needs contro
 \begin{figure}[!htb]
 \centering
 \safegraphic[width=0.78\linewidth]{figures/fig_additive}
-\caption[Control with random unrelated targets]{Control with random unrelated targets \cite{p14}. \textbf{How to read:} each bar is the share of 20 validation prompts that reached rank 1 for a random word chosen as the target. A method that repaired facts should fail on random words. The additive edit reaches rank 1 on 20 of 20, at a size above the residual stream's, and multipliers on 1 of 20.}\label{fig:addctl}
+\caption{Control with random unrelated targets: the additive edit reaches rank 1 on 20 of 20 prompts at a size above the residual stream's, and multipliers on 1 of 20.}\label{fig:addctl}
 \end{figure}
 
 \section{What the Edit Does Beyond the Next Word}\label{sec:beyond}
 
-We then tested the multiplier edit on 40 test prompts (10 per band) for what it does besides reaching rank 1 (journal 30) \cite{p14}. For \emph{reworded prompts}, we tuned the edit on one prompt and applied it unchanged. It lowered the true answer's median rank from 94 to 36 and reached rank 1 on 9\% of the rewordings, while a random word went from 17,504 to 11,832 and reached it on none. So there is a modest fact-related part, but the edit is mostly local (Figure~\ref{fig:reworded}). On \emph{unrelated prompts} the multiplier edit changed the top word of 6\% of 20 prompts, and the additive edit 17 to 24\%.
+We then tested the multiplier edit on 40 test prompts (10 per band) for what it does besides reaching rank 1 (journal 30). For \emph{reworded prompts}, we tuned the edit on one prompt and applied it unchanged. It lowered the true answer's median rank from 94 to 36 and reached rank 1 on 9\% of the rewordings, while a random word went from 17,504 to 11,832 and reached it on none. So there is a modest fact-related part, but the edit is mostly local (Figure~\ref{fig:reworded}) \cite{p14,r61,r62}. On \emph{unrelated prompts} the multiplier edit changed the top word of 6\% of 20 prompts, and the additive edit 17 to 24\%. For \emph{generated text} (20 greedy tokens, edit kept on), fluency was unchanged (perplexity 4.4 to 4.8 against 4.7), variety dropped slightly (distinct 2-grams 0.85 to 0.89 against 0.93), loops appeared in 2 to 12\% of continuations against none, and the target word was repeated about 0.6 to 0.7 extra times. For \emph{instructions}, we added the prefix ``Do not say the word X''. The unedited model already put X first on 45\% of prompts, because a named word primes copying. The multiplier edit raised this to 68\% and the additive edit to 88 to 90\%, so the edit ignores the instruction.
 
 \begin{figure}[!htb]
 \centering
 \safegraphic[width=0.95\linewidth]{figures/v4_reworded}
-\caption[What the edit does to other prompts]{What the edit does to other prompts \cite{p14}. \textbf{How to read:} blue is the true answer as target and orange a random word as target, for three kinds of edit. (a) The target's median rank on reworded prompts (log scale, lower is better). With multipliers the true answer reaches a median rank of 36 and a random word 11,832, whereas the additive edits bring both to between 4 and 12. (b) Share of 20 unrelated prompts whose top word changed (lower is better): the additive edits disturb unrelated prompts far more than multipliers do.}\label{fig:reworded}
-\end{figure}
-
-For \emph{generated text} (20 greedy tokens, edit kept on), fluency was unchanged (perplexity 4.4 to 4.8 against 4.7), variety dropped slightly (distinct 2-grams \cite{r62} 0.85 to 0.89 against 0.93), loops, a known failure of repetitive generation \cite{r61}, appeared in 2 to 12\% of continuations against none, and the target word was repeated about 0.6 to 0.7 extra times. For \emph{instructions}, we added the prefix ``Do not say the word X''. The unedited model already put X first on 45\% of prompts, because a named word primes copying. The multiplier edit raised this to 68\% and the additive edit to 88 to 90\%, so the edit ignores the instruction (Figure~\ref{fig:genq}) \cite{p14}.
-
-\begin{figure}[!htb]
-\centering
-\safegraphic[width=0.95\linewidth]{figures/v4_genquality}
-\caption[Generated text and instructions]{Generated text and instructions \cite{p14}. \textbf{How to read:} (a) variety of 20 generated tokens (distinct 2-grams, higher means less repetition) and the share of continuations that fall into a loop, for the unedited model and three edits. (b) Share of prompts where the edit's target is the model's top word, for the plain prompt and for two prefixes that tell the model not to say it. Edited bars stay high with the instruction, so the edit overrides it.}\label{fig:genq}
+\caption{What the edit does to other prompts, with the true answer as target (blue) and a random word as target (orange), for multipliers only and two additive edits (cap 1.0 and 0.25). (a) Median rank of the target on reworded prompts (log scale): 36 for the true answer and 11,832 for a random word under multipliers, 4 to 12 for both under the additive edits. (b) Share of 20 unrelated prompts whose top word changed.}\label{fig:reworded}
 \end{figure}
 
 \section{Where the Main Line Stands}
@@ -195,4 +143,4 @@ Controls, held-out benchmark, fixed pass bars & Additive edit as a fix, and the 
 \end{tabular}
 \end{table}
 
-Table~\ref{tab:kept} sums up the record. A transient SAE edit brings a suppressed answer to the top on most held-out prompts, cheaply and with small side effects on the same prompt. It does this by pushing toward a word, it carries little beyond the prompt it was tuned on, and it ignores instructions. Three limits remained \cite{p13,p14}. An edit is tied to one model that has an SAE, GPT-2 Small lacks answers that larger models hold, and rank 1 needs controls to mean anything. Two pieces of work followed from these. Chapter~\ref{ch:rome} sets the edit against ROME's own metrics, to check that our numbers are not private to our code. Chapter~\ref{ch:transfer} asks whether the change an edit makes in one model can be carried into another.
+Table~\ref{tab:kept} sums up the record. A transient SAE edit brings a suppressed answer to the top on most held-out prompts, cheaply and with small side effects on the same prompt. It does this by pushing toward a word, it carries little beyond the prompt it was tuned on, and it ignores instructions. Three limits remained \cite{p13,p14}. An edit is tied to one model that has an SAE, GPT-2 Small lacks answers that larger models hold, and rank 1 needs controls to mean anything. These led to two pieces of work with the tools we had built. Chapter~\ref{ch:rome} checks our measures against those of ROME, and Chapter~\ref{ch:transfer} asks whether the change an edit makes in one model can be carried into another.

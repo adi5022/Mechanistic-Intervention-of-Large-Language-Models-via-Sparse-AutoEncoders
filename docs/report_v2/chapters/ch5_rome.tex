@@ -1,169 +1,65 @@
 \chapter{ROME as an External Reference}\label{ch:rome}
 
-Every number in Chapters~\ref{ch:method} and~\ref{ch:evolution} was measured by us, with our own scripts, on our own benchmark. A reader can fairly ask whether those numbers are sound by any standard other than our own. This chapter describes the work that was done to answer that question using ROME \cite{r2}, a widely used method for editing a single fact in a GPT-style model. It covers what ROME does, how it was set up in the project, what it showed on GPT-2 Small, and how its scores relate to ours. It also says plainly which part of the plan has not been carried out.
+Everything in Chapters~\ref{ch:method} and~\ref{ch:evolution} was measured with our own scripts on our own benchmark. To check that these numbers are not private to our code, the project also brought in ROME \cite{r2}, the standard method for editing a single fact in a GPT-style model. This chapter says what ROME was used for, what the baseline showed on GPT-2 Small, and how its scores relate to ours. It also says what has not been done.
 
-\section{Why ROME Is in the Project}\label{sec:rome-why}
+\section{What ROME Does and What We Used It For}\label{sec:rome-why}
 
-ROME serves two purposes, both written into the project roadmap as item B \cite{p19}.
-\begin{enumerate}
-  \item \textbf{A shared yardstick.} ROME comes with the CounterFact data and with three scores that later editing work also uses \cite{r2,r3,r32}. If our edit can be scored with the same three numbers, a reader who knows the field can place our results without learning our private measures.
-  \item \textbf{A reference method.} ROME is an established editor. Running it on the same model and the same records would show where a transient SAE edit stands against a permanent weight edit, and would guard against the risk that our edits look good only because we compared them with weak alternatives.
-\end{enumerate}
-The first purpose has been met. CounterFact and ROME's scores are built into our benchmark, ROME has been reproduced on GPT-2 Small with its official code, and our edit has been scored with ROME's own metrics (Section~\ref{sec:rome-cross}). The second has \emph{not} been met. The head-to-head comparison on one record list, one scoring script and one machine was planned, and it has not been run (Section~\ref{sec:rome-open}). Figure~\ref{fig:rome-project} shows what exists and what does not.
-
-\begin{figure}[!htb]
-\centering
-\safegraphic[width=0.9\linewidth]{figures/v4_rome_in_project}
-\caption[ROME in the project]{ROME in the project. \textbf{How to read:} the top row shows the data and scores we borrowed from the ROME paper and where they enter our work. The bottom row shows ROME's own pipeline on GPT-2 Small. Solid boxes are finished and stored in the repository, dashed boxes are planned and have not been run \cite{p15,p19}.}\label{fig:rome-project}
-\end{figure}
-
-\section{What ROME Does}\label{sec:rome-what}
-
-ROME starts from the view that an MLP layer inside a transformer works like a key-value memory \cite{r60}. The first matrix of the layer turns the representation of the subject (for example ``The Eiffel Tower'') into a \emph{key} $k$, and the second matrix $W$ turns that key into a \emph{value} that later layers read out as the attribute (``Paris''). To change the fact, ROME rewrites $W$ so that the key of the subject produces a value that leads to the new attribute \cite{r2}. It takes four steps.
-\begin{enumerate}
-  \item \textbf{Locate.} Causal tracing (Section~\ref{sec:rome-trace}) is used to find the layer and token where the fact is stored. For GPT-2 XL the authors report that mid-layer MLP modules at the last token of the subject matter most \cite{r2}.
-  \item \textbf{Key.} The key $k_*$ is the input to $W$ at the last subject token, averaged over several short random prefixes so that it does not depend on one phrasing.
-  \item \textbf{Value.} Gradient descent finds a value $v_*$ that makes the model say the new answer. The objective also contains a term that keeps the model's view of the subject unchanged, and a weight penalty \cite{r2}.
-  \item \textbf{Update.} A closed-form, rank-one change of $W$ writes $v_*$ at $k_*$ while disturbing other keys as little as possible,
-\end{enumerate}
+ROME treats an MLP layer as a key-value memory \cite{r60}. The first matrix of the layer turns the subject (``The Eiffel Tower'') into a key $k$ and the second matrix $W$ turns the key into a value that later layers read as the attribute (``Paris''). To change the fact, ROME finds the layer and token where it is decided by causal tracing, computes the key $k_*$ at the last subject token, finds by gradient descent a value $v_*$ that makes the model say the new answer, and then rewrites $W$ in closed form \cite{r2}:
 \begin{equation}\label{eq:rome}
 \hat W=W+\Lambda\,(C^{-1}k_*)^{\top},\qquad \Lambda=\frac{v_*-Wk_*}{(C^{-1}k_*)^{\top}k_*},
 \end{equation}
-where $C=\mathbb{E}[kk^{\top}]$ is the second moment of keys over ordinary text. The matrix $C$ tells the update which directions are heavily used by everyday sentences and so should be left alone \cite{r2}. The change is permanent: every later prompt runs through the edited weights.
+where $C=\mathbb{E}[kk^{\top}]$ is the second moment of keys over ordinary text, which keeps the update away from directions that everyday sentences use heavily. The change is permanent. Our edit differs on every point: it acts on the residual stream at layer 8 through SAE features, lasts one forward pass, and is chosen by a sweep or by gradient descent on one multiplier per feature.
 
-\begin{figure}[!htb]
-\centering
-\safegraphic[width=0.92\linewidth]{figures/v4_rome_compare}
-\caption[ROME and FeatureScalpel side by side]{ROME and FeatureScalpel side by side. \textbf{How to read:} each column is one method, read from top to bottom. ROME changes a weight matrix once and for good. FeatureScalpel changes the activations during one forward pass and then discards the change. Both start by locating where the answer is decided \cite{r2,p13}.}\label{fig:rome-compare}
-\end{figure}
+ROME was planned for two jobs \cite{p19}. It supplies a shared yardstick, because CounterFact and its three scores are used throughout the editing literature \cite{r2,r3,r32}. And it is a reference method that could be run on the same model and records as ours. The first job is done. The second is not (Section~\ref{sec:rome-open}).
 
-Table~\ref{tab:romecmp} sets the two methods against each other. The differences matter for any later comparison, because they mean that the two do not answer exactly the same question.
+\section{The Baseline on GPT-2 Small}\label{sec:rome-setup}
 
-\begin{table}[t]
-\centering\small
-\caption{ROME and FeatureScalpel compared.}\label{tab:romecmp}
-\begin{tabular}{|p{0.20\linewidth}|p{0.36\linewidth}|p{0.36\linewidth}|}
-\hline
- & \textbf{ROME} \cite{r2,p15} & \textbf{FeatureScalpel} \cite{p13} \\ \hline
-Where it acts & Weight matrix of one MLP layer (layer 3 in our GPT-2 Small runs) & Residual stream at layer 8, through SAE features \\ \hline
-How long it lasts & Permanent & One forward pass \\ \hline
-How the edit is found & Closed-form update after gradient descent for the value $v_*$ & Hand-built sweep, or gradient descent on one multiplier per feature \\ \hline
-What the edit is aimed at & A new answer for one subject and relation & A chosen word as the next token of one prompt \\ \hline
-Side-effect control & Covariance $C$ of ordinary text and a KL term & Safety filter, or KL and size terms in the loss \\ \hline
-Cost per edit & About 4 s on a CPU, after one-time statistics over 20,000 text samples & 7.7 s per prompt on a GTX 1660 Ti (gradient descent); the hardware differs, so the two are not comparable \\ \hline
-What an edit looks like & A changed weight matrix & A short list of named features and multipliers \\ \hline
-\end{tabular}
-\end{table}
+A team member set up the baseline on a separate branch on 7 October 2026 \cite{p15}. The official code \cite{r64} was copied into \texttt{third\_party/rome} at commit 0874014 with a short list of local changes (selectable device, CPU by default; unused baselines removed; Wikitext \cite{r55} as the text source for the covariance statistics). A first edit (``The Eiffel Tower is located in'' to ``Rome'', layer 5) raised the probability of Rome to 0.998, carried over to reworded prompts and was undone exactly when the original weights were restored.
 
-\section{How ROME Was Set Up Here}\label{sec:rome-setup}
-
-A team member prepared the baseline on a separate branch (\texttt{rome-factual-editing}) on 7 October 2026 \cite{p15}. The official code \cite{r64} was copied into \texttt{third\_party/rome} at commit 0874014, and every local change is listed in a patch log. The changes are small: the device is selectable (CPU by default), baselines that we do not use were removed, GPT-2 was added to the model choices, and the text source for the covariance statistics was switched to Wikitext \cite{r55} because the old dataset alias no longer resolves. The environment is Python 3.11 with a recent \texttt{transformers} release \cite{r63}, and the covariance statistics are computed in 64-bit floats on the CPU. Table~\ref{tab:romesteps} lists the plan and its status.
-
-\begin{table}[t]
-\centering\small
-\caption{The ROME baseline plan and where it stands \cite{p15}.}\label{tab:romesteps}
-\begin{tabular}{|p{0.07\linewidth}|p{0.62\linewidth}|p{0.18\linewidth}|}
-\hline
-\textbf{Step} & \textbf{What it covers} & \textbf{Status} \\ \hline
-0 & Copy the official code, create the folder skeleton and the patch log & done \\ \hline
-1 & Make it run on a CPU; smoke test on GPT-2 Small & done \\ \hline
-2a, 2b & Causal tracing of single prompts, then averaged over 97 known facts & done \\ \hline
-3 & Covariance statistics (Wikitext, 20,000 samples per layer) & computed, cache not in git \\ \hline
-4 & GPT-2 hyper-parameters and one worked edit (Eiffel Tower to Rome) & done \\ \hline
-5 & Edit-layer sweep on 100 development records & done, layer 3 chosen \\ \hline
-6 & Frozen benchmark, shared metrics and adapters & not done \\ \hline
-7 & Adapter for the hybrid editor, full comparison run & not done \\ \hline
-8 & Fluency measures, results table, plots, trade-off write-up & not done \\ \hline
-\end{tabular}
-\end{table}
-
-The one worked edit shows that the pipeline is sound. Editing ``The Eiffel Tower is located in the city of'' to say ``Rome'' at layer 5 raised the probability of Rome to 0.998, the reworded prompts followed, and restoring the original weights recovered the original model exactly. In a second example, the Statue of Liberty, the probability of Rome rose only from 0.035 to 0.156, which shows that the strength of an edit varies from fact to fact \cite{p15}.
-
-\section{Causal Tracing on GPT-2 Small}\label{sec:rome-trace}
-
-\textbf{Method.} Causal tracing \cite{r2} is a form of causal mediation analysis \cite{r58,r59}. The subject's tokens are corrupted with noise (here three times the standard deviation of the token embeddings, about 0.39), which makes the model lose the answer. Then the clean internal state is put back at one position and layer at a time, and we record how much of the answer's probability returns. The place where restoring helps most is where the information that matters is carried. The residual stream is restored one layer at a time. For MLP and attention outputs a window of three layers is restored, following ROME's practice of restoring a window of layers for these two \cite{r2}.
-
-\textbf{One prompt.} Figure~\ref{fig:rome-eiffel} shows the trace for one prompt. Almost all of the recovery is at the last token of the prompt in the upper layers. The subject tokens carry only a faint early effect in the MLP, much weaker than the mid-layer MLP effect at the last subject token that Meng et al. report for the larger GPT-2 XL \cite{r2}. A single prompt is a noisy guide: two further prompts (Space Needle and Windows Media Player) turned out to be facts that GPT-2 Small gets wrong, which leaves nothing to trace. So the trace was averaged.
-
-\begin{figure}[!htb]
-\centering
-\safegraphic[width=\linewidth]{figures/v4_rome_eiffel}
-\caption[Causal trace of one prompt (Eiffel Tower)]{Causal trace of one prompt (``The Eiffel Tower is located in the city of'', answer ``Paris''), original plot of the baseline branch \cite{p15}. \textbf{How to read:} each row is a token of the prompt (a star marks the corrupted subject tokens) and each column a layer. Dark cells are places where putting the clean state back brings the answer ``Paris'' back. The dark cells sit in the last row (the word ``of'') in the upper layers.}\label{fig:rome-eiffel}
-\end{figure}
-
-\textbf{Averaged over 97 facts.} We took the 342 prompts from ROME's known-facts file that GPT-2 Small completes correctly (out of 1,209) and traced the 97 whose clean probability for the answer was at least 0.2. The mean clean probability was 0.358, and under corruption it fell to 0.034, so the largest possible recovery is about 0.32 \cite{p15}. Figure~\ref{fig:rome-trace} shows the average and Figure~\ref{fig:rome-sites} compares the two token positions that matter.
+\textbf{Causal tracing.} In causal tracing \cite{r2,r58,r59} the subject's tokens are corrupted with noise and the clean state is then put back at one token and layer at a time; the places where the answer returns are where the information is carried. We traced the 97 facts out of 342 that GPT-2 Small completes correctly (of 1,209 in ROME's known-facts file) with a clean answer probability of at least 0.2. The mean clean probability was 0.358 and fell to 0.034 under corruption. Figure~\ref{fig:rome-trace} shows the average. The recovery is almost entirely at the last token of the prompt in the upper layers (residual stream 0.32 at layer 11, attention up to 0.10 at layer 10). At the last subject token, where ROME writes, the MLP effect is small (+0.01 at layers 0 and 1, about $-0.02$ at layers 2 and 3). So for GPT-2 Small there is no sharp mid-layer MLP site of the kind that Meng et al. report for GPT-2 XL \cite{r2}, and tracing does not fix the edit layer. The late effect at the last token lies in the range of layers where our layer sweep found its plateau (layers 6 to 9, Section~\ref{sec:depth}). The two come from different interventions, so this is supporting evidence for the range and not a proof of the choice.
 
 \begin{figure}[!htb]
 \centering
 \safegraphic[width=\linewidth]{figures/v4_rome_trace}
-\caption[Average causal trace of GPT-2 Small over 97 known facts]{Average causal trace of GPT-2 Small over 97 known facts \cite{p15}. \textbf{How to read:} rows are token roles and columns are layers, as in the previous figure. Darker means more of the answer's probability returns when the clean state is restored there. The strong cells are all in the bottom row (the last token) and in the upper layers.}\label{fig:rome-trace}
+\caption{Average causal trace of GPT-2 Small over 97 known facts \cite{p15}: gain in the probability of the true answer when the clean state is restored at one token role (rows) and layer (columns). The residual stream is restored one layer at a time, MLP and attention outputs in windows of three layers. The effect is concentrated at the last token in layers 8 to 11.}\label{fig:rome-trace}
 \end{figure}
 
-\begin{figure}[!htb]
-\centering
-\safegraphic[width=0.92\linewidth]{figures/v4_rome_sites}
-\caption[The two token positions compared]{The two token positions compared \cite{p15}. \textbf{How to read:} each line is one kind of internal state, and the height is the average recovery of the answer's probability. (a) At the last subject token, where ROME writes its edit, restoring the MLP at layers 0 and 1 helps a little (+0.010 and +0.012), restoring layers 2 and 3 hurts (around $-0.02$), and nothing else is above 0.001. (b) At the last token of the prompt, restoring the residual stream at layer 11 recovers 0.32 and attention at layers 8 to 10 adds up to 0.10.}\label{fig:rome-sites}
-\end{figure}
-
-\textbf{Reading.} For GPT-2 Small there is no sharp mid-layer MLP site at the last subject token, so tracing does not point to one edit layer, and the layer for ROME was chosen by a sweep instead (next section). The strong, late effect at the last token is a separate matter. It says that the information that decides the answer is gathered into the last position in layers 8 to 11. Our own edit acts on the residual stream at layer 8, at every position, and our layer sweep found a plateau at layers 6 to 9 (Section~\ref{sec:depth}). These two findings are consistent, but they come from different interventions (restoring a clean state, against scaling features), so we treat the tracing as supporting evidence for the range of layers and not as proof of the choice \cite{p4,p15}.
-
-\section{Choosing ROME's Edit Layer}\label{sec:rome-sweep}
-
-Because tracing was not decisive, ROME was run at layers 1, 3, 5, 7 and 9 on 100 CounterFact records, drawn at random with seed 0 and kept apart from every later test set \cite{p15}. The hyper-parameters are ROME's, with the value-search settings listed in the patch log (20 gradient steps, learning rate 0.5, KL weight 0.0625, weight decay 0.5, and a limit on the size of the change of three times the original vector norm). The score compared is the harmonic mean $S$ of the three scores defined in Section~\ref{sec:rome-metrics}.
+\textbf{Edit layer.} Because tracing was not decisive, ROME was run at layers 1, 3, 5, 7 and 9 on 100 CounterFact records drawn at random with seed 0 \cite{p15}. Efficacy is 100\% at every layer, so the layers differ only in the damage to neighbouring facts (Figure~\ref{fig:rome-sweep}). Layer 3 has the best overall score ($S=0.851$) and was chosen, but layers 1 to 5 are within noise at this sample size. Even at layer 3 the neighbour score falls from 0.716 to 0.663. An edit takes about 4 s on a CPU. The ROME paper reports GPT-2 XL, a model more than ten times larger \cite{r1,r2}, and we did not compare absolute values across sizes.
 
 \begin{figure}[!htb]
 \centering
 \safegraphic[width=\linewidth]{figures/v4_rome_sweep}
-\caption[ROME's edit-layer sweep on GPT-2 Small]{ROME's edit-layer sweep on GPT-2 Small, 100 development records \cite{p15}. \textbf{How to read:} (a) for each layer, the share of records where the new answer beats the true one on the edit prompt (ES), on reworded prompts (PS), and where the true answer still wins on neighbour prompts (NS). The first group is the unedited model. (b) The overall score $S$ and the neighbour score by layer. Efficacy is 100\% at every layer, so layers differ only in the damage to neighbours.}\label{fig:rome-sweep}
+\caption{ROME's edit-layer sweep on GPT-2 Small, 100 CounterFact development records \cite{p15}. (a) Efficacy (ES), paraphrase (PS) and neighbourhood (NS) scores for the unedited model and for each edit layer. (b) Overall score $S$ and neighbourhood score by layer; the dashed line is the unedited NS.}\label{fig:rome-sweep}
 \end{figure}
 
-Efficacy saturates, which makes the neighbour score decisive. Layers 1 to 5 are close (NS 0.66, 0.66 and 0.63) and layers 7 and 9 are clearly worse (0.53). Layer 3 has the best overall score ($S=0.851$) and was chosen, but with 100 records the differences among layers 1 to 5 are within noise. Even at layer 3 the neighbour score falls from 0.716 to 0.663, about five points. The ROME paper reports its results for GPT-2 XL, a model more than ten times larger \cite{r1,r2}, and we did not try to compare absolute values across model sizes. An edit took about 4 s on a CPU \cite{p15}.
+\section{ROME's Scores and Ours}\label{sec:rome-metrics}
 
-\section{How ROME's Scores Relate to Ours}\label{sec:rome-metrics}
-
-ROME judges an edit with three scores, each a share of records \cite{r2}. \textbf{Efficacy (ES)} is the share where the model gives the new answer a higher probability than the true one on the edit prompt. \textbf{Paraphrase (PS)} is the same on reworded prompts. \textbf{Neighbourhood (NS)} is the share of prompts about \emph{other} subjects with the same relation where the true answer still beats the new one, so it measures damage. The overall score $S$ is their harmonic mean. In the official code each probability is the product over the answer's tokens \cite{p15,r64}.
-
-Our benchmark was built to speak the same language. Table~\ref{tab:metricmap} gives the correspondence. The reworded and neighbour scores of the transfer study (Chapter~\ref{ch:transfer}) are ROME's PS and NS. Its records are drawn from CounterFact \cite{r2}, each with two reworded prompts and five of its ten neighbour prompts, and the 100 ROME development records are excluded from every one of our test sets by drawing them with the same seed (0) and removing them \cite{p16,p18}. There is one important difference. ES asks only whether the new answer beats the true answer, which is a comparison of two words. Our success criterion, rank 1, asks whether the target beats \emph{every} word in the vocabulary. Rank 1 is therefore the stricter test, and an ES of 100\% does not mean the new answer is the model's top choice.
+ROME judges an edit by three shares of records \cite{r2}. \emph{Efficacy} (ES) is the share where the new answer is more probable than the true one on the edit prompt, \emph{paraphrase} (PS) the same on reworded prompts, and \emph{neighbourhood} (NS) the share of prompts about other subjects where the true answer still beats the new one. Table~\ref{tab:metricmap} gives our counterparts. The reworded and neighbour scores of the transfer study (Chapter~\ref{ch:transfer}) are PS and NS exactly, drawn from the same CounterFact records, and the 100 ROME development records are excluded from every test set of ours \cite{p16,p18}. ES asks only whether the new answer beats the old one. Our criterion, rank 1, asks whether it beats every word in the vocabulary, so it is the stricter test.
 
 \begin{table}[t]
 \centering\small
 \caption{ROME's scores and their counterparts in this project.}\label{tab:metricmap}
-\begin{tabular}{|p{0.17\linewidth}|p{0.36\linewidth}|p{0.36\linewidth}|}
+\begin{tabular}{|p{0.12\linewidth}|p{0.38\linewidth}|p{0.40\linewidth}|}
 \hline
-\textbf{ROME \cite{r2}} & \textbf{What it asks} & \textbf{Our counterpart} \\ \hline
-ES & New answer more likely than the true one on the edit prompt & Target at rank 1 of the whole vocabulary (stricter, Section~\ref{sec:bench}) \\ \hline
-PS & Same, on reworded prompts & ``Rewordings'' of Chapter~\ref{ch:transfer}, the same definition \\ \hline
-NS & True answer still more likely than the new one on neighbour prompts & ``Neighbours'' of Chapter~\ref{ch:transfer}, the same definition; also KL and top-word flips on unrelated prompts \\ \hline
-S & Harmonic mean of ES, PS and NS & Not used; we report the three separately \\ \hline
+\textbf{ROME} & \textbf{Question} & \textbf{Our counterpart} \\ \hline
+ES & New answer more probable than the true one, edit prompt & Target at rank 1 over the whole vocabulary (stricter) \\ \hline
+PS & The same on reworded prompts & ``Rewordings'' of Chapter~\ref{ch:transfer}, same definition \\ \hline
+NS & True answer still more probable on neighbour prompts & ``Neighbours'' of Chapter~\ref{ch:transfer}, same definition; also KL on unrelated prompts \\ \hline
 \end{tabular}
 \end{table}
 
-\section{A Cross-Check: Our Edit Scored with ROME's Metrics}\label{sec:rome-cross}
+\section{A Cross-Check}\label{sec:rome-cross}
 
-The check asks whether the numbers we report look reasonable when read with ROME's yardstick. Two kinds of evidence exist.
-
-\textbf{Base rates.} Three samples of facts were drawn for different reasons, and they should not agree exactly. They do agree in size order with what each sample was built to contain. On ROME's known-facts file, GPT-2 Small completes 342 of 1,209 prompts correctly (28\%) \cite{p15}. In the 45 fact pairs of our first eligibility test, which were drawn from the same file, 15 (33\%) were already correct \cite{p1}. On all CounterFact prompts with a one-token true answer, only 1,817 of 21,913 (8.3\%) are already at rank 1 \cite{p10}, which is expected because CounterFact was not selected for what the model knows. We use the last figure when we say that the unedited Small model answers 8.3\% of facts correctly (Section~\ref{sec:import}).
-
-\textbf{Our edit scored with PS and NS.} In the controlled Export study the gradient-descent edit was tuned in GPT-2 Small toward each record's counterfactual answer, and the same multipliers were then applied to the reworded prompts and the neighbour prompts \cite{p16}. This gives PS and NS for our own edit on 88 test records on which the edit reached rank 1. Figure~\ref{fig:rome-vs-ours} puts these next to ROME's layer-3 edit on its 100 development records.
+Our edit can be scored with ROME's PS and NS, because the controlled Export study tuned the gradient-descent edit in GPT-2 Small toward each record's counterfactual answer and re-applied the same multipliers to the reworded and neighbour prompts \cite{p16}. Figure~\ref{fig:rome-vs-ours} sets this next to ROME's layer-3 edit. ROME lifts the reworded-prompt score from 33\% to 98.5\% and loses 5 points of neighbour score. Our edit lifts it from 40\% to 67\% and loses 9.5 points. The unedited levels are in the same range (PS 33\% and 40\%, NS 72\% and 63\%), so our measurement of the same quantity is not out of line with the official code. The weaker carry-over to rewordings agrees with our own finding that the edit is mostly a push toward a word (Section~\ref{sec:beyond}).
 
 \begin{figure}[!htb]
 \centering
-\safegraphic[width=\linewidth]{figures/v4_rome_vs_ours}
-\caption[ROME and our edit scored with PS and NS]{Reworded-prompt (PS) and neighbour (NS) scores for ROME (layer 3, 100 development records) and for our gradient-descent edit (layer 8, 88 test records), each with its own unedited baseline \cite{p15,p16}. \textbf{How to read:} the grey bar is the unedited model and the coloured bar the edited one, on the record set named below each pair. Higher is better in both panels. The two record sets are different, so this is a rough comparison and not a controlled one.}\label{fig:rome-vs-ours}
+\safegraphic[width=0.95\linewidth]{figures/v4_rome_vs_ours}
+\caption{Paraphrase (PS) and neighbourhood (NS) scores before and after an edit: ROME at layer 3 (100 development records) and our gradient-descent edit at layer 8 (88 test records on which the edit reached rank 1) \cite{p15,p16}. The record sets differ and the two edits are re-applied differently (ROME changes the weights once, our multipliers are recomputed for each text), so the comparison is indicative only.}\label{fig:rome-vs-ours}
 \end{figure}
 
-By ROME's own yardstick the weight edit generalises further and does less damage \cite{p15,p16}. ROME lifts the reworded-prompt score from 33\% to 98.5\% and loses 5 points of neighbour score (72\% to 66\%). Our edit lifts it from 40\% to 67\% and loses 9.5 points (63\% to 54\%). Two things should keep this from being over-read. The record sets differ: ROME's are a random sample, and ours are records where neither GPT-2 model already answers the counterfactual word and where the edit succeeded on the tuned prompt. And the two edits are made differently. ROME's changes the weights once, while the multipliers of ours are recomputed for each reworded text.
+Base rates are also in line with what each sample was built to hold. GPT-2 Small completes 342 of 1,209 prompts of ROME's known-facts file correctly (28\%) \cite{p15} and 15 of the 45 pairs of our first eligibility test (33\%) \cite{p1}, but only 1,817 of the 21,913 CounterFact prompts with a one-token answer (8.3\%) \cite{p10}, which were not selected for what the model knows.
 
-What the cross-check supports is modest but useful. The no-edit levels of both are in the same range (PS 33\% and 40\%, NS 72\% and 63\%), so our measurement of the same quantity is not out of line with the official code. And the gap in rewordings agrees with our own finding that the SAE-feature edit is mostly a push toward a word and carries little beyond the prompt it was tuned on (Section~\ref{sec:beyond}). The check does \emph{not} show that ROME is better in general, since the records, the models' edit targets and the way each edit is re-applied all differ \cite{p15,p16}.
+\section{What Is Still Open}\label{sec:rome-open}
 
-\section{What Remains and What the Paper Needs}\label{sec:rome-open}
-
-The comparison that the roadmap asked for is still open \cite{p15,p19}. To make it a fair one, the following has to be fixed before anything is run, in line with the practice of Appendix~B.
-\begin{enumerate}
-  \item \textbf{One record list.} Freeze about 150 CounterFact records, disjoint from the 100 ROME development records, on which neither model already prefers the counterfactual answer.
-  \item \textbf{One scoring script.} Score every method with ES, PS and NS as ROME defines them, and also with the rank-1 criterion and the same-prompt KL of this report, so that the stricter and the standard measures can be read side by side. Add fluency and consistency only after the extra data files for those measures are set up.
-  \item \textbf{Controls and pass bars.} A random-word edit of matched starting rank, and a pass bar for each question written down before the run.
-  \item \textbf{Cost on one machine.} Time ROME and our editor on the same hardware, because the numbers in Table~\ref{tab:romecmp} come from different machines.
-  \item \textbf{Other uses of ROME.} ROME-edited copies of GPT-2 Medium were planned as a second donor for the Import study (Chapter~\ref{ch:transfer}). That has not been run.
-\end{enumerate}
-Until this is done, the report makes one claim about ROME and no other: ROME runs on GPT-2 Small with the official code, and our edit scored with ROME's own metrics behaves like the push that the rest of our evidence describes. It does not say how the approach ranks against ROME, MEMIT or in-context editing.
+The head-to-head comparison that the roadmap asked for has not been run. The baseline plan reached its fifth step (layer sweep); the frozen shared benchmark, the adapter for our editors and the results table (steps 6 to 8) are not done \cite{p15,p19}. A fair comparison needs one frozen record list disjoint from the ROME development records, one scoring script that reports ES, PS and NS together with rank 1 and same-prompt KL, a random-word control, pass bars written before the run, and timings on one machine. ROME-edited copies of GPT-2 Medium, planned as a second donor for the Import study, have not been run either. Until then the report makes one claim about ROME: it runs on GPT-2 Small with the official code, and our edit scored with its metrics behaves like the push that the rest of our evidence describes. It does not say how the approach ranks against ROME, MEMIT or in-context editing.

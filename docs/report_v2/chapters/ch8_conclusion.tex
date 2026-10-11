@@ -2,63 +2,29 @@
 
 \section{What the Work Shows}
 
-The research questions of Chapter~\ref{ch:introduction} have the following answers, each backed by the project record named in brackets.
+The sweep was held back by the supply of features, not by the selection rule. Taking candidates from all prompt positions made the pool about five times larger and raised the prompts at rank 1 from 4 to 10 of 13 \cite{p7}. Choosing the right features and strengths mattered more than stronger interventions. Muting the competitor's drivers and adding boosts gave the early gains. One better global strength pair lifted a stand-in success rate from 25\% to 39\%, and choosing strengths per prompt added nothing we could measure. Tuning one multiplier per feature on the prompt itself reached 271 of 300 on the real model \cite{p12,p13}.
 
-\textbf{RQ1 and RQ2: what works and what limits it.} The sweep was held back by the supply of features, not by the selection rule. Taking candidates from all prompt positions made the pool about five times larger and raised the prompts at rank 1 from 4 to 10 of 13 \cite{p7}. Choosing the right features and strengths mattered more than stronger interventions. Muting the competitor's drivers and adding boosts gave the early gains \cite{p3}. We saw no sign that later layers undo the edit, and a free residual edit reached rank 1 where the SAE edit did not, so part of the limit lies in the SAE basis \cite{p9}.
+Rank 1 turned out to be a weak test. The additive edit forced random words to rank 1 on 20 of 20 prompts, and an optimiser with enough freedom can reach any output you pick. Being able to steer a target to the top says nothing about what the model knows, in either direction. The edit itself is a push toward the answer's output direction. It carries little beyond the prompt it was tuned on, and it mostly ignores an instruction not to say the word \cite{p14}. The side study showed that a linear channel between GPT-2 Small and Medium keeps the receiving model working, that an exported edit moves the target in a specific way but rarely all the way to rank 1, that what crosses is a push and not a fact, and that mixing in half of Medium's state raises Small's accuracy by one point. Set against ROME's own scores, our edit generalises less to reworded prompts than a weight edit does, which fits the finding that it is a push (Section~\ref{sec:rome-cross}).
 
-\textbf{RQ3: choosing the edit.} One better global strength pair lifted a stand-in success rate from 25\% to 39\%, and choosing strengths per prompt added nothing we could measure \cite{p12}. Tuning one multiplier per feature on the prompt itself reached 271 of 300 on the real model, against 161 and 94 for the sweep, with lower same-prompt side effects and 5 to 6.5 times less compute \cite{p13}.
-
-\textbf{RQ4: what rank 1 means.} Rank 1 turned out to be a weak test. The additive edit forced random words to rank 1 on 20 of 20 prompts, and an optimiser with enough freedom can reach any output you pick \cite{p14,r50,r51,r52}. Being able to steer a target to the top says nothing about what the model knows, in either direction. The edit itself is a push toward the answer's output direction. It carries little beyond the prompt it was tuned on, and it mostly ignores an instruction not to say the word \cite{p14}.
-
-\textbf{RQ5: the outside check.} ROME runs on GPT-2 Small with the official code, and its causal trace puts the strongest effect at the last token in the upper layers (8 to 11), where our edit layer 8 sits at the start of that range \cite{p15}. Scored with ROME's own metrics, our edit raises the reworded-prompt score from 40\% to 67\% and costs 9.5 points of neighbour score, while ROME's layer-3 edit raises it from 33\% to 98.5\% and costs 5 points, on different records (Figure~\ref{fig:rome-vs-ours}). This agrees with the push finding. It is not a controlled comparison.
-
-\textbf{RQ6: the application.} A linear channel between GPT-2 Small and Medium keeps the receiving model working. An exported edit moves the target in a specific way but rarely all the way to rank 1, what crosses is a push and not a fact, and mixing in half of Medium's state raises Small's accuracy by one point \cite{p16,p17}.
-
-Four habits paid off: controls first, fair comparisons, pass bars fixed before each run, and corrections made in the open. Withdrawn claims are marked in the journal where they happened \cite{p14,p18}.
+Four habits paid off: controls first, fair comparisons, pass bars fixed before each run, and corrections made in the open \cite{p14,p18}. Withdrawn claims are marked in the journal where they happened.
 
 \section{Threats to Validity and What Is Not Shown}
 
 \begin{itemize}
   \item We use one model family, one older SAE release, and layer 8 in all later studies. The early studies use small, templated prompt sets (13 to 131 prompts), and like CounterFact they treat prompts as independent, without correction for multiple comparisons.
-  \item Success means rank 1 on the next token, and the median target probability at rank 1 is only 7.7\% for gradient descent. We measured side effects on the same prompt, on 20 unrelated prompts and in 40-prompt tests, with one seed, no confidence intervals, and true targets only in the generation and instruction tests \cite{p13,p14}.
+  \item Success means rank 1 on the next token, and the median target probability at rank 1 is only 7.7\% for gradient descent. We measured side effects on the same prompt, on 20 unrelated prompts and in 40-prompt tests, with one seed, no confidence intervals, and true targets only in the generation and instruction tests.
   \item The headroom and the learned strengths are stand-ins measured on cached states, and we never ran the real sweep with the learned strengths. The side study has 88 primary test records.
-  \item \textbf{We have not compared the approach with ROME, MEMIT, in-context editing, prompting or difference-of-means steering on one record list}, so nothing here says how it ranks against them. The partial cross-check of Section~\ref{sec:rome-cross} uses different record sets and different ways of re-applying each edit.
-  \item The ROME baseline was run on 100 development records with one seed, and the choice of layer 3 rests on differences within noise (Section~\ref{sec:rome-sweep}). The causal trace covers 97 facts that GPT-2 Small already knows well.
-  \item Some sources were read through their abstracts only (Chapter~\ref{ch:literature-review}), so descriptions of those works are limited to what the abstracts state.
+  \item \textbf{We have not compared the approach with ROME, MEMIT, in-context editing, prompting or difference-of-means steering}, so nothing here says how it ranks against them. The partial cross-check of Section~\ref{sec:rome-cross} uses different record sets for the two edits.
 \end{itemize}
 
 \section{Conclusion}
 
-FeatureScalpel set out to repair suppressed factual recall in GPT-2 Small through the features of a sparse autoencoder, without changing a single weight. After many attempts that mostly failed in useful ways, we arrived at a transient edit that brings the true answer to rank 1 on 271 of 300 held-out prompts, quickly and with small side effects on the same prompt \cite{p13}. An outside check against ROME's official implementation and metrics suggests that the edit generalises less to reworded prompts than a weight edit does. The applied side study found that the change an edit makes can be carried between models as a push, that importing a larger model's state gives a small gain, and that a fact does not cross. The results support the claim that a transient SAE-feature edit can raise a suppressed answer to the top, and that tuning a multiplier per feature does so more often, faster and with lower same-prompt side effects than a hand-built sweep. They do not support the claim that such edits recover knowledge, that they are specific to a fact, or that they beat weight editing, in-context editing or prompting.
-
-\section{Decisions for the Research Paper}\label{sec:decisions}
-
-The research paper will be built from this report. Table~\ref{tab:claims} separates what it may claim from what it may not, with the evidence for each, so that nothing is written that the record does not support.
-
-\begin{table}[t]
-\centering\small
-\caption{Claims for the research paper and the evidence behind each.}\label{tab:claims}
-\begin{tabular}{|p{0.43\linewidth}|p{0.12\linewidth}|p{0.33\linewidth}|}
-\hline
-\textbf{Claim} & \textbf{May be claimed?} & \textbf{Evidence} \\ \hline
-Gradient descent brings the true answer to rank 1 on 271 of 300 held-out prompts, against 161 and 94 for the sweep & Yes & Equal-budget comparison with exact paired tests \cite{p13} \\ \hline
-It does so with lower same-prompt side effects and less compute & Yes, with the caveat that the loss contains a KL term & \cite{p13} \\ \hline
-The edit recovers or repairs the model's knowledge & No & Additive control: 20 of 20 random words at rank 1 \cite{p14} \\ \hline
-The edit is specific to the fact it targets & No & Rewordings gain equal for real and random targets \cite{p14,p17} \\ \hline
-ROME runs on GPT-2 Small with the official code and its trace points to the upper layers at the last token & Yes & \cite{p15} \\ \hline
-Our edit scored with ROME's PS and NS is weaker than ROME's on rewordings & As an indication only & Different record sets; Section~\ref{sec:rome-cross} \\ \hline
-Our approach beats or matches ROME, MEMIT or in-context editing & No & Not compared; Section~\ref{sec:rome-open} \\ \hline
-A change made in one model can be carried to another as a push & Yes, with the controls & Export ladder and push test \cite{p16,p17} \\ \hline
-Mixing in half of Medium's state raises Small's accuracy by one point & Yes, as a small effect & Held-out half of 21,789 facts; controls not rerun \cite{p17} \\ \hline
-\end{tabular}
-\end{table}
-
-The decisions that remain open are these. (1) Whether to run the head-to-head comparison with ROME before submission. The paper's claims are safe without it, but a reviewer will ask. (2) Whether to repeat the main comparison on more than one seed and report intervals. (3) Whether the layer choice should be re-examined on a larger set, since the plateau at layers 6 to 9 is not a proven optimum. (4) Whether to present the transfer study in the paper or to keep it as a separate short report.
+FeatureScalpel set out to repair suppressed factual recall in GPT-2 Small through the features of a sparse autoencoder, without changing a single weight. After many attempts that mostly failed in useful ways, we arrived at a transient edit that brings the true answer to rank 1 on 271 of 300 held-out prompts, quickly and with small side effects on the same prompt. The applied side study found that the change an edit makes can be carried between models as a push, that importing a larger model's state gives a small gain, and that a fact does not cross. The results support the claim that a transient SAE-feature edit can raise a suppressed answer to the top, and that tuning a multiplier per feature does so more often, faster and with lower same-prompt side effects than a hand-built sweep. They do not support the claim that such edits recover knowledge, that they are specific to a fact, or that they beat weight editing, in-context editing or prompting.
 
 \section{Future Work}
 
 \begin{enumerate}
-  \item \textbf{A head-to-head comparison} with ROME, MEMIT, in-context editing and difference-of-means steering, following the plan of Section~\ref{sec:rome-open}: one frozen record list, one scoring script, existing implementations \cite{r32,r64}, and all timings on one machine.
   \item \textbf{A specificity benchmark.} For every method, on the same prompts, it should measure whether the target reaches rank 1, carries over to rewordings, leaves unrelated prompts and generated text alone, and respects an instruction, with random words of matched starting rank as controls.
+  \item \textbf{A head-to-head comparison} with ROME, MEMIT, in-context editing and difference-of-means steering, using existing implementations \cite{r32} and timing everything on one machine.
   \item \textbf{More strengths, transfer and scale.} We would run the learned strengths in the real sweep, rerun the controls for the Import mix, and try other model pairs that have pretrained SAEs on both sides, and larger models with pretrained SAEs \cite{r19}.
 \end{enumerate}

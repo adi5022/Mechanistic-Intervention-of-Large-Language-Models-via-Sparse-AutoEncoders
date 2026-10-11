@@ -32,7 +32,7 @@ The \textbf{safety filter} tests every candidate alone at its strength and keeps
 \begin{equation}\label{eq:safe}
 \mathrm{safe}(k)\iff r_{k}(t)\le r_{0}(t)\;\wedge\;p_{k}(t)-p_{0}(t)\ge-10^{-6},
 \end{equation}
-where $r$ and $p$ are the target's rank and probability with feature $k$ applied alone, and $r_0,p_0$ are the baseline values. A feature that is safe on both sides is kept on one side only. The sweep then applies the first $k$ mutes and the first $k$ boosts together in one forward pass, for $k=1,2,\dots$, and stops when the target is first. It reports the best step and not the last one, because adding features that are each safe does not always help. When both pools are used up, \textbf{pool refill} keeps every feature applied so far, makes one pass to get the \emph{steered baseline} and its new blocker, and ranks and filters the remaining features again, including ones rejected earlier \cite{p3,p6}. Figure~\ref{fig:algo} gives the whole loop.
+where $r$ and $p$ are the target's rank and probability with feature $k$ applied alone, and $r_0,p_0$ are the baseline values. A feature that is safe on both sides is kept on one side only. The sweep then applies the first $k$ mutes and the first $k$ boosts together in one forward pass, for $k=1,2,\dots$, and stops when the target is first. It reports the best step and not the last one, because adding features that are each safe does not always help. When both pools are used up, \textbf{pool refill} keeps every feature applied so far, makes one pass to get the \emph{steered baseline} and its new blocker, and ranks and filters the remaining features again, including ones rejected earlier \cite{p3,p6}.
 
 \begin{figure}[!htb]
 \centering
