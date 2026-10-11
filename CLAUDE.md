@@ -21,6 +21,7 @@ Everything we do must end up in a paper that survives review. So every important
 - Choices (layer, dose, epoch) are made on the dev records; the test records are only read. Report seeds and ranges. Say plainly what was not tested.
 - **Dose protocol (changed after D9b, 2026-10-10):** from D10 on the dose is chosen by the best dev mean log-rank gain, not by dev top-1 (28 dev records make top-1 a coin flip). D3 to D9 keep the rule they ran under.
 - **New code only.** Older functions are imported, never edited, without asking the user first. New tools go in `tools/transfer/` or `src/transfer/`.
+- **GPU memory:** the card has 6.1 GB. Never keep a large padded training set on the GPU (`pack()` pads every text to the longest, 57 tokens: 7,550 texts take 3.8 GB); a nearly full card makes a run 5 to 10 times slower without any error (D13's biggest runs took 90 minutes instead of 17). Keep the data on the CPU and move each batch, check `nvidia-smi`, and scale time estimates from the largest measured set.
 - Long jobs: set generous time limits, save per unit of work, tell the user where the log is. The user often runs jobs in their own terminal; give the exact command.
 - The command harness halves double backslashes in shell text: write scripts and docs with the file tools, put patch scripts in files, and use single backslashes in strings inside Edit calls.
 - Protected: branch `rome-factual-editing` belongs to a teammate (never delete or rebase). Never push to `main` unless told.

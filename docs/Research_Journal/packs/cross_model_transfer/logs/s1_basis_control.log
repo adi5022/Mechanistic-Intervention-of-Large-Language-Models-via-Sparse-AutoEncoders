@@ -1,0 +1,59 @@
+# 24_sae_basis_control started 2026-10-11 08:03:52; arguments: 
+log: outputs\transfer\logs\24_sae_basis_control_20261011_080352.log
+Loaded pretrained model gpt2 into HookedTransformer
+Loaded pretrained model gpt2-medium into HookedTransformer
+150 test records; random basis: (24576, 768) Gaussian rows with the norms of the SAE decoder rows; layer 16, dose 2.0
+
+[08:03:59] 1/3  tuning with the random basis (0 records already done)
+   tuned 10/150 (92 s)
+   tuned 20/150 (176 s)
+   tuned 30/150 (260 s)
+   tuned 40/150 (344 s)
+   tuned 50/150 (428 s)
+   tuned 60/150 (513 s)
+   tuned 70/150 (597 s)
+   tuned 80/150 (682 s)
+   tuned 90/150 (765 s)
+   tuned 100/150 (850 s)
+   tuned 110/150 (934 s)
+   tuned 120/150 (1018 s)
+   tuned 130/150 (1102 s)
+   tuned 140/150 (1186 s)
+   tuned 150/150 (1271 s)
+
+[08:25:03] 2/3  judging: tuned prompt, rewordings, neighbours, unrelated prompts
+   25/150 (1337 s)
+   50/150 (1404 s)
+   75/150 (1470 s)
+   100/150 (1536 s)
+   125/150 (1602 s)
+   150/150 (1668 s)
+
+[08:31:40] 3/3  result
+
+========================================================================================================================
+RESULT  step S1 (does small's SAE matter for steering medium?)
+
+  ---- PRIMARY (original edit reached rank 1 in small): 88 records ----
+    arm                                             top-1  med rank     PS     NS      KL   flips
+    random basis, real target                         81%         1    58%    57%   0.020      7%
+    random basis, another record's recipe              0%       124    34%    67%   0.024      8%
+    random basis, random-word target (own word)       62%         1    39%    64%   0.021      9%
+    medium unchanged                                                   36%    67%
+
+  ---- ALL test records: 150 records ----
+    arm                                             top-1  med rank     PS     NS      KL   flips
+    random basis, real target                         63%         1    47%    65%   0.024      8%
+    random basis, another record's recipe              0%       254    29%    73%   0.024      8%
+    random basis, random-word target (own word)       45%         4    31%    71%   0.023      9%
+    medium unchanged                                                   30%    73%
+
+  D6 WITH THE SAE BASIS (same records, same settings; packs/.../d6_b_aware.json, 88 primary records):
+    SAE basis, real target                            95%         1    60%    59%   0.024     11%
+    SAE basis, random-word target (own word)          83%         1    42%    64%
+
+  difference (SAE basis minus random basis): top-1 +15 points, rewordings lift +2 points  ->  the SAE basis MATTERS (D6's top-1 is higher by at least 10 points or its rewordings lift by at least 5 points)
+  reading rule fixed in the plan before the run
+
+  total time 1668 s; saved outputs\transfer\s1_basis_control.json
+========================================================================================================================

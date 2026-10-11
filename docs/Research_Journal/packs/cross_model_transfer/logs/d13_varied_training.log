@@ -1,0 +1,90 @@
+# 22_varied_training started 2026-10-11 01:42:53; arguments: 
+log: outputs\transfer\logs\22_varied_training_20261011_014253.log
+Loaded pretrained model gpt2 into HookedTransformer
+Loaded pretrained model gpt2-medium into HookedTransformer
+
+[01:43:02] 1/5  synthetic-target edits (from 21_varied_edits.py) and their training texts
+   1221 synthetic edits reached rank 1 in small; 40 already built, 1181 to build (5 texts each)
+   built 100/1181 (84 s)
+   built 200/1181 (170 s)
+   built 300/1181 (256 s)
+   built 400/1181 (342 s)
+   built 500/1181 (424 s)
+   built 600/1181 (507 s)
+   built 700/1181 (589 s)
+   built 800/1181 (674 s)
+   built 900/1181 (762 s)
+   built 1000/1181 (846 s)
+   built 1100/1181 (940 s)
+   built 1181/1181 (1020 s)
+   1221 synthetic edits with 759 distinct target words (the real set has 116)
+Moving model to device:  cpu
+   28 dev records, 150 test records (88 primary)
+
+[02:00:04] 2/5  sweep: training sets ['real only', 'real + 25% synthetic', 'real + 50% synthetic', 'real + 100% synthetic', 'real + synthetic with start rank >= 100'] x 3 seeds, 15 epochs each
+   real only (0 edits), seed 0: epoch 15, dose 2.0, dev gain 2.53 | TEST (primary): top-1  18%, gain 2.64, median rank 7 | controls: wrong   0%, random-word   6% | TRAINING top-1: real prompts  32%, synthetic   n/a   [98 s]
+   real only (0 edits), seed 1: epoch 15, dose 2.0, dev gain 2.54 | TEST (primary): top-1  20%, gain 2.67, median rank 7 | controls: wrong   0%, random-word   6% | TRAINING top-1: real prompts  32%, synthetic   n/a   [80 s]
+   real only (0 edits), seed 2: epoch 15, dose 2.0, dev gain 2.52 | TEST (primary): top-1  20%, gain 2.67, median rank 7 | controls: wrong   0%, random-word   6% | TRAINING top-1: real prompts  31%, synthetic   n/a   [91 s]
+   real + 25% synthetic (305 edits), seed 0: epoch 11, dose 2.0, dev gain 2.31 | TEST (primary): top-1  22%, gain 2.68, median rank 7 | controls: wrong   0%, random-word   6% | TRAINING top-1: real prompts  28%, synthetic  25%   [213 s]
+   real + 25% synthetic (305 edits), seed 1: epoch 14, dose 2.0, dev gain 2.28 | TEST (primary): top-1  20%, gain 2.56, median rank 6 | controls: wrong   0%, random-word   7% | TRAINING top-1: real prompts  35%, synthetic  34%   [274 s]
+   real + 25% synthetic (305 edits), seed 2: epoch  8, dose 2.0, dev gain 2.29 | TEST (primary): top-1  19%, gain 2.62, median rank 7 | controls: wrong   0%, random-word   6% | TRAINING top-1: real prompts  22%, synthetic  22%   [166 s]
+   real + 50% synthetic (610 edits), seed 0: epoch 15, dose 1.5, dev gain 2.20 | TEST (primary): top-1  15%, gain 2.49, median rank 8 | controls: wrong   0%, random-word   6% | TRAINING top-1: real prompts  22%, synthetic  22%   [600 s]
+   real + 50% synthetic (610 edits), seed 1: epoch 13, dose 1.5, dev gain 2.18 | TEST (primary): top-1  15%, gain 2.46, median rank 8 | controls: wrong   0%, random-word   5% | TRAINING top-1: real prompts  20%, synthetic  22%   [608 s]
+   real + 50% synthetic (610 edits), seed 2: epoch 15, dose 1.5, dev gain 2.20 | TEST (primary): top-1  15%, gain 2.39, median rank 9 | controls: wrong   0%, random-word   3% | TRAINING top-1: real prompts  20%, synthetic  23%   [811 s]
+   real + 100% synthetic (1221 edits), seed 0: epoch  8, dose 1.5, dev gain 2.27 | TEST (primary): top-1  14%, gain 2.42, median rank 9 | controls: wrong   0%, random-word   3% | TRAINING top-1: real prompts  15%, synthetic  15%   [5531 s]
+   real + 100% synthetic (1221 edits), seed 1: epoch 15, dose 1.5, dev gain 2.24 | TEST (primary): top-1  15%, gain 2.47, median rank 8 | controls: wrong   0%, random-word   5% | TRAINING top-1: real prompts  20%, synthetic  20%   [5842 s]
+   real + 100% synthetic (1221 edits), seed 2: epoch 15, dose 1.5, dev gain 2.18 | TEST (primary): top-1  15%, gain 2.44, median rank 9 | controls: wrong   0%, random-word   5% | TRAINING top-1: real prompts  19%, synthetic  21%   [5233 s]
+   real + synthetic with start rank >= 100 (457 edits), seed 0: epoch  9, dose 2.0, dev gain 2.12 | TEST (primary): top-1  17%, gain 2.60, median rank 7 | controls: wrong   0%, random-word   5% | TRAINING top-1: real prompts  22%, synthetic  17%   [272 s]
+   real + synthetic with start rank >= 100 (457 edits), seed 1: epoch 10, dose 1.5, dev gain 2.12 | TEST (primary): top-1  11%, gain 2.44, median rank 7 | controls: wrong   0%, random-word   3% | TRAINING top-1: real prompts  17%, synthetic  13%   [330 s]
+   real + synthetic with start rank >= 100 (457 edits), seed 2: epoch 12, dose 1.5, dev gain 2.10 | TEST (primary): top-1  11%, gain 2.39, median rank 8 | controls: wrong   0%, random-word   5% | TRAINING top-1: real prompts  18%, synthetic  16%   [434 s]
+
+[07:43:07] 3/5  data curve (mean over seeds; test = primary records)
+   training set                  dev score        test top-1 (range)  test gain  med rank   wrong  random word  train top-1 (real)
+   real only                                 (   0)       2.53           20% ( 18% to  20%)       2.66       7.0      0%           6%                 32%
+   real + 25% synthetic                      ( 305)       2.29           20% ( 19% to  22%)       2.62       6.7      0%           6%                 28%
+   real + 50% synthetic                      ( 610)       2.19           15% ( 15% to  15%)       2.45       8.3      0%           5%                 21%
+   real + 100% synthetic                     (1221)       2.23           14% ( 14% to  15%)       2.44       8.7      0%           4%                 18%
+   real + synthetic with start rank >= 100   ( 457)       2.11           13% ( 11% to  17%)       2.48       7.3      0%           4%                 19%
+
+[07:43:07] 4/5  judging the full set (real + 100% synthetic) and the baseline (real only) on rewordings, neighbours and unrelated prompts
+   fraction 0.0, seed 0 judged (21716 s)
+   fraction 0.0, seed 1 judged (21817 s)
+   fraction 0.0, seed 2 judged (21917 s)
+   fraction 1.0, seed 0 judged (22017 s)
+   fraction 1.0, seed 1 judged (22118 s)
+   fraction 1.0, seed 2 judged (22218 s)
+
+==================================================================================================================================
+RESULT  step D13 (a map trained on many more, and more varied, edits)
+
+  ---- PRIMARY: 88 test records whose original edit reached rank 1 in small (mean over seeds) ----
+    arm                                                             top-1  med rank     PS     NS      KL   flips
+    medium unchanged                                                                   36%    67%   0.000      0%
+    small unchanged                                                                    40%    63%   0.000      0%
+    small with the edit                                                                67%    54%   0.014     14%
+    real only (baseline): real recipe                                 20%         7    55%    60%   0.035     10%
+    real only (baseline): another record's recipe                      0%       133    36%    65%     nan     n/a
+    real only (baseline): random-word edit (own word)                  6%        28    44%    65%     nan     n/a
+    real + 100% synthetic: real recipe                                14%         9    52%    62%   0.020      5%
+    real + 100% synthetic: another record's recipe                     0%       130    35%    66%     nan     n/a
+    real + 100% synthetic: random-word edit (own word)                 4%        27    42%    67%     nan     n/a
+
+  ---- ALL test records (mean over seeds) ----
+    arm                                                             top-1  med rank     PS     NS      KL   flips
+    medium unchanged                                                                   30%    73%   0.000      0%
+    small unchanged                                                                    33%    71%   0.000      0%
+    small with the edit                                                                54%    62%   0.015     18%
+    real only (baseline): real recipe                                 12%        12    44%    67%   0.036     11%
+    real only (baseline): another record's recipe                      0%       229    30%    72%     nan     n/a
+    real only (baseline): random-word edit (own word)                  3%        73    35%    71%     nan     n/a
+    real + 100% synthetic: real recipe                                 8%        18    42%    68%   0.021      6%
+    real + 100% synthetic: another record's recipe                     0%       231    29%    73%     nan     n/a
+    real + 100% synthetic: random-word edit (own word)                 2%        72    33%    73%     nan     n/a
+
+  GATE 9 (full set, 88 primary records, mean over 3 seeds): (a) top-1  14% >= 50%: NO;  (b) rewordings lift = 0.62 of the edit's own lift in small (>= 0.8): NO;  (c) neighbours fall 5 points, the edit itself in small 9.5: ok;  (d) real minus random-word top-1 = 10 points (>= 10): ok   ->  FAIL
+  overfitting check (top-1 on the real training prompts minus top-1 on unseen test records): baseline 12 points, full set 3 points
+  reading (fixed in the plan before the run): (a) fails and the test top-1 stays within 5 points of the baseline: the variety of target words was not the limit (the limit is the edit or the map: amortised D6, or stop)
+  improvement of the full set over the baseline in the same sweep: top-1  20% ->  14%, paired Wilcoxon on the per-record log-rank gain (88 records, seed-averaged) p = 1.0e+00
+
+[07:53:13] 5/5  done in 22220 s; saved outputs\transfer\d13_training.json, the maps (d13_map_*.pt) and the log outputs\transfer\logs\22_varied_training_20261011_014253.log
+==================================================================================================================================

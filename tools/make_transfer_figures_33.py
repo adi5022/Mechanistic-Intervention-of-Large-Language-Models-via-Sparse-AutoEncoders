@@ -366,7 +366,112 @@ def fig9():
     save(fig, "e35_fig1_import")
 
 
+def fig10():
+    d = load("d13_training.json")
+    runs = d["runs"]
+    pick = lambda r: [x for x in r["rows"] if x["dose"] == r["dose"]][0]
+    order = [(0.0, "real edits only\n(289 edits)"), (0.25, "+25% synthetic\n(+305)"), (0.5, "+50% synthetic\n(+610)"), (1.0, "+100% synthetic\n(+1,221)"), (-1.0, "exploratory:\n+457 hard ones")]
+    xs = [0, 1, 2, 3, 4.4]
+    fig, ax = plt.subplots(figsize=(9.6, 4.9))
+    for series, color, key, label in (("test", AQUA, None, "unseen test records"), ("train", BLUE, "train_top1_real", "its own training prompts")):
+        ys, lo, hi = [], [], []
+        for f, _ in order:
+            rs = [r for r in runs if r["fraction"] == f]
+            v = [100 * pick(r)["real"]["prim"][0] for r in rs] if series == "test" else [100 * r[key] for r in rs]
+            ys.append(sum(v) / len(v)); lo.append(min(v)); hi.append(max(v))
+            ax.scatter([xs[len(ys) - 1]] * len(v), v, color=color, alpha=0.35, s=26, zorder=3)
+        ax.plot(xs[:4], ys[:4], color=color, linewidth=2.4, marker="o", markersize=7, markeredgecolor=SURFACE, markeredgewidth=1.2, zorder=4)
+        ax.scatter([xs[4]], [ys[4]], color=SURFACE, edgecolor=color, linewidth=2, s=60, zorder=5)
+        for x, y in zip(xs, ys):
+            ax.text(x, y + (1.6 if series == "train" else -2.8), f"{y:.0f}%", ha="center", fontsize=9.5, color=INK, zorder=6, bbox=dict(facecolor=SURFACE, edgecolor="none", pad=1.0))
+        ax.text(xs[3] + 0.12, ys[3] + (0.2 if series == "train" else -0.4), label, fontsize=9, color=color if color != AQUA else "#075a42", va="center", ha="left")
+    ax.set_xticks(xs)
+    ax.set_xticklabels([o[1] for o in order], fontsize=8.8)
+    ax.set_ylim(0, 40)
+    ax.set_xlim(-0.4, 5.6)
+    ax.set_ylabel("target is medium's top answer (%)")
+    ax.grid(axis="x", visible=False)
+    fig.suptitle("More, and more varied, training edits did not help: the map stopped memorising but unseen test records got worse", x=0.01, ha="left", fontsize=11, color=INK)
+    fig.text(0.01, -0.02, "Map small 8 to medium 16 trained with the output-matching loss, 15 epochs, 3 seeds (dots), dose chosen on dev by gain; 88 primary test records. Gate 9 bar is 50% (off the scale). The gap between the lines\n"
+             "(training minus test) falls from 12 to 3 points, so memorising is gone, but the map cannot even fit the larger set. The hollow points are an exploratory arm added before the run, not the primary result.", fontsize=8.5, color=INK2, va="top")
+    fig.tight_layout(rect=(0, 0.04, 1, 0.94))
+    save(fig, "e36_fig1_varied_edits")
+
+
+def fig11():
+    e = load("e5_softer_import.json")
+    als = [0.1, 0.2, 0.3, 0.5, 0.7, 0.85, 1.0]
+    B = lambda a, k: e["table"][f"P_{a}_None"]["B"][k]
+    sB, mB = e["small_B"], e["medium_B"]
+    xs = [0] + als
+    fig, axes = plt.subplots(1, 2, figsize=(12.0, 4.6))
+    ax = axes[0]
+    for key, color, label, y0 in (("rescue", AQUA, "facts small got wrong\nthat become right", 0.0), ("survive_both", BLUE, "facts both models knew\nthat stay right", 1.0), ("survive_small_only", PURPLE, "facts only small knew\nthat stay right", 1.0)):
+        ys = [100 * y0] + [100 * B(a, key) for a in als]
+        ax.plot(xs, ys, color=color, linewidth=2.4, marker="o", markersize=6, markeredgecolor=SURFACE, markeredgewidth=1.2, zorder=4)
+        ax.text(1.02, ys[-1] + {"rescue": -9, "survive_both": 0, "survive_small_only": 9}[key], label, fontsize=8.6, color=color if color != AQUA else "#075a42", va="center", ha="left")
+    ax.axvline(0.5, color=MUTED, linestyle=(0, (4, 3)), linewidth=1.2)
+    ax.text(0.505, 110, "chosen on half A: 0.5", ha="left", fontsize=8.5, color=INK2)
+    ax.set_xlim(-0.03, 1.38); ax.set_ylim(0, 118)
+    ax.set_xticks(xs); ax.set_xticklabels(["0\n(small)"] + [f"{a:g}" for a in als[:-1]] + ["1\n(full)"], fontsize=8.8)
+    ax.set_xlabel("share of medium's translated state in the mix")
+    ax.set_ylabel("% of the facts in each group (reporting half B)")
+    ax.set_title("Mixing in half of medium's state keeps almost everything\nsmall knew and still fixes about 29% of what it missed", loc="left", fontsize=10, color=INK)
+    ax = axes[1]
+    ys = [100 * sB["acc"]] + [100 * B(a, "acc") for a in als]
+    ax.plot(xs, ys, color=AQUA, linewidth=2.4, marker="o", markersize=6, markeredgecolor=SURFACE, markeredgewidth=1.2, zorder=4)
+    ax.axhline(100 * sB["acc"], color=DGREY, linestyle=(0, (4, 3)), linewidth=1.3)
+    ax.axhline(100 * mB["acc"], color=GREY, linestyle=(0, (4, 3)), linewidth=1.3)
+    ax.text(0.02, 100 * sB["acc"] - 0.12, "small alone 8.5%", ha="left", va="top", fontsize=8.8, color=INK2)
+    ax.text(0.02, 100 * mB["acc"] + 0.08, "medium alone 10.2%", ha="left", va="bottom", fontsize=8.8, color=INK2)
+    for x, y in zip(xs, ys):
+        if x in (0.5, 1.0):
+            ax.text(x, y + 0.18, f"{y:.1f}%", ha="center", fontsize=9.5, color=INK, zorder=6)
+    ax.set_ylim(6.6, 10.8)
+    ax.set_xticks(xs); ax.set_xticklabels(["0\n(small)"] + [f"{a:g}" for a in als[:-1]] + ["1\n(full)"], fontsize=8.8)
+    ax.set_xlabel("share of medium's translated state in the mix")
+    ax.set_ylabel("% of the 10,895 facts of half B answered correctly")
+    ax.set_title("Net accuracy rises from 8.5% to 9.5% at 0.5,\nand falls below small alone at full replacement", loc="left", fontsize=10, color=INK)
+    fig.suptitle("A softer Import is net-positive: a 50/50 mix of small's own state and medium's translated state beats small alone", x=0.01, ha="left", fontsize=11, color=INK)
+    fig.text(0.01, -0.03, "Pair m2s_L16_L8, no training. The mix was chosen on half A of the 21,789 facts (10,894) and is reported on half B. At 0.5 the mix gains 162 facts and loses 53 against small alone (paired p = 2.5e-14). It is a descriptive diagnostic: the old Gate 8 bar of 50% rescue is still not met (28.6%).",
+             fontsize=8.5, color=INK2, va="top")
+    fig.tight_layout(rect=(0, 0.02, 1, 0.92))
+    save(fig, "e37_fig1_softer_import")
+
+
+def fig12():
+    s1 = load("s1_basis_control.json")
+    d6 = load("d6_b_aware.json")["summary"]["ok"]
+    p = s1["PRIMARY (original edit reached rank 1 in small)"]
+    rows = [("Target is the top answer\n(real counterfactual word)", d6["top1"]["b_aware"], p["rb_real"]["top1"]),
+            ("Target is the top answer\n(random word, its own word)", d6["top1"]["random_word_b"], p["rb_rand"]["top1"]),
+            ("Rewordings: new beats true", d6["stage2"]["b_aware"]["PS"], p["rb_real"]["PS"]),
+            ("Neighbours: true still beats new", d6["stage2"]["b_aware"]["NS"], p["rb_real"]["NS"])]
+    fig, ax = plt.subplots(figsize=(9.8, 4.9))
+    for i, (name, a, b) in enumerate(rows):
+        for j, (v, color) in enumerate(((a, PURPLE), (b, BLUE))):
+            y = i + (j - 0.5) * 0.36
+            ax.barh(y, 100 * v, color=color, height=0.32)
+            ax.text(100 * v + 1.2, y, f"{100 * v:.0f}%", va="center", fontsize=9.5, color=INK, zorder=5, bbox=dict(facecolor=SURFACE, edgecolor="none", pad=1.0))
+    for i, v in ((2, p["medium_unchanged_PS"]), (3, p["medium_unchanged_NS"])):
+        ax.plot([100 * v, 100 * v], [i - 0.4, i + 0.4], color=INK2, linestyle=(0, (3, 2)), linewidth=1.3, zorder=6)
+    ax.text(100 * p["medium_unchanged_PS"] - 1.0, 1.6, "medium unchanged", ha="right", va="center", fontsize=8.3, color=INK2)
+    ax.set_yticks(range(len(rows)))
+    ax.set_yticklabels([r[0] for r in rows], fontsize=9.2)
+    ax.invert_yaxis()
+    ax.set_xlim(0, 112)
+    ax.set_xlabel("% of the 88 primary test records / prompts")
+    ax.grid(axis="y", visible=False)
+    from matplotlib.patches import Patch
+    ax.legend(handles=[Patch(color=PURPLE, label="small's SAE directions (D6)"), Patch(color=BLUE, label="200 random directions, same firing pattern")], frameon=False, fontsize=9, loc="lower center", bbox_to_anchor=(0.5, 1.0), ncol=2)
+    fig.suptitle("Random directions steer medium almost as well as small's SAE directions: 81% against 95% top-1, rewordings and neighbours the same", x=0.01, ha="left", fontsize=10.8, color=INK, wrap=True)
+    fig.text(0.01, -0.02, "D6 repeated with one fixed Gaussian basis (rows scaled to the SAE decoder norms; activations unchanged), same records, loss, dose 2.0 and layer 16. Dashed ticks = medium unchanged (rewordings 36%, neighbours 67%).\n"
+             "By the rule fixed beforehand (top-1 difference at least 10 points) the SAE basis 'matters' (+15 points), but most of the power is not in the SAE directions. One random draw; the firing pattern is still the SAE's.", fontsize=8.5, color=INK2, va="top")
+    fig.tight_layout(rect=(0, 0.04, 1, 0.93))
+    save(fig, "e37_fig2_sae_basis")
+
+
 if __name__ == "__main__":
-    which = sys.argv[1:] or ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    which = sys.argv[1:] or ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
     for w in which:
-        {"1": fig1, "2": fig2, "3": fig3, "4": fig4, "5": fig5, "6": fig6, "7": fig7, "8": fig8, "9": fig9}[w]()
+        {"1": fig1, "2": fig2, "3": fig3, "4": fig4, "5": fig5, "6": fig6, "7": fig7, "8": fig8, "9": fig9, "10": fig10, "11": fig11, "12": fig12}[w]()
