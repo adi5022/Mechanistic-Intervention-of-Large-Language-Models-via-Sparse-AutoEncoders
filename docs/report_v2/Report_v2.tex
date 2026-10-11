@@ -42,6 +42,9 @@
   \IfFileExists{#2.pdf}{\includegraphics[#1]{#2.pdf}}{%
   \fbox{\parbox{0.9\linewidth}{\centering\color{red}[figure file missing: \texttt{\detokenize{#2}}]}}}}}
 
+% the college logo is optional: nothing is printed while figures/mbcet_logo.png is absent
+\newcommand{\optgraphic}[2][width=\linewidth]{\IfFileExists{#2.png}{\includegraphics[#1]{#2.png}}{}}
+
 \begin{document}
 
 % ======================= COVER PAGE =======================
@@ -67,7 +70,7 @@ in\par
 {\large\bfseries\scshape Alvin Binu \itshape (B23CS2114)}\par
 {\large\bfseries\scshape Darsan M \itshape (B23CS2125)}\par
 \vfill
-\safegraphic[width=4cm]{figures/mbcet_logo}\par
+\optgraphic[width=4cm]{figures/mbcet_logo}\par
 \vspace{0.8cm}
 {\bfseries Department of Computer Science and Engineering\par
 Mar Baselios College of Engineering and Technology\par
@@ -87,7 +90,7 @@ MAR BASELIOS COLLEGE OF ENGINEERING AND TECHNOLOGY\\
 MAR IVANIOS VIDYA NAGAR, NALANCHIRA\\
 THIRUVANANTHAPURAM--695015\par}
 \vspace{1cm}
-\safegraphic[width=4cm]{figures/mbcet_logo}\par
+\optgraphic[width=4cm]{figures/mbcet_logo}\par
 \vspace{1.2cm}
 {\Large\bfseries\scshape Certificate\par}
 \end{center}
