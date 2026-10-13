@@ -1,0 +1,108 @@
+% FeatureScalpel research paper: working template (IEEE conference format).
+% Compile: tectonic -X compile main.tex   (or Overleaf, pdfLaTeX + BibTeX).
+% Lines starting with % are guidance for you; delete them as you fill each part.
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{hyperref}
+
+\newcommand{\todo}[1]{{\color{red}[TODO: #1]}}
+
+\begin{document}
+
+\title{Title of the Paper}
+
+\author{
+\IEEEauthorblockN{Author One, Author Two, Author Three, Author Four}
+\IEEEauthorblockA{\textit{Department of Computer Science and Engineering (AI)} \
+\textit{Mar Baselios College of Engineering and Technology}\
+Thiruvananthapuram, India \
+email@example.com}
+}
+
+\maketitle
+
+% ------------------------------------------------------------------ ABSTRACT
+% About 150 to 200 words, one paragraph, no citations, no equations.
+% Order: problem, what we did, main numbers, what it means, limits.
+\begin{abstract}
+\todo{write the abstract last}
+\end{abstract}
+
+\begin{IEEEkeywords}
+% four to six terms, separated by commas
+\todo{keywords}
+\end{IEEEkeywords}
+
+% ------------------------------------------------------------------ 1 INTRODUCTION
+% Roughly 1 to 1.5 columns. Cite: the problem, the existing fixes, the idea you build on.
+\section{Introduction}\label{sec:intro}
+\todo{problem, gap, contribution list}
+
+% ------------------------------------------------------------------ 2 RELATED WORK
+% Roughly 1 column. Group by topic, not by paper. Cite every claim about other work.
+\section{Related Work}\label{sec:related}
+\todo{knowledge editing; SAE steering; causal localisation; model stitching}
+
+% ------------------------------------------------------------------ 3 METHOD
+% Roughly 2 columns. Cite: methods you use but did not invent (SAE, Adam, ROME's CounterFact).
+\section{Method}\label{sec:method}
+\subsection{Setting and Notation}
+\subsection{Transient Edit through SAE Features}
+\subsection{Choosing the Edit}
+
+% ------------------------------------------------------------------ 4 EXPERIMENTS
+% Roughly 2 columns. Cite: datasets, metrics, statistical tests. Own results need no citation.
+\section{Experimental Setup}\label{sec:setup}
+\todo{benchmark, splits, metrics, baselines, controls, hardware}
+
+% ------------------------------------------------------------------ 5 RESULTS
+% Roughly 2 columns. One table or figure per claim. Say what each shows and what it does not.
+\section{Results}\label{sec:results}
+
+% Figure example (use \columnwidth; figures live in figures/):
+% \begin{figure}[t]
+% \centering
+% \includegraphics[width=\columnwidth]{figures/example.png}
+% \caption{What is plotted, on how many items, and the key numbers.}
+% \label{fig:example}
+% \end{figure}
+
+% Table example (booktabs, no vertical lines):
+% \begin{table}[t]
+% \caption{Caption goes above a table.}
+% \label{tab:example}
+% \centering
+% \begin{tabular}{lcc}
+% \toprule
+% Method & Rank 1 (\%) & KL \
+% \midrule
+% A & 0.0 & 0.0 \
+% \bottomrule
+% \end{tabular}
+% \end{table}
+
+% ------------------------------------------------------------------ 6 DISCUSSION
+% Roughly 0.5 to 1 column. What the results support, what they do not, threats to validity.
+\section{Discussion and Limitations}\label{sec:discussion}
+
+% ------------------------------------------------------------------ 7 CONCLUSION
+% Roughly 0.3 column. No new results, no citations needed.
+\section{Conclusion}\label{sec:conclusion}
+
+% Optional, before the references:
+% \section*{Acknowledgment}
+
+% ------------------------------------------------------------------ REFERENCES
+% An empty reference list stops the compile, so the example entry is cited here.
+% Delete the next line as soon as you cite your first real paper.
+\nocite{example2000key}
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}
