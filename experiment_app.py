@@ -250,14 +250,15 @@ enable_xai = st.sidebar.checkbox("Enable AI Explanations (Groq)", value=bool(def
 groq_key_input = default_groq_key
 
 # Tabs setup
-tab4, tab6, tab7, tab11, tab12, tab13, tab_proto = st.tabs([
+tab4, tab6, tab7, tab11, tab12, tab13, tab_proto, tab_xfer = st.tabs([
     "🔄 Hybrid mute and boost",
     "📚 Monosemanticity Analysis",
     "📊 Session history and benchmarks",
     "⏱️ Sequential vs Batched Proof",
     "🧮 Batch: Last vs All Tokens",
     "🔬 Repair & SAE limit",
-    "🧪 Prototype lab"
+    "🧪 Prototype lab",
+    "🔗 Cross-model transfer"
 ])
 
 
@@ -3190,3 +3191,9 @@ with tab_proto:
             st.session_state["history"].append(pl_record)
             persist_history()
             st.success(f"Run saved to Session History (auto-saved to {st.session_state['history_file']})")
+
+
+# --- TAB: Cross-model transfer (GPT-2 Small | GPT-2 Medium); all of its code lives in src/transfer/transfer_tab.py ---
+with tab_xfer:
+    from src.transfer.transfer_tab import render as render_transfer_tab
+    render_transfer_tab(model, sae, device, layer)
