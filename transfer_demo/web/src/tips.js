@@ -54,6 +54,10 @@ export const TIPS = {
   }),
 
   // ---- the controls ----
+  presets: {
+    title: "Examples",
+    text: "Ready-made examples picked from real runs. Choosing one fills in the sentence, target, layers, method, map and dose for you; you still press Run yourself. Each comes with a one-line note on what it shows.",
+  },
   dose: {
     title: "Dose",
     text: "A multiplier on the translated change before it is added to Medium. Higher is a stronger push. 2.0 was chosen on development records for the 8 to 16 pair; other pairs were not tuned.",

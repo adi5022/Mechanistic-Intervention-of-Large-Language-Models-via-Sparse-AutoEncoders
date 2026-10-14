@@ -11,6 +11,30 @@ import { TIPS } from "./tips.js";
 //   1. prompt and target, 2. Small | Medium side by side (unedited), 3. the edit settings, 4. the runs, newest last.
 // All the maths happens on the Python server; this file only collects the choices, asks the server, and shows the answers.
 
+// READY-MADE EXAMPLES for the presentation. Each one fills in every control (sentence, target, layers, edit method, map, dose); you then press Run.
+// They were picked from real runs of this page with the study's defaults (layers 8 to 16, dose 2.0, 100 steps), so the outcome in the note is
+// what actually happened. The note is there to remind the presenter what the example shows. The numbers can differ slightly between machines.
+const PRESETS = [
+  {
+    id: "main",
+    label: "Small reaches rank 1, Medium falls short",
+    note: "The main finding. The edit made in Small puts the target first in Small (rank 2 to 1), but Medium, which only receives the translated change, stays at rank 2.",
+    prompt: "The mother tongue of Danielle Darrieux is", target: " English", pair: [8, 16], mechanism: "Gradient descent (default)", map: "ridge", dose: 2.0,
+  },
+  {
+    id: "far",
+    label: "A word that starts far down the list",
+    note: "A harder target. In Small it climbs from rank 41 to rank 1; in Medium it starts at rank 169 and only reaches about rank 52. A good example for the replay.",
+    prompt: "The mother tongue of Danielle Darrieux is", target: " Mandarin", pair: [8, 16], mechanism: "Gradient descent (default)", map: "ridge", dose: 2.0,
+  },
+  {
+    id: "direct",
+    label: "Tuned on Medium instead (Direct)",
+    note: "The roles reverse. The dials are tuned by watching Medium's answer, so Medium goes from rank 169 to rank 1, while the same dials in Small only move the target from 41 to 8.",
+    prompt: "The mother tongue of Danielle Darrieux is", target: " Mandarin", pair: [8, 16], mechanism: "Gradient descent (default)", map: "direct", dose: 2.0,
+  },
+];
+
 export default function App() {
   // ---- what the server tells us ---------------------------------------------------------------------------------------------
   const [status, setStatus] = useState(null); // models loaded? device? facts of both models
@@ -38,8 +62,21 @@ export default function App() {
   const [liveDials, setLiveDials] = useState(null); // the 200 dials as they move during a run: { fids, strength, frames, ranks }
   const [collapseOld, setCollapseOld] = useState(false);
   // The server translates and injects the change in a fraction of a second, far too fast to see. So after the result arrives, the bridge
-  // picture stays in its "crossing" state for 2.5 seconds (the wave runs, the two selected layers swell) before it settles into "done".
+  // picture stays in its "crossing" state for 2.5 seconds (the wave runs, the layers blink) before it settles into "done".
   const [holdCross, setHoldCross] = useState(false);
+  // Which ready-made example is selected (empty = none). Choosing one fills in all the controls; it does not run anything.
+  const [presetId, setPresetId] = useState("");
+  const applyPreset = (id) => {
+    setPresetId(id);
+    const p = PRESETS.find((x) => x.id === id);
+    if (!p) return;
+    setPrompt(p.prompt);
+    setTarget(p.target);
+    setPair(p.pair);
+    setMechanism(p.mechanism);
+    setMapKind(p.map);
+    setDose(p.dose);
+  };
   // The control rail on the left can be folded away to give the results the whole width. The choice is remembered in the browser; if the
   // browser refuses storage (private window), it simply starts open every time.
   const [railOpen, setRailOpen] = useState(() => {
@@ -178,6 +215,15 @@ export default function App() {
             <button className="primary mini-run" disabled={running || !!whyNot} onClick={run} title={whyNot || "Run edit and inject into Medium"}>▶</button>
           )}
           {railOpen && (<>
+          <div className="step">
+            <div className="label" data-n="00"><Tip tip={TIPS.presets}>Examples</Tip></div>
+            <select value={presetId} onChange={(e) => applyPreset(e.target.value)}>
+              <option value="">Choose an example…</option>
+              {PRESETS.map((p) => <option key={p.id} value={p.id}>{p.label}</option>)}
+            </select>
+            {presetId && <p className="muted">{PRESETS.find((p) => p.id === presetId).note}</p>}
+            {!presetId && <span className="hint">Fills in every setting below. Then press Run.</span>}
+          </div>
           <div className="step">
             <div className="label" data-n="01"><Tip tip={TIPS.sentence}>Sentence</Tip></div>
             <label>
