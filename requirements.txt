@@ -8,3 +8,8 @@ sae-lens==6.45.3
 tabulate==0.9.0
 python-dotenv
 matplotlib==3.11.2
+
+# Cross-model transfer demo (transfer_demo/server.py). Starlette is also pulled in by streamlit; it is pinned here because the server imports it directly.
+# The React page in transfer_demo/web needs Node.js and "npm install" there (packages are listed in transfer_demo/web/package.json).
+starlette==1.3.1
+uvicorn==0.51.0
