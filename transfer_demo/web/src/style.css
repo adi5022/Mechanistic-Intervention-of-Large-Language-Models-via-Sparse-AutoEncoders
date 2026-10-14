@@ -1,0 +1,175 @@
+/* ============================================================================================================================
+   LOOK OF THE DEMO
+   Everything that decides how it looks is in the variables just below. Change a colour or a font there and the whole page follows.
+   Idea: a lab notebook / instrument panel. Warm paper, dark ink, serif text for reading, a monospace face for every number and label,
+   and ONE accent colour (teal). Orange and blue are kept for one meaning only: a dial turned up or turned down.
+   Only fonts that are already on the computer are used, so the page looks the same with no internet.
+   ============================================================================================================================ */
+:root {
+  --paper: #f3eee4;        /* page background */
+  --card: #fbf8f1;         /* panels sitting on the page */
+  --ink: #1f1b16;          /* main text */
+  --ink-2: #5d564b;        /* secondary text */
+  --rule: #d9d0bf;         /* thin lines */
+  --accent: #1d5c58;       /* the one accent: buttons, the target word, the rank line */
+  --accent-soft: #dbe8e4;  /* light tint of the accent: highlighted rows and boxes */
+  --up: #c4701a;           /* a dial turned up */
+  --down: #2c4a78;         /* a dial turned down */
+  --warn: #8a4b0f; --warn-bg: #f6e8cf;
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --mono: "Cascadia Mono", Consolas, "SFMono-Regular", Menlo, monospace;
+  --radius: 4px;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--serif); font-size: 16px; line-height: 1.5; }
+h1, h2, h3, h4 { font-weight: 600; margin: 0; letter-spacing: -0.01em; }
+h1 { font-size: 1.45rem; } h2 { font-size: 1.2rem; } h3 { font-size: 1.05rem; } h4 { font-size: .95rem; margin: 14px 0 6px; }
+p { margin: .4em 0; }
+code { font-family: var(--mono); font-size: .88em; background: var(--accent-soft); padding: 1px 5px; border-radius: 3px; }
+.muted { color: var(--ink-2); font-size: .9rem; }
+.hint { display: block; color: var(--ink-2); font-size: .8rem; margin-top: 3px; }
+.mono, .big, .big2, .top td:last-child, .facts td:last-child { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+/* ---------- page frame: header on top, controls on the left, results on the right ---------- */
+.topbar { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 14px 28px; border-bottom: 1px solid var(--rule); background: var(--card); }
+.topbar .brand { display: flex; align-items: baseline; gap: 14px; }
+.topbar .tag { font-family: var(--mono); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
+.status { font-family: var(--mono); font-size: .75rem; color: var(--ink-2); display: flex; align-items: center; gap: 8px; }
+.status i { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); display: inline-block; }
+.layout { display: grid; grid-template-columns: 370px minmax(0, 1fr); gap: 28px; max-width: 1560px; margin: 0 auto; padding: 24px 28px 80px; }
+.rail { position: sticky; top: 16px; align-self: start; max-height: calc(100vh - 32px); overflow-y: auto; padding-right: 6px; }
+.stage { min-width: 0; }
+.stage > * + * { margin-top: 18px; }
+@media (max-width: 1000px) { .layout { grid-template-columns: 1fr; } .rail { position: static; max-height: none; } }
+
+/* ---------- the control rail: numbered steps like a protocol ---------- */
+.step { border-top: 1px solid var(--rule); padding: 14px 0 12px; }
+.step:first-child { border-top: 0; padding-top: 0; }
+.step > .label { display: flex; gap: 10px; align-items: baseline; margin-bottom: 8px; font-weight: 600; }
+.step > .label::before { content: attr(data-n); font-family: var(--mono); font-size: .72rem; color: var(--accent); letter-spacing: .06em; }
+label { display: block; font-size: .85rem; color: var(--ink-2); margin-top: 8px; }
+label.radio { display: flex; gap: 8px; align-items: baseline; margin: 5px 0; color: var(--ink); font-size: .92rem; }
+label.radio input { accent-color: var(--accent); }
+input:not([type]), input[type=number], select { width: 100%; margin-top: 4px; padding: 7px 9px; font: inherit; font-family: var(--mono); font-size: .88rem; color: var(--ink); background: #fff; border: 1px solid var(--rule); border-radius: var(--radius); }
+input:focus, select:focus, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+input[type=range] { width: 100%; accent-color: var(--accent); }
+button { font: inherit; font-family: var(--mono); font-size: .82rem; padding: 8px 14px; color: var(--ink); background: transparent; border: 1px solid var(--ink); border-radius: var(--radius); cursor: pointer; }
+button:hover:not(:disabled) { background: var(--ink); color: var(--paper); }
+button.primary { width: 100%; margin-top: 12px; padding: 11px 14px; color: #fff; background: var(--accent); border-color: var(--accent); letter-spacing: .03em; }
+button.primary:hover:not(:disabled) { background: #14403d; }
+button:disabled { opacity: .4; cursor: not-allowed; }
+details > summary { cursor: pointer; color: var(--ink-2); font-size: .85rem; margin-top: 8px; }
+
+/* ---------- messages ---------- */
+.warn { color: var(--warn); background: var(--warn-bg); padding: 8px 12px; border-radius: var(--radius); font-size: .9rem; }
+.info { background: var(--accent-soft); padding: 8px 12px; border-radius: var(--radius); font-size: .88rem; margin-top: 10px; }
+
+/* ---------- panels ---------- */
+.row { display: flex; gap: 18px; flex-wrap: wrap; } .row.between { justify-content: space-between; align-items: center; }
+.grow { flex: 1 1 320px; min-width: 0; }
+.card { background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); padding: 16px 18px; }
+.card h2 { font-size: 1.05rem; } .card .kicker { font-family: var(--mono); font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); display: block; margin-bottom: 4px; }
+.sentence { font-size: 1.3rem; padding: 4px 0 2px; }
+.chip { font-family: var(--mono); font-size: .85em; border-radius: 3px; padding: 1px 8px; margin-left: 6px; }
+.chip.green { background: var(--accent-soft); color: var(--accent); } .chip.blue { background: #dfe6f2; color: var(--down); } .chip.orange { background: #f4e2cc; color: var(--up); } .chip.violet { background: #e7e0f1; color: #5a3f86; }
+
+/* ---------- the numbers: a large probability and its rank ---------- */
+.bigbox { flex: 1; padding: 10px 14px; border-radius: var(--radius); background: var(--paper); border: 1px solid var(--rule); border-left: 3px solid var(--ink-2); }
+.bigbox.green { border-left-color: var(--accent); } .bigbox.blue { border-left-color: var(--down); }
+.bigbox .small { font-family: var(--mono); font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
+.big { font-size: 2.3rem; line-height: 1.1; font-weight: 600; } .big2 { font-size: 1.9rem; line-height: 1.1; font-weight: 600; }
+.pair { display: flex; gap: 12px; }
+table { border-collapse: collapse; width: 100%; }
+.top td, .top th { padding: 5px 8px; text-align: left; border-bottom: 1px solid var(--rule); font-size: .9rem; } .top th { font-family: var(--mono); font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); font-weight: 400; }
+.top tr.hit { background: var(--accent-soft); font-weight: 600; } .top tr.hit td:first-child { box-shadow: inset 3px 0 0 var(--accent); }
+.facts td { padding: 4px 8px; border-bottom: 1px solid var(--rule); font-size: .85rem; }
+
+.progress { margin-top: 12px; font-family: var(--mono); font-size: .75rem; color: var(--ink-2); }
+.bar { height: 4px; background: var(--rule); margin-bottom: 6px; } .bar div { height: 100%; background: var(--accent); transition: width .2s; }
+
+details.run { background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); padding: 10px 16px; margin: 12px 0; }
+details.run > summary { font-weight: 600; font-size: 1.02rem; margin: 0; color: var(--ink); }
+details.card { margin: 12px 0; } details.card > summary { font-weight: 600; margin: 0 0 6px; color: var(--ink); font-size: .95rem; }
+
+/* ---------- the dial visualiser (colours come from the variables at the top) ---------- */
+.dialsvg, .ranksvg { width: 100%; height: auto; display: block; }
+.dial { transition: y .09s linear, height .09s linear; } .dial.up { fill: var(--up); } .dial.down { fill: var(--down); } .dial.rest { fill: #b9b1a1; }
+.dial.hot { stroke: var(--ink); stroke-width: 1; }
+.dial-grid { stroke: var(--rule); stroke-width: 1; } .dial-base { stroke: var(--ink-2); stroke-width: 1.5; }
+.dial-axis { font-family: var(--mono); font-size: 11px; fill: var(--ink-2); }
+.dialcap { min-height: 3em; margin: 6px 0; font-family: var(--mono); font-size: .8rem; } .up-text { color: var(--up); } .down-text { color: var(--down); }
+.rank-line { fill: none; stroke: var(--accent); stroke-width: 2; } .rank-ghost { fill: none; stroke: var(--rule); stroke-width: 1.5; } .rank-dot { fill: var(--accent); }
+.replay { display: flex; gap: 12px; align-items: center; margin: 8px 0; } .replay input { flex: 1; }
+.movers { display: flex; gap: 14px; flex-wrap: wrap; font-family: var(--mono); font-size: .78rem; margin-top: 6px; } .movers a { text-decoration: none; font-weight: 600; }
+
+/* ---------- the two model panels: raised, with layered shadows, and they lift and grow a little under the mouse ---------- */
+.model {
+  /* a faint light-to-paper gradient plus a bright top edge makes the panel look like a raised slab */
+  background: linear-gradient(180deg, #fffdf8 0%, var(--card) 100%);
+  border-color: #cfc5b2; border-top-color: #fff;
+  /* several shadows of growing size and fading strength read as depth better than one hard shadow */
+  box-shadow: 0 1px 1px rgba(60, 45, 20, .10), 0 4px 8px rgba(60, 45, 20, .10), 0 14px 28px rgba(60, 45, 20, .12);
+  transition: transform .22s ease, box-shadow .22s ease;
+  position: relative;
+}
+.model:hover {
+  transform: translateY(-4px) scale(1.018);   /* lifts and grows about 2% */
+  box-shadow: 0 2px 2px rgba(60, 45, 20, .10), 0 10px 18px rgba(60, 45, 20, .14), 0 26px 48px rgba(60, 45, 20, .18);
+  z-index: 2;                                  /* so the grown panel overlaps its neighbour instead of sliding under it */
+}
+@media (prefers-reduced-motion: reduce) { .model, .model:hover { transition: none; transform: none; } }
+
+/* loading and error screens: same margins as the real page */
+main.plain { max-width: 1560px; margin: 0 auto; padding: 28px; }
+
+/* ---------- dial ring and the Ring / Bars switch ---------- */
+.viewtoggle { display: flex; justify-content: flex-end; margin-bottom: 6px; }
+.viewtoggle button { padding: 3px 12px; font-size: .72rem; border-radius: 0; margin-left: -1px; }
+.viewtoggle button.on { background: var(--ink); color: var(--paper); }
+.ringgrid { display: grid; grid-template-columns: minmax(300px, 500px) 1fr; gap: 24px; align-items: center; }
+@media (max-width: 1100px) { .ringgrid { grid-template-columns: 1fr; } }
+.ringsvg { width: 100%; height: auto; display: block; }
+.ring-big { font-family: var(--mono); font-size: 34px; font-weight: 600; fill: var(--ink); }
+
+/* ---------- the bridge picture ---------- */
+.bridgesvg { width: 100%; height: auto; display: block; overflow: visible; margin-top: 6px; }
+.br-panel { fill: #fdfbf5; stroke: var(--rule); stroke-width: 1.2; }
+.br-box { fill: #fdfbf5; stroke: var(--rule); stroke-width: 1; }
+.br-rule { stroke: var(--rule); stroke-width: 1; }
+.br-name { font-family: var(--serif); font-size: 30px; font-weight: 500; fill: var(--ink); }
+.br-sub { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; fill: var(--ink-2); }
+.br-label { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; fill: var(--ink); }
+.br-rank { font-family: var(--mono); font-size: 26px; font-weight: 600; fill: var(--ink); }
+.br-arrowtxt { fill: var(--ink-2); font-weight: 400; } .br-after { fill: var(--accent); }
+.slab { fill: #e6dfcf; stroke: none; }
+.slab.hot { fill: #3b6f69; } .slab.hot.soft { fill: #7fa9a4; }
+.slab.pulse { animation: pulse .7s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+.br-num { font-family: var(--mono); font-size: 11px; fill: var(--ink-2); } .br-num.small { font-size: 8.5px; } .br-num.hot { fill: var(--accent); font-weight: 700; }
+.br-foot { font-family: var(--mono); font-size: 13px; letter-spacing: .08em; font-weight: 600; fill: var(--accent); }
+.br-footsub { font-family: var(--mono); font-size: 12px; fill: var(--ink-2); }
+.br-io { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; fill: var(--ink-2); } .br-ioline { stroke: var(--ink-2); stroke-width: 1; }
+.br-cap { font-family: var(--mono); font-size: 10.5px; letter-spacing: .04em; fill: var(--ink); } .br-cap.warm { fill: var(--up); letter-spacing: .03em; }
+.br-bridge { fill: none; stroke: #b9b1a1; stroke-linecap: round; stroke-linejoin: round; transition: stroke-width .2s, stroke .3s; }
+.br-bridge.lit { stroke: var(--accent); stroke-dasharray: none; }
+.br-node { fill: #fff; stroke: var(--accent); stroke-width: 2.5; }
+.br-marker { fill: var(--accent); filter: drop-shadow(0 0 5px var(--accent)); }
+.br-pill { fill: #e9f0ec; stroke: var(--rule); stroke-width: 1; }
+.br-pillnum { font-family: var(--mono); font-size: 22px; font-weight: 600; fill: var(--accent); }
+.br-pillcap { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; fill: var(--ink); }
+.br-feedback { fill: none; stroke: var(--up); stroke-width: 1.6; stroke-dasharray: 5 5; animation: flow 1s linear infinite; } .br-arrowfill { fill: var(--up); }
+@keyframes flow { to { stroke-dashoffset: -20; } }
+@media (prefers-reduced-motion: reduce) { .slab.pulse, .br-feedback { animation: none; } }
+
+/* ---------- hover pop-ups ---------- */
+.tip-anchor { position: relative; cursor: help; border-bottom: 1px dotted var(--ink-2); outline: none; }
+.tipbox { position: absolute; z-index: 30; bottom: calc(100% + 8px); width: 290px; padding: 10px 12px; background: var(--ink); color: var(--paper); border-radius: var(--radius);
+  font-family: var(--serif); font-size: .84rem; font-weight: 400; letter-spacing: 0; text-transform: none; line-height: 1.4; text-align: left;
+  opacity: 0; visibility: hidden; transform: translateY(4px); transition: opacity .15s ease, transform .15s ease; pointer-events: none; box-shadow: 0 8px 24px rgba(30, 20, 5, .28); }
+.tipbox.left { left: 0; } .tipbox.right { right: 0; }
+.tipbox b { display: block; font-family: var(--mono); font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 4px; color: #9fd0c9; }
+.tip-anchor:hover > .tipbox, .tip-anchor:focus > .tipbox { opacity: 1; visibility: visible; transform: none; }
+/* the same box, following the mouse inside the bridge picture */
+.tipwrap { position: relative; }
+.tipbox.floating { bottom: auto; opacity: 1; visibility: visible; transform: none; transition: none; }
