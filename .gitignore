@@ -18,3 +18,7 @@ data/comparison/raw/
 third_party/rome/data/
 *.npz
 .venv*/
+
+# transfer demo web app (installed packages and the built page)
+transfer_demo/web/node_modules/
+transfer_demo/web/dist/

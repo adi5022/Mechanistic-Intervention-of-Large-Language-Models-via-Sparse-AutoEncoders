@@ -12,6 +12,12 @@
       "runtimeExecutable": ".venv/bin/streamlit",
       "runtimeArgs": ["run", "experiment_app.py", "--server.headless", "true"],
       "port": 8501
+    },
+    {
+      "name": "transfer-demo-web",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "transfer_demo/web", "run", "dev"],
+      "port": 5173
     }
   ]
 }
