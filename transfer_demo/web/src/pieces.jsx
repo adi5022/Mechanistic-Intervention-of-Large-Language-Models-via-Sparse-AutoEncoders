@@ -58,35 +58,6 @@ export function Readout({ res, target }) {
   );
 }
 
-// One model's result after an edit: "before" and "after" boxes, a one-line summary, then the top 5 words after the edit.
-export function BeforeAfter({ title, before, after, target }) {
-  const moved = before.rank - after.rank;
-  return (
-    <div>
-      <h4>{title}</h4>
-      <div className="pair">
-        {[
-          ["Before", before, "green"],
-          ["After", after, "blue"],
-        ].map(([label, r, tint]) => (
-          <div key={label} className={`bigbox ${tint}`}>
-            <div className="small">{label}</div>
-            <div className="big2">{pct(r.prob)}</div>
-            <div>
-              <Tip tip={TIPS.rank}>Rank</Tip> <b>{num(r.rank)}</b>
-            </div>
-          </div>
-        ))}
-      </div>
-      <p className="muted">
-        Rank {num(before.rank)} to {num(after.rank)} ({moved >= 0 ? "+" : ""}
-        {num(moved)} places); probability {pct(before.prob)} to {pct(after.prob)}.
-      </p>
-      <TopTable top={after.top} target={target} heading="Probability after the edit" />
-    </div>
-  );
-}
-
 // "Medium: 120 places better, probability +2.1 points (rank 142, 0.4% in run 1)" — how this run differs from an earlier one.
 export function diffText(model, now, other, otherNo) {
   const dr = now.rank - other.rank;

@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { getConfig, getReadout, getStatus, runEdit } from "./api.js";
-import { BeforeAfter, Readout, diffText, num } from "./pieces.jsx";
+import { Readout, diffText, num } from "./pieces.jsx";
 import Dials from "./Dials.jsx";
 import Bridge from "./Bridge.jsx";
+import Ladder from "./Ladder.jsx";
 import { Tip } from "./Tip.jsx";
 import { TIPS } from "./tips.js";
 
@@ -36,6 +37,20 @@ export default function App() {
   const [liveRank, setLiveRank] = useState(null); // target's rank in Small after the latest gradient step
   const [liveDials, setLiveDials] = useState(null); // the 200 dials as they move during a run: { fids, strength, frames, ranks }
   const [collapseOld, setCollapseOld] = useState(false);
+  // The server translates and injects the change in a fraction of a second, far too fast to see. So after the result arrives, the bridge
+  // picture stays in its "crossing" state for 2.5 seconds (the wave runs, the two selected layers swell) before it settles into "done".
+  const [holdCross, setHoldCross] = useState(false);
+  // The control rail on the left can be folded away to give the results the whole width. The choice is remembered in the browser; if the
+  // browser refuses storage (private window), it simply starts open every time.
+  const [railOpen, setRailOpen] = useState(() => {
+    try { return localStorage.getItem("railOpen") !== "0"; } catch { return true; }
+  });
+  const toggleRail = () => {
+    setRailOpen((open) => {
+      try { localStorage.setItem("railOpen", open ? "0" : "1"); } catch { /* storage not available: fine */ }
+      return !open;
+    });
+  };
 
   // The server loads the models in the background when it starts (about a minute). Until it is done, ask again every 2 seconds.
   useEffect(() => {
@@ -113,7 +128,11 @@ export default function App() {
           } else if (ev.type === "result") {
             // the finished run carries the full record of the dials, so each run can be replayed later
             if (ev.result.note) setNote(ev.result.note);
-            else setRuns((rs) => [...rs, ev.result]);
+            else {
+              setRuns((rs) => [...rs, ev.result]);
+              setHoldCross(true);
+              setTimeout(() => setHoldCross(false), 2500);
+            }
           } else if (ev.type === "error") setError(ev.text);
         }
       );
@@ -125,13 +144,12 @@ export default function App() {
 
   // Runs belong to the prompt and target they were made with; the list shows only those matching what is typed now.
   const myRuns = runs.filter((r) => r.prompt === prompt && r.target === " " + target.trim());
-  const smallBefore = clean?.small && "target_rank" in clean.small ? { rank: clean.small.target_rank, prob: clean.small.target_prob } : null;
 
   // What the bridge picture should show. While a run is going it is "tuning" until the server reports it has reached the translate step
   // (progress 0.85), then "crossing". When a run has finished the picture shows that run's own settings and ranks, so it always matches
   // the result below it, even if the controls on the left have been changed since.
   const lastRun = myRuns[myRuns.length - 1];
-  const phase = running ? (progress.frac < 0.85 ? "tuning" : "crossing") : lastRun ? "done" : "idle";
+  const phase = running ? (progress.frac < 0.85 ? "tuning" : "crossing") : holdCross ? "crossing" : lastRun ? "done" : "idle";
   const showRun = phase === "done" ? lastRun : null;
   const bridgeMap = showRun ? showRun.map : mapKind;
   const bridgeReady = clean?.small && "target_rank" in clean.small && clean?.medium && "target_rank" in clean.medium;
@@ -150,8 +168,16 @@ export default function App() {
   // setting and run again without scrolling back up.
   return (
     <Page status={status}>
-      <div className="layout">
-        <aside className="rail">
+      <div className={`layout${railOpen ? "" : " collapsed"}`}>
+        <aside className={`rail${railOpen ? "" : " mini"}`}>
+          <button className="railtoggle" onClick={toggleRail} title={railOpen ? "Hide the controls to give the results the full width" : "Show the controls"}>
+            {railOpen ? "« Hide controls" : "»"}
+          </button>
+          {/* when the rail is folded away, the Run button stays reachable in the thin strip */}
+          {!railOpen && (
+            <button className="primary mini-run" disabled={running || !!whyNot} onClick={run} title={whyNot || "Run edit and inject into Medium"}>▶</button>
+          )}
+          {railOpen && (<>
           <div className="step">
             <div className="label" data-n="01"><Tip tip={TIPS.sentence}>Sentence</Tip></div>
             <label>
@@ -254,6 +280,7 @@ export default function App() {
             {error && <p className="warn">{error}</p>}
             {note && <p className="info">{note}</p>}
           </div>
+          </>)}
         </aside>
 
         <div className="stage">
@@ -335,7 +362,7 @@ export default function App() {
                 Collapse older runs (keep only the newest open)
               </label>
               {myRuns.map((res, i) => (
-                <RunCard key={i} i={i} res={res} runs={myRuns} smallBefore={smallBefore} target={target} config={config} open={i === myRuns.length - 1 || !collapseOld} />
+                <RunCard key={i} i={i} res={res} runs={myRuns} smallTop={clean?.small?.top} facts={facts} config={config} open={i === myRuns.length - 1 || !collapseOld} />
               ))}
             </>
           )}
@@ -391,8 +418,8 @@ function runName(res, config) {
   return `${mech} | ${config.map_choices[res.map].split(" (")[0]}`;
 }
 
-// One finished run: tag, settings line, Small and Medium before/after, and how it compares with every earlier run.
-function RunCard({ i, res, runs, smallBefore, target, config, open }) {
+// One finished run: tag, settings line, the rank panels (before and after for both models), the 200 dials, and how it compares with every earlier run.
+function RunCard({ i, res, runs, smallTop, facts, config, open }) {
   const additive = res.mechanism.startsWith("Gradient descent + additive");
   const direct = res.map === "direct";
   return (
@@ -407,6 +434,10 @@ function RunCard({ i, res, runs, smallBefore, target, config, open }) {
         {direct ? "Edit: dials tuned on Medium's output" : `Mechanism: ${res.mechanism}`} | map: {config.map_choices[res.map]} | layers {res.pair[0]} to {res.pair[1]} | dose {res.dose} |{" "}
         {res.seconds.toFixed(1)} s | injected change {(100 * res.injected_size_frac).toFixed(1)}% of Medium's state norm at the last position
       </p>
+      <details className="card raised" open={open}>
+        <summary>Rank ladder (replay)</summary>
+        <Ladder res={res} smallTop={smallTop} facts={facts} />
+      </details>
       {res.dials && (
         <details className="card" open={open}>
           <summary>Watch the 200 dials move (replay)</summary>
@@ -414,21 +445,6 @@ function RunCard({ i, res, runs, smallBefore, target, config, open }) {
           {res.mechanism.startsWith("Gradient descent + additive") && <p className="muted">Only the multipliers are shown; the additive amounts on silent features are not drawn.</p>}
         </details>
       )}
-      <div className="row">
-        <div className="card grow">
-          {res.small_edit && smallBefore ? (
-            <>
-              <BeforeAfter title="GPT-2 Small (edited)" before={smallBefore} after={res.small_after} target={target} />
-              {res.small_note && <p className="muted">{res.small_note}</p>}
-            </>
-          ) : (
-            <p className="muted">Small's clean numbers are not available for this prompt.</p>
-          )}
-        </div>
-        <div className="card grow">
-          <BeforeAfter title="GPT-2 Medium (receives the translated change)" before={res.medium_before} after={res.medium_after} target={target} />
-        </div>
-      </div>
       {i > 0 && (
         <div className="info">
           {runs.slice(0, i).map((prev, j) => {
