@@ -130,7 +130,10 @@ export default function Bridge({ pair, mapLabel, mapHelp = "", facts, dose, phas
       <g {...T(TIPS.rank)}>
       <rect x={x + 20} y={PANEL_Y + 82} width={PANEL_W - 40} height="47" rx="4" className="br-box" />
       <text x={x + 32} y={PANEL_Y + 111} className="br-label">TARGET RANK</text>
-      <text x={x + PANEL_W - 32} y={PANEL_Y + 114} textAnchor="end" className="br-rank">
+      {/* The box has room for about 130 units of text next to its label. A short rank ("2 -> 1") is drawn at full size; a long one
+          ("1,278 -> 249") is drawn smaller so it never runs over the label. */}
+      <text x={x + PANEL_W - 32} y={PANEL_Y + 114} textAnchor="end" className="br-rank"
+            style={{ fontSize: (() => { const len = rank.before.toLocaleString("en-US").length + (rank.after != null ? 3 + rank.after.toLocaleString("en-US").length : 0); return len <= 6 ? 26 : len <= 8 ? 21 : len <= 10 ? 17 : 14; })() }}>
         {rank.before.toLocaleString("en-US")}
         {rank.after != null && (
           <>
@@ -201,8 +204,10 @@ export default function Bridge({ pair, mapLabel, mapHelp = "", facts, dose, phas
       <circle cx={x1} cy={m.mid} r="5" className="br-node" {...T(tipTranslator)} />
       {phase === "crossing" && <circle cx={marker[0]} cy={marker[1]} r={5 + dose * 1.2} className="br-marker" />}
       {/* the caption is centred in the gap between the two panels, not on the arc, so it never touches either panel */}
-      <text x={(SX + PANEL_W + MX) / 2} y={apex - 138} textAnchor="middle" className="br-cap" {...T(tipTranslator)}>
-        {`TRANSLATOR · ${mapLabel.replace(" trained on edits", " (trained)").toUpperCase()} · DOSE ×${dose.toFixed(1)}`}
+      {/* two lines: the first (map name) can be long, e.g. "RIDGE MAP (TRAINED)", and one line would run past the panels' edges */}
+      <text x={(SX + PANEL_W + MX) / 2} y={apex - 152} textAnchor="middle" className="br-cap" {...T(tipTranslator)}>
+        <tspan x={(SX + PANEL_W + MX) / 2}>{`TRANSLATOR · ${mapLabel.replace(" trained on edits", " (trained)").toUpperCase()}`}</tspan>
+        <tspan x={(SX + PANEL_W + MX) / 2} dy="15">{`DOSE ×${dose.toFixed(1)}`}</tspan>
       </text>
       {phase === "done" && injFrac != null && (
         <g {...T(TIPS.state((100 * injFrac).toFixed(1)))}>

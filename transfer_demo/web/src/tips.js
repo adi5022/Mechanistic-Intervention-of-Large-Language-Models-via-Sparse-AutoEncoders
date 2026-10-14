@@ -75,6 +75,36 @@ export const TIPS = {
     text: "The prompt both models read, and the word we want to become the first guess for what comes next. The target is usually a wrong answer, so the edit has to push against what the model believes.",
   },
 
+  // ---- the rank ladder ----
+  ladderRank: {
+    title: "Rank readout",
+    text: "Where the target word stands in this model's list of guesses right now, and the start and end of its journey (\"41 → 1\"). While the replay plays it follows the marker; when it ends it shows the final rank.",
+  },
+  ladderScale: {
+    title: "The rank axis",
+    text: "Each tick is a rank. Rank 1, the model's first choice, is at the left, and worse ranks are further right, so moving left is better. The spacing is logarithmic: each doubling of the rank is the same distance, so a move from 2 to 1 and a move from 169 to 22 are both easy to see.",
+  },
+  ladderStart: {
+    title: "Where it started",
+    text: "The target word's rank in this model before the edit.",
+  },
+  ladderMarker: {
+    title: "The target word",
+    text: "The target word's rank in this model at this moment of the replay. In Small the height follows the recorded gradient steps. The sideways curve is decoration; only the height is data.",
+  },
+  ladderBefore: {
+    title: "Before the edit",
+    text: "The model's five most likely next words before the edit. These are the words the target has to overtake to reach rank 1.",
+  },
+  ladderAfter: {
+    title: "After the edit",
+    text: "The model's five most likely next words after the edit. If the target is not among them, its own rank is shown on the extra row below.",
+  },
+  ladderChannel: {
+    title: "The change crossing over",
+    text: "Once the edit in Small is finished, the change it makes to Small's internal activations is translated into Medium's coordinates and added to Medium. Only this finished change crosses; Medium never sees Small's gradient steps. The line shows the passage, and the pulse is the change travelling.",
+  },
+
   // ---- the dials ----
   dial: {
     title: "A dial",
