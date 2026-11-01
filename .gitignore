@@ -11,13 +11,16 @@ Plans/
 # Paper packs: the full result JSON copy is large; keep it local (the original lives in outputs/)
 docs/Research_Journal/packs/*/data/result_full.json
 
-# Large downloaded datasets (re-download from rome.baulab.info/data/dsets/)
+# Large downloaded datasets, archives and model checkpoints
 datasets/counterfact.json
 data/counterfact_hard_set.json
 data/comparison/raw/
 third_party/rome/data/
 *.npz
+*.zip
+outputs/
 .venv*/
+.pytest_cache/
 
 # transfer demo web app (installed packages and the built page)
 transfer_demo/web/node_modules/
